@@ -184,7 +184,9 @@ test('Archi changed selection resets consent; stale report and apply cannot oper
  assert.equal(h.$('interchange-apply').disabled, true); assert.equal(h.$('interchange-save-report').disabled, true); assert.equal(h.$('interchange-report').querySelector('select').disabled, true); h.$('interchange-close').click(); assert.equal(h.calls.length, 0); assert.equal(h.store.snapshot.project.name, 'Changed during preview');
 });
 
-test('5016-record Archi preview keeps rendered report bounded and exports the complete correspondence table', async t => {
+test('5016-record Archi preview keeps rendered report bounded and exports the complete correspondence table', {
+  skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+}, async t => {
  const { largeArchiXML } = await import('../../schemka-model-core/fixtures/large-native-model.js');
  const { parseCSV } = await import('../../schemka-model-io/src/csv.js');
  const h = setup(t, 'interchange', { readExternalFiles: async () => ({ status: 'opened', files: [{ name: 'large.archimate', bytes: new TextEncoder().encode(largeArchiXML()) }] }) });
