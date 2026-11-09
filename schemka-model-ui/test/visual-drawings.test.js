@@ -190,7 +190,9 @@ test('local font/wrapping projection changes only display, keeps explicit drawin
  const h=fixture(t),state=conceptProject(),source=state.views[0],settings=structuredClone(PREFERENCE_DEFAULTS);state.elements[0].name='Long caption with many words 🙂 '.repeat(15);settings.behavior.captionWrap='ellipsis';settings.display.diagramFont='Arial';settings.display.diagramFontSize=22;settings.display.borderFromFill=true;source.occurrences[0].style={fontSize:12};const before=exportFiles(state),view=applyPreferenceView(source,settings);assert.equal(view.occurrences[0].style.fontSize,12);assert.equal(view.occurrences[0].style.fontFamily,'Arial');assert.deepEqual(view.occurrences[0].bounds,source.occurrences[0].bounds);semanticMarkup(h,view);applyDrawingStyles(h.canvas,state,view);const group=h.canvas.querySelector(`[data-id="${view.occurrences[0].id}"]`);assert.equal(group.querySelectorAll('.visual-caption-text').length,1);assert.match(group.querySelector('.visual-caption-text').textContent,/…$/);assert.equal(group.querySelector('title').textContent,state.elements[0].name);assert.deepEqual(exportFiles(state),before);assert.doesNotThrow(()=>exportViewSvg({canvas:h.canvas,bounds:{x:0,y:0,width:900,height:640}}));
 });
 
-test('1000 styled drawings and preview labels update completely with a bounded number of full-canvas walks',t=>{
+test('1000 styled drawings and preview labels update completely with a bounded number of full-canvas walks', {
+  skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'performance test runs in Extended CI' : false,
+}, t=>{
  const h=fixture(t),state=h.state,view=h.view;view.occurrences=[];view.connections=[];view.visualNodes=[];view.visualConnectors=[];
  for(let i=0;i<1000;i++){
   const id=`node-${i}`,group=h.document.createElementNS('http://www.w3.org/2000/svg','g');group.dataset.kind='visualNode';group.dataset.id=id;group.innerHTML='<rect class="node-box"/><text>Name</text>';h.canvas.append(group);

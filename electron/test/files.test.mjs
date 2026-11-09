@@ -110,9 +110,10 @@ test('R1: ancestor identity swaps during export staging preserve protected targe
     const io = { ...fs, open: async (...args) => {
       const handle = await fs.open(...args);
       if (!(args[1] & constants.O_WRONLY) || !args[0].endsWith(path.join('pending', 'file.bin'))) return handle;
-      return proxy(handle, { writeFile: async data => {
-        await handle.writeFile(data); if (changed) return; changed = true; await fs.rename(parent, moved);
+      return proxy(handle, { close: async () => {
+        await handle.close(); if (changed) return; await fs.rename(parent, moved);
         if (kind === 'symlink') await fs.symlink(protectedRoot, parent); else { await fs.mkdir(parent); await fs.writeFile(path.join(parent, 'target'), 'replacement-directory'); }
+        changed = true;
       } });
     } };
     await assert.rejects(atomicWrite(path.join(parent, 'target'), bytes(), io)); assert.equal(changed, true);

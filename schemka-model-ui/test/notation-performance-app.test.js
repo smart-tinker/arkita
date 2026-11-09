@@ -4,7 +4,9 @@ import assert from 'node:assert/strict';
 import { serializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { customizationDrawingProject } from '../../schemka-model-core/fixtures/customization-project.js';
 
-test(`${production ? 'production' : 'source'} app: 1000 ordinary and fully profiled drawings prepare labels once per render, including Fit, without per-drawing model validation`, async t => {
+test(`${production ? 'production' : 'source'} app: 1000 ordinary and fully profiled drawings prepare labels once per render, including Fit, without per-drawing model validation`, {
+  skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'performance test runs in Extended CI' : false,
+}, async t => {
   for (const profiled of [false, true]) await t.test(profiled ? 'fully profiled 1000 drawings' : 'ordinary 1000 drawings', async t => {
     const h = await setup(t), state = customizationDrawingProject(1000, profiled), bytes = serializeProjectFile(state);
     async function measured(action, name) {

@@ -136,7 +136,9 @@ test('batch failures, malformed or truncated OID responses and wrong blob conten
   }
 });
 
-test('all 5016 native records use one blob process and a single bounded type/size check', async t => {
+test('all 5016 native records use one blob process and a single bounded type/size check', {
+  skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+}, async t => {
   const f = await fixture(t), files = exportFiles(largeNativeModel()), commands = [], start = performance.now();
   const oids = await writeGitBlobs(files, (args, options) => { commands.push(args); return f.repo.run(args, options); });
   assert.equal(files.length, 5016); assert.equal(oids.length, files.length);
