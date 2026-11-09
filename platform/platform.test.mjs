@@ -31,7 +31,7 @@ test('standalone editor runtime dependency closure needs no landing, shell or si
   const source=read(relative);let refs=[];
   if(relative.endsWith('.js'))refs=[...source.matchAll(/(?:from\s*|import\s*)['"]([./][^'"]+)['"]/g)].map(m=>m[1]);
   if(relative.endsWith('.html')){const dom=new JSDOM(source);refs=[...dom.window.document.querySelectorAll('[src],link[href]')].map(n=>n.getAttribute('src')??n.getAttribute('href'));dom.window.close();}
-  for(const ref of refs){if(!ref||/^(?:https?:|data:|blob:|#)/.test(ref))continue;const target=ref.startsWith('/')?path.resolve(dist,'.'+ref):path.resolve(dist,path.dirname(relative),ref);assert.ok(target.startsWith(dist+path.sep));assert.ok(fs.existsSync(target));queue.push(path.relative(dist,target));}
+  for(const ref of refs){if(!ref||/^(?:https?:|data:|blob:|#)/.test(ref))continue;const target=ref.startsWith('/')?path.resolve(dist,'.'+ref):path.resolve(dist,path.dirname(relative),ref);assert.ok(target.startsWith(dist+path.sep));assert.ok(fs.existsSync(target));queue.push(path.relative(dist,target).split(path.sep).join('/'));}
  }
  assert.ok(visited.has('model/src/app.js'));assert.ok(visited.has('model/src/leave-state.js'));assert.ok([...visited].some(p=>p.startsWith('schemka-model-core/')));
 });
