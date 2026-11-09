@@ -1,0 +1,31 @@
+{
+  "auth": {
+    "available": false,
+    "reason": "No identity provider or access-control backend configured"
+  },
+  "repositorySync": {
+    "available": false,
+    "reason": "No repository adapter configured"
+  },
+  "storage": {
+    "kind": "local-files",
+    "autosave": false
+  },
+  "archimate": {
+    "profile": "schemka-archimate4@2",
+    "normativeConformance": "UNKNOWN",
+    "coreFormatVersion": 4,
+    "transportEnvelopeVersion": 1,
+    "junctionTypes": [
+      "AndJunction",
+      "OrJunction"
+    ],
+    "legacyReader": true,
+    "migrationConverter": true,
+    "assessmentScope": [
+      "ordinary-element-types",
+      "concept-endpoint-types",
+      "bounded-junction-graph"
+    ]
+  }
+}

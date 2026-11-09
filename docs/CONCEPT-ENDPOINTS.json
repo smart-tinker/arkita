@@ -1,0 +1,474 @@
+{
+  "schema": "schemka-concept-endpoint-evidence@1",
+  "audit_date": "2026-10-13",
+  "scope": "Separate concept-endpoint and bounded junction-graph scope for the canonical v2 working increment. This ledger does not expand or replace the 42-element B.5 matrix.",
+  "implementation_status": "v2_site24_published_with_locally_verified_standalone_typed_only_increment",
+  "publication_gate": {
+    "current_increment": "standalone_typed_only_editor_interface",
+    "source_interpretation_review": "PASS_UNCHANGED_SCOPE",
+    "implementation_review": "PASS",
+    "aggregate_verification": "PASS_1067_tests_0_fail_0_skip",
+    "browser_acceptance": "UNVERIFIED_FOR_CURRENT_INCREMENT",
+    "publication": "site24_live_standalone_typed_only_increment_unpublished",
+    "prior_release": {
+      "date": "2026-10-13",
+      "site_version": 24,
+      "github_commit": "86d8a55e692dc652bc0668ef2b09460ab1d2d1e6",
+      "sites_source_commit": "cb9e34859989bebf6e36052f710779805337e1f0",
+      "aggregate_verification": "PASS_1055_tests_0_fail_0_skip",
+      "syntax_files": 145,
+      "browser_acceptance": "BOUNDED_PLACEMENT_FLOWS_PASS__8851_BYTE_DOWNLOAD_LOCAL_ROUNDTRIP_PASS__PLACEMENT_FILE_BROWSER_REOPEN_UNTESTED",
+      "publication": "published_2026-10-13T12:39:11.757978Z",
+      "publication_receipt_sha256": "6e701f8032ccb68b3bc7b43e614fbc99dc9ec69f068e0e7936b43185ca2e4100",
+      "browser_receipt_sha256": "dd1fbdaab807f81e7fca5ab57e2311e4871e02679290dc77614c1ae57bd02498"
+    },
+    "historical_release": {
+      "date": "2026-10-13",
+      "site_version": 23,
+      "github_commit": "d8f95fde2d6ba0ec2ca8fbd7ead9e34ab681f287",
+      "aggregate_verification": "PASS_1041_tests_0_fail_0_skip",
+      "syntax_files": 143,
+      "browser_acceptance": "BOUNDED_DESKTOP_SYNTHETIC_FLOWS_PASS_browser_reopen_UNTESTED",
+      "publication": "live_before_placement_correction"
+    },
+    "separate_historical_file_reopen": {
+      "file_bytes": 16663,
+      "file_sha256": "2718fb1c5ac6735f58b4eb7718ded64e4c947a48edd4f88d7445cdf77d4d4b4c",
+      "browser_reopen_and_download": "PASS_BYTE_IDENTICAL",
+      "exact_live_commit": "UNVERIFIED",
+      "scope": "Historical file behavior before verified Site24 deployment; not current standalone acceptance or placement-file reopen.",
+      "receipt_sha256": "b21cc378b055539762d9ff50de519cdb8dad4961d02a5a590dd5c0a0f879efe6"
+    },
+    "syntax_files": 145,
+    "build": "PASS",
+    "prepared_browser_suite": "UPDATED_AND_STATIC_CHECKED__NOT_EXECUTED"
+  },
+  "source": {
+    "publication": "The Open Group C260, ArchiMate 4 Specification, April 2026",
+    "publication_url": "https://publications.opengroup.org/standards/archimate/c260",
+    "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+    "method": "Locators and original technical analysis relayed from independently inspected, hash-verified supplied PDF and acceptance oracle. This ledger author has not independently inspected the PDF.",
+    "boundary": "No PDF prose, images, normative artwork or source document redistributed. No whole-model conformance, certification, endorsement or licence interpretation is claimed."
+  },
+  "locators": {
+    "concepts": {
+      "section": "Chapter 5 introduction",
+      "printed_pages": [
+        30
+      ],
+      "pdf_pages": [
+        48
+      ]
+    },
+    "composition": {
+      "section": "5.1.2",
+      "printed_pages": [
+        31
+      ],
+      "pdf_pages": [
+        49
+      ]
+    },
+    "access": {
+      "section": "5.2.2",
+      "figure": "5-7",
+      "printed_pages": [
+        38
+      ],
+      "pdf_pages": [
+        56
+      ]
+    },
+    "association": {
+      "section": "5.2.4",
+      "printed_pages": [
+        40
+      ],
+      "pdf_pages": [
+        58
+      ]
+    },
+    "junction": {
+      "section": "5.5.1",
+      "figures": [
+        "5-13",
+        "Example 5-14"
+      ],
+      "printed_pages": [
+        45,
+        46
+      ],
+      "pdf_pages": [
+        63,
+        64
+      ]
+    },
+    "junction_or": {
+      "section": "5.5.1",
+      "figure": "Example 5-15",
+      "printed_pages": [
+        47
+      ],
+      "pdf_pages": [
+        65
+      ]
+    },
+    "multiplicity": {
+      "section": "5.6",
+      "printed_pages": [
+        47
+      ],
+      "pdf_pages": [
+        65
+      ]
+    },
+    "derived": {
+      "section": "5.8",
+      "printed_pages": [
+        49,
+        50
+      ],
+      "pdf_pages": [
+        67,
+        68
+      ]
+    },
+    "plateau": {
+      "section": "12.4",
+      "printed_pages": [
+        104
+      ],
+      "pdf_pages": [
+        122
+      ]
+    },
+    "specializations": {
+      "section": "14.2",
+      "printed_pages": [
+        113
+      ],
+      "pdf_pages": [
+        131
+      ]
+    },
+    "b5_common_witnesses": {
+      "section": "B.5",
+      "printed_pages": [
+        142
+      ],
+      "pdf_pages": [
+        160
+      ]
+    },
+    "b5_implementation_witness": {
+      "section": "B.5",
+      "printed_pages": [
+        145
+      ],
+      "pdf_pages": [
+        163
+      ]
+    },
+    "table": {
+      "section": "B.6",
+      "table": "B-1 and footnotes",
+      "printed_pages": [
+        146
+      ],
+      "pdf_pages": [
+        164
+      ]
+    }
+  },
+  "catalogue": {
+    "metamodel": {
+      "id": "schemka-archimate4",
+      "version": 2
+    },
+    "element_count": 42,
+    "relationship_count": 15,
+    "junction_ids": [
+      "AndJunction",
+      "OrJunction"
+    ],
+    "junctions_are_elements": false
+  },
+  "table_interpretation": {
+    "source": "column",
+    "target": "row",
+    "basis": "concept-rule",
+    "permission_class": null,
+    "code_encoding": "normalized-family-set-no-direct-derived-case-semantics",
+    "qualification": "Concept evidence letters are normalized family-code sets, not a verbatim B.5 cell or an uppercase/direct versus lowercase/derived classification."
+  },
+  "endpoint_dispositions": [
+    {
+      "source": "element",
+      "target": "relationship",
+      "families": [
+        "Association"
+      ],
+      "status": "ALLOWED",
+      "locators": [
+        "concepts",
+        "association",
+        "table"
+      ]
+    },
+    {
+      "source": "relationship",
+      "target": "element",
+      "families": [
+        "Association"
+      ],
+      "status": "ALLOWED",
+      "locators": [
+        "concepts",
+        "association",
+        "table"
+      ]
+    },
+    {
+      "source_element_types": [
+        "Grouping",
+        "Location",
+        "Plateau"
+      ],
+      "target": "relationship",
+      "families": [
+        "Aggregation",
+        "Composition"
+      ],
+      "status": "ALLOWED",
+      "locators": [
+        "concepts",
+        "composition",
+        "table"
+      ],
+      "controls": "Reverse orientations and Product do not inherit these permissions from composite status."
+    },
+    {
+      "source": "relationship",
+      "target": "relationship",
+      "families": "all current relationship IDs",
+      "status": "FORBIDDEN",
+      "locators": [
+        "concepts"
+      ],
+      "qualification": "Includes Association. A relationship used as one endpoint is distinct from a relationship with two relationship endpoints."
+    },
+    {
+      "source": "relationship",
+      "target": "junction",
+      "families": [
+        "Association"
+      ],
+      "status": "ALLOWED",
+      "locators": [
+        "association",
+        "table"
+      ]
+    },
+    {
+      "source": "junction",
+      "target": "relationship",
+      "families": [
+        "Association"
+      ],
+      "status": "ALLOWED",
+      "locators": [
+        "association",
+        "table"
+      ]
+    },
+    {
+      "source": "junction",
+      "target": "junction",
+      "families": [
+        "Access",
+        "Flow",
+        "Assignment",
+        "Influence",
+        "Association",
+        "Realization",
+        "Triggering",
+        "Serving"
+      ],
+      "status": "ALLOWED",
+      "locators": [
+        "table"
+      ]
+    },
+    {
+      "source": "element",
+      "target": "junction",
+      "families": [
+        "Access",
+        "Flow",
+        "Assignment",
+        "Influence",
+        "Association",
+        "Realization",
+        "Triggering",
+        "Serving"
+      ],
+      "status": "conditional_on_oriented_port_eligibility",
+      "locators": [
+        "table"
+      ],
+      "qualification": "Require a possible ordinary-element source for that family, except the specific unqualified Grouping-to-Junction cell."
+    },
+    {
+      "source": "junction",
+      "target": "element",
+      "families": [
+        "Access",
+        "Flow",
+        "Assignment",
+        "Influence",
+        "Association",
+        "Realization",
+        "Triggering",
+        "Serving"
+      ],
+      "status": "conditional_on_oriented_port_eligibility",
+      "locators": [
+        "table"
+      ],
+      "qualification": "Require a possible ordinary-element target for that family. Do not transpose the source footnote."
+    },
+    {
+      "endpoint": "at least one junction, including Relationship/Junction in either orientation",
+      "families": [
+        "Aggregation",
+        "Composition"
+      ],
+      "status": "UNKNOWN",
+      "reason": "source-scope-unresolved",
+      "locators": [
+        "junction",
+        "plateau",
+        "table"
+      ],
+      "qualification_id": "junction-aggregation-composition-source-scope"
+    },
+    {
+      "endpoint": "at least one junction",
+      "families": [
+        "Specialization"
+      ],
+      "status": "FORBIDDEN",
+      "locators": [
+        "junction",
+        "table"
+      ]
+    }
+  ],
+  "family_mapping": {
+    "ReadAccess": "Access",
+    "WriteAccess": "Access",
+    "ReadWriteAccess": "Access",
+    "DirectedAssociation": "Association"
+  },
+  "source_qualification": {
+    "id": "junction-aggregation-composition-source-scope",
+    "raw_table_fact": "B.6 junction cells omit the aggregation/composition code, including the relevant container-to-junction cells.",
+    "other_source_fact": "Section 5.5.1 discusses aggregation transit and containing aggregation; B.6 introductory wording and section 12.4 provide related containment facts.",
+    "disposition": "UNKNOWN for Aggregation or Composition at ANY junction endpoint. Separate from the eight ordinary-element B.5 UNKNOWNs.",
+    "relationship_junction_refinement": "The independent oracle supersedes the earlier design sentence classifying every non-association Relationship/Junction family negative; aggregation/composition are conservatively UNKNOWN in both orientations.",
+    "resolution": "Require scoped authoritative clarification, applicable erratum or verified replacement specification explicitly settling the affected endpoint cases; independently review and record publication, hash and exact locators. No guessed precedence rule or blanket default."
+  },
+  "junction_graph": {
+    "assessment_api": "assessJunctions",
+    "project_report_field": "junctionAssessment",
+    "result_statuses": [
+      "PASS",
+      "FAIL",
+      "UNKNOWN"
+    ],
+    "whole_model_normative": "UNKNOWN",
+    "checks": [
+      "At least two distinct transit relationship IDs; at least one incoming and one outgoing transit relationship",
+      "Same base family, with separate unresolved mixed-qualifier assessment",
+      "Local concept-endpoint permissions",
+      "All reachable terminal-concept pairs through same-family junction chains, including derived B.5 allowances",
+      "Multiplicity attribute applicability at each junction-attached end",
+      "Explicit container-role applicability",
+      "Terminal coverage, cycle-scope and bounded analysis completeness"
+    ],
+    "relationship_terminal_policy": "A relationship endpoint is a terminal concept. Do not expand its own endpoints.",
+    "container_role": "Only explicit junctionRole: container on Aggregation from Grouping/Location/Plateau to a junction receives the checked transit exception. Exclude it from degree, family and traversal, but retain its source-scope UNKNOWN endpoint decision. Invalid declarations do not bypass checks. Composition exception applicability remains UNKNOWN.",
+    "family_boundary": "Access variants share a base family; DirectedAssociation shares Association. Mixed qualifiers retain UNKNOWN compatibility. Aggregation and Composition remain distinct base families; shared g permission code does not establish mixed-junction compatibility, which remains UNKNOWN.",
+    "multiplicity": "Any present raw attribute at a junction end, including empty text, fails applicability without deleting it. The opposite end is not excluded by this rule; syntax and real-world instance counts remain separate.",
+    "cycle_boundary": "Cycle-safe traversal supplies no DAG rule. A junction-only or uncovered terminal-less region is UNKNOWN; cycles with terminal witnesses retain an unassessed cycle-scope diagnostic.",
+    "work_boundary": "Work-limit exhaustion sets complete false and UNKNOWN coverage. A definite FAIL survives; pending traversal states are not exact unexplored terminal-pair counts.",
+    "not_inferred": [
+      "DAG or self-link ban",
+      "Unique composition owner",
+      "Single specialization parent",
+      "Three-edge junction minimum",
+      "Runtime execution or inclusive/exclusive choice semantics",
+      "Instance-cardinality counts from drawings",
+      "Nesting or general derivation"
+    ],
+    "local_conventions": [
+      "Explicit junctionRole container intent disambiguates transit from a containing edge; it is an application annotation, not a new normative field.",
+      "Terminal-less/uncovered-region UNKNOWN and work budgets prevent false certification; they do not prohibit cycles.",
+      "Identity-only profile/result trust and input isolation are application security safeguards, not ArchiMate model rules."
+    ]
+  },
+  "authority": {
+    "activation": "Original code-owned CURRENT_PROFILE object identity in a genuine registry, never matching IDs or copied metadata.",
+    "recognizers": [
+      "getVerifiedConceptDecision",
+      "getVerifiedJunctionAssessment",
+      "getVerifiedJunctionIssue"
+    ],
+    "boundary": "Recognizers trust object identity only, without inspecting caller fields. Copies, serialized output, proxies and forged fields cannot gain source authority. Reports are read-only and not persisted."
+  },
+  "ordinary_element_regression": {
+    "source_ledger": "docs/ENDPOINT-RULES.json",
+    "element_pairs": 1764,
+    "reviewed_triples": 26460,
+    "allowed_direct": 4443,
+    "allowed_derived": 2935,
+    "forbidden": 19074,
+    "unknown": 8,
+    "settled_triples": 26452,
+    "unchanged_scope": "Product/Plateau to Deliverable/WorkPackage for Aggregation/Composition only; retain prior 21660-decision evidence hash."
+  },
+  "independent_oracle": {
+    "endpoint_fixture_sha256": "b7d2d137a50a4662f16a67ef83df26f796a315758955f06f15d9e59653e21a68",
+    "graph_fixture_sha256": "b33a40474486157102c6659b987bdea2b72beda46c5392eaf814790396984243",
+    "endpoint_cases": 6448,
+    "endpoint_counts": {
+      "ALLOWED": 687,
+      "FORBIDDEN": 5293,
+      "UNKNOWN": 468
+    },
+    "graph_cases": 38,
+    "scoped_graph_checks": 89,
+    "metamorphic_invariants": 6,
+    "boundary": "Independent expected acceptance data, not generated from the implementation. These are fixture inventory counts, not implementation PASS counts. Compact repository fixtures pin these original artifact hashes.",
+    "source_review": {
+      "result": "PASS",
+      "reviewed_endpoint_cases": 6448,
+      "reviewed_graph_cases": 38,
+      "reviewed_graph_checks": 89,
+      "source_corrections": 0,
+      "gate_sha256": "acc2021c155ff3c0ab3bb9f67d946dee9ec05ec272a5831dac285b1bc3b9edbe",
+      "boundary": "Source interpretation only; not implementation, aggregate or browser acceptance."
+    },
+    "coverage_boundary": "Bounded oracle, not an exhaustive full-language or element/junction port oracle. Nine positive ordinary-element/junction port cases have selected independent B.5 witnesses. Other blocks cover the enumerated concept combinations only.",
+    "endpoint_blocks": {
+      "element_relationship_both_orientations": 1260,
+      "relationship_relationship": 3375,
+      "relationship_junction_both_orientations": 900,
+      "junction_junction": 60,
+      "element_junction_association_aggregation_composition_specialization_controls": 840,
+      "selected_positive_ordinary_element_ports": 9,
+      "unsupported_type_controls": 4
+    }
+  },
+  "normative_conformance": "UNKNOWN"
+}

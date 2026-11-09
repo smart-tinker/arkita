@@ -1,0 +1,892 @@
+{
+  "sourceManifestSHA256": "4caa2b9a9d702f2f6b8ca5048688dd7088fc5ca279b850e6cc9e2602cb3f110c",
+  "sizes": [
+    [
+      120,
+      55
+    ],
+    [
+      220,
+      90
+    ],
+    [
+      210,
+      90
+    ],
+    [
+      38,
+      20
+    ],
+    [
+      169,
+      28
+    ],
+    [
+      100,
+      100
+    ],
+    [
+      25,
+      100
+    ],
+    [
+      70,
+      400
+    ],
+    [
+      0.1,
+      0.1
+    ],
+    [
+      0.1,
+      1000000
+    ],
+    [
+      1000000,
+      0.1
+    ],
+    [
+      1000000,
+      1000000
+    ]
+  ],
+  "elements": {
+    "Service": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 12,
+        "badge": "Service",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "service"
+      },
+      "sha256": "03f26dbc482fd6fec4296ad24296a82181be834322f7d1dcc56240461383b15f"
+    },
+    "Process": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 12,
+        "badge": "Process",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "process"
+      },
+      "sha256": "a831012888507898670e88b6c2849442d23f38a856bba6c5d6ad22ce10c6c82e"
+    },
+    "Function": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 12,
+        "badge": "Function",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "function"
+      },
+      "sha256": "885e5d0b739966b2e0913af0f621ac84fd3cc8c0b723c3dce3b0389b120ef00d"
+    },
+    "Event": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 12,
+        "badge": "Event",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "event"
+      },
+      "sha256": "0c169a26c4afeac81767f6c0573a6d277af7705cc50d9c088793775450e5039a"
+    },
+    "Path": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 0,
+        "badge": "Path",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "path"
+      },
+      "sha256": "777d75d18bedd1dd1ae74f7db8006cd3d60ec687200ce42e3bf587e972b81afe"
+    },
+    "Node": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Node",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "cuboid"
+      },
+      "sha256": "9f95c079608af3d5bd40bf16f3320a6cf51c30a599e445d8e05d5350f45dfab6"
+    },
+    "Device": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Device",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "monitor"
+      },
+      "sha256": "c96d5644c40bb5c6a6bd6cf175514e54e8677e8d26bccf36603a09fdbfc7c7c3"
+    },
+    "SystemSoftware": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "System Software",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "systemsoftware"
+      },
+      "sha256": "e3ec84e6d3ae4a619f0c3f12d478e0b0f9baeaa800638cabce5b5bf3ce00e244"
+    },
+    "CommunicationNetwork": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Communication Network",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "communicationnetwork"
+      },
+      "sha256": "c1cce4d4b33dd02ea4ec39d10b7ca30caa500587adc3169904161bdb615eb790"
+    },
+    "Collaboration": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 0,
+        "badge": "Collaboration",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "collaboration"
+      },
+      "sha256": "c0d7b9747a733da3672eae1433edf8746136364bdd4e5c9abac9ad5b4637ed1c"
+    },
+    "Role": {
+      "descriptor": {
+        "className": "node notation-draft notation-common",
+        "radius": 0,
+        "badge": "Role",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "role"
+      },
+      "sha256": "a4eeb2998a394594fcccc4f8d889e562fea445be87cb231dd26d59ccd381709d"
+    },
+    "ApplicationComponent": {
+      "descriptor": {
+        "className": "node notation-draft notation-application",
+        "radius": 0,
+        "badge": "Application Component",
+        "family": "application",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "component"
+      },
+      "sha256": "67e4b93316b52764ebd017dbf2d940faadb18cebae342950f436c972f140a3ea"
+    },
+    "ApplicationInterface": {
+      "descriptor": {
+        "className": "node notation-draft notation-application",
+        "radius": 0,
+        "badge": "Application Interface",
+        "family": "application",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "interface"
+      },
+      "sha256": "d133537e21e26632986926f6ec1093046596b0926a127f17a4d68109bc902969"
+    },
+    "DataObject": {
+      "descriptor": {
+        "className": "node notation-draft notation-application",
+        "radius": 0,
+        "badge": "Data Object",
+        "family": "application",
+        "notation": "schemka-am4-draft-visual@2",
+        "banded": true
+      },
+      "sha256": "901b87fe9e5a3dd0abfc0bd45e219c2fa4d7c5db146e16917aa5b8c4902e05cf"
+    },
+    "BusinessActor": {
+      "descriptor": {
+        "className": "node notation-draft notation-business",
+        "radius": 0,
+        "badge": "Business Actor",
+        "family": "business",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "businessactor"
+      },
+      "sha256": "0fed2a695301302c086a1ec07a7b84a549a44856892727b8860124823c12e021"
+    },
+    "BusinessInterface": {
+      "descriptor": {
+        "className": "node notation-draft notation-business",
+        "radius": 0,
+        "badge": "Business Interface",
+        "family": "business",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "interface"
+      },
+      "sha256": "d133537e21e26632986926f6ec1093046596b0926a127f17a4d68109bc902969"
+    },
+    "BusinessObject": {
+      "descriptor": {
+        "className": "node notation-draft notation-business",
+        "radius": 0,
+        "badge": "Business Object",
+        "family": "business",
+        "notation": "schemka-am4-draft-visual@2",
+        "banded": true
+      },
+      "sha256": "901b87fe9e5a3dd0abfc0bd45e219c2fa4d7c5db146e16917aa5b8c4902e05cf"
+    },
+    "Product": {
+      "descriptor": {
+        "className": "node notation-draft notation-business",
+        "radius": 0,
+        "badge": "Product",
+        "family": "business",
+        "notation": "schemka-am4-draft-visual@2",
+        "tabbed": true
+      },
+      "sha256": "351c62d841567a5f0949984b840a044402225a13c75166d7c62a78c66e331b09"
+    },
+    "TechnologyInterface": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Technology Interface",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "interface"
+      },
+      "sha256": "d133537e21e26632986926f6ec1093046596b0926a127f17a4d68109bc902969"
+    },
+    "Equipment": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Equipment",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "equipment"
+      },
+      "sha256": "d96a70d2fa327b54b381652b874c9b4f41b0a39a3591c5fb06959ba52ea50dd6"
+    },
+    "Facility": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Facility",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "facility"
+      },
+      "sha256": "91918d67387df28a11790a6270a65ddd33ddf5fea5db26835ed7dd4fe0c27f6f"
+    },
+    "DistributionNetwork": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Distribution Network",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "distributionnetwork"
+      },
+      "sha256": "86167803b99dd4e872c89f685fd8f4e40edec61d821e416e5cb8f9520b58d3ef"
+    },
+    "Artifact": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Artifact",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "artifact"
+      },
+      "sha256": "90ce948bce75b0e4a6a1c29403fc988359851673fbbc7646145c47068e223cbf"
+    },
+    "Material": {
+      "descriptor": {
+        "className": "node notation-draft notation-technology",
+        "radius": 0,
+        "badge": "Material",
+        "family": "technology",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "material"
+      },
+      "sha256": "0a4562691b94deffe176bbbcaa0988862b760fb4dc65a28418cbfe56f75dc8c9"
+    },
+    "Grouping": {
+      "descriptor": {
+        "className": "node notation-draft notation-common notation-extended",
+        "radius": 0,
+        "badge": "Grouping",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "contour": "folder"
+      },
+      "sha256": "8589634a1df4b090e4065075071d023443a9c4a857babad07ac41a97fef0adf7"
+    },
+    "Location": {
+      "descriptor": {
+        "className": "node notation-draft notation-common notation-extended",
+        "radius": 0,
+        "badge": "Location",
+        "family": "common",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "location"
+      },
+      "sha256": "c0970be793591b20f9d535d61eda994126e00c1c4d35ad9ed4a0f5f6f895c093"
+    },
+    "Stakeholder": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Stakeholder",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "stakeholder",
+        "contour": "octagon"
+      },
+      "sha256": "1b8570d7a196eb0907162ee8d5a6fe1d32e2d7c21ec7993b3c3b765b26cf07fe"
+    },
+    "Driver": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Driver",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "driver",
+        "contour": "octagon"
+      },
+      "sha256": "948a2de00f072346f6fdce4d12a8cae619b39a0a7a83fd9a1f29c285e0e140c8"
+    },
+    "Assessment": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Assessment",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "assessment",
+        "contour": "octagon"
+      },
+      "sha256": "25723f51312b8600e7f45e5d62c33e814e1ba0611a39d18793bcf7c5a4aa088e"
+    },
+    "Goal": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Goal",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "goal",
+        "contour": "octagon"
+      },
+      "sha256": "13477c521006f108553ee85bd4712f59919edf561fc677ecf408261b2e361e5d"
+    },
+    "Outcome": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Outcome",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "outcome",
+        "contour": "octagon"
+      },
+      "sha256": "2b2fa705615c8cb107ab5cc2cdafa581f9638a216663468d009d485a73c20aa5"
+    },
+    "Principle": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Principle",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "principle",
+        "contour": "octagon"
+      },
+      "sha256": "fb2a2eae72060f052b5adb342babdd0a88e0ee3255158168aa068ca9142da39a"
+    },
+    "Requirement": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Requirement",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "requirement",
+        "contour": "octagon"
+      },
+      "sha256": "3e168d77162ae24f8009b87ef846d1ecfdd8ce87f5795f98e04a004e122a86c5"
+    },
+    "Meaning": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Meaning",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "contour": "cloud"
+      },
+      "sha256": "9be5390f343054e0c92b37e05c78f01582c460998a00b394869779bdffc269f5"
+    },
+    "Value": {
+      "descriptor": {
+        "className": "node notation-draft notation-motivation notation-extended",
+        "radius": 0,
+        "badge": "Value",
+        "family": "motivation",
+        "notation": "schemka-am4-draft-visual@2",
+        "contour": "ellipse"
+      },
+      "sha256": "2e8f3cfc22234fe80776a2890d78cdc75bb7ba8f5c5c4fc4a37c725916b5809b"
+    },
+    "Resource": {
+      "descriptor": {
+        "className": "node notation-draft notation-strategy notation-extended",
+        "radius": 0,
+        "badge": "Resource",
+        "family": "strategy",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "resource"
+      },
+      "sha256": "d4b0e4afa89fbfc8d157e957a07c01d62e5e090d352655bb337860183b0b754c"
+    },
+    "Capability": {
+      "descriptor": {
+        "className": "node notation-draft notation-strategy notation-extended",
+        "radius": 12,
+        "badge": "Capability",
+        "family": "strategy",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "capability"
+      },
+      "sha256": "05528510e2be196eead1cf6cee7cfcbe6863ea34a7f69abe054add828d81e0a9"
+    },
+    "ValueStream": {
+      "descriptor": {
+        "className": "node notation-draft notation-strategy notation-extended",
+        "radius": 12,
+        "badge": "Value Stream",
+        "family": "strategy",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "valuestream"
+      },
+      "sha256": "d0699c492c35c16ca11255e4792a826bd18a1e2cdbc2a1c96f07f177cfa5acdc"
+    },
+    "CourseOfAction": {
+      "descriptor": {
+        "className": "node notation-draft notation-strategy notation-extended",
+        "radius": 12,
+        "badge": "Course of Action",
+        "family": "strategy",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "courseofaction"
+      },
+      "sha256": "fff1ea6e1e979b2115f5db86efb577eb38aea7d80f7cc2e4cffe504239821588"
+    },
+    "WorkPackage": {
+      "descriptor": {
+        "className": "node notation-draft notation-implementation notation-extended",
+        "radius": 12,
+        "badge": "Work Package",
+        "family": "implementation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "workpackage"
+      },
+      "sha256": "e91e23bc636b22c1c91f8a2cd1dfdc1e0736522e1c1d37ded6e11708b8bf5020"
+    },
+    "Deliverable": {
+      "descriptor": {
+        "className": "node notation-draft notation-implementation notation-extended",
+        "radius": 0,
+        "badge": "Deliverable",
+        "family": "implementation",
+        "notation": "schemka-am4-draft-visual@2",
+        "contour": "wavy"
+      },
+      "sha256": "478b26c680f48821f4bc3aa95ae0284783ce6b6ef510b3c9e82ff05f85f7260f"
+    },
+    "Plateau": {
+      "descriptor": {
+        "className": "node notation-draft notation-implementation notation-extended",
+        "radius": 0,
+        "badge": "Plateau",
+        "family": "implementation",
+        "notation": "schemka-am4-draft-visual@2",
+        "glyph": "plateau"
+      },
+      "sha256": "c70ed5d8711045574a4e51443cf6f2eda54318ef117a47920997ad3bd5dd7c4e"
+    }
+  },
+  "relationships": {
+    "Association": {
+      "descriptor": {
+        "className": "connection notation-draft notation-association",
+        "startMarkerKind": null,
+        "markerKind": null,
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "a3def17aae45d23664ad2f152e4e6839a487f06fb66d3e4594ab18b1443352a1"
+    },
+    "Realization": {
+      "descriptor": {
+        "className": "connection notation-draft notation-realization",
+        "startMarkerKind": null,
+        "markerKind": "hollow",
+        "line": "dotted",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "61801c6c7968860549c0a5a4fc37d0a6f1bb59ada1acd509457af3e36e69a7ef"
+    },
+    "Flow": {
+      "descriptor": {
+        "className": "connection notation-draft notation-flow",
+        "startMarkerKind": null,
+        "markerKind": "closed",
+        "line": "dashed",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "6e6f7f04e4935875b6fc0a4c39a032c82a187524b3835b94e2724d3de4b7a705"
+    },
+    "Composition": {
+      "descriptor": {
+        "className": "connection notation-draft notation-composition",
+        "startMarkerKind": "filled-diamond",
+        "markerKind": null,
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "17c71c584533d5ad308dcad7e2ea9b6bfd6b104d0f685c41b0947277bbecc107"
+    },
+    "Aggregation": {
+      "descriptor": {
+        "className": "connection notation-draft notation-aggregation",
+        "startMarkerKind": "hollow-diamond",
+        "markerKind": null,
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "9f96a87bebe9e2f8b7d8543f8670d031af1c70f91f0a478102a009a391eb1af7"
+    },
+    "Assignment": {
+      "descriptor": {
+        "className": "connection notation-draft notation-assignment",
+        "startMarkerKind": "dot",
+        "markerKind": "closed",
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "7d3f2db1ad7ce9b6122aa530d9cacf569fe3cc78f03efb9e1a7d4bde4a89132c"
+    },
+    "Serving": {
+      "descriptor": {
+        "className": "connection notation-draft notation-serving",
+        "startMarkerKind": null,
+        "markerKind": "open",
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "b70b8dee5b172f202d86ca59191600b2f0e4949557f36ba180f4a39d69daabd1"
+    },
+    "Access": {
+      "descriptor": {
+        "className": "connection notation-draft notation-access",
+        "startMarkerKind": null,
+        "markerKind": null,
+        "line": "dotted",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "d4c003d06d6f46be33b73070f0ab4a98ec8285e6f3479f3867289f31661852bc"
+    },
+    "ReadAccess": {
+      "descriptor": {
+        "className": "connection notation-draft notation-readaccess",
+        "startMarkerKind": "open",
+        "markerKind": null,
+        "line": "dotted",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "eed62d40764c32165c5e47bfb80937062ca7d52ebb2e662cd365e424bbc04b7a"
+    },
+    "WriteAccess": {
+      "descriptor": {
+        "className": "connection notation-draft notation-writeaccess",
+        "startMarkerKind": null,
+        "markerKind": "open",
+        "line": "dotted",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "01251239ca01e5d2968f25a6e0dff82f0721f52fcdf6156972468b1b7af37ed6"
+    },
+    "ReadWriteAccess": {
+      "descriptor": {
+        "className": "connection notation-draft notation-readwriteaccess",
+        "startMarkerKind": "open",
+        "markerKind": "open",
+        "line": "dotted",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "9ae460320f97a1a6beb9b383c3b3daab10a7bf22e46a85fefe16c179bd2cb8f6"
+    },
+    "Influence": {
+      "descriptor": {
+        "className": "connection notation-draft notation-influence",
+        "startMarkerKind": null,
+        "markerKind": "open",
+        "line": "dashed",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "a5f688a7cc2073cb1ebca7a437d7a486ce13995ff4f8de564775d708b610bede"
+    },
+    "Triggering": {
+      "descriptor": {
+        "className": "connection notation-draft notation-triggering",
+        "startMarkerKind": null,
+        "markerKind": "closed",
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "c17ec37adde12657cf6c2731682e0b103ad55057398b992953d85b806511fd29"
+    },
+    "Specialization": {
+      "descriptor": {
+        "className": "connection notation-draft notation-specialization",
+        "startMarkerKind": null,
+        "markerKind": "hollow",
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "a1377e4853c5f0491edcb1b53fbf3273e6d973fbce6ab2b29de4a43717a9fe6d"
+    },
+    "DirectedAssociation": {
+      "descriptor": {
+        "className": "connection notation-draft notation-directedassociation",
+        "startMarkerKind": null,
+        "markerKind": "half",
+        "line": "solid",
+        "notation": "schemka-am4-draft-visual@2"
+      },
+      "sha256": "28585602ab468caad5bf7bb3dec34a6a858907ba2d48d3f7a8495983b8d71b2f"
+    }
+  },
+  "junctions": {
+    "AndJunction": {
+      "className": "node junction junction-and",
+      "contour": "circle",
+      "radius": 0,
+      "badge": "AndJunction",
+      "notation": "schemka-am4-draft-visual@2",
+      "family": "junctions"
+    },
+    "OrJunction": {
+      "className": "node junction junction-or",
+      "contour": "circle",
+      "radius": 0,
+      "badge": "OrJunction",
+      "notation": "schemka-am4-draft-visual@2",
+      "family": "junctions"
+    }
+  },
+  "stylesheetSHA256": "682cda5523dd89310df7bc4f19a013545156d17d0e98786b192dc6d2063feb38",
+  "defsSHA256": "ef1fa1fbfbf62fc3a8fbf62fadba4dd0d00440b16bdf63674d004e329a733df6",
+  "routes": {
+    "sha256": "611cbee1834667ce5679cb3d5fb8d1c89f13fb107d68aea7fc3b524034374c37",
+    "count": 10800
+  },
+  "meaningRowBefore": {
+    "id": "Meaning",
+    "kind": "element",
+    "display_name": "Meaning",
+    "implementation": "implemented",
+    "assertions": [
+      {
+        "predicate": "draft_class_identifier",
+        "value": "https://meta.linked.archi/archimate4/onto#Meaning",
+        "assertion_status": "verified_draft_vocabulary_only",
+        "evidence": {
+          "url": "https://meta.linked.archi/archimate4/onto/ontology.ttl",
+          "version": "4.0",
+          "status": "independent_unofficial_draft",
+          "modified": "2026-10-10",
+          "sha256": "1df66d66b01bacc315499ffbf9d33be22a3858e9d5690352b653154b1728caf7",
+          "locator": "Meaning"
+        }
+      },
+      {
+        "predicate": "draft_notation",
+        "value": {
+          "domain": "Motivation",
+          "shape": "Cloud",
+          "fill": "#CBCBFF",
+          "line": "#000000",
+          "rendering_mode": "ShapeOnly",
+          "source_default_size": {
+            "width": 120,
+            "height": 55
+          }
+        },
+        "assertion_status": "verified_pinned_descriptor_not_normative_conformance",
+        "evidence": {
+          "url": "https://meta.linked.archi/archimate4/notation/archimate4-notation.ttl",
+          "version": "4.0",
+          "status": "independent_unofficial_draft",
+          "modified": "2026-10-10",
+          "sha256": "9f75eef817d0665c9ad540b8bdd82c130214aa4254c4b8ebb12b36ef831938f1",
+          "locator": "MeaningNotation"
+        }
+      },
+      {
+        "predicate": "draft_shape_fallback",
+        "value": {
+          "shape": "Cloud",
+          "fallback": "Ellipse"
+        },
+        "assertion_status": "source_declaration_not_renderer_behavior_or_equivalence",
+        "evidence": {
+          "url": "https://meta.linked.archi/archimate4/notation/archimate4-notation.ttl",
+          "version": "4.0",
+          "status": "independent_unofficial_draft",
+          "modified": "2026-10-10",
+          "sha256": "9f75eef817d0665c9ad540b8bdd82c130214aa4254c4b8ebb12b36ef831938f1",
+          "locator": "Cloud"
+        }
+      }
+    ],
+    "mapping": {
+      "source_shape": "Cloud",
+      "implemented_shape": "Cloud",
+      "domain_token": "motivation",
+      "graphics": "Original local geometry and readable type labels; no exact upstream-symbol equivalence claim.",
+      "source_size_policy": "Recorded defaults do not force saved or creation dimensions.",
+      "semantic_boundary": "Vocabulary and drawing only; no nesting, hierarchy, endpoint permissions or migration semantics."
+    },
+    "code_path_groups": [
+      "core",
+      "profiles",
+      "ui"
+    ],
+    "test_path_groups": [
+      "core",
+      "profiles",
+      "ui",
+      "io"
+    ],
+    "normative_assessment": "UNKNOWN"
+  },
+  "uncertaintyLedgers": {
+    "docs/ELEMENT-SOURCES.json": "64cc22c7bd57bb36fbbd462c2d19ccfbadb5e539813292e03a2cb2a4f26ccf4b",
+    "docs/ENDPOINT-RULES.json": "b3a88f1b7aabbe2bb620468c868a2c4821bd59c85c9c012e4f96446fdfa5f5ce",
+    "docs/CONCEPT-ENDPOINTS.json": "3de6626af1bde2e87c7792f042d4792ba7f916b55e3621b548e1e1d1fe4bdad8",
+    "docs/RELATIONSHIP-SOURCES.json": "1d4741e84a431862acbbe3e62c1aeb8cadd222ebcf580472bd091a3e52d4123a",
+    "docs/INSTANCE-BOUNDARIES.json": "cec05cd4fc8ccca72afdbbc68142ba14ba228f419f8d6b2cd3284e7106c48cf4"
+  },
+  "verificationStatus": {
+    "prior_release": {
+      "date": "2026-10-13",
+      "site_version": 25,
+      "github_commit": "2c5f3c067590cdb72dc38ba6e2fdb8b9c375d6a3",
+      "sites_source_commit": "40475eda133c99109655ee57839a75c21712a10e",
+      "aggregate_verification": "PASS_1067_tests_0_fail_0_skip",
+      "syntax_files": 145,
+      "browser_acceptance": "BOUNDED_STANDALONE_UI_REUSE_GEOMETRY_HISTORY_DOWNLOAD_PASS__7923_BYTE_OFF_ON_IDENTICAL__LOCAL_CODEC_ROUNDTRIP_PASS__BROWSER_REOPEN_UNTESTED",
+      "publication": "published_2026-10-13T13:58:19.655129Z",
+      "publication_receipt_sha256": "9fca3f746990e6b210da41121e61265d0aeb589179a2ae536aab60b27f9392b8",
+      "browser_receipt_sha256": "07bd821e850ecb4671da0e4f80a90f0c309b5d35eea67499a61536bcf82c0616"
+    },
+    "historical_release": {
+      "date": "2026-10-13",
+      "site_version": 23,
+      "github_commit": "d8f95fde2d6ba0ec2ca8fbd7ead9e34ab681f287",
+      "aggregate_verification": "PASS_1041_tests_0_fail_0_skip",
+      "syntax_files": 143,
+      "browser_acceptance": "BOUNDED_DESKTOP_SYNTHETIC_FLOWS_PASS_browser_reopen_UNTESTED",
+      "publication": "live_before_placement_correction"
+    },
+    "separate_historical_file_reopen": {
+      "file_bytes": 16663,
+      "file_sha256": "2718fb1c5ac6735f58b4eb7718ded64e4c947a48edd4f88d7445cdf77d4d4b4c",
+      "browser_reopen_and_download": "PASS_BYTE_IDENTICAL",
+      "exact_live_commit": "UNVERIFIED",
+      "scope": "Historical file behavior before verified Site24 deployment; not current standalone acceptance or placement-file reopen.",
+      "receipt_sha256": "b21cc378b055539762d9ff50de519cdb8dad4961d02a5a590dd5c0a0f879efe6"
+    },
+    "earlier_placement_release": {
+      "date": "2026-10-13",
+      "site_version": 24,
+      "github_commit": "86d8a55e692dc652bc0668ef2b09460ab1d2d1e6",
+      "sites_source_commit": "cb9e34859989bebf6e36052f710779805337e1f0",
+      "aggregate_verification": "PASS_1055_tests_0_fail_0_skip",
+      "syntax_files": 145,
+      "browser_acceptance": "BOUNDED_PLACEMENT_FLOWS_PASS__8851_BYTE_DOWNLOAD_LOCAL_ROUNDTRIP_PASS__PLACEMENT_FILE_BROWSER_REOPEN_UNTESTED",
+      "publication": "published_2026-10-13T12:39:11.757978Z",
+      "publication_receipt_sha256": "6e701f8032ccb68b3bc7b43e614fbc99dc9ec69f068e0e7936b43185ca2e4100",
+      "browser_receipt_sha256": "dd1fbdaab807f81e7fca5ab57e2311e4871e02679290dc77614c1ae57bd02498"
+    },
+    "historical_local_device_increment": {
+      "current_increment": "grouped_catalogue_accessible_hints_and_boxed_device",
+      "source_interpretation_review": "PASS_DEVICE_BOXED_NOTATION__ENDPOINT_SCOPE_UNCHANGED",
+      "implementation_review": "PASS",
+      "aggregate_verification": "PASS_1074_tests_0_fail_0_skip",
+      "browser_acceptance": "UNVERIFIED_FOR_CURRENT_INCREMENT",
+      "publication": "site25_live_grouped_ui_device_increment_unpublished",
+      "syntax_files": 145,
+      "build": "PASS",
+      "prepared_browser_suite": "UPDATED_AND_STATIC_CHECKED__NOT_EXECUTED",
+      "date": "2026-10-13",
+      "scope": "Historical local grouped-UI/Device checkpoint; not verification of the current cumulative runtime."
+    },
+    "current_increment": "cumulative_local_ch13_ch14_native_persistence_notation_and_bounded_relationship_creation",
+    "as_of": "2026-10-14",
+    "source_interpretation_review": "VERIFIED_BOUNDED_EQUIPMENT_FACILITY_SOURCE_GATE__EARLIER_QUALIFIED_SOURCE_RECORDS_RETAINED",
+    "implementation_review": "VERIFIED_LOCAL_RUNTIME_HANDOFF__BOUNDED_NOTATION_CHECKS__NOT_INDEPENDENT_PERSISTENCE_ACCEPTANCE",
+    "publication": "site25_is_older_live_baseline__current_local_increments_unpublished",
+    "browser_acceptance": "UNRUN_FOR_CURRENT_CUMULATIVE_SOURCE__OPTIONAL_DEVELOPMENT_EVIDENCE",
+    "independent_persistence_acceptance": "HOLD",
+    "electron_native_dialog_acceptance": "UNRUN",
+    "windows_acceptance": "UNRUN",
+    "release_1_0_readiness": "NOT_READY",
+    "release_readiness_document": "docs/RELEASE-1.0-READINESS.md",
+    "relationship_draft_policy": "IMPLEMENTED_LOCAL_PENDING_DESKTOP_ACCEPTANCE__NEW_RELATIONSHIPS_ONLY__Genuine_ENDPOINT_FORBIDDEN_AND_ATTRIBUTABLE_JUNCTION_PROOF__IMPORTED_INVALID_RETAINED",
+    "documentation_reconciliation": {
+      "date": "2026-10-14",
+      "scope": "Historical documentation-only reconciliation before relationship-creation work; runtime, tests and source-evidence ledgers were unchanged at that checkpoint. Its focused ledger and build checks are separate from this later implementation. No persistence review, GUI, release or publication acceptance is implied."
+    },
+    "inherited_runtime_checkpoint": {
+      "date": "2026-10-14",
+      "source_freeze_utc": "08:22:01",
+      "scope": "Inherited Equipment/Facility frozen runtime checkpoint; not a permanent current test total and not a new aggregate for this documentation-only increment.",
+      "aggregate_verification": "PASS_1287_tests_0_fail_0_skip__2_ORIGINAL_COMPLETED_GROUPS_PLUS_7_RESUMED_UNFINISHED_GROUPS",
+      "aggregate_qualification": "Not an uninterrupted aggregate: two original completed groups plus seven resumed unfinished groups on the same frozen source. No full aggregate rerun. This documentation-only reconciliation inherits that unchanged runtime evidence, not a new whole-runtime aggregate.",
+      "runtime_evidence": {
+        "coordinator_handoff_sha256": "741ef304a64cb656395b4e54675ff5b8bf037203c38544a51605a1dd9fa25b3c",
+        "worker_handoff_sha256": "008a1ebb660bf4c30210ad920e961ca31e7478caf876f3aefeeb303277aa005f",
+        "source_manifest_sha256": "6a8c13ac61c97c3e0a8ac463289cb967c48faf2676c0988a8835f7cc282a2f6e",
+        "source_archive_sha256": "f1a7f4510017eeb5023398aced492197a94eaed9eef9fc2b0cfa4806b10aa118",
+        "source_files": 254,
+        "test_groups": {
+          "mermaid": 95,
+          "core": 220,
+          "io": 62,
+          "profiles": 69,
+          "model_ui": 629,
+          "shell": 84,
+          "catalogue": 24,
+          "platform": 33,
+          "electron": 71
+        },
+        "uninterrupted": false,
+        "completed_original_groups": 2,
+        "resumed_unfinished_groups": 7,
+        "full_aggregate_reruns": 0
+      },
+      "syntax_files": 177,
+      "build": "PASS_FOR_VERIFIED_EQUIPMENT_FACILITY_RUNTIME"
+    },
+    "relationship_policy_boundary": "Bounded creation enforcement is implemented locally: genuine endpoint FORBIDDEN and new-edge-attributable junction proof block new records before commit. Inapplicable declared container role is a local-intent applicability check. Incomplete degree, unrelated imported failures and unresolved scopes are not blanket vetoes. Imported invalid records remain readable, drawable and saveable; private history restores exactly. Role/multiplicity updates remain diagnostic. UNKNOWN never means permitted. Desktop acceptance is pending."
+  },
+  "cornerGlyphTransformRevision": "0.6.1-rc.1: only local corner transforms refreshed; other predecessor pins retained"
+}

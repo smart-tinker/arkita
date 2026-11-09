@@ -1,0 +1,1029 @@
+{
+  "schema": "schemka-source-freeze@1",
+  "purpose": "Selected descriptor facts for all 42 current element identifiers. No definitions, icons, source paths, hierarchy or SHACL imported.",
+  "author": "Kalin Maldzhanski / Linked.Archi",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "status": "independent unofficial v4.0 draft",
+  "version": "4.0",
+  "modified": "2026-10-10",
+  "upstream_commit": null,
+  "sources": [
+    {
+      "file": "ontology.ttl",
+      "url": "https://meta.linked.archi/archimate4/onto/ontology.ttl",
+      "status": 200,
+      "bytes": 137218,
+      "sha256": "1df66d66b01bacc315499ffbf9d33be22a3858e9d5690352b653154b1728caf7",
+      "retrieved_at": "2026-10-12T16:06:23.744200+00:00"
+    },
+    {
+      "file": "notation.ttl",
+      "url": "https://meta.linked.archi/archimate4/notation/archimate4-notation.ttl",
+      "status": 200,
+      "bytes": 46483,
+      "sha256": "9f75eef817d0665c9ad540b8bdd82c130214aa4254c4b8ebb12b36ef831938f1",
+      "retrieved_at": "2026-10-12T16:06:23.696580+00:00"
+    },
+    {
+      "file": "notice.html",
+      "url": "https://meta.linked.archi/docs/TRADEMARKS/",
+      "status": 200,
+      "bytes": 81409,
+      "sha256": "dc835caa397437613d011e7dc03f0f17507c90d04d1b6390590be89263965fbf",
+      "retrieved_at": "2026-10-12T16:06:23.714610+00:00"
+    }
+  ],
+  "selected_descriptors": [
+    {
+      "id": "Service",
+      "display_name": "Service",
+      "domain": "Common",
+      "shape": "RoundedRectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ServiceNotation"
+    },
+    {
+      "id": "Process",
+      "display_name": "Process",
+      "domain": "Common",
+      "shape": "RoundedRectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ProcessNotation"
+    },
+    {
+      "id": "Function",
+      "display_name": "Function",
+      "domain": "Common",
+      "shape": "RoundedRectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "FunctionNotation"
+    },
+    {
+      "id": "Event",
+      "display_name": "Event",
+      "domain": "Common",
+      "shape": "RoundedRectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "EventNotation"
+    },
+    {
+      "id": "Node",
+      "display_name": "Node",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "NodeNotation"
+    },
+    {
+      "id": "Device",
+      "display_name": "Device",
+      "domain": "Technology",
+      "shape": "Box3D",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "DeviceNotation"
+    },
+    {
+      "id": "SystemSoftware",
+      "display_name": "System Software",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "SystemSoftwareNotation"
+    },
+    {
+      "id": "CommunicationNetwork",
+      "display_name": "Communication Network",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "CommunicationNetworkNotation"
+    },
+    {
+      "id": "Path",
+      "display_name": "Path",
+      "domain": "Common",
+      "shape": "Rectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "PathNotation"
+    },
+    {
+      "id": "Collaboration",
+      "display_name": "Collaboration",
+      "domain": "Common",
+      "shape": "Rectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "CollaborationNotation"
+    },
+    {
+      "id": "Role",
+      "display_name": "Role",
+      "domain": "Common",
+      "shape": "Rectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "RoleNotation"
+    },
+    {
+      "id": "ApplicationComponent",
+      "display_name": "Application Component",
+      "domain": "Application",
+      "shape": "Rectangle",
+      "fill": "#AFFFFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ApplicationComponentNotation"
+    },
+    {
+      "id": "ApplicationInterface",
+      "display_name": "Application Interface",
+      "domain": "Application",
+      "shape": "Rectangle",
+      "fill": "#AFFFFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ApplicationInterfaceNotation"
+    },
+    {
+      "id": "DataObject",
+      "display_name": "Data Object",
+      "domain": "Application",
+      "shape": "BandedRectangle",
+      "fill": "#AFFFFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "DataObjectNotation"
+    },
+    {
+      "id": "BusinessActor",
+      "display_name": "Business Actor",
+      "domain": "Business",
+      "shape": "Rectangle",
+      "fill": "#FFFFB5",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "BusinessActorNotation"
+    },
+    {
+      "id": "BusinessInterface",
+      "display_name": "Business Interface",
+      "domain": "Business",
+      "shape": "Rectangle",
+      "fill": "#FFFFB5",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "BusinessInterfaceNotation"
+    },
+    {
+      "id": "BusinessObject",
+      "display_name": "Business Object",
+      "domain": "Business",
+      "shape": "BandedRectangle",
+      "fill": "#FFFFB5",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "BusinessObjectNotation"
+    },
+    {
+      "id": "Product",
+      "display_name": "Product",
+      "domain": "Business",
+      "shape": "TabbedRectangle",
+      "fill": "#FFFFB5",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "ProductNotation"
+    },
+    {
+      "id": "TechnologyInterface",
+      "display_name": "Technology Interface",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "TechnologyInterfaceNotation"
+    },
+    {
+      "id": "Equipment",
+      "display_name": "Equipment",
+      "domain": "Technology",
+      "shape": "Box3D",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "EquipmentNotation"
+    },
+    {
+      "id": "Facility",
+      "display_name": "Facility",
+      "domain": "Technology",
+      "shape": "Box3D",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "FacilityNotation"
+    },
+    {
+      "id": "DistributionNetwork",
+      "display_name": "Distribution Network",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "DistributionNetworkNotation"
+    },
+    {
+      "id": "Artifact",
+      "display_name": "Artifact",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ArtifactNotation"
+    },
+    {
+      "id": "Material",
+      "display_name": "Material",
+      "domain": "Technology",
+      "shape": "Rectangle",
+      "fill": "#AFFFAF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "MaterialNotation"
+    },
+    {
+      "id": "Grouping",
+      "display_name": "Grouping",
+      "domain": "Common",
+      "shape": "Folder",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "GroupingNotation"
+    },
+    {
+      "id": "Location",
+      "display_name": "Location",
+      "domain": "Common",
+      "shape": "Rectangle",
+      "fill": "#E5DFD3",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "LocationNotation"
+    },
+    {
+      "id": "Stakeholder",
+      "display_name": "Stakeholder",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "StakeholderNotation"
+    },
+    {
+      "id": "Driver",
+      "display_name": "Driver",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "DriverNotation"
+    },
+    {
+      "id": "Assessment",
+      "display_name": "Assessment",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "AssessmentNotation"
+    },
+    {
+      "id": "Goal",
+      "display_name": "Goal",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "GoalNotation"
+    },
+    {
+      "id": "Outcome",
+      "display_name": "Outcome",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "OutcomeNotation"
+    },
+    {
+      "id": "Principle",
+      "display_name": "Principle",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "PrincipleNotation"
+    },
+    {
+      "id": "Requirement",
+      "display_name": "Requirement",
+      "domain": "Motivation",
+      "shape": "Octagon",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "RequirementNotation"
+    },
+    {
+      "id": "Meaning",
+      "display_name": "Meaning",
+      "domain": "Motivation",
+      "shape": "Cloud",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Ellipse",
+      "locator": "MeaningNotation"
+    },
+    {
+      "id": "Value",
+      "display_name": "Value",
+      "domain": "Motivation",
+      "shape": "Ellipse",
+      "fill": "#CBCBFF",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ValueNotation"
+    },
+    {
+      "id": "Resource",
+      "display_name": "Resource",
+      "domain": "Strategy",
+      "shape": "Rectangle",
+      "fill": "#F5DEAA",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ResourceNotation"
+    },
+    {
+      "id": "Capability",
+      "display_name": "Capability",
+      "domain": "Strategy",
+      "shape": "RoundedRectangle",
+      "fill": "#F5DEAA",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "CapabilityNotation"
+    },
+    {
+      "id": "ValueStream",
+      "display_name": "Value Stream",
+      "domain": "Strategy",
+      "shape": "RoundedRectangle",
+      "fill": "#F5DEAA",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "ValueStreamNotation"
+    },
+    {
+      "id": "CourseOfAction",
+      "display_name": "Course of Action",
+      "domain": "Strategy",
+      "shape": "RoundedRectangle",
+      "fill": "#F5DEAA",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "CourseOfActionNotation"
+    },
+    {
+      "id": "WorkPackage",
+      "display_name": "Work Package",
+      "domain": "Implementation and Migration",
+      "shape": "RoundedRectangle",
+      "fill": "#FFE0E0",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": null,
+      "locator": "WorkPackageNotation"
+    },
+    {
+      "id": "Deliverable",
+      "display_name": "Deliverable",
+      "domain": "Implementation and Migration",
+      "shape": "WavyRectangle",
+      "fill": "#FFE0E0",
+      "line": "#000000",
+      "rendering_mode": "ShapeOnly",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "DeliverableNotation"
+    },
+    {
+      "id": "Plateau",
+      "display_name": "Plateau",
+      "domain": "Implementation and Migration",
+      "shape": "Box3D",
+      "fill": "#FFE0E0",
+      "line": "#000000",
+      "rendering_mode": "ShapeWithBadge",
+      "source_default_size": {
+        "width": 120,
+        "height": 55
+      },
+      "source_fallback": "Rectangle",
+      "locator": "PlateauNotation"
+    }
+  ],
+  "fallback_declarations": {
+    "Box3D": {
+      "fallback": "Rectangle",
+      "predicate": "arch-vis:fallbackShape",
+      "locator": "Box3D",
+      "meaning": "Source fallback declaration only; not a claim of renderer behavior or normative shape equivalence."
+    },
+    "BandedRectangle": {
+      "fallback": "Rectangle",
+      "predicate": "arch-vis:fallbackShape",
+      "locator": "BandedRectangle",
+      "meaning": "Source fallback declaration only; not a claim of renderer behavior or normative shape equivalence."
+    },
+    "TabbedRectangle": {
+      "fallback": "Rectangle",
+      "predicate": "arch-vis:fallbackShape",
+      "locator": "TabbedRectangle",
+      "meaning": "Source fallback declaration only; not a claim of renderer behavior or normative shape equivalence."
+    },
+    "Folder": {
+      "fallback": "Rectangle",
+      "predicate": "arch-vis:fallbackShape",
+      "locator": "Folder",
+      "meaning": "Source fallback declaration only; not a claim of renderer behavior or normative shape equivalence."
+    },
+    "Cloud": {
+      "fallback": "Ellipse",
+      "predicate": "arch-vis:fallbackShape",
+      "locator": "Cloud",
+      "meaning": "Source fallback declaration only; not a claim of renderer behavior or normative shape equivalence."
+    },
+    "WavyRectangle": {
+      "fallback": "Rectangle",
+      "predicate": "arch-vis:fallbackShape",
+      "locator": "WavyRectangle",
+      "meaning": "Source fallback declaration only; not a claim of renderer behavior or normative shape equivalence."
+    }
+  },
+  "changes": "Original local contour geometry and readable type labels. Proportions are application choices, without source artwork reproduction, exact upstream-symbol equivalence or endorsement.",
+  "source_default_size_policy": "120 by 55 is a source default only. Saved bounds and application creation dimensions are not resized or normalized to it.",
+  "rendering_mode_policy": "Source rendering modes and icon metadata do not make a source glyph mandatory. Original local type labels are used; no source icons are copied.",
+  "implementation_exceptions": [
+    {
+      "id": "Device",
+      "source_shape": "Box3D",
+      "implemented_shape": "Rectangle",
+      "qualification": "C260 boxed Device uses Rectangle with an upper-right monitor badge; the pinned unofficial Box3D descriptor is retained as conflicting evidence. Local geometry is original; standalone icon-only notation is not implemented.",
+      "implemented_glyph": "Original local monitor badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "10.2.3 Figure 10-5",
+            "printed_page": 89,
+            "pdf_page": 107
+          },
+          {
+            "section": "Appendix A.1 Device notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Monitor",
+        "geometry_policy": "Original bounded SVG primitives; no source artwork, paths, coordinates or prose copied."
+      }
+    },
+    {
+      "id": "Plateau",
+      "source_shape": "Box3D",
+      "implemented_shape": "Rectangle",
+      "qualification": "C260 boxed Plateau uses a square-cornered Rectangle with an upper-right stepped-bar badge; the pinned unofficial Box3D descriptor is retained as conflicting evidence. The corrected display contour intentionally changes clipping, hit shape and derived occlusion diagnostics in former bevel cutouts. Saved bounds, bends, anchors, labels, semantic endpoints, history and native bytes are unchanged. Standalone Plateau icon-only notation remains unimplemented; endpoint, junction and whole-model UNKNOWN boundaries remain unchanged.",
+      "implemented_glyph": "Original local stepped-bar badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "12.2.3 Figure 12-4",
+            "printed_page": 102,
+            "pdf_page": 120
+          },
+          {
+            "section": "Appendix A.2 Plateau notation",
+            "printed_page": 124,
+            "pdf_page": 142
+          }
+        ],
+        "supporting_locators": [
+          {
+            "section": "1.3 item 2",
+            "printed_page": 2,
+            "pdf_page": 20
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Three equal-length solid horizontal bars, higher bars shifted right",
+        "geometry_policy": "Original bounded SVG primitives with uniform scale and stroke-inclusive clearance above the full type caption; no source artwork, paths, coordinates or prose copied."
+      }
+    },
+    {
+      "id": "Equipment",
+      "source_shape": "Box3D",
+      "implemented_shape": "Rectangle",
+      "qualification": "C260 boxed Equipment uses a square-cornered Rectangle with an original upper-right badge; the pinned unofficial Box3D descriptor is retained as conflicting evidence. The corrected display contour intentionally changes clipping, hit shape and derived occlusion diagnostics in former bevel cutouts. Saved bounds, bends, anchors, labels, semantic endpoints, history and native bytes are unchanged. Standalone Equipment icon-only notation remains unimplemented; endpoint, junction and whole-model UNKNOWN boundaries remain unchanged.",
+      "implemented_glyph": "Original local paired-gear badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "10.2.5 Figure 10-7",
+            "printed_page": 90,
+            "pdf_page": 108
+          },
+          {
+            "section": "Appendix A.1 Equipment notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "supporting_locators": [
+          {
+            "section": "1.3 item 2",
+            "printed_page": 2,
+            "pdf_page": 20
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Two toothed gears, larger lower-left and smaller upper-right, each with a circular hub",
+        "geometry_policy": "Original bounded SVG primitives with uniform scale and stroke-inclusive clearance above the full type caption; no source artwork, paths, coordinates or prose copied."
+      }
+    },
+    {
+      "id": "Facility",
+      "source_shape": "Box3D",
+      "implemented_shape": "Rectangle",
+      "qualification": "C260 boxed Facility uses a square-cornered Rectangle with an original upper-right badge; the pinned unofficial Box3D descriptor is retained as conflicting evidence. The corrected display contour intentionally changes clipping, hit shape and derived occlusion diagnostics in former bevel cutouts. Saved bounds, bends, anchors, labels, semantic endpoints, history and native bytes are unchanged. Standalone Facility icon-only notation remains unimplemented; endpoint, junction and whole-model UNKNOWN boundaries remain unchanged.",
+      "implemented_glyph": "Original local factory badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "10.2.6 Figure 10-8",
+            "printed_page": 91,
+            "pdf_page": 109
+          },
+          {
+            "section": "Appendix A.1 Facility notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "supporting_locators": [
+          {
+            "section": "1.3 item 2",
+            "printed_page": 2,
+            "pdf_page": 20
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Left chimney and three right-rising roof ramps with level peaks and vertical resets",
+        "geometry_policy": "Original bounded SVG primitives with uniform scale and stroke-inclusive clearance above the full type caption; no source artwork, paths, coordinates or prose copied."
+      }
+    }
+  ],
+  "composite_policy": "Grouping, Location and Plateau add names and drawing only; they do not introduce nesting, containment or migration semantics.",
+  "coverage_boundary": {
+    "implemented_elements": 42,
+    "pinned_element_descriptor_targets": 42,
+    "official_complete_catalogue_denominator": null,
+    "language_coverage": "partial",
+    "normative_conformance": "UNKNOWN"
+  },
+  "rules": "No endpoint permissions, hierarchy, multiplicity semantics, derivation, viewpoints or ontology/SHACL code imported.",
+  "boxed_symbol_evidence": [
+    {
+      "id": "Node",
+      "implemented_glyph": "Original local cuboid badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "10.2.1 Figure 10-3",
+            "printed_page": 88,
+            "pdf_page": 106
+          },
+          {
+            "section": "Appendix A.1 Node notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Cuboid",
+        "geometry_policy": "Original bounded SVG primitives reuse local box3dGeometry inside a badge; no source artwork, paths, coordinates or prose copied."
+      },
+      "qualification": "Boxed form only, retaining the descriptor Rectangle and unchanged outer contour. Standalone Node icon-only notation is not implemented; no complete iconography or whole-model conformance claim."
+    },
+    {
+      "id": "ApplicationComponent",
+      "implemented_glyph": "Original local component badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "9.2.1 Figure 9-2",
+            "printed_page": 82,
+            "pdf_page": 100
+          },
+          {
+            "section": "Appendix A.1 ApplicationComponent notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Rectangular body with two distinct horizontal tabs crossing its left edge",
+        "supporting_locators": [
+          {
+            "section": "1.3 item 2: iconography requirement",
+            "printed_page": 2,
+            "pdf_page": 20
+          }
+        ],
+        "geometry_policy": "Original bounded SVG primitives with interrupted body edge at both tabs; no source artwork, paths, coordinates or prose copied."
+      },
+      "qualification": "Boxed form only, retaining the descriptor Rectangle and unchanged outer contour. Standalone ApplicationComponent icon-only notation is not implemented; no complete iconography or whole-model conformance claim."
+    },
+    {
+      "id": "BusinessInterface",
+      "implemented_glyph": "Original local interface badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "Figure 8-3",
+            "printed_page": 75,
+            "pdf_page": 93
+          },
+          {
+            "section": "Appendix A.1 BusinessInterface notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Outlined circle with a horizontal left stem meeting its left midpoint",
+        "geometry_policy": "Original bounded circle and line with uniform scale and stroke-inclusive clearance above the full type caption; no source artwork, paths, coordinates or prose copied."
+      },
+      "qualification": "Boxed form only, retaining the descriptor Rectangle and unchanged domain fill and outer contour. Standalone BusinessInterface icon-only notation is not implemented; the badge has no port semantics. No complete iconography or whole-model conformance claim."
+    },
+    {
+      "id": "ApplicationInterface",
+      "implemented_glyph": "Original local interface badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "Figure 9-3",
+            "printed_page": 83,
+            "pdf_page": 101
+          },
+          {
+            "section": "Appendix A.1 ApplicationInterface notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Outlined circle with a horizontal left stem meeting its left midpoint",
+        "geometry_policy": "Original bounded circle and line with uniform scale and stroke-inclusive clearance above the full type caption; no source artwork, paths, coordinates or prose copied."
+      },
+      "qualification": "Boxed form only, retaining the descriptor Rectangle and unchanged domain fill and outer contour. Standalone ApplicationInterface icon-only notation is not implemented; the badge has no port semantics. No complete iconography or whole-model conformance claim."
+    },
+    {
+      "id": "TechnologyInterface",
+      "implemented_glyph": "Original local interface badge",
+      "normative_boxed_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "Figure 10-4",
+            "printed_page": 89,
+            "pdf_page": 107
+          },
+          {
+            "section": "Appendix A.1 TechnologyInterface notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Rectangle",
+        "badge": "Outlined circle with a horizontal left stem meeting its left midpoint",
+        "geometry_policy": "Original bounded circle and line with uniform scale and stroke-inclusive clearance above the full type caption; no source artwork, paths, coordinates or prose copied."
+      },
+      "qualification": "Boxed form only, retaining the descriptor Rectangle and unchanged domain fill and outer contour. Standalone TechnologyInterface icon-only notation is not implemented; the badge has no port semantics. No complete iconography or whole-model conformance claim."
+    }
+  ],
+  "icon_symbol_evidence": [
+    {
+      "id": "Grouping",
+      "implemented_symbol": "Original local dashed folder with dashed tab divider",
+      "normative_icon_notation": {
+        "publication": "C260, ArchiMate 4 Specification, April 2026",
+        "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+        "locators": [
+          {
+            "section": "4.3.1 Figure 4-10",
+            "printed_page": 25,
+            "pdf_page": 43
+          },
+          {
+            "section": "Appendix A.1 Grouping notation",
+            "printed_page": 123,
+            "pdf_page": 141
+          }
+        ],
+        "independent_visual_readers": 2,
+        "shape": "Folder",
+        "outline": "Dashed",
+        "tab_divider": "Dashed horizontal line beneath raised tab",
+        "supporting_locators": [
+          {
+            "section": "1.3 item 2: iconography requirement",
+            "printed_page": 2,
+            "pdf_page": 20
+          },
+          {
+            "section": "3.6: notation context",
+            "printed_page": 16,
+            "pdf_page": 34
+          },
+          {
+            "section": "3.8: optional color",
+            "printed_page": 17,
+            "pdf_page": 35
+          }
+        ],
+        "geometry_policy": "Original dashed outline and tab divider reuse the existing local six-vertex folder geometry; no source artwork, paths, coordinates or prose copied.",
+        "fill_policy": "Existing local Common fill retained; no mandatory fill color or transparency inferred."
+      },
+      "qualification": "Existing Folder silhouette only. The pinned unofficial descriptor and fallback declaration remain raw source facts; no boxed alternative mode, containment semantics, complete iconography or whole-model conformance claim."
+    }
+  ]
+}

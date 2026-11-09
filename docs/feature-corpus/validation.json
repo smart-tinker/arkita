@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-18",
+  "result": "PASS",
+  "baseline_commit": "d075e67c7ca6e7720f537102e245a59f53808b32",
+  "guide_sha256": "1c80af5ac31b1bd2057b2494907c9071cfcec12a1e141773b5fadf6f015f2731",
+  "checks": {
+    "guide_toc_exact_titles_and_printed_pages": 184,
+    "guide_toc_missing": 0,
+    "guide_toc_extra": 0,
+    "editor_cards": 127,
+    "advanced_cards": 173,
+    "extension_records": 39,
+    "unique_record_ids": 339,
+    "coverage_records": 339,
+    "advanced_markdown_statuses_match_coverage": 173,
+    "additional_source_ids": 23,
+    "unknown_card_references": 0,
+    "missing_evidence_paths_in_baseline": 0,
+    "broken_relative_markdown_file_links_in_integrated_tree": 0,
+    "main_before_local_codex_workflow_documents": 4
+  },
+  "baseline_status_counts": {
+    "unverified": 6,
+    "partial": 76,
+    "absent": 228,
+    "implemented-in-code": 20,
+    "excluded": 9
+  },
+  "scope": "Historical corpus integrity and immutable source-to-baseline mapping only; checked_at and the baseline checks retain the 2026-10-18 result. SHA256 covers the current listed corpus documents and excludes this report itself. The documentation_update record describes the later queue-status and Windows-plan refresh without changing cards, coverage, source records or baseline counts. No app runtime, browser, Windows acceptance or final-main aggregate is implied by corpus PASS.",
+  "sha256": {
+    "docs/feature-corpus/README.md": "3342a17fd25693f959325a4ba99196f984c4790f78fcdfa61a99335fea54a3d1",
+    "docs/feature-corpus/ROADMAP.md": "8a9fd244421380703a50fb69d7036f3235d0eb1386b9a68f5d422489e6f2ca2a",
+    "docs/feature-corpus/WINDOWS-ACCEPTANCE.md": "927e385ef4346690459220d9af5b24b5795bc7cc2e88327ae11a0048f7c7f4dc",
+    "docs/feature-corpus/advanced.md": "6610334ef150cc8a1a213a42e7e5ea2ba8fa747842060818ec2aa5f179c8e4ff",
+    "docs/feature-corpus/coverage.json": "0f4976cdaf19f0e683b0b285d161ae915f9b9b3323fea8efaf577abf712edaba",
+    "docs/feature-corpus/editor.md": "6394248b6e190525fab264433a5ab57bda0d05d85fa843d7de381c6234ab9b1c",
+    "docs/feature-corpus/extensions.md": "67b2af8b16dacdca3be59e56208a8ecdb15854c246cf52796cf5a96b16376a2f",
+    "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
+    "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
+    "docs/feature-corpus/PROGRAM.md": "c7d366189aa5acccf5a361cbdd1580c577882698dce952a8c4d4a8ced03a7482",
+    "docs/feature-corpus/program.json": "662d6de4f13c8d6e3b188e7e5464a943c25eb5a1e1cbb28cd0c70b08522375e1"
+  },
+  "documentation_update": {
+    "updated_at": "2026-10-19",
+    "scope": "Current queue #23-27, accepted metadata contract-only scope, and the Windows handoff after all accepted changes reach main. Only the three changed corpus-document SHA256 entries were refreshed; immutable corpus/source/baseline files are unchanged.",
+    "checks": {
+      "fixture_recipe_node_portions": "PASS; PowerShell and native GUI not executed",
+      "generated_valid_canonical_models": 7,
+      "generated_incompatible_metadata_inputs_rejected": 13,
+      "original_windows_cases_preserved": 15,
+      "new_unique_targeted_windows_cases": 24,
+      "relative_markdown_file_links_in_updated_docs": 91,
+      "missing_relative_file_targets": 0
+    },
+    "windows_gui_acceptance": "NOT RUN",
+    "queue_status": "All issues #23-27 merged in PRs #33-37; no new issues added to this acceptance set.",
+    "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
+  },
+  "program_update": {
+    "updated_at": "2026-10-19",
+    "program_issue": 39,
+    "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
+    "scope": "Full applicable corpus now authorized before local Windows acceptance. All original IDs are assigned to family issues; no new feature acceptance or runtime PASS is implied by this documentation update.",
+    "records": 339,
+    "original_exclusions": 9,
+    "runtime_acceptance": "Tracked per PR; not implied by this manifest."
+  }
+}

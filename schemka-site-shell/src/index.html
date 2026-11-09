@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Схемка: выбор редактора Mermaid или экспериментальной визуальной модели ArchiMate 4">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Схемка · платформа</title>
+  <link rel="stylesheet" href="/shell/style.css">
+  <script type="module" src="/shell/chooser.js"></script>
+</head>
+<body>
+  <header class="document-bar">
+    <div class="brand"><span class="mark" aria-hidden="true"></span><span>Схемка</span><span class="version">платформа · локальные файлы</span></div>
+    <label class="theme-control" for="theme-mode">Тема
+      <select id="theme-mode">
+        <option value="system">Системная</option>
+        <option value="light">Светлая</option>
+        <option value="dark">Тёмная</option>
+      </select>
+    </label>
+  </header>
+  <main class="chooser" id="main">
+    <div class="page-heading">
+      <h1>Одна платформа. Три рабочих режима.</h1>
+      <p>Диаграммы, архитектурные модели и домашний каталог услуг. Откройте нужный раздел; данные остаются в текущем браузере.</p>
+    </div>
+    <div class="mode-grid">
+      <section class="mode-card" aria-labelledby="mermaid-title">
+        <div class="card-heading"><span class="mode-label">Текстовая диаграмма</span><h2 id="mermaid-title">Mermaid</h2></div>
+        <p>Текущая рабочая поверхность Схемки: код Mermaid и диаграмма рядом.</p>
+        <dl class="format"><dt>Файлы этого режима</dt><dd>.mmd · Mermaid JSON</dd></dl>
+        <p class="mode-detail">Для работы с существующими диаграммами Mermaid.</p>
+        <a id="mermaid-mode-link" class="mode-link" href="/mermaid/">Открыть Mermaid <span aria-hidden="true">→</span></a>
+      </section>
+      <section class="mode-card" aria-labelledby="model-title">
+        <div class="card-heading"><span class="mode-label">Визуальная модель</span><h2 id="model-title">ArchiMate 4</h2></div>
+        <p>Общие объекты и связи, несколько представлений с независимой раскладкой.</p>
+        <dl class="format"><dt>Файл этого режима</dt><dd>.schemka.json</dd></dl>
+        <div class="validation-note"><span class="validation-badge">42 элемента · 11 отношений + 4 варианта</span><p>Каталог доступен сразу. Проверка нормативных правил пока неполная.</p><p>Нормативная оценка: <strong>UNKNOWN</strong></p></div>
+        <a id="model-mode-link" class="mode-link" href="/model/">Открыть модель <span aria-hidden="true">→</span></a>
+      </section>
+      <section class="mode-card" aria-labelledby="catalog-title">
+        <div class="card-heading"><span class="mode-label">Домашние услуги</span><h2 id="catalog-title">Каталог услуг</h2></div>
+        <p>Услуги, предложения, шаблоны запросов, системы и знания. Без корпоративного каталога.</p>
+        <dl class="format"><dt>Файл этого режима</dt><dd>JSON · локальный импорт и экспорт</dd></dl>
+        <p class="mode-detail">В сборке только вымышленный пример. Ваши данные загружаются отдельно.</p>
+        <a id="catalog-mode-link" class="mode-link" href="/catalog/">Открыть каталог <span aria-hidden="true">→</span></a>
+      </section>
+    </div>
+    <section class="session-note" aria-labelledby="session-title">
+      <h2 id="session-title">Сохраняйте работу в файл</h2>
+      <p>Форматы и сессии режимов независимы. Автосохранения нет: скачивайте файл перед закрытием или перезагрузкой. Автоматического переноса между режимами нет.</p>
+      <p>У каждого режима отдельная сессия; перезагрузка или закрытие могут потерять несохранённую работу.</p>
+    </section>
+    <section class="session-note" aria-labelledby="connections-title"><h2 id="connections-title">Подключения</h2>
+      <p>Вход и синхронизация с GitHub пока не реализованы. В приложении нет собственного контроля доступа; приватность задаётся хостингом. Приватный репозиторий сам по себе не защищает опубликованный сайт.</p>
+      <button type="button" disabled title="Провайдер входа не подключён">Войти · недоступно</button>
+      <button type="button" disabled title="Адаптер репозитория не подключён">GitHub sync · недоступно</button>
+    </section>
+    <footer class="chooser-footer"><a id="download-mermaid-link" href="/schemka.html" download="schemka.html">Скачать автономный Mermaid-редактор</a><span>На этой странице запоминается только тема</span></footer>
+    <noscript><p class="noscript-note">Режим можно открыть по ссылке выше. Для работы редакторов и выбора темы нужен JavaScript.</p></noscript>
+  </main>
+</body>
+</html>

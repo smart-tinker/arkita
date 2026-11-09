@@ -1,0 +1,354 @@
+{
+  "schema": "schemka-source-freeze@1",
+  "purpose": "Selected facts for eleven current base relationship identifiers and four local nominal variants. No definitions, icons, source paths, hierarchy or SHACL imported.",
+  "author": "Kalin Maldzhanski / Linked.Archi",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "status": "independent unofficial v4.0 draft",
+  "version": "4.0",
+  "modified": "2026-10-10",
+  "upstream_commit": null,
+  "sources": [
+    {
+      "file": "ontology.ttl",
+      "url": "https://meta.linked.archi/archimate4/onto/ontology.ttl",
+      "status": 200,
+      "bytes": 137218,
+      "sha256": "1df66d66b01bacc315499ffbf9d33be22a3858e9d5690352b653154b1728caf7",
+      "retrieved_at": "2026-10-12T16:06:23.744200+00:00"
+    },
+    {
+      "file": "notation.ttl",
+      "url": "https://meta.linked.archi/archimate4/notation/archimate4-notation.ttl",
+      "status": 200,
+      "bytes": 46483,
+      "sha256": "9f75eef817d0665c9ad540b8bdd82c130214aa4254c4b8ebb12b36ef831938f1",
+      "retrieved_at": "2026-10-12T16:06:23.696580+00:00"
+    },
+    {
+      "file": "notice.html",
+      "url": "https://meta.linked.archi/docs/TRADEMARKS/",
+      "status": 200,
+      "bytes": 81409,
+      "sha256": "dc835caa397437613d011e7dc03f0f17507c90d04d1b6390590be89263965fbf",
+      "retrieved_at": "2026-10-12T16:06:23.714610+00:00"
+    }
+  ],
+  "changes": "Original local markers, reference points and dash spacing, with safe closed descriptor mappings. Dimensions are application choices; no exact source-artwork equivalence or endorsement claimed.",
+  "base_relationship_ids": [
+    "Composition",
+    "Aggregation",
+    "Assignment",
+    "Realization",
+    "Serving",
+    "Access",
+    "Influence",
+    "Association",
+    "Triggering",
+    "Flow",
+    "Specialization"
+  ],
+  "variant_relationship_ids": [
+    "ReadAccess",
+    "WriteAccess",
+    "ReadWriteAccess",
+    "DirectedAssociation"
+  ],
+  "selected_descriptors": [
+    {
+      "id": "Composition",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "FilledDiamond",
+      "target": "NoDecoration",
+      "locator": "CompositionNotation"
+    },
+    {
+      "id": "Aggregation",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "HollowDiamond",
+      "target": "NoDecoration",
+      "locator": "AggregationNotation"
+    },
+    {
+      "id": "Assignment",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "CircleDot",
+      "target": "ClosedArrowhead",
+      "locator": "AssignmentNotation"
+    },
+    {
+      "id": "Realization",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "DottedLine",
+      "source": "NoDecoration",
+      "target": "HollowArrowhead",
+      "locator": "RealizationNotation"
+    },
+    {
+      "id": "Serving",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "NoDecoration",
+      "target": "OpenArrowhead",
+      "locator": "ServingNotation"
+    },
+    {
+      "id": "Access",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "DottedLine",
+      "source": "NoDecoration",
+      "target": "NoDecoration",
+      "locator": "AccessNotation"
+    },
+    {
+      "id": "Influence",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "DashedLine",
+      "source": "NoDecoration",
+      "target": "OpenArrowhead",
+      "locator": "InfluenceNotation"
+    },
+    {
+      "id": "Association",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "NoDecoration",
+      "target": "NoDecoration",
+      "locator": "AssociationNotation"
+    },
+    {
+      "id": "Triggering",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "NoDecoration",
+      "target": "ClosedArrowhead",
+      "locator": "TriggeringNotation"
+    },
+    {
+      "id": "Flow",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "DashedLine",
+      "source": "NoDecoration",
+      "target": "ClosedArrowhead",
+      "locator": "FlowNotation"
+    },
+    {
+      "id": "Specialization",
+      "catalogue_kind": "base_relationship",
+      "variant_of": null,
+      "line": "SolidLine",
+      "source": "NoDecoration",
+      "target": "HollowArrowhead",
+      "locator": "SpecializationNotation"
+    },
+    {
+      "id": "ReadAccess",
+      "catalogue_kind": "local_nominal_variant",
+      "variant_of": "Access",
+      "line": "DottedLine",
+      "source": "OpenArrowhead",
+      "target": "NoDecoration",
+      "locator": "ReadAccessNotation"
+    },
+    {
+      "id": "WriteAccess",
+      "catalogue_kind": "local_nominal_variant",
+      "variant_of": "Access",
+      "line": "DottedLine",
+      "source": "NoDecoration",
+      "target": "OpenArrowhead",
+      "locator": "WriteAccessNotation"
+    },
+    {
+      "id": "ReadWriteAccess",
+      "catalogue_kind": "local_nominal_variant",
+      "variant_of": "Access",
+      "line": "DottedLine",
+      "source": "OpenArrowhead",
+      "target": "OpenArrowhead",
+      "locator": "ReadWriteAccessNotation"
+    },
+    {
+      "id": "DirectedAssociation",
+      "catalogue_kind": "local_nominal_variant",
+      "variant_of": "Association",
+      "line": "SolidLine",
+      "source": "NoDecoration",
+      "target": "HalfArrowhead",
+      "locator": "DirectedAssociationNotation"
+    }
+  ],
+  "variant_policy": "ReadAccess, WriteAccess and ReadWriteAccess are local nominal IDs for Access notation variants; DirectedAssociation is a local nominal ID for directed Association. Fifteen local IDs represent eleven base relationships plus four variants, not fifteen normative base types. No accessType or isDirected property, inferred type conversion or endpoint swap is added.",
+  "endpoint_policy": "Source decorations attach to the stored source and target decorations to the stored target. ReadAccess therefore has a visual arrow at the source without reversing endpoint IDs. The separately checked 1764-cell 42-type endpoint matrix uses these stored roles; eight explicitly scoped composite decisions remain UNKNOWN; unsupported endpoint kinds remain outside this check.",
+  "marker_policy": "FilledDiamond and HollowDiamond distinguish source fill; CircleDot is implemented as a filled circle; ClosedArrowhead as a filled triangle, HollowArrowhead as an unfilled triangle, OpenArrowhead as an open arrow and HalfArrowhead as a one-sided arrow. Original local marker coordinates/reference points/dimensions and dotted/dashed spacing are not source glyphs.",
+  "technical_corroboration": {
+    "source_kind": "owner_provided_specification_technical_fact_check",
+    "publication": "The Open Group C260, ArchiMate 4 Specification, April 2026",
+    "publication_url": "https://publications.opengroup.org/standards/archimate/c260",
+    "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+    "verification_date": "2026-10-12",
+    "verification_method": "Notation facts relayed from attachment inspection. The separate independently checked endpoint implementation has its own provenance in ENDPOINT-RULES.json.",
+    "locators": {
+      "relationship_summary": "Printed pages 48–49; PDF pages 66–67 (one-based)",
+      "Access_variants": "Printed page 38, section 5.2.2",
+      "DirectedAssociation": "Printed page 40, Figure 5-9",
+      "Realization": "Printed page 34, Figure 5-5",
+      "Flow": "Printed page 43, Figure 5-11",
+      "Influence": "Printed page 39, section 5.2.3"
+    },
+    "verified_scope": "Eleven base relationships and four notation variants; selected line and endpoint marker facts agree with the pinned independent descriptors. Assignment uses a filled source circle and filled target triangle; Influence does not require a plus label.",
+    "boundary": "Notation-only technical corroboration. No PDF prose, images, document or standard artwork reproduced; no licence interpretation or redistribution. This notation check does not supply endpoint rules; ENDPOINT-RULES.json records the separately verified and implemented 42-type endpoint block."
+  },
+  "rule_sources_not_adopted": [
+    {
+      "file": "relationship-shapes.ttl",
+      "url": "https://meta.linked.archi/archimate4/shapes/archimate4-relationship-shapes.ttl",
+      "status": 200,
+      "bytes": 732622,
+      "sha256": "ec29227ceddab9288a80e73bc7fe415a38753cc8931b1f046515da416987038e",
+      "retrieved_at": "2026-10-12T16:06:23.827179+00:00"
+    },
+    {
+      "file": "element-shapes.ttl",
+      "url": "https://meta.linked.archi/archimate4/element-shapes/archimate4-element-shapes.ttl",
+      "status": 200,
+      "bytes": 23549,
+      "sha256": "d885d1686418dc7ff840efcc2b9b43c2b62ef8dbbd0a6ea64a05aaaa3767867e",
+      "retrieved_at": "2026-10-12T16:06:28.922677+00:00"
+    }
+  ],
+  "rule_conflicts": [
+    "Relationship-shapes allows ApplicationComponent Assignment Role, while element-shapes restricts Assignment targets to BehaviorElement; the ontology categorizes Role as InternalActiveStructureElement.",
+    "Relationship-shapes allows ApplicationComponent Access DataObject, while element-shapes restricts Access sources to BehaviorElement.",
+    "Relationship-shapes allows Node Flow Node and Node Triggering Node, while element-shapes restricts the corresponding endpoints to BehaviorElement."
+  ],
+  "rule_source_boundary": "Relationship-shapes claims generation from an AM4 matrix; element-shapes describes a 3.2 adaptation awaiting validation. They are distinct draft bundles. Missing direct variant targets do not imply forbidden triples. Neither bundle is imported or used to resolve normative rules.",
+  "coverage_boundary": {
+    "element_ids": 42,
+    "base_relationships": 11,
+    "local_nominal_variants": 4,
+    "relationship_ids": 15,
+    "direct_triples": 26460,
+    "local_allowed": 7378,
+    "local_forbidden": 19074,
+    "local_unknown": 8,
+    "normative_unknown": 26460,
+    "official_complete_catalogue_denominator": null,
+    "language_coverage": "partial",
+    "normative_conformance": "UNKNOWN",
+    "allowed_direct": 4443,
+    "allowed_derived": 2935
+  },
+  "excluded": [
+    "Junctions",
+    "Eight scoped source-ambiguity decisions; unsupported endpoint kinds; hierarchy",
+    "Permitted element-to-relationship endpoint kinds; no blanket relationship-to-relationship permission",
+    "Nesting or composition deletion semantics",
+    "Influence strength fields or required plus labels",
+    "Derivation and viewpoint rules",
+    "SHACL or ontology code import",
+    "Source artwork and definitions",
+    "Exchange-format accessType/isDirected mapping",
+    "Normative multiplicity/cardinality validation"
+  ],
+  "verified_endpoint_scope": {
+    "source_ledger": "docs/ENDPOINT-RULES.json",
+    "element_ids": [
+      "Collaboration",
+      "Event",
+      "Function",
+      "Grouping",
+      "Location",
+      "Path",
+      "Process",
+      "Role",
+      "Service",
+      "Assessment",
+      "Driver",
+      "Goal",
+      "Meaning",
+      "Outcome",
+      "Principle",
+      "Requirement",
+      "Stakeholder",
+      "Value",
+      "Capability",
+      "CourseOfAction",
+      "Resource",
+      "ValueStream",
+      "BusinessActor",
+      "BusinessInterface",
+      "BusinessObject",
+      "Product",
+      "ApplicationComponent",
+      "ApplicationInterface",
+      "DataObject",
+      "Artifact",
+      "CommunicationNetwork",
+      "Device",
+      "DistributionNetwork",
+      "Equipment",
+      "Facility",
+      "Material",
+      "Node",
+      "SystemSoftware",
+      "TechnologyInterface",
+      "Deliverable",
+      "Plateau",
+      "WorkPackage"
+    ],
+    "relationship_ids": [
+      "Composition",
+      "Aggregation",
+      "Assignment",
+      "Realization",
+      "Serving",
+      "Access",
+      "Influence",
+      "Association",
+      "Triggering",
+      "Flow",
+      "Specialization",
+      "ReadAccess",
+      "WriteAccess",
+      "ReadWriteAccess",
+      "DirectedAssociation"
+    ],
+    "bounded_element_pairs": 1764,
+    "bounded_triples": 26452,
+    "allowed": 7378,
+    "allowed_direct": 4443,
+    "allowed_derived": 2935,
+    "forbidden": 19074,
+    "outside_scope": "UNKNOWN",
+    "whole_model_normative": "UNKNOWN",
+    "authority": "Two independent C260 visual cell transcriptions, exactly reconciled; not either draft SHACL bundle.",
+    "orientation": {
+      "source": "column",
+      "target": "row"
+    },
+    "family_qualifications": {
+      "Access": "All four Access identifiers use the same stored source/target direction. Read arrowheads do not transpose endpoints or the lookup pair.",
+      "Association": "All 1764 selected cells explicitly contain uppercase O. Both Association identifiers use that family; no omission-based Association negative is inferred.",
+      "Composition": "G/g maps to Aggregation and Composition only for these checked element endpoints. No permission for relationship or junction endpoints is inferred."
+    },
+    "excluded_element_ids": [],
+    "bounded_element_types": 42,
+    "composite_boundary": "All 42 current element endpoint types are represented by exact B.5 cells. B.4 restricts derivation and does not blanket-filter direct metamodel permissions; B.6 element-to-element additions are already included in B.5. Group contents, instance containment, lifecycle, cycles and whole-model conformance remain unassessed. Eight Product/Plateau aggregation/composition triples retain explicit UNKNOWN scope qualifications.",
+    "reviewed_triples": 26460,
+    "unknown": 8,
+    "source_unresolved": 8
+  }
+}

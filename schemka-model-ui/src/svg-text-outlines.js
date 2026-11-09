@@ -1,0 +1,36 @@
+import { assertSvgExport, svgExportProfile } from '../../schemka-model-io/src/svg-export-profile.js';
+import { validateTextRuns } from '../../schemka-model-io/src/text-outline-profile.js';
+import { rasterizeEmbeddedSvg } from './raster-export.js';
+const {NS,HEADER}=svgExportProfile;
+const cancelled=()=>Object.assign(Error('Экспорт отменён.'),{code:'EXPORT_CANCELLED'});
+const encode=(value,window)=>{let binary='';for(let at=0;at<value.length;at+=16384)binary+=String.fromCharCode(...value.subarray(at,at+16384));return window.btoa(binary);};
+
+/** Outline the same laid-out rows; image resources keep their appearance without font dependencies. */
+export async function outlineSvgText(svg,{document,window,outlineText,documentToken,signal}) {
+  assertSvgExport(svg);if(signal?.aborted)throw cancelled();if(!outlineText)throw Error('Контуры текста доступны в установленном приложении Arkita.');
+  const parsed=new window.DOMParser().parseFromString(svg,'image/svg+xml'),root=parsed.documentElement,warnings=[];
+  for(const image of root.querySelectorAll('image')){const match=/^data:image\/svg\+xml;base64,(.+)$/.exec(image.getAttribute('href'));if(!match)continue;const source=new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(window.atob(match[1]),char=>char.charCodeAt(0)));if(!/<(?:text|tspan)(?:\s|>)/.test(source))continue;const png=await rasterizeEmbeddedSvg(source,{document,window,signal});if(signal?.aborted)throw cancelled();image.setAttribute('href',`data:image/png;base64,${encode(png,window)}`);warnings.push('Встроенное SVG-изображение с текстом сохранено как PNG, чтобы его шрифты не зависели от другой машины.');}
+  const elements=[...root.querySelectorAll('text')],inherited=(element,key,fallback)=>{for(let current=element;current;current=current.parentElement){const value=current.getAttribute(key);if(value)return value;}return fallback;};
+  const runs=elements.map(element=>{if(element.querySelector('tspan'))throw Error('Сложные вложенные текстовые строки не поддерживаются в контурном режиме. Выберите текстовый режим.');const length=Number(element.getAttribute('textLength'));if(length>0&&element.getAttribute('lengthAdjust')!=='spacingAndGlyphs')throw Error('Выравнивание межбуквенных интервалов этой строки требует текстового режима.');const decoration=inherited(element,'text-decoration','none'),baseline=inherited(element,'dominant-baseline','auto');if(!['none',''].includes(decoration)||!['auto','alphabetic'].includes(baseline))throw Error('Оформление этой текстовой строки требует текстового режима.');const weight=inherited(element,'font-weight','400'),spacing=inherited(element,'letter-spacing','0'),word=inherited(element,'word-spacing','0');if(!['0','0px','normal'].includes(word))throw Error('Межсловный интервал этой строки требует текстового режима.');return {text:[...element.childNodes].filter(node=>node.nodeType===3).map(node=>node.textContent).join('').replace(/[\t\r\n ]+/g,' '),family:inherited(element,'font-family','Segoe UI'),size:Number.parseFloat(inherited(element,'font-size','16')),weight:weight==='normal'?400:weight==='bold'?700:Math.round(Number(weight)),italic:['italic','oblique'].includes(inherited(element,'font-style','normal')),letterSpacing:spacing==='normal'?0:Number.parseFloat(spacing)};});
+  validateTextRuns(runs);const result=await outlineText(runs,documentToken);if(signal?.aborted)throw cancelled();if(result?.status!=='ok'||!Array.isArray(result.runs)||result.runs.length!==runs.length)throw Error(result?.message||result?.reason||'Системные шрифты не удалось перевести в контуры.');
+  for(let index=0;index<elements.length;index++){const element=elements[index],run=runs[index],outlined=result.runs[index],x=Number(element.getAttribute('x')||0),y=Number(element.getAttribute('y')||0),length=Number(element.getAttribute('textLength'));
+    if(![x,y,outlined.unitsPerEm,outlined.advance].every(Number.isFinite)||outlined.unitsPerEm<=0||!Array.isArray(outlined.paths))throw Error('Обработчик шрифтов вернул некорректную геометрию.');const sy=run.size/outlined.unitsPerEm,sx=length>0&&outlined.advance>0?length/outlined.advance:sy,width=outlined.advance*sx,anchor=inherited(element,'text-anchor','start'),origin=x-(anchor==='middle'?width/2:anchor==='end'?width:0),group=parsed.createElementNS(NS,'g'),glyphs=parsed.createElementNS(NS,'g');
+    for(const attribute of element.attributes)if(!['x','y','textLength','lengthAdjust','text-anchor','font-family','font-size','font-weight','font-style','letter-spacing','word-spacing','dominant-baseline','text-decoration'].includes(attribute.name))group.setAttribute(attribute.name,attribute.value);
+    const title=parsed.createElementNS(NS,'title');title.textContent=run.text;group.append(title,glyphs);glyphs.setAttribute('transform',`translate(${origin} ${y}) scale(${sx} ${-sy})`);const metric=value=>{if(!/^-?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?(?:px)?$/i.test(value))throw Error('Единицы оформления текста требуют текстового режима.');const number=Number.parseFloat(value);if(!Number.isFinite(number))throw Error('Некорректная метрика оформления текста.');return number/sy;};
+    glyphs.setAttribute('stroke-width',String(metric(inherited(element,'stroke-width','1'))));
+    const dash=inherited(element,'stroke-dasharray','none');if(dash!=='none')glyphs.setAttribute('stroke-dasharray',dash.split(/[,\s]+/).filter(Boolean).map(metric).join(' '));
+    const offset=inherited(element,'stroke-dashoffset','0');if(offset!=='0')glyphs.setAttribute('stroke-dashoffset',String(metric(offset)));
+    for(const value of outlined.paths){if(typeof value.d!=='string'||value.d.length>500000||!/^[MLCQZmlcqz0-9eE+.,\s-]+$/.test(value.d)||![value.x,value.y].every(Number.isFinite))throw Error('Обработчик шрифтов вернул неподдерживаемый контур.');const path=parsed.createElementNS(NS,'path');path.setAttribute('d',value.d);path.setAttribute('transform',`translate(${value.x} ${value.y})`);glyphs.append(path);}
+    if(inherited(element,'stroke','none')!=='none'&&metric(inherited(element,'stroke-width','1'))>0){
+      const order=inherited(element,'paint-order','normal'),parts=order==='normal'?[]:order.trim().split(/\s+/);
+      if(parts.some(value=>!['fill','stroke','markers'].includes(value))||new Set(parts).size!==parts.length)throw Error('Порядок оформления текста требует текстового режима.');
+      const sequence=[...parts,...['fill','stroke'].filter(value=>!parts.includes(value))].filter(value=>value!=='markers');
+      const paths=[...glyphs.children],fill=parsed.createElementNS(NS,'g'),stroke=parsed.createElementNS(NS,'g');fill.setAttribute('stroke','none');stroke.setAttribute('fill','none');
+      // SVG text paints the complete run at once; per-glyph halos would erase preceding letters.
+      for(const path of paths){fill.append(path);stroke.append(path.cloneNode(true));}glyphs.replaceChildren(...sequence.map(value=>value==='fill'?fill:stroke));
+    }
+    element.replaceWith(group);
+  }
+  root.querySelector('#svg-description')?.append(parsed.createTextNode(' Текст сохранён контурами системных шрифтов; исходные строки доступны в подсказках.'));
+  return {svg:assertSvgExport(HEADER+new window.XMLSerializer().serializeToString(root)),warnings:[...new Set([...warnings,...(result.warnings||[])])]};
+}

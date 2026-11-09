@@ -1,0 +1,63 @@
+{
+  "commit": "9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a",
+  "files": [
+    {
+      "path": "xsd/archimate3_Model.xsd",
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/org.opengroup.archimate.xmlexchange/xsd/archimate3_Model.xsd",
+      "sha256": "dd451abe3e3193f91dd9544b279af9bbbf17e75ff1ef86f65ad52b3f8cd29794",
+      "bytes": 49107
+    },
+    {
+      "path": "xsd/archimate3_View.xsd",
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/org.opengroup.archimate.xmlexchange/xsd/archimate3_View.xsd",
+      "sha256": "d708ce176403034b1229b892712cfd69660aefe17da4cc54acea1ac35e4a9854",
+      "bytes": 13570
+    },
+    {
+      "path": "xsd/archimate3_Diagram.xsd",
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/org.opengroup.archimate.xmlexchange/xsd/archimate3_Diagram.xsd",
+      "sha256": "6419080f4c4bc43b4a7b8acf870146a7bae6c3487a3ce08d3c521c028ea6056e",
+      "bytes": 23286
+    },
+    {
+      "path": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/org.opengroup.archimate.xmlexchange/LICENSE.txt",
+      "sha256": "1a97d3aa0651437d1383c76504b8a192d1f7178fd30d231af752e570f501cc2f",
+      "bytes": 1105
+    },
+    {
+      "path": "xml.xsd",
+      "url": "https://www.w3.org/2001/xml.xsd",
+      "sha256": "61960fb3131e38022caad5360e2f33a3382578ab3c80cd58bd74320ede61b20c",
+      "bytes": 8836
+    },
+    {
+      "path": "xml-2001.xsd",
+      "url": "https://www.w3.org/2001/03/xml.xsd",
+      "sha256": "0ed94db44402526e7a683424d0bd4b65e5bc50e65d9b9a762b11b30bae06d0c8",
+      "bytes": 4726
+    },
+    {
+      "path": "dc.xsd",
+      "url": "https://www.dublincore.org/schemas/xmls/simpledc20021212.xsd",
+      "sha256": "e9542e0cd08b59ad3ad994f50226dd7e6707792327b08f46eaa6250dd728d3aa",
+      "bytes": 2917
+    },
+    {
+      "path": "arkita-exchange.xsd",
+      "source": "Arkita local schema assembly; upstream schemas unmodified",
+      "sha256": "d67749fe34d701b24f04c9a78f1ee608271b9b41ada70958032cd696da9142ec",
+      "bytes": 482
+    },
+    {
+      "path": "Exchange-LICENSE.txt",
+      "source": "Combined distribution notices from the upstream sources cited within",
+      "sha256": "2df7b5e75cad2eceadbfe302d7b43f10e05a4dd164b13abe71957705fa1be355",
+      "bytes": 5092
+    }
+  ],
+  "version": "3.1",
+  "status": "Preliminary, 15 July 2019",
+  "namespace": "http://www.opengroup.org/xsd/archimate/3.0/",
+  "retrieved": "2026-10-19"
+}

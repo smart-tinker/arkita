@@ -1,0 +1,15 @@
+{
+  "name": "@schemka/model-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": "./src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "coverage": "node --test --experimental-test-coverage --test-coverage-include=src/*.js test/*.test.js",
+    "check": "node --check fixtures/relationship-project.js && node --check src/current-catalog.js && node --check src/format.js && node --check src/index.js && node --check src/json.js && node --check src/store.js && node --check test/connection-layout.test.js && node --check test/core.test.js && node --check test/current-catalog.test.js && node --check test/duplicate-view.test.js && node --check test/multiplicity.test.js && node --check test/runtime.test.js && node --check src/resolve.js && node --check fixtures/concept-project.js && node --check test/concept-endpoints.test.js && node --check test/documentation.test.js"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "conn-c6bacba6-90c4-400e-9ffa-3f9fae0a6e47",
+  "labelPosition": {
+    "x": 280,
+    "y": 55.5
+  },
+  "relationshipId": "rel-b8f99394-c1d5-4d27-a98b-3ad503859740",
+  "routePoints": [
+    {
+      "kind": "bend",
+      "point": {
+        "x": 260,
+        "y": 70
+      }
+    },
+    {
+      "kind": "bend",
+      "point": {
+        "x": 300,
+        "y": 70
+      }
+    }
+  ],
+  "source": {
+    "id": "occ-bd37c74f-126d-4ec5-b24f-f08cc8fb0faf",
+    "kind": "occurrence"
+  },
+  "target": {
+    "id": "occ-6f853103-44fd-46ba-883c-8bfbfb550026",
+    "kind": "occurrence"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "commit": "9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a",
+  "fixture": "Independent synthetic fixture; no upstream code or fixture bytes distributed",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/model/archimate.ecore",
+      "sha256": "6d95f268182648c4dba6802ceacf05b9b1b323624f30eb8c31282fc7be29b253",
+      "bytes": 35437
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/src/com/archimatetool/model/IAccessRelationship.java",
+      "sha256": "79eb8f693a88e585257f6808678ff03b0409456fbf9f16ca498fdfc121f8d0f3",
+      "bytes": 1879
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/src/com/archimatetool/model/util/ArchimateResource.java",
+      "sha256": "2069e66fb8b3cff3d9f9147ff9fb47184329d0489f5f9b3d4bccfa4d5f73880a",
+      "bytes": 856
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/tests/com.archimatetool.editor.tests/testdata/models/testmodel1.archimate",
+      "sha256": "83ef0f53113de627d08e906ca51a4e2f580f8fd59eb41ba2af2ca52eaeb74d48",
+      "bytes": 3326
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.editor/src/com/archimatetool/editor/diagram/editparts/DiagramConnectionEditPart.java",
+      "sha256": "72917d699c8dfcf38f2ba9662d12cd06cff30e25e7e8eb39944286ee5da26404",
+      "bytes": 14485
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.editor/src/com/archimatetool/editor/diagram/figures/connections/AbstractDiagramConnectionFigure.java",
+      "sha256": "4f9bcef882cb3ff2944665f76037cafbecff87a3a1abedaeba5038fef581d586",
+      "bytes": 9938
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/src/com/archimatetool/model/ITextAlignment.java",
+      "sha256": "d2c0b57d54069c40a278cb982494c7c30d19ed01baf50c5b758347ed62c4bdd4",
+      "bytes": 1863
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/src/com/archimatetool/model/ITextPosition.java",
+      "sha256": "9cc4569d8c59e4ce3dad1a15acb62e503819569c5e9532008a229c52873446ec",
+      "bytes": 1778
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.editor/src/com/archimatetool/editor/diagram/figures/TextPositionDelegate.java",
+      "sha256": "1156d262ae982e831557070e8322766e9295961d0699260f1a4c0c64245cbf13",
+      "bytes": 2377
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.editor/src/com/archimatetool/editor/ui/FontFactory.java",
+      "sha256": "00e95ee9ce5a4b98882979d320431cbcb799dea1a34aad93f7ba7cd36531a7d9",
+      "bytes": 9062
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/src/com/archimatetool/model/IDiagramModelConnection.java",
+      "sha256": "f52aa0def7060331bb8004b9405a97b9a92717d1f7db63826ee0f310dd1b81e4",
+      "bytes": 8460
+    },
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-gef/gef-classic/1cd8f32a868156e0849e56f8468eaeaeab3ed495/org.eclipse.draw2d/src/org/eclipse/draw2d/RelativeBendpoint.java",
+      "sha256": "36a8175bbf9b83b43423cee6a3aa7419d538ed91f4dbf3961ab65875b68e626c",
+      "bytes": 3697
+    },
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-gef/gef-classic/1cd8f32a868156e0849e56f8468eaeaeab3ed495/org.eclipse.draw2d/src/org/eclipse/draw2d/ConnectionLocator.java",
+      "sha256": "450b09de6860a2a19a5547a8b868242f10f65c1164711a35309486e55664e6d2",
+      "bytes": 4451
+    },
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-gef/gef-classic/1cd8f32a868156e0849e56f8468eaeaeab3ed495/org.eclipse.draw2d/src/org/eclipse/draw2d/ChopboxAnchor.java",
+      "sha256": "ab588db163c86f19ddeb9b295eed36013155715431c452faaba831fc163325b7",
+      "bytes": 3684
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.editor/src/com/archimatetool/editor/diagram/editparts/OrthogonalAnchor.java",
+      "sha256": "53a1a94f7ab6d8207db9732d6d39b0fd16d0bd12cb18274252444e218742e71b",
+      "bytes": 16865
+    },
+    {
+      "url": "https://raw.githubusercontent.com/archimatetool/archi/9e6a014f9ef6a782a7dda604ef7b4d03d2c7819a/com.archimatetool.model/src/com/archimatetool/model/IDiagramModel.java",
+      "sha256": "6f600e882cc125cacd59bab8ad89770f4e5f6aab9014c56b68bb98ec0191748d",
+      "bytes": 2101
+    },
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-platform/eclipse.platform.swt/54869aaecf22eb79e373daca710bfcf7f67e94ba/bundles/org.eclipse.swt/Eclipse%20SWT/win32/org/eclipse/swt/graphics/FontData.java",
+      "sha256": "684e921c59fdaf2696b81a17ea8df075f571870e99290cac4ce4ebfbb5d49b8f",
+      "bytes": 21805
+    }
+  ]
+}

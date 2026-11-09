@@ -1,0 +1,7 @@
+{
+  "format": "schemka-project-file",
+  "formatVersion": 1,
+  "files": [
+    {"path":"schemka.json","content":"{\n  \"format\": \"schemka-project\",\n  \"formatVersion\": 2,\n  \"id\": \"prj-00000000-0000-4000-8000-000000000001\",\n  \"metamodel\": {\n    \"id\": \"schemka-archimate4\",\n    \"version\": 2\n  },\n  \"name\": \"Synthetic empty native baseline\"\n}\n"}
+  ]
+}

@@ -1,0 +1,1842 @@
+{
+  "source": {
+    "document": "Archi User Guide",
+    "version": "5.10.0",
+    "url": "https://www.archimatetool.com/downloads/archi/Archi%20User%20Guide.pdf",
+    "retrieved_at": "2026-10-18",
+    "sha256": "1c80af5ac31b1bd2057b2494907c9071cfcec12a1e141773b5fadf6f015f2731",
+    "pdf_pages": 176,
+    "page_numbering": "Printed page n = PDF page n+1 (cover has index 0)."
+  },
+  "verification": {
+    "method": "Independent exact comparison of all 184 table-of-contents titles and printed page numbers in extracted PDF text against this map. Wrapped titles joined; dotted leaders removed.",
+    "expected_rows": 184,
+    "actual_rows": 184,
+    "missing_rows": [],
+    "extra_rows": []
+  },
+  "aliases": {
+    "A-EDITOR-126": "A-ADV-020"
+  },
+  "sections": [
+    {
+      "section": "Table of Contents",
+      "page": 1,
+      "ids": [],
+      "decision": "Exclude: навигационный список документа, не самостоятельная возможность редактора."
+    },
+    {
+      "section": "Introduction",
+      "page": 6,
+      "ids": [],
+      "decision": "Exclude: история, позиционирование, благодарности и сведения о знаках; не переносимый пользовательский сценарий Arkita."
+    },
+    {
+      "section": "Installing and Launching Archi",
+      "page": 7,
+      "ids": [
+        "A-EDITOR-001",
+        "A-EDITOR-002"
+      ],
+      "decision": "Для Arkita оставлена Windows-механика. Exclude: установка Java/Eclipse, macOS/Linux-пакеты и регистрация расширения .archimate как требования к реализации Arkita."
+    },
+    {
+      "section": "Launching Archi",
+      "page": 7,
+      "ids": [
+        "A-EDITOR-002",
+        "A-EDITOR-003",
+        "A-EDITOR-021"
+      ],
+      "decision": "Перечень Navigator/Outline/Visualiser/Validator/Hint panels здесь обзорный; их самостоятельные функции раскрываются начиная с p.90 в другой части корпуса."
+    },
+    {
+      "section": "Working in Archi",
+      "page": 9,
+      "ids": [
+        "A-EDITOR-003",
+        "A-EDITOR-004",
+        "A-EDITOR-006",
+        "A-EDITOR-008",
+        "A-EDITOR-009"
+      ]
+    },
+    {
+      "section": "Windows and Tabs",
+      "page": 9,
+      "ids": [
+        "A-EDITOR-002",
+        "A-EDITOR-003",
+        "A-EDITOR-004"
+      ]
+    },
+    {
+      "section": "Undo/Redo (contextual per model)",
+      "page": 9,
+      "ids": [
+        "A-EDITOR-006"
+      ]
+    },
+    {
+      "section": "Cheat Sheets",
+      "page": 9,
+      "ids": [
+        "A-EDITOR-008"
+      ]
+    },
+    {
+      "section": "Getting Help",
+      "page": 9,
+      "ids": [
+        "A-EDITOR-009"
+      ]
+    },
+    {
+      "section": "Creating a New ArchiMate Model",
+      "page": 10,
+      "ids": [
+        "A-EDITOR-005",
+        "A-EDITOR-007",
+        "A-EDITOR-010",
+        "A-EDITOR-092"
+      ]
+    },
+    {
+      "section": "The Model Tree",
+      "page": 12,
+      "ids": [
+        "A-EDITOR-011"
+      ]
+    },
+    {
+      "section": "Adding Elements Directly to the Model Tree",
+      "page": 13,
+      "ids": [
+        "A-EDITOR-012"
+      ]
+    },
+    {
+      "section": "Specialized Elements in the \"New\" menu",
+      "page": 13,
+      "ids": [
+        "A-EDITOR-013"
+      ]
+    },
+    {
+      "section": "Folders and Organisation",
+      "page": 13,
+      "ids": [
+        "A-EDITOR-011",
+        "A-EDITOR-014",
+        "A-EDITOR-015"
+      ]
+    },
+    {
+      "section": "Working in the Model Tree",
+      "page": 15,
+      "ids": [
+        "A-EDITOR-014",
+        "A-EDITOR-015",
+        "A-EDITOR-016",
+        "A-EDITOR-017",
+        "A-EDITOR-018",
+        "A-EDITOR-019",
+        "A-EDITOR-020",
+        "A-EDITOR-021"
+      ]
+    },
+    {
+      "section": "Drag and drop",
+      "page": 15,
+      "ids": [
+        "A-EDITOR-015"
+      ]
+    },
+    {
+      "section": "Cut and Paste",
+      "page": 15,
+      "ids": [
+        "A-EDITOR-015"
+      ]
+    },
+    {
+      "section": "Deleting Objects from the Model Tree",
+      "page": 15,
+      "ids": [
+        "A-EDITOR-016"
+      ]
+    },
+    {
+      "section": "Renaming an Object in the Model Tree",
+      "page": 15,
+      "ids": [
+        "A-EDITOR-017"
+      ]
+    },
+    {
+      "section": "Duplicating an Element or View in the Model Tree",
+      "page": 16,
+      "ids": [
+        "A-EDITOR-018",
+        "A-EDITOR-019"
+      ]
+    },
+    {
+      "section": "Changing an Object's ArchiMate Concept Type in the Model Tree",
+      "page": 16,
+      "ids": [
+        "A-EDITOR-020"
+      ],
+      "decision": "Adapt: проверки по ArchiMate 4. Exclude: автоматическое понижение недопустимых связей до Association как неявный контракт Arkita."
+    },
+    {
+      "section": "Editing Properties for an Object in the Model Tree",
+      "page": 16,
+      "ids": [
+        "A-EDITOR-021"
+      ]
+    },
+    {
+      "section": "Concepts in the Model Tree and Views",
+      "page": 17,
+      "ids": [
+        "A-EDITOR-022",
+        "A-EDITOR-058"
+      ]
+    },
+    {
+      "section": "Synchronising Selections in the Model Tree and a View",
+      "page": 17,
+      "ids": [
+        "A-EDITOR-023"
+      ]
+    },
+    {
+      "section": "Drill Down",
+      "page": 18,
+      "ids": [
+        "A-EDITOR-024"
+      ]
+    },
+    {
+      "section": "Hiding Folders",
+      "page": 18,
+      "ids": [
+        "A-EDITOR-025"
+      ]
+    },
+    {
+      "section": "Searching and Filtering in the Model Tree",
+      "page": 19,
+      "ids": [
+        "A-EDITOR-026",
+        "A-EDITOR-027",
+        "A-EDITOR-028",
+        "A-EDITOR-029",
+        "A-EDITOR-030",
+        "A-EDITOR-031"
+      ],
+      "decision": "Включены реальные подразделы pp.20–23: object types, properties, specializations, folders, case/regex, reset/refresh и Find/Replace, отсутствующие отдельными строками TOC."
+    },
+    {
+      "section": "Views",
+      "page": 24,
+      "ids": [
+        "A-EDITOR-004",
+        "A-EDITOR-032",
+        "A-EDITOR-033",
+        "A-EDITOR-049",
+        "A-EDITOR-058",
+        "A-EDITOR-089"
+      ]
+    },
+    {
+      "section": "Opening a View",
+      "page": 24,
+      "ids": [
+        "A-EDITOR-032"
+      ]
+    },
+    {
+      "section": "Creating a New View",
+      "page": 25,
+      "ids": [
+        "A-EDITOR-004",
+        "A-EDITOR-033"
+      ]
+    },
+    {
+      "section": "Working with Views",
+      "page": 26,
+      "ids": [
+        "A-EDITOR-049",
+        "A-EDITOR-058",
+        "A-EDITOR-059"
+      ]
+    },
+    {
+      "section": "Navigating a View",
+      "page": 26,
+      "ids": [
+        "A-EDITOR-034",
+        "A-EDITOR-035",
+        "A-EDITOR-036",
+        "A-EDITOR-037",
+        "A-EDITOR-038"
+      ]
+    },
+    {
+      "section": "The Palette",
+      "page": 28,
+      "ids": [
+        "A-EDITOR-039",
+        "A-EDITOR-040"
+      ]
+    },
+    {
+      "section": "Specialized Concepts in the Palette",
+      "page": 29,
+      "ids": [
+        "A-EDITOR-013"
+      ]
+    },
+    {
+      "section": "The Detached Palette",
+      "page": 30,
+      "ids": [
+        "A-EDITOR-041"
+      ]
+    },
+    {
+      "section": "The Quick Add Popup",
+      "page": 30,
+      "ids": [
+        "A-EDITOR-042"
+      ]
+    },
+    {
+      "section": "Palette Selection Tools",
+      "page": 31,
+      "ids": [
+        "A-EDITOR-034",
+        "A-EDITOR-043",
+        "A-EDITOR-044",
+        "A-EDITOR-046"
+      ],
+      "decision": "Варианты contained/touched nodes/connections проверены на иллюстрации p.31."
+    },
+    {
+      "section": "Palette Creation Tools",
+      "page": 32,
+      "ids": [
+        "A-EDITOR-039",
+        "A-EDITOR-047",
+        "A-EDITOR-049",
+        "A-EDITOR-051",
+        "A-EDITOR-055",
+        "A-EDITOR-056",
+        "A-EDITOR-057",
+        "A-EDITOR-060",
+        "A-EDITOR-061",
+        "A-EDITOR-062",
+        "A-EDITOR-063"
+      ]
+    },
+    {
+      "section": "The Format Painter",
+      "page": 33,
+      "ids": [
+        "A-EDITOR-048"
+      ]
+    },
+    {
+      "section": "Adding New Elements to the View from the Palette",
+      "page": 34,
+      "ids": [
+        "A-EDITOR-049",
+        "A-EDITOR-050",
+        "A-EDITOR-076"
+      ]
+    },
+    {
+      "section": "Editing the View's Elements' Properties",
+      "page": 34,
+      "ids": [
+        "A-EDITOR-021",
+        "A-EDITOR-050"
+      ]
+    },
+    {
+      "section": "Adding New Relationships (Connections) to the View from the Palette",
+      "page": 35,
+      "ids": [
+        "A-EDITOR-051",
+        "A-EDITOR-052"
+      ]
+    },
+    {
+      "section": "Information about Connections",
+      "page": 35,
+      "ids": [
+        "A-EDITOR-053"
+      ]
+    },
+    {
+      "section": "Adding Circular Relationships (Connections)",
+      "page": 36,
+      "ids": [
+        "A-EDITOR-054"
+      ]
+    },
+    {
+      "section": "Adding a Junction",
+      "page": 36,
+      "ids": [
+        "A-EDITOR-055"
+      ],
+      "decision": "Adapt: предупреждение о неполных проверках Archi на p.37 не переносится как допустимость в Arkita."
+    },
+    {
+      "section": "Adding New Relationships and Elements to the View using the Magic Connector",
+      "page": 37,
+      "ids": [
+        "A-EDITOR-056",
+        "A-EDITOR-057"
+      ]
+    },
+    {
+      "section": "Adding Elements and Relations from the Model Tree to a View",
+      "page": 39,
+      "ids": [
+        "A-EDITOR-058",
+        "A-EDITOR-059"
+      ]
+    },
+    {
+      "section": "Adding a Note",
+      "page": 40,
+      "ids": [
+        "A-EDITOR-060"
+      ]
+    },
+    {
+      "section": "Adding a Note Connection",
+      "page": 41,
+      "ids": [
+        "A-EDITOR-061"
+      ]
+    },
+    {
+      "section": "Adding a Group",
+      "page": 41,
+      "ids": [
+        "A-EDITOR-062"
+      ]
+    },
+    {
+      "section": "Adding a Legend",
+      "page": 42,
+      "ids": [
+        "A-EDITOR-063",
+        "A-EDITOR-081"
+      ],
+      "decision": "Exclude: использование Note как внутреннего контейнера легенды ради обратной совместимости старых версий Archi."
+    },
+    {
+      "section": "Adding a Reference to Another View",
+      "page": 43,
+      "ids": [
+        "A-EDITOR-064"
+      ]
+    },
+    {
+      "section": "Connection Bend Points",
+      "page": 44,
+      "ids": [
+        "A-EDITOR-065"
+      ]
+    },
+    {
+      "section": "Setting the Properties of a Connection",
+      "page": 45,
+      "ids": [
+        "A-EDITOR-115",
+        "A-EDITOR-116"
+      ]
+    },
+    {
+      "section": "Setting the Connection Router Type for a View",
+      "page": 46,
+      "ids": [
+        "A-EDITOR-066"
+      ]
+    },
+    {
+      "section": "Container Elements and Nested Element Relationships",
+      "page": 47,
+      "ids": [
+        "A-EDITOR-067"
+      ]
+    },
+    {
+      "section": "Creating, Showing and Hiding Relationships between Nested Parent/Child Elements",
+      "page": 48,
+      "ids": [
+        "A-EDITOR-068"
+      ]
+    },
+    {
+      "section": "Setting the Order of Overlapping Elements",
+      "page": 50,
+      "ids": [
+        "A-EDITOR-069"
+      ]
+    },
+    {
+      "section": "Selecting Elements in a View",
+      "page": 51,
+      "ids": [
+        "A-EDITOR-043",
+        "A-EDITOR-044"
+      ]
+    },
+    {
+      "section": "Copying and Pasting Elements in a View",
+      "page": 51,
+      "ids": [
+        "A-EDITOR-070",
+        "A-EDITOR-071",
+        "A-EDITOR-072",
+        "A-EDITOR-073",
+        "A-EDITOR-074"
+      ],
+      "decision": "Поведение Arkita разделено на явные reuse/clone. Exclude: скрытый выбор clone/reuse по наличию концепта в целевом view, описанный у Archi."
+    },
+    {
+      "section": "Copy As Image to Clipboard",
+      "page": 52,
+      "ids": [
+        "A-EDITOR-075"
+      ]
+    },
+    {
+      "section": "Deleting Elements and Relationships (Connections) in a View",
+      "page": 52,
+      "ids": [
+        "A-EDITOR-076"
+      ]
+    },
+    {
+      "section": "Delete from View (keep children)",
+      "page": 52,
+      "ids": [
+        "A-EDITOR-077"
+      ]
+    },
+    {
+      "section": "Delete from Model",
+      "page": 52,
+      "ids": [
+        "A-EDITOR-016"
+      ]
+    },
+    {
+      "section": "Invert Connection Direction",
+      "page": 53,
+      "ids": [
+        "A-EDITOR-078"
+      ]
+    },
+    {
+      "section": "Changing an Object's ArchiMate Concept Type in a View",
+      "page": 53,
+      "ids": [
+        "A-EDITOR-020"
+      ]
+    },
+    {
+      "section": "Select in Model Tree",
+      "page": 53,
+      "ids": [
+        "A-EDITOR-023"
+      ]
+    },
+    {
+      "section": "Select Objects of Same Type",
+      "page": 53,
+      "ids": [
+        "A-EDITOR-045"
+      ]
+    },
+    {
+      "section": "Alignment Tools, Guides and the Grid",
+      "page": 53,
+      "ids": [
+        "A-EDITOR-035",
+        "A-EDITOR-079",
+        "A-EDITOR-080",
+        "A-EDITOR-081",
+        "A-EDITOR-082",
+        "A-EDITOR-083"
+      ]
+    },
+    {
+      "section": "Showing a View in Full Screen Mode",
+      "page": 54,
+      "ids": [
+        "A-EDITOR-084"
+      ]
+    },
+    {
+      "section": "Export View As Image",
+      "page": 55,
+      "ids": [
+        "A-EDITOR-085",
+        "A-EDITOR-086",
+        "A-EDITOR-087",
+        "A-EDITOR-088"
+      ]
+    },
+    {
+      "section": "Viewpoints",
+      "page": 57,
+      "ids": [
+        "A-EDITOR-089",
+        "A-EDITOR-090"
+      ],
+      "decision": "Adapt: динамическая механика сохранена; конкретный список viewpoint и ограничения 3.2 не принимаются как каталог 4."
+    },
+    {
+      "section": "Setting the Viewpoint",
+      "page": 58,
+      "ids": [
+        "A-EDITOR-089",
+        "A-EDITOR-090"
+      ]
+    },
+    {
+      "section": "The Properties Window",
+      "page": 61,
+      "ids": [
+        "A-EDITOR-021",
+        "A-EDITOR-091"
+      ]
+    },
+    {
+      "section": "Using Markdown in Text Fields",
+      "page": 61,
+      "ids": [
+        "A-EDITOR-100",
+        "A-EDITOR-110"
+      ],
+      "decision": "HTML рассматривается только как безопасно отображаемое содержимое; ограничение Jasper/встроенного браузера Archi не диктует реализацию Arkita."
+    },
+    {
+      "section": "Model Properties",
+      "page": 61,
+      "ids": [
+        "A-EDITOR-092",
+        "A-EDITOR-100",
+        "A-EDITOR-101",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "ArchiMate Element Properties",
+      "page": 62,
+      "ids": [
+        "A-EDITOR-055",
+        "A-EDITOR-093",
+        "A-EDITOR-100",
+        "A-EDITOR-101",
+        "A-EDITOR-102",
+        "A-EDITOR-103",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "ArchiMate Element Appearance Properties",
+      "page": 64,
+      "ids": [
+        "A-EDITOR-104",
+        "A-EDITOR-105",
+        "A-EDITOR-106",
+        "A-EDITOR-107",
+        "A-EDITOR-108",
+        "A-EDITOR-109",
+        "A-EDITOR-110",
+        "A-EDITOR-111",
+        "A-EDITOR-112",
+        "A-EDITOR-113",
+        "A-EDITOR-114"
+      ]
+    },
+    {
+      "section": "ArchiMate Relationship Properties",
+      "page": 68,
+      "ids": [
+        "A-EDITOR-094",
+        "A-EDITOR-095",
+        "A-EDITOR-100",
+        "A-EDITOR-101",
+        "A-EDITOR-102",
+        "A-EDITOR-103",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "Relationship Connection Appearance Properties",
+      "page": 69,
+      "ids": [
+        "A-EDITOR-107",
+        "A-EDITOR-109",
+        "A-EDITOR-110",
+        "A-EDITOR-115",
+        "A-EDITOR-116"
+      ]
+    },
+    {
+      "section": "View Properties",
+      "page": 71,
+      "ids": [
+        "A-EDITOR-066",
+        "A-EDITOR-089",
+        "A-EDITOR-096",
+        "A-EDITOR-100",
+        "A-EDITOR-101",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "View Reference Properties",
+      "page": 72,
+      "ids": [
+        "A-EDITOR-097",
+        "A-EDITOR-104",
+        "A-EDITOR-105",
+        "A-EDITOR-107",
+        "A-EDITOR-108",
+        "A-EDITOR-109",
+        "A-EDITOR-110",
+        "A-EDITOR-112",
+        "A-EDITOR-114",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "Folder Properties",
+      "page": 75,
+      "ids": [
+        "A-EDITOR-098",
+        "A-EDITOR-100",
+        "A-EDITOR-101",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "Note Properties",
+      "page": 76,
+      "ids": [
+        "A-EDITOR-060",
+        "A-EDITOR-104",
+        "A-EDITOR-105",
+        "A-EDITOR-107",
+        "A-EDITOR-108",
+        "A-EDITOR-109",
+        "A-EDITOR-110",
+        "A-EDITOR-112",
+        "A-EDITOR-118",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "Connection Properties",
+      "page": 79,
+      "ids": [
+        "A-EDITOR-061",
+        "A-EDITOR-099",
+        "A-EDITOR-100",
+        "A-EDITOR-107",
+        "A-EDITOR-109",
+        "A-EDITOR-110",
+        "A-EDITOR-115",
+        "A-EDITOR-117",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "Group Properties",
+      "page": 81,
+      "ids": [
+        "A-EDITOR-062",
+        "A-EDITOR-099",
+        "A-EDITOR-100",
+        "A-EDITOR-104",
+        "A-EDITOR-105",
+        "A-EDITOR-107",
+        "A-EDITOR-108",
+        "A-EDITOR-109",
+        "A-EDITOR-110",
+        "A-EDITOR-112",
+        "A-EDITOR-118",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "Legend Properties",
+      "page": 84,
+      "ids": [
+        "A-EDITOR-104",
+        "A-EDITOR-105",
+        "A-EDITOR-107",
+        "A-EDITOR-109",
+        "A-EDITOR-119",
+        "A-EDITOR-120",
+        "A-EDITOR-121",
+        "A-EDITOR-122"
+      ]
+    },
+    {
+      "section": "User Properties",
+      "page": 85,
+      "ids": [
+        "A-EDITOR-101",
+        "A-EDITOR-122",
+        "A-EDITOR-123",
+        "A-EDITOR-124",
+        "A-EDITOR-125",
+        "A-EDITOR-126",
+        "A-EDITOR-127"
+      ]
+    },
+    {
+      "section": "The Navigator Window",
+      "page": 90,
+      "ids": [
+        "A-ADV-001",
+        "A-ADV-002",
+        "A-ADV-003",
+        "A-ADV-004"
+      ]
+    },
+    {
+      "section": "The Visualiser Window",
+      "page": 93,
+      "ids": [
+        "A-ADV-005",
+        "A-ADV-006",
+        "A-ADV-007",
+        "A-ADV-008",
+        "A-ADV-009",
+        "A-ADV-010",
+        "A-ADV-011",
+        "A-ADV-012",
+        "A-ADV-013",
+        "A-ADV-014",
+        "A-ADV-015",
+        "A-ADV-165"
+      ]
+    },
+    {
+      "section": "Options",
+      "page": 93,
+      "ids": [
+        "A-ADV-006",
+        "A-ADV-007",
+        "A-ADV-008",
+        "A-ADV-009",
+        "A-ADV-010",
+        "A-ADV-011",
+        "A-ADV-012",
+        "A-ADV-013",
+        "A-ADV-014",
+        "A-ADV-015"
+      ]
+    },
+    {
+      "section": "Depth",
+      "page": 93,
+      "ids": [
+        "A-ADV-006"
+      ]
+    },
+    {
+      "section": "Viewpoint Filter",
+      "page": 93,
+      "ids": [
+        "A-ADV-007"
+      ]
+    },
+    {
+      "section": "Element Filter",
+      "page": 93,
+      "ids": [
+        "A-ADV-008"
+      ]
+    },
+    {
+      "section": "Relationship Filter",
+      "page": 94,
+      "ids": [
+        "A-ADV-009"
+      ]
+    },
+    {
+      "section": "Direction",
+      "page": 94,
+      "ids": [
+        "A-ADV-010"
+      ]
+    },
+    {
+      "section": "Manhattan Router",
+      "page": 94,
+      "ids": [
+        "A-ADV-011"
+      ]
+    },
+    {
+      "section": "Other Options",
+      "page": 94,
+      "ids": [
+        "A-ADV-012",
+        "A-ADV-013",
+        "A-ADV-014",
+        "A-ADV-015"
+      ]
+    },
+    {
+      "section": "The Hints Window",
+      "page": 95,
+      "ids": [
+        "A-ADV-016",
+        "A-ADV-017"
+      ]
+    },
+    {
+      "section": "The Outline Window",
+      "page": 96,
+      "ids": [
+        "A-ADV-018"
+      ]
+    },
+    {
+      "section": "Tools",
+      "page": 97,
+      "ids": [
+        "A-ADV-019",
+        "A-ADV-020",
+        "A-ADV-021",
+        "A-ADV-022",
+        "A-ADV-023",
+        "A-ADV-024",
+        "A-ADV-025",
+        "A-ADV-026",
+        "A-ADV-027",
+        "A-ADV-028",
+        "A-ADV-029",
+        "A-ADV-030",
+        "A-ADV-031",
+        "A-ADV-032",
+        "A-ADV-033",
+        "A-ADV-034",
+        "A-ADV-035"
+      ]
+    },
+    {
+      "section": "Generate a View from Elements",
+      "page": 98,
+      "ids": [
+        "A-ADV-019"
+      ]
+    },
+    {
+      "section": "Properties Manager",
+      "page": 99,
+      "ids": [
+        "A-ADV-020"
+      ],
+      "decision": "§99 is a cross-reference; substantive manager behavior read at §User Properties88. Keep one manager card across both guide parts."
+    },
+    {
+      "section": "Specializations Manager",
+      "page": 100,
+      "ids": [
+        "A-ADV-021",
+        "A-ADV-022",
+        "A-ADV-023",
+        "A-ADV-024",
+        "A-ADV-141"
+      ]
+    },
+    {
+      "section": "Background",
+      "page": 100,
+      "ids": [
+        "A-ADV-021"
+      ],
+      "decision": "Adapt semantic specialization to the existing Arkita4 profile model; no normative3.2 text copied."
+    },
+    {
+      "section": "Using the Specializations Manager",
+      "page": 100,
+      "ids": [
+        "A-ADV-021",
+        "A-ADV-022",
+        "A-ADV-023",
+        "A-ADV-024"
+      ]
+    },
+    {
+      "section": "The Validator",
+      "page": 102,
+      "ids": [
+        "A-ADV-025",
+        "A-ADV-026",
+        "A-ADV-027",
+        "A-ADV-028",
+        "A-ADV-029",
+        "A-ADV-030",
+        "A-ADV-031",
+        "A-ADV-032",
+        "A-ADV-033",
+        "A-ADV-034"
+      ]
+    },
+    {
+      "section": "Preview HTML Report",
+      "page": 104,
+      "ids": [
+        "A-ADV-035"
+      ]
+    },
+    {
+      "section": "Opening, Saving and Printing",
+      "page": 105,
+      "ids": [
+        "A-ADV-036",
+        "A-ADV-037",
+        "A-ADV-038",
+        "A-ADV-039",
+        "A-ADV-040",
+        "A-ADV-041",
+        "A-ADV-042",
+        "A-ADV-043"
+      ]
+    },
+    {
+      "section": "Opening an Existing Model",
+      "page": 105,
+      "ids": [
+        "A-ADV-036",
+        "A-ADV-037",
+        "A-ADV-038"
+      ]
+    },
+    {
+      "section": "Saving a Model",
+      "page": 105,
+      "ids": [
+        "A-ADV-039",
+        "A-ADV-040"
+      ]
+    },
+    {
+      "section": "Closing a Model in the Model Tree",
+      "page": 105,
+      "ids": [
+        "A-ADV-041",
+        "A-ADV-042"
+      ]
+    },
+    {
+      "section": "Printing A View (Diagram)",
+      "page": 105,
+      "ids": [
+        "A-ADV-043"
+      ]
+    },
+    {
+      "section": "Exporting and Importing the Model in CSV Format",
+      "page": 106,
+      "ids": [
+        "A-ADV-044",
+        "A-ADV-045",
+        "A-ADV-046",
+        "A-ADV-047",
+        "A-ADV-048",
+        "A-ADV-049",
+        "A-ADV-050",
+        "A-ADV-051",
+        "A-ADV-052",
+        "A-ADV-053",
+        "A-ADV-054"
+      ]
+    },
+    {
+      "section": "Export Model To CSV",
+      "page": 106,
+      "ids": [
+        "A-ADV-044",
+        "A-ADV-045",
+        "A-ADV-046",
+        "A-ADV-047",
+        "A-ADV-048"
+      ]
+    },
+    {
+      "section": "Importing CSV Data into a Model",
+      "page": 107,
+      "ids": [
+        "A-ADV-049",
+        "A-ADV-050",
+        "A-ADV-051",
+        "A-ADV-052",
+        "A-ADV-053",
+        "A-ADV-054"
+      ]
+    },
+    {
+      "section": "Importing Another Model into the Current Model",
+      "page": 111,
+      "ids": [
+        "A-ADV-055",
+        "A-ADV-056",
+        "A-ADV-057",
+        "A-ADV-058",
+        "A-ADV-059"
+      ]
+    },
+    {
+      "section": "Importing another Archi model",
+      "page": 111,
+      "ids": [
+        "A-ADV-055",
+        "A-ADV-056",
+        "A-ADV-057",
+        "A-ADV-058",
+        "A-ADV-059"
+      ],
+      "decision": "Separate native Arkita merge from conversion of legacy Archi files."
+    },
+    {
+      "section": "The Open Group Exchange File Format",
+      "page": 113,
+      "ids": [
+        "A-ADV-060",
+        "A-ADV-061",
+        "A-ADV-062",
+        "A-ADV-063",
+        "A-ADV-064",
+        "A-ADV-065",
+        "A-ADV-066",
+        "A-ADV-067"
+      ]
+    },
+    {
+      "section": "Exporting and Settings",
+      "page": 113,
+      "ids": [
+        "A-ADV-060",
+        "A-ADV-061",
+        "A-ADV-062",
+        "A-ADV-063"
+      ]
+    },
+    {
+      "section": "Options",
+      "page": 113,
+      "ids": [
+        "A-ADV-061",
+        "A-ADV-062",
+        "A-ADV-063"
+      ]
+    },
+    {
+      "section": "Adding Metadata",
+      "page": 113,
+      "ids": [
+        "A-ADV-064"
+      ]
+    },
+    {
+      "section": "Importing from an Open Exchange XML file",
+      "page": 114,
+      "ids": [
+        "A-ADV-065",
+        "A-ADV-066"
+      ]
+    },
+    {
+      "section": "Reporting",
+      "page": 115,
+      "ids": [
+        "A-ADV-035",
+        "A-ADV-068",
+        "A-ADV-069",
+        "A-ADV-070",
+        "A-ADV-071",
+        "A-ADV-072",
+        "A-ADV-073",
+        "A-ADV-074",
+        "A-ADV-075",
+        "A-ADV-076",
+        "A-ADV-077",
+        "A-ADV-078",
+        "A-ADV-079"
+      ]
+    },
+    {
+      "section": "HTML Report",
+      "page": 116,
+      "ids": [
+        "A-ADV-068",
+        "A-ADV-069",
+        "A-ADV-070",
+        "A-ADV-071",
+        "A-ADV-072",
+        "A-ADV-073",
+        "A-ADV-074"
+      ]
+    },
+    {
+      "section": "Searching the model",
+      "page": 116,
+      "ids": [
+        "A-ADV-069"
+      ]
+    },
+    {
+      "section": "Zooming a view",
+      "page": 116,
+      "ids": [
+        "A-ADV-070"
+      ]
+    },
+    {
+      "section": "Masking",
+      "page": 116,
+      "ids": [
+        "A-ADV-071",
+        "A-ADV-072"
+      ],
+      "decision": "Guide describes navigation-only masking; actual byte exclusion is an explicit Arkita improvement, not an Archi claim."
+    },
+    {
+      "section": "SQL Query",
+      "page": 117,
+      "ids": [
+        "A-ADV-073"
+      ]
+    },
+    {
+      "section": "Jasper Reports",
+      "page": 118,
+      "ids": [
+        "A-ADV-075",
+        "A-ADV-076",
+        "A-ADV-077",
+        "A-ADV-078",
+        "A-ADV-079"
+      ]
+    },
+    {
+      "section": "Customisable Report",
+      "page": 119,
+      "ids": [
+        "A-ADV-075"
+      ]
+    },
+    {
+      "section": "User Report Templates",
+      "page": 120,
+      "ids": [
+        "A-ADV-077",
+        "A-ADV-079"
+      ]
+    },
+    {
+      "section": "Output",
+      "page": 120,
+      "ids": [
+        "A-ADV-076",
+        "A-ADV-075"
+      ]
+    },
+    {
+      "section": "Templates",
+      "page": 122,
+      "ids": [
+        "A-ADV-080",
+        "A-ADV-081",
+        "A-ADV-082",
+        "A-ADV-083",
+        "A-ADV-084",
+        "A-ADV-085"
+      ]
+    },
+    {
+      "section": "Creating a New Template",
+      "page": 122,
+      "ids": [
+        "A-ADV-080",
+        "A-ADV-081",
+        "A-ADV-085",
+        "A-ADV-084"
+      ]
+    },
+    {
+      "section": "Creating a New Model from a Template",
+      "page": 123,
+      "ids": [
+        "A-ADV-082",
+        "A-ADV-081",
+        "A-ADV-083"
+      ]
+    },
+    {
+      "section": "Managing your Templates",
+      "page": 124,
+      "ids": [
+        "A-ADV-084"
+      ]
+    },
+    {
+      "section": "Relationships in ArchiMate",
+      "page": 127,
+      "ids": [
+        "A-ADV-086"
+      ],
+      "decision": "Only Arkita4 ALLOWED/FORBIDDEN/UNKNOWN sources may populate the matrix."
+    },
+    {
+      "section": "The Sketch View",
+      "page": 128,
+      "ids": [
+        "A-ADV-087",
+        "A-ADV-088",
+        "A-ADV-089",
+        "A-ADV-090",
+        "A-ADV-091"
+      ],
+      "decision": "Optional product area. Guide calls it experimental and potentially deprecated; later conversion is not a documented automatic converter."
+    },
+    {
+      "section": "The Canvas Modelling Toolkit",
+      "page": 131,
+      "ids": [
+        "A-ADV-092",
+        "A-ADV-093",
+        "A-ADV-094",
+        "A-ADV-095",
+        "A-ADV-096",
+        "A-ADV-097",
+        "A-ADV-098",
+        "A-ADV-099",
+        "A-ADV-100",
+        "A-ADV-101",
+        "A-ADV-102",
+        "A-ADV-103",
+        "A-ADV-104",
+        "A-ADV-105",
+        "A-ADV-106",
+        "A-ADV-107",
+        "A-ADV-108",
+        "A-ADV-109",
+        "A-ADV-110",
+        "A-ADV-111",
+        "A-ADV-112"
+      ]
+    },
+    {
+      "section": "Getting Started",
+      "page": 131,
+      "ids": [
+        "A-ADV-112",
+        "A-ADV-094",
+        "A-ADV-095",
+        "A-ADV-099",
+        "A-ADV-100"
+      ]
+    },
+    {
+      "section": "Getting into the Details",
+      "page": 134,
+      "ids": [
+        "A-ADV-092",
+        "A-ADV-094",
+        "A-ADV-095",
+        "A-ADV-096",
+        "A-ADV-102",
+        "A-ADV-100",
+        "A-ADV-099",
+        "A-ADV-101",
+        "A-ADV-103",
+        "A-ADV-104"
+      ]
+    },
+    {
+      "section": "Canvas Block",
+      "page": 141,
+      "ids": [
+        "A-ADV-094",
+        "A-ADV-099",
+        "A-ADV-100",
+        "A-ADV-101",
+        "A-ADV-104",
+        "A-ADV-105",
+        "A-ADV-107"
+      ]
+    },
+    {
+      "section": "Canvas Sticky",
+      "page": 144,
+      "ids": [
+        "A-ADV-095",
+        "A-ADV-099",
+        "A-ADV-101",
+        "A-ADV-104",
+        "A-ADV-105"
+      ]
+    },
+    {
+      "section": "Canvas Image",
+      "page": 147,
+      "ids": [
+        "A-ADV-102",
+        "A-ADV-099",
+        "A-ADV-101",
+        "A-ADV-103",
+        "A-ADV-107"
+      ]
+    },
+    {
+      "section": "Canvas Connection",
+      "page": 148,
+      "ids": [
+        "A-ADV-096",
+        "A-ADV-097",
+        "A-ADV-098",
+        "A-ADV-099"
+      ]
+    },
+    {
+      "section": "Adding Images to Objects",
+      "page": 151,
+      "ids": [
+        "A-ADV-103",
+        "A-ADV-104",
+        "A-ADV-105",
+        "A-ADV-106",
+        "A-ADV-107",
+        "A-ADV-108",
+        "A-ADV-109",
+        "A-ADV-110"
+      ]
+    },
+    {
+      "section": "Saving a Canvas as a Template",
+      "page": 152,
+      "ids": [
+        "A-ADV-111",
+        "A-ADV-084"
+      ]
+    },
+    {
+      "section": "Creating a New Canvas from a Template",
+      "page": 154,
+      "ids": [
+        "A-ADV-112",
+        "A-ADV-082",
+        "A-ADV-081"
+      ]
+    },
+    {
+      "section": "Managing your Canvas Templates",
+      "page": 155,
+      "ids": [
+        "A-ADV-084"
+      ]
+    },
+    {
+      "section": "Preferences",
+      "page": 158,
+      "ids": [
+        "A-ADV-113",
+        "A-ADV-114",
+        "A-ADV-115",
+        "A-ADV-116",
+        "A-ADV-117",
+        "A-ADV-118",
+        "A-ADV-119",
+        "A-ADV-120",
+        "A-ADV-121",
+        "A-ADV-122",
+        "A-ADV-123",
+        "A-ADV-124",
+        "A-ADV-125",
+        "A-ADV-126",
+        "A-ADV-127",
+        "A-ADV-128",
+        "A-ADV-129",
+        "A-ADV-130",
+        "A-ADV-131",
+        "A-ADV-132",
+        "A-ADV-133",
+        "A-ADV-134",
+        "A-ADV-135",
+        "A-ADV-136",
+        "A-ADV-137",
+        "A-ADV-138",
+        "A-ADV-139",
+        "A-ADV-140",
+        "A-ADV-141",
+        "A-ADV-142",
+        "A-ADV-143",
+        "A-ADV-144",
+        "A-ADV-145",
+        "A-ADV-146",
+        "A-ADV-147",
+        "A-ADV-148",
+        "A-ADV-149",
+        "A-ADV-150",
+        "A-ADV-151",
+        "A-ADV-152",
+        "A-ADV-153",
+        "A-ADV-154",
+        "A-ADV-155",
+        "A-ADV-156",
+        "A-ADV-157",
+        "A-ADV-158",
+        "A-ADV-159",
+        "A-ADV-160",
+        "A-ADV-161",
+        "A-ADV-162",
+        "A-ADV-163",
+        "A-ADV-164",
+        "A-ADV-165",
+        "A-ADV-166",
+        "A-ADV-167",
+        "A-ADV-168",
+        "A-ADV-169",
+        "A-ADV-170",
+        "A-ADV-171",
+        "A-ADV-034",
+        "A-ADV-077"
+      ]
+    },
+    {
+      "section": "Appearance, Colours, and Fonts Preferences",
+      "page": 159,
+      "ids": [
+        "A-ADV-114",
+        "A-ADV-115",
+        "A-ADV-116",
+        "A-ADV-117",
+        "A-ADV-118",
+        "A-ADV-119",
+        "A-ADV-120",
+        "A-ADV-121",
+        "A-ADV-122",
+        "A-ADV-123"
+      ]
+    },
+    {
+      "section": "Appearance",
+      "page": 159,
+      "ids": [
+        "A-ADV-114",
+        "A-ADV-115",
+        "A-ADV-116",
+        "A-ADV-117"
+      ]
+    },
+    {
+      "section": "Colours",
+      "page": 159,
+      "ids": [
+        "A-ADV-118",
+        "A-ADV-119",
+        "A-ADV-120",
+        "A-ADV-121"
+      ]
+    },
+    {
+      "section": "Fonts",
+      "page": 160,
+      "ids": [
+        "A-ADV-122",
+        "A-ADV-123"
+      ]
+    },
+    {
+      "section": "Canvas Modelling Toolkit Preferences",
+      "page": 161,
+      "ids": [
+        "A-ADV-124"
+      ]
+    },
+    {
+      "section": "General",
+      "page": 161,
+      "ids": [
+        "A-ADV-124"
+      ]
+    },
+    {
+      "section": "Connections Preferences",
+      "page": 162,
+      "ids": [
+        "A-ADV-125",
+        "A-ADV-126",
+        "A-ADV-127",
+        "A-ADV-128",
+        "A-ADV-129",
+        "A-ADV-130",
+        "A-ADV-131",
+        "A-ADV-132",
+        "A-ADV-133",
+        "A-ADV-134",
+        "A-ADV-135",
+        "A-ADV-136"
+      ]
+    },
+    {
+      "section": "Connections",
+      "page": 162,
+      "ids": [
+        "A-ADV-125"
+      ]
+    },
+    {
+      "section": "Drawing",
+      "page": 162,
+      "ids": [
+        "A-ADV-126",
+        "A-ADV-127",
+        "A-ADV-128",
+        "A-ADV-129",
+        "A-ADV-130",
+        "A-ADV-131"
+      ]
+    },
+    {
+      "section": "General",
+      "page": 163,
+      "ids": [
+        "A-ADV-132"
+      ]
+    },
+    {
+      "section": "ARM",
+      "page": 163,
+      "ids": [
+        "A-ADV-133",
+        "A-ADV-134",
+        "A-ADV-135",
+        "A-ADV-136"
+      ]
+    },
+    {
+      "section": "Diagram Preferences",
+      "page": 165,
+      "ids": [
+        "A-ADV-137",
+        "A-ADV-138",
+        "A-ADV-139",
+        "A-ADV-140",
+        "A-ADV-141",
+        "A-ADV-142",
+        "A-ADV-143",
+        "A-ADV-144",
+        "A-ADV-145",
+        "A-ADV-146",
+        "A-ADV-147",
+        "A-ADV-148",
+        "A-ADV-149",
+        "A-ADV-089"
+      ]
+    },
+    {
+      "section": "View",
+      "page": 165,
+      "ids": [
+        "A-ADV-137",
+        "A-ADV-138",
+        "A-ADV-139",
+        "A-ADV-140",
+        "A-ADV-141",
+        "A-ADV-142"
+      ]
+    },
+    {
+      "section": "Viewpoints",
+      "page": 165,
+      "ids": [
+        "A-ADV-143"
+      ]
+    },
+    {
+      "section": "Paste Special behaviour",
+      "page": 166,
+      "ids": [
+        "A-ADV-144"
+      ]
+    },
+    {
+      "section": "Resize behaviour",
+      "page": 166,
+      "ids": [
+        "A-ADV-145"
+      ]
+    },
+    {
+      "section": "Appearance",
+      "page": 166,
+      "ids": [
+        "A-ADV-146",
+        "A-ADV-147",
+        "A-ADV-089"
+      ]
+    },
+    {
+      "section": "Default Figures",
+      "page": 167,
+      "ids": [
+        "A-ADV-148"
+      ]
+    },
+    {
+      "section": "Legend",
+      "page": 167,
+      "ids": [
+        "A-ADV-149"
+      ]
+    },
+    {
+      "section": "General Preferences",
+      "page": 169,
+      "ids": [
+        "A-ADV-150",
+        "A-ADV-151",
+        "A-ADV-152",
+        "A-ADV-153",
+        "A-ADV-154",
+        "A-ADV-155",
+        "A-ADV-156",
+        "A-ADV-157",
+        "A-ADV-158",
+        "A-ADV-159",
+        "A-ADV-160",
+        "A-ADV-161",
+        "A-ADV-162",
+        "A-ADV-163",
+        "A-ADV-164",
+        "A-ADV-165",
+        "A-ADV-141"
+      ]
+    },
+    {
+      "section": "Jasper Reports Preferences",
+      "page": 172,
+      "ids": [
+        "A-ADV-077",
+        "A-ADV-079"
+      ]
+    },
+    {
+      "section": "Settings",
+      "page": 172,
+      "ids": [
+        "A-ADV-077",
+        "A-ADV-079"
+      ]
+    },
+    {
+      "section": "System Preferences",
+      "page": 173,
+      "ids": [
+        "A-ADV-166",
+        "A-ADV-167",
+        "A-ADV-168",
+        "A-ADV-169",
+        "A-ADV-170",
+        "A-ADV-171"
+      ]
+    },
+    {
+      "section": "Help",
+      "page": 173,
+      "ids": [
+        "A-ADV-166"
+      ]
+    },
+    {
+      "section": "Keys",
+      "page": 173,
+      "ids": [
+        "A-ADV-167",
+        "A-ADV-168"
+      ]
+    },
+    {
+      "section": "Network Connections",
+      "page": 173,
+      "ids": [
+        "A-ADV-169"
+      ]
+    },
+    {
+      "section": "Secure Storage",
+      "page": 173,
+      "ids": [
+        "A-ADV-170"
+      ]
+    },
+    {
+      "section": "Web Browser",
+      "page": 173,
+      "ids": [
+        "A-ADV-171"
+      ]
+    },
+    {
+      "section": "Validator Preferences",
+      "page": 174,
+      "ids": [
+        "A-ADV-034"
+      ]
+    },
+    {
+      "section": "Rules to check",
+      "page": 174,
+      "ids": [
+        "A-ADV-034"
+      ]
+    },
+    {
+      "section": "Managing Plug-ins",
+      "page": 175,
+      "ids": [
+        "A-ADV-172",
+        "A-ADV-173"
+      ]
+    },
+    {
+      "section": "Using the Plug-ins Manager",
+      "page": 175,
+      "ids": [
+        "A-ADV-172",
+        "A-ADV-173"
+      ]
+    },
+    {
+      "section": "Manual installation",
+      "page": 175,
+      "ids": [
+        "A-ADV-173"
+      ],
+      "decision": "Exclude binary Java/Eclipse dropins installation; it is implementation-specific."
+    }
+  ]
+}

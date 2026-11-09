@@ -1,0 +1,15 @@
+{
+  "name": "@schemka/model-profiles",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": "./src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "coverage": "node --test --experimental-test-coverage --test-coverage-include=src/*.js test/*.test.js",
+    "check": "node --check src/current.js && node --check src/descriptor.js && node --check src/endpoint-permissions.js && node --check src/index.js && node --check src/multiplicity.js && node --check test/assessment.test.js && node --check test/current-catalog.test.js && node --check test/endpoint-fixture.js && node --check test/endpoint-permissions.test.js && node --check test/helpers.js && node --check test/integration.test.js && node --check test/multiplicity.test.js && node --check test/registry.test.js"
+  }
+}

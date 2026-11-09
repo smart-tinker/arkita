@@ -1,0 +1,102 @@
+{
+  "name": "arkita",
+  "version": "0.7.0",
+  "private": true,
+  "description": "Arkita — desktop architecture modeller for ArchiMate 4",
+  "scripts": {
+    "build": "node scripts/build-platform.mjs",
+    "build:mermaid": "node scripts/build.cjs",
+    "start": "node scripts/serve.mjs",
+    "test": "node scripts/test.mjs",
+    "test:mermaid": "node scripts/build.cjs && node --test tests/*.test.cjs",
+    "check": "node scripts/check-platform.mjs",
+    "desktop": "electron .",
+    "test:desktop": "node --test electron/test/*.test.mjs",
+    "package:win": "node scripts/prepare-git.mjs && electron-builder --win nsis --x64 --publish never"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "jsdom": "26.1.0"
+  },
+  "main": "electron/entry.mjs",
+  "author": "Arkita contributors",
+  "build": {
+    "appId": "org.smart-tinker.arkita",
+    "productName": "Arkita",
+    "directories": {
+      "output": "release/windows"
+    },
+    "files": [
+      "package.json",
+      "electron/*.mjs",
+      "electron/preload.cjs",
+      "electron/preload-palette.cjs",
+      "schemka-model-ui/package.json",
+      "schemka-model-ui/index.html",
+      "schemka-model-ui/palette.html",
+      "schemka-model-ui/palette.css",
+      "schemka-model-ui/style.css",
+      "schemka-model-ui/src/*.js",
+      "schemka-model-core/package.json",
+      "schemka-model-core/src/*.js",
+      "schemka-model-io/package.json",
+      "schemka-model-io/src/*.js",
+      "schemka-model-io/schemas/**",
+      "schemka-model-profiles/package.json",
+      "schemka-model-profiles/src/*.js",
+      "electron/NOTICES.txt",
+      "electron/licenses/**",
+      "scripts/arkita-cli.mjs"
+    ],
+    "asar": true,
+    "fileAssociations": [
+      {
+        "ext": "arkita",
+        "name": "Модель Arkita",
+        "description": "Модель архитектуры Arkita",
+        "role": "Editor"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "release/git-runtime/windows-x64",
+        "to": "git",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "npmRebuild": false,
+    "publish": null,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "Arkita-${version}-win-${arch}-setup.${ext}",
+      "icon": "electron/assets/arkita.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowElevation": false,
+      "packElevateHelper": false,
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": false,
+      "differentialPackage": false,
+      "include": "electron/installer-hooks.nsh"
+    }
+  },
+  "dependencies": {
+    "fontkit": "2.0.4",
+    "libxml2-wasm": "0.7.2"
+  }
+}

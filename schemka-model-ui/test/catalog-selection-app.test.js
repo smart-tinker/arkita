@@ -1,0 +1,40 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { setup, production } from './app-test-fixture.js';
+import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
+import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
+const tick = () => new Promise(resolve => setTimeout(resolve, 0));
+test(`${production ? 'production' : 'source'} ordinary tree mixed selection reaches group inspector and fixed-owner bulk properties with exact Undo`, async t => {
+ const h = await setup(t), state = conceptProject(); state.elements[0].properties = [{ key: 'owner', value: 'A' }]; state.relationships[0].properties = [{ key: 'owner', value: 'B' }]; const before = Buffer.from(serializeProjectFile(state)); await h.load(before);
+ for (const el of h.document.querySelectorAll('.catalog details')) if (['tree-model', 'tree-common', 'tree-relationships'].includes(el.id) || el.dataset.catalogSection) el.open = true;
+ const element = h.document.querySelector(`.catalog button[data-element-id="${state.elements[0].id}"]`); element.click();
+ const relationship = h.document.querySelector(`.catalog button[data-relationship-id="${state.relationships[0].id}"]`); relationship.dispatchEvent(new h.window.MouseEvent('click', { bubbles: true, ctrlKey: true }));
+ assert.equal(h.$('catalog-selection-summary').hidden, false); assert.match(h.$('catalog-selection-status').textContent, /2/); assert.equal(h.$('undo').disabled, true);
+ assert.equal(h.$('catalog-selection-properties'), null);
+ const hit = h.document.querySelector(`.catalog button[data-element-id="${state.elements[0].id}"]`); hit.dispatchEvent(new h.window.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2, clientX: 90, clientY: 320 }));
+ const properties = h.$('context-menu').querySelector('[data-context-action="properties"]'); assert.equal(properties.getAttribute('role'), 'menuitem'); properties.click(); assert.equal(h.$('catalog-selection-dialog').open, true); assert.match(h.$('catalog-selection-details').textContent, /owner: Разные значения/);
+ h.$('catalog-selection-edit').click(); assert.equal(h.$('catalog-selection-dialog').open, false); assert.equal(h.$('advanced-search-dialog').open, true); assert.equal(h.$('advanced-property-scope').value, 'catalog'); assert.equal(h.$('advanced-search-results').children.length, 2);
+ h.change('advanced-property-key', 'owner'); h.change('advanced-property-value', 'Team'); h.$('advanced-property-set').click(); assert.match(h.$('advanced-search-preview').textContent, /Team/); h.$('advanced-search-apply').click(); await tick(); h.$('advanced-search-close').click();
+ const after = deserializeProjectFile(await h.download()); assert.equal(after.elements[0].properties[0].value, 'Team'); assert.equal(after.relationships[0].properties[0].value, 'Team'); assert.deepEqual(after.elements[1].properties, state.elements[1].properties); assert.match(h.$('history-state').textContent, /1 действий/);
+ h.$('undo').click(); assert.deepEqual(await h.download(), before);
+ h.pointer(h.$('canvas'), 'pointerdown'); assert.equal(h.$('catalog-selection-summary').hidden, true);
+ h.pointer(h.$('canvas'), 'pointerup');
+});
+
+test('actual catalogue group moves all selected concepts through context preview and one Undo', async t => {
+ const { createProject, createStore } = await import('../../schemka-model-core/src/index.js');
+ const store = createStore(createProject('Catalogue group')), run = command => store.execute(command, store.revision).created;
+ run({ type: 'createView', name: 'Main' }); const folderId = run({ type: 'createFolder', name: 'Target' }).folderId;
+ const ids = ['Role', 'Process'].map((elementType, index) => run({ type: 'createElementInModel', elementType, name: `Selected ${index}` }).elementId);
+ const h = await setup(t), bytes = Buffer.from(serializeProjectFile(store.snapshot)); await h.load(bytes);
+ for (const element of h.document.querySelectorAll('.catalog details')) element.open = true;
+ const row = id => h.document.querySelector(`.catalog button[data-element-id="${id}"]`);
+ row(ids[0]).click(); row(ids[1]).dispatchEvent(new h.window.MouseEvent('click', { bubbles: true, ctrlKey: true }));
+ assert.equal(h.$('catalog-new-concept'), null);
+ row(ids[0]).dispatchEvent(new h.window.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2, clientX: 90, clientY: 350 }));
+ const move = h.$('context-menu').querySelector('[data-context-action="move-concept"]'); assert.ok(move); assert.equal(move.getAttribute('role'), 'menuitem'); move.click();
+ assert.equal(h.$('catalog-folder-dialog').open, true); h.$('catalog-move-target').value = folderId; h.$('catalog-move-target').dispatchEvent(new h.window.Event('change'));
+ h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true })); assert.equal(h.$('catalog-folder-dialog').open, false, h.$('catalog-folder-dialog').querySelector('.error').textContent);
+ const state = deserializeProjectFile(await h.download()); assert.deepEqual(state.folders.find(folder => folder.id === folderId).members.map(item => item.id).sort(), [...ids].sort()); assert.match(h.$('history-state').textContent, /1 действий/);
+ h.$('undo').click(); assert.deepEqual(await h.download(), bytes);
+});

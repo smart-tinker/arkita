@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Каталог · Schemka</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К содержимому</a>
+  <header class="topbar">
+    <a class="wordmark" href="/" data-mode-link="home" aria-label="Schemka, главная">schemka<span> / </span>каталог</a>
+    <nav aria-label="Режимы Schemka">
+      <a href="/" data-mode-link="home">Главная</a>
+      <a href="/mermaid/" data-mode-link="mermaid">Mermaid</a>
+      <a href="/model/" data-mode-link="model">ArchiMate</a>
+      <a href="/catalog/" data-mode-link="catalog" aria-current="page">Каталог</a>
+    </nav>
+  </header>
+  <main id="main">
+    <div class="intro">
+      <div><p class="eyebrow">Сервисы / предложения / запросы</p><h1>Понятный путь к результату</h1><p class="subtitle">Выберите сервис, изучите варианты работы и необходимые входные данные.</p></div>
+      <div class="file-actions">
+        <button id="import-button" class="primary" type="button">Открыть JSON</button>
+        <input id="file-input" type="file" accept=".json,application/json" hidden>
+        <button id="export-button" type="button">Скачать JSON</button>
+        <button id="sample-button" type="button">Учебный пример</button>
+      </div>
+    </div>
+    <section class="session" aria-label="Данные текущего сеанса"><span id="session-kind" class="pill">Учебный пример</span><p id="session-description"></p><p id="catalog-summary" class="muted"></p></section>
+    <p id="message" class="message" role="status" aria-live="polite" hidden></p>
+    <details class="privacy"><summary>Как работают данные и статусы</summary><p>Файл читается только в памяти этой вкладки. Каталог не отправляет данные, не сохраняет их в браузере и не синхронизируется с репозиторием. Закрытие или обновление вкладки очищает импорт. Скачать JSON можно на свой компьютер.</p><p>Статусы показывают сведения из файла, а не мониторинг систем. Ссылки на знания и ID элементов модели отображаются текстом: содержимое не загружается и сопоставление с ArchiMate не проверяется. Выбор запроса ничего не отправляет и не разрешает изменения.</p></details>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Выбор сервиса">
+        <label for="search">Найти сервис или запрос</label>
+        <input id="search" type="search" placeholder="Название, результат, тема…" autocomplete="off">
+        <label for="direction">Направление</label>
+        <select id="direction"><option value="">Все направления</option></select>
+        <p id="result-count" class="muted" aria-live="polite"></p>
+        <div id="service-list" class="service-list"></div>
+      </aside>
+      <section id="detail" class="detail" aria-label="Описание сервиса"></section>
+    </div>
+    <footer><span>Локальный просмотр · нет подключения к исполнению</span><span>ArchiMate-связи требуют отдельной проверки</span></footer>
+  </main>
+</body>
+</html>
