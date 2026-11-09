@@ -81,7 +81,10 @@ test('reader ignores unowned root/nested content and .git without traversing; re
   const io = { ...fs, opendir: async target => { assert.ok(!/(\.git|unowned|notes)$/.test(target)); return fs.opendir(target); } };
   assert.deepEqual(exportFiles(deserializeProjectFile((await readNativeDirectory(root, io)).bytes)), exportFiles(state));
   for (const relative of ['SCHEMKA.JSON', 'model/ELEMENTS', 'model/elements/el-bad.json', 'views/view-bad']) {
-    await fs.writeFile(path.join(root, relative), '{}'); await assert.rejects(readNativeDirectory(root), { code: 'DIRECTORY_PATH' }); await fs.unlink(path.join(root, relative));
+    const target = path.join(root, relative);
+    try { await fs.lstat(target); t.diagnostic(`${relative} aliases an existing entry on this filesystem`); continue; }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    await fs.writeFile(target, '{}'); await assert.rejects(readNativeDirectory(root), { code: 'DIRECTORY_PATH' }); await fs.unlink(target);
   }
   const header = path.join(root, `views/${state.views[0].view.id}/view.json`); await fs.rename(header, `${header}.backup`);
   await assert.rejects(readNativeDirectory(root), { code: 'REFERENCE' }); await fs.rename(`${header}.backup`, header);

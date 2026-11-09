@@ -11,7 +11,7 @@ import { createProjectSession } from '../../schemka-model-ui/src/project-session
 import { createBlankModel } from '../../schemka-model-ui/src/demo.js';
 import { PROJECT_FILE_LIMITS, serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
 const bytes = () => serializeProjectFile(createBlankModel().snapshot);
-async function fixture(t) { const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'schemka-files-')); t.after(() => fs.rm(dir, { recursive: true, force: true })); return { dir, file: path.join(dir, 'test.schemka.json') }; }
+async function fixture(t) { const dir = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'schemka-files-'))); t.after(() => fs.rm(dir, { recursive: true, force: true })); return { dir, file: path.join(dir, 'test.schemka.json') }; }
 const fail = code => Object.assign(new Error(`injected ${code}`), { code });
 const proxy = (handle, overrides) => new Proxy(handle, { get(target, key) { return overrides[key] ?? (typeof target[key] === 'function' ? target[key].bind(target) : target[key]); } });
 const ordinaryEntries = async dir => (await fs.readdir(dir)).filter(name => !name.startsWith('.schemka-transaction-'));

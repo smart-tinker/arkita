@@ -14,7 +14,7 @@ import { createProject, createStore } from '../../schemka-model-core/src/index.j
 import { serializeProjectFile } from '../../schemka-model-io/src/project-file.js';
 const bytes = name => serializeProjectFile(createProject(name));
 async function fixture(t) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-lifecycle-')); t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-lifecycle-'))); t.after(() => fs.rm(root, { recursive: true, force: true }));
   return root;
 }
 const token = () => randomUUID();
