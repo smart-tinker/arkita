@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validation:
+    name: validation (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run complete test suite
+        run: npm test
+
+      - name: Check JavaScript syntax
+        run: npm run check
+
+      - name: Build Windows NSIS installer
+        if: runner.os == 'Windows'
+        run: npm run package:win
+
+      - name: Verify Windows installer in the runner
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $packages = @(Get-ChildItem -Path "release/windows" -Filter "Arkita-*-win-x64-setup.exe" -File)
+          if ($packages.Count -ne 1) {
+            throw "Expected exactly one NSIS installer; found $($packages.Count)."
+          }
+          if ($packages[0].Length -lt 1MB) {
+            throw "The generated NSIS installer is unexpectedly small."
+          }
+          Write-Output "Package smoke passed: $($packages[0].Name) ($($packages[0].Length) bytes)."
+
+  ci-gate:
+    name: CI gate
+    if: always()
+    needs: [validation]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require every platform job to pass
+        env:
+          VALIDATION_RESULT: ${{ needs.validation.result }}
+        run: |
+          if [ "$VALIDATION_RESULT" != "success" ]; then
+            echo "Platform validation result: $VALIDATION_RESULT"
+            exit 1
+          fi
