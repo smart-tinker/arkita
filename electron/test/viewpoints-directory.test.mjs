@@ -103,7 +103,10 @@ test('an externally changed or missing untouched hidden record blocks both recov
 test('viewpoint namespace uses canonical case, path, no-follow and regular-record guards and ignores only unowned notes', async t => {
   const aliases = ['Viewpoints', 'viewpoints/VPT-00000000-0000-4000-8000-000000000001.json', 'viewpoints/vpt-bad.json', 'viewpoints/vpt-00000000-0000-4000-8000-000000000001.JSON', 'viewpoints/unknown.json', 'viewpoints/vpt-bad.txt'];
   for (const relative of aliases) {
-    const f = await fixture(t); await fs.writeFile(path.join(f.root, relative), '{}'); await assert.rejects(readNativeDirectory(f.root), { code: 'DIRECTORY_PATH' });
+    const f = await fixture(t), target = path.join(f.root, relative);
+    try { await fs.lstat(target); t.diagnostic(`${relative} aliases an existing entry on this filesystem`); continue; }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    await fs.writeFile(target, '{}'); await assert.rejects(readNativeDirectory(f.root), { code: 'DIRECTORY_PATH' });
   }
   for (const kind of ['namespace-link', 'namespace-file', 'record-link', 'record-directory']) {
     const f = await fixture(t), relative = kind.startsWith('namespace') ? 'viewpoints' : `viewpoints/${viewpointId}.json`, target = path.join(f.root, relative);

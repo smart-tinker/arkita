@@ -25,7 +25,7 @@ const deferred = () => {
 const checkpoint = () => new Promise(resolve => setImmediate(resolve));
 const ready = deferred(), assets = deferred(), readStarted = deferred(), finishRead = deferred();
 const launchScenario = scenario.startsWith('launch-');
-const fixture = launchScenario ? await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-startup-')) : null;
+const fixture = launchScenario ? await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-startup-'))) : null;
 const firstPath = fixture && path.join(fixture, 'Сертификаты офиса.arkita');
 const secondPath = fixture && path.join(fixture, 'Вторая модель.arkita');
 const badPath = fixture && path.join(fixture, 'broken.arkita');

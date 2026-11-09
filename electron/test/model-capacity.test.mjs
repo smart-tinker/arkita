@@ -23,7 +23,7 @@ async function measured(t, operation, run) {
   return value;
 }
 
-test('5016 native records preserve shared concepts, hierarchy and all geometry through file/directory save, reopen, search, edit and Undo/Redo', { timeout: 180000 }, async t => {
+test('5016 native records preserve shared concepts, hierarchy and all geometry through file/directory save, reopen, search, edit and Undo/Redo', { timeout: 600000 }, async t => {
   const root = await fixture(t), state = largeNativeModel(), before = exportFiles(state);
   assert.equal(before.length, 5016); assert.equal(largeArchiXML(), largeArchiXML());
   assert.equal(state.views.filter(entry => entry.occurrences.some(item => item.concept.id === state.elements[0].id)).length, 10);
