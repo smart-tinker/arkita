@@ -1,6 +1,8 @@
 name: Extended CI
 
 on:
+  pull_request:
+    types: [labeled]
   workflow_dispatch:
   schedule:
     - cron: '17 3 * * 1'
@@ -15,6 +17,7 @@ concurrency:
 jobs:
   extended-tests:
     name: full tests (${{ matrix.os }})
+    if: github.event_name != 'pull_request' || github.event.label.name == 'extended-ci'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 180
     strategy:
