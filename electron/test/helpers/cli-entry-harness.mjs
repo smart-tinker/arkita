@@ -1,0 +1,6 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+ const source = await fs.readFile('electron/entry.mjs', 'utf8'); let importedGUI = false, output = '', exitCode; const context = vm.createContext({ process: { argv: ['Arkita.exe', '--cli', 'validate', '--input', 'C:\\Модель.arkita'], stdout: { write(value, done) { output += value; done(); } } } });
+ const entry = new vm.SourceTextModule(source, { context, importModuleDynamically: async specifier => { if (specifier === './main.mjs') { importedGUI = true; throw Error('GUI imported'); } const module = new vm.SyntheticModule(['runCLI'], function() { this.setExport('runCLI', async args => { assert.deepEqual([...args], ['validate', '--input', 'C:\\Модель.arkita']); return { status: 'ok', exitCode: 0 }; }); }, { context }); await module.link(() => {}); await module.evaluate(); return module; } });
+ await entry.link(async () => { const module = new vm.SyntheticModule(['app'], function() { this.setExport('app', { exit: code => exitCode = code }); }, { context }); return module; }); await entry.evaluate(); assert.equal(importedGUI, false); assert.equal(exitCode, 0); assert.equal(JSON.parse(output).status, 'ok');

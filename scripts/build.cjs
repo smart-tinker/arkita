@@ -1,0 +1,6 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');const root=path.resolve(__dirname,'..');
+let html=fs.readFileSync(path.join(root,'src/template.html'),'utf8');
+for(const [marker,file]of [['STYLE','src/style.css'],['YAML_PREFLIGHT','vendor/js-yaml-preflight.js'],['MERMAID_PREFLIGHT','vendor/mermaid-preflight.js'],['MERMAID','vendor/mermaid.tiny.js'],['GROUP_MOVE','src/group-move.js'],['GROUP_SEMANTICS','src/group-semantics.js'],['OBJECT_EDIT','src/object-edit.js'],['OBJECT_SEMANTICS','src/object-semantics.js'],['SOURCE_APP','src/source-app.js']]){const source=fs.readFileSync(path.join(root,file),'utf8');if(marker!=='STYLE'&&/<\/script/i.test(source))throw Error('Unexpected script terminator in '+file);html=html.replace('/* '+marker+' */',()=>source)}
+const notices=fs.readFileSync(path.join(root,'THIRD-PARTY-NOTICES.txt'),'utf8'),inventory=JSON.parse(fs.readFileSync(path.join(root,'vendor/inventory.json'),'utf8'));html=html.replace('/* LICENSE_DATA */',()=>JSON.stringify({notices,inventory}).replace(/</g,'\\u003c'));
+fs.mkdirSync(path.join(root,'dist'),{recursive:true});fs.writeFileSync(path.join(root,'dist/schemka.html'),html);console.log('Built dist/schemka.html ('+Buffer.byteLength(html)+' bytes)');

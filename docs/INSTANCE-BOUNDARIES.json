@@ -1,0 +1,173 @@
+{
+  "schema": "schemka-instance-boundary-evidence@2",
+  "audit_date": "2026-10-13",
+  "purpose": "Original source-locator notes for canonical v2 storage, bounded endpoint permission and junction-graph assessment. These checks do not supply a general instance-conformance validator.",
+  "source": {
+    "publication": "The Open Group C260, ArchiMate 4 Specification, April 2026",
+    "publication_url": "https://publications.opengroup.org/standards/archimate/c260",
+    "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+    "method": "Read-only text inspection with visual verification of relevant clauses, figures and table cells in the owner-provided PDF. PDF page numbers are one-based.",
+    "boundary": "Original analysis and locators only. No source document, prose, figures or normative artwork redistributed. No conformance, certification, licence interpretation or endorsement is claimed. Independent-source CC BY declarations do not apply to this artifact."
+  },
+  "locators": [
+    {
+      "section": "3.5",
+      "printed_pages": [
+        15,
+        16
+      ],
+      "pdf_pages": [
+        33,
+        34
+      ],
+      "context": "Model abstraction does not distinguish types from real-world instances."
+    },
+    {
+      "section": "5 introduction",
+      "printed_pages": [
+        30
+      ],
+      "pdf_pages": [
+        48
+      ],
+      "context": "Endpoint arity, relationship-to-relationship prohibition and restrictions involving junction or relationship endpoints."
+    },
+    {
+      "section": "5.1.2",
+      "printed_pages": [
+        31
+      ],
+      "pdf_pages": [
+        49
+      ],
+      "context": "Composition existence dependency and the distinction between modeled categories and their real-world instances."
+    },
+    {
+      "section": "5.4.1-5.4.2",
+      "figures": [
+        "5-12",
+        "Example 5-13"
+      ],
+      "printed_pages": [
+        44,
+        45
+      ],
+      "pdf_pages": [
+        62,
+        63
+      ],
+      "context": "Specialization orientation and same-type permission, without a same-type-only restriction."
+    },
+    {
+      "section": "5.5.1",
+      "figures": [
+        "5-13",
+        "Example 5-14"
+      ],
+      "printed_pages": [
+        45,
+        46
+      ],
+      "pdf_pages": [
+        63,
+        64
+      ],
+      "context": "Junction relationship-family, end-to-end permission and degree constraints; containing aggregation is treated separately."
+    },
+    {
+      "section": "5.6",
+      "figures": [
+        "Example 5-16"
+      ],
+      "printed_pages": [
+        47,
+        48
+      ],
+      "pdf_pages": [
+        65,
+        66
+      ],
+      "context": "Multiplicity concerns represented instances, with an exception for junction ends; it does not define counts of view drawings."
+    },
+    {
+      "section": "14.2",
+      "printed_pages": [
+        113,
+        114
+      ],
+      "pdf_pages": [
+        131,
+        132
+      ],
+      "context": "Metamodel specialization and model-level specialization are distinguished."
+    },
+    {
+      "section": "B.2.1",
+      "figures": [
+        "Example B-1"
+      ],
+      "printed_pages": [
+        126
+      ],
+      "pdf_pages": [
+        144
+      ],
+      "context": "Specialization transitivity is a derivation rule, not an explicit acyclicity constraint."
+    },
+    {
+      "section": "B.5",
+      "printed_pages": [
+        142,
+        144
+      ],
+      "pdf_pages": [
+        160,
+        162
+      ],
+      "context": "Existing endpoint controls: Process to Function Specialization is forbidden; Artifact to DataObject Specialization has direct permission."
+    },
+    {
+      "section": "B.6",
+      "table": "B-1",
+      "printed_pages": [
+        146
+      ],
+      "pdf_pages": [
+        164
+      ],
+      "context": "Separate concept-endpoint permissions, oriented junction ports and unresolved aggregation/composition junction scope; see docs/CONCEPT-ENDPOINTS.json."
+    }
+  ],
+  "interpretation_limit": "The inspected material did not establish blanket self-link, cycle, unique composite owner or single specialization parent prohibitions. Canonical v2 stores typed concept endpoints and junctions. Its bounded junction constraints do not establish whole-model or general instance conformance.",
+  "regression_tests": {
+    "paths": [
+      "schemka-model-profiles/test/integration.test.js",
+      "platform/coverage.test.mjs"
+    ],
+    "scope": [
+      "Topology and repeated drawings do not change ordinary-element type permission or imply instance-cardinality rules",
+      "Structurally valid typed endpoints and junctions are represented in core v2; malformed references still fail structurally",
+      "Bounded junction findings stay distinct from overall normative UNKNOWN"
+    ],
+    "names": [
+      "instance topology does not widen bounded endpoint assessment",
+      "repeated drawings do not count as additional model relationships",
+      "wrong-kind endpoint IDs, misplaced junction types and nesting fail structurally before assessment"
+    ]
+  },
+  "preserved_contract": {
+    "runtime_changes": true,
+    "persisted_format_changes": true,
+    "ordinary_element_endpoint_decision_changes": false,
+    "core_format_version": 2,
+    "profile_version": 2,
+    "transport_envelope_version": 1,
+    "instance_topology": "Parallel, self and cyclic references are structurally representable. Separate bounded junction findings are advisory, not a general instance ALLOWED/FORBIDDEN verdict.",
+    "unsupported_representations": "REFERENCE, TYPE and UNSUPPORTED exceptions remain structural boundaries, not normative FORBIDDEN verdicts. Unknown semantic queries remain UNKNOWN. V1 inner format/profile is rejected without conversion.",
+    "multiplicity": "Raw annotations do not impose instance or view-drawing counts. Any present junction-end attribute has separate applicability diagnostics; data is retained.",
+    "whole_model_normative_status": "UNKNOWN",
+    "source_unresolved_triples": "Preserve exactly the eight Product/Plateau to Deliverable/WorkPackage Aggregation/Composition B.5 UNKNOWNs and their evidence.",
+    "separate_junction_source_scope": "Aggregation/Composition with any junction endpoint stays source-scope UNKNOWN; this does not increase or resolve the eight ordinary-element cases.",
+    "source_ledger": "docs/CONCEPT-ENDPOINTS.json"
+  }
+}

@@ -1,0 +1,41 @@
+Arkita desktop application
+
+ArchiMate is a trademark of The Open Group. This MVP does not claim complete
+ArchiMate conformance or endorsement.
+
+Experimental visual descriptors are attributed to Kalin Maldzhanski /
+Linked.Archi, ArchiMate 4.0 Visual Notation Set, v4.0 draft, modified 2026-05-16:
+https://meta.linked.archi/archimate4/notation/
+Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Changes: independent SVG geometry and text badges, local interaction palettes,
+and a bounded selection. No upstream icons or specification text is embedded.
+
+The distributed Electron runtime preserves its LICENSE.electron.txt and
+LICENSES.chromium.html alongside Arkita.exe. Packaging tools are build-time
+only and are not included in the application archive.
+
+Windows builds also include the unmodified official MinGit 2.56.0.2 x64
+distribution under resources/git. Its component licenses and notices are
+preserved there. Git is distributed under GPLv2; upstream source and component
+information are available at:
+https://github.com/git-for-windows/git/tree/v2.56.0.windows.2
+https://gitforwindows.org/
+The distribution URL and verified SHA-256 are in resources/git/ARKITA-DISTRIBUTION.txt.
+
+XML interchange uses libxml2-wasm 0.7.2 (MIT, Copyright 2023 James Lan)
+and its bundled libxml2 (Copyright 1998-2012 Daniel Veillard and contributors).
+Unmodified license files are shipped under node_modules/libxml2-wasm/LICENSE
+and LICENSE.libxml2. https://github.com/jameslan/libxml2-wasm
+
+Bundled Exchange XSD 3.1 retains its upstream Preliminary status, exact hashes,
+source URLs and notices under schemka-model-io/schemas/exchange-3.1/.
+Archi/Open Group Exchange schemas: MIT, Copyright 2014-2026 Beauvoir/Sarrodie/
+The Open Group; see LICENSE.txt and source.json there.
+W3C XML namespace schemas: W3C Document License, unmodified.
+Portions of this software may use XML schemas Copyright © 2011 DCMI,
+the Dublin Core™ Metadata Initiative. These are licensed under the
+Creative Commons 4.0 Attribution license (https://creativecommons.org/licenses/by/4.0/).
+https://www.dublincore.org/schemas/xmls/simpledc20021212.xsd
+All schema notices are included in Exchange-LICENSE.txt and schema exports.
+
+Font outlines use Fontkit 2.0.4 and its locked runtime dependencies. Full license texts and upstream Brotli notices are in electron/licenses/font-outline-dependencies.txt inside app.asar. No system font files are distributed.

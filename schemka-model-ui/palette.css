@@ -1,0 +1,15 @@
+body.palette-window { display:flex; flex-direction:column; gap:10px; height:100vh; min-height:0; margin:0; padding:12px; overflow:hidden; color:var(--ink); background:var(--surface); font:13px/1.45 "Segoe UI",system-ui,sans-serif; }
+.palette-window header { display:flex; align-items:center; justify-content:space-between; gap:8px; flex:none; }
+.palette-window h1 { margin:0; font-size:16px; }
+.palette-window-search { display:grid; gap:4px; flex:none; }
+.palette-window-search input { width:100%; }
+#palette-window-items { flex:1; min-height:0; overflow:auto; }
+#palette-window-items details { border-bottom:1px solid var(--line); }
+#palette-window-items summary { cursor:pointer; padding:8px 0; font-weight:600; }
+.palette-window .palette-tool { display:flex; align-items:center; gap:10px; width:100%; min-height:38px; padding:5px 6px; text-align:left; }
+.palette-window .palette-tool strong { font-size:13px; overflow-wrap:anywhere; }
+.palette-window .palette-glyph { display:inline-flex; align-items:center; justify-content:center; flex:none; width:38px; height:26px; }
+.palette-window .palette-glyph svg { width:100%; height:100%; }
+.palette-window .palette-tool[aria-pressed=true] { background:var(--soft); outline:2px solid var(--blue); outline-offset:-2px; }
+#palette-window-status { margin:0; flex:none; overflow-wrap:anywhere; }
+#palette-window-status:empty { display:none; }

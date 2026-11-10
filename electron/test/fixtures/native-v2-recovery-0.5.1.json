@@ -1,0 +1,74 @@
+{
+  "sourceCommit": "d075e67c7ca6e7720f537102e245a59f53808b32",
+  "before": [
+    {
+      "path": "model/elements/el-00000000-0000-4000-8000-000000000001.json",
+      "content": "{\n  \"documentation\": \"Raw\\r\\ntext\",\n  \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n  \"name\": \"Unchanged\",\n  \"properties\": {\n    \" raw \": \" é \"\n  },\n  \"type\": \"ApplicationComponent\"\n}\n"
+    },
+    {
+      "path": "model/relationships/rel-00000000-0000-4000-8000-000000000001.json",
+      "content": "{\n  \"id\": \"rel-00000000-0000-4000-8000-000000000001\",\n  \"label\": \"Before\",\n  \"properties\": {\n    \"owner\": \"Keep\"\n  },\n  \"source\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"target\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"type\": \"Association\"\n}\n"
+    },
+    {
+      "path": "schemka.json",
+      "content": "{\n    \"format\": \"schemka-project\",\n    \"formatVersion\": 2,\n    \"id\": \"prj-00000000-0000-4000-8000-000000000001\",\n    \"name\": \"Before\",\n    \"metamodel\": {\n        \"id\": \"schemka-archimate4\",\n        \"version\": 2\n    }\n}\r\n"
+    },
+    {
+      "path": "views/view-00000000-0000-4000-8000-000000000001/view.json",
+      "content": "{\n  \"documentation\": \"View\\r\\ntext\",\n  \"id\": \"view-00000000-0000-4000-8000-000000000001\",\n  \"name\": \"Before\"\n}\n"
+    }
+  ],
+  "after": [
+    {
+      "path": "model/elements/el-00000000-0000-4000-8000-000000000001.json",
+      "content": "{\n  \"documentation\": \"Raw\\r\\ntext\",\n  \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n  \"name\": \"Unchanged\",\n  \"properties\": {\n    \" raw \": \" é \"\n  },\n  \"type\": \"ApplicationComponent\"\n}\n"
+    },
+    {
+      "path": "model/relationships/rel-00000000-0000-4000-8000-000000000001.json",
+      "content": "{\n  \"id\": \"rel-00000000-0000-4000-8000-000000000001\",\n  \"label\": \"After\",\n  \"properties\": {\n    \"owner\": \"Keep\"\n  },\n  \"source\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"target\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"type\": \"Association\"\n}\n"
+    },
+    {
+      "path": "schemka.json",
+      "content": "{\n  \"format\": \"schemka-project\",\n  \"formatVersion\": 2,\n  \"id\": \"prj-00000000-0000-4000-8000-000000000001\",\n  \"metamodel\": {\n    \"id\": \"schemka-archimate4\",\n    \"version\": 2\n  },\n  \"name\": \"After\"\n}\n"
+    },
+    {
+      "path": "views/view-00000000-0000-4000-8000-000000000001/view.json",
+      "content": "{\n  \"documentation\": \"View\\r\\ntext\",\n  \"id\": \"view-00000000-0000-4000-8000-000000000001\",\n  \"name\": \"After\"\n}\n"
+    }
+  ],
+  "journal": [
+    {
+      "path": "after/record-0001.json",
+      "content": "{\n  \"id\": \"rel-00000000-0000-4000-8000-000000000001\",\n  \"label\": \"After\",\n  \"properties\": {\n    \"owner\": \"Keep\"\n  },\n  \"source\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"target\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"type\": \"Association\"\n}\n"
+    },
+    {
+      "path": "after/record-0002.json",
+      "content": "{\n  \"format\": \"schemka-project\",\n  \"formatVersion\": 2,\n  \"id\": \"prj-00000000-0000-4000-8000-000000000001\",\n  \"metamodel\": {\n    \"id\": \"schemka-archimate4\",\n    \"version\": 2\n  },\n  \"name\": \"After\"\n}\n"
+    },
+    {
+      "path": "after/record-0003.json",
+      "content": "{\n  \"documentation\": \"View\\r\\ntext\",\n  \"id\": \"view-00000000-0000-4000-8000-000000000001\",\n  \"name\": \"After\"\n}\n"
+    },
+    {
+      "path": "before/record-0001.json",
+      "content": "{\n  \"id\": \"rel-00000000-0000-4000-8000-000000000001\",\n  \"label\": \"Before\",\n  \"properties\": {\n    \"owner\": \"Keep\"\n  },\n  \"source\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"target\": {\n    \"id\": \"el-00000000-0000-4000-8000-000000000001\",\n    \"kind\": \"element\"\n  },\n  \"type\": \"Association\"\n}\n"
+    },
+    {
+      "path": "before/record-0002.json",
+      "content": "{\n    \"format\": \"schemka-project\",\n    \"formatVersion\": 2,\n    \"id\": \"prj-00000000-0000-4000-8000-000000000001\",\n    \"name\": \"Before\",\n    \"metamodel\": {\n        \"id\": \"schemka-archimate4\",\n        \"version\": 2\n    }\n}\r\n"
+    },
+    {
+      "path": "before/record-0003.json",
+      "content": "{\n  \"documentation\": \"View\\r\\ntext\",\n  \"id\": \"view-00000000-0000-4000-8000-000000000001\",\n  \"name\": \"Before\"\n}\n"
+    },
+    {
+      "path": "journal.json",
+      "content": "{\"version\":2,\"operation\":\"delta-update\",\"transaction\":\"b28c8779-c99b-4718-a32c-9345ec9112c1\",\"root\":{\"name\":\"schemka-DJmJat\",\"dev\":\"36\",\"ino\":\"11534\"},\"pages\":[{\"bytes\":1043,\"sha256\":\"98bec609115c1449d966b8769f134323d9c5136759eb22506ad2918c107b7a6e\"}]}\n"
+    },
+    {
+      "path": "page-0000.json",
+      "content": "{\"entries\":[{\"path\":\"model/elements/el-00000000-0000-4000-8000-000000000001.json\",\"before\":{\"bytes\":189,\"sha256\":\"bd428f802bb5e01fff07cec283065652e761daafe8837b9cc80c9cf7a699bb53\"},\"after\":{\"bytes\":189,\"sha256\":\"bd428f802bb5e01fff07cec283065652e761daafe8837b9cc80c9cf7a699bb53\"}},{\"path\":\"model/relationships/rel-00000000-0000-4000-8000-000000000001.json\",\"before\":{\"bytes\":332,\"sha256\":\"84b47ba22ca3713cf79cd445d36d6cbde8b7760cf7d99ccd6186523fca5b5b21\"},\"after\":{\"bytes\":331,\"sha256\":\"b3350804e693947ae1243574209d77ff53dff690275c8607443bee717ca90f6a\"}},{\"path\":\"schemka.json\",\"before\":{\"bytes\":220,\"sha256\":\"4240072be10418ac3c754a1b42ff7db9c39628be9ef4252c041aba715f892e87\"},\"after\":{\"bytes\":198,\"sha256\":\"40f4ea894e5179183a87019d6b1a253fa0db25c26a75b7d8f079aef13978cd9d\"}},{\"path\":\"views/view-00000000-0000-4000-8000-000000000001/view.json\",\"before\":{\"bytes\":111,\"sha256\":\"63c559199bee95fa61eb4440ff39bf1c05a44f3b330970a5646441694f3305bb\"},\"after\":{\"bytes\":110,\"sha256\":\"866f10658eaf3da7c50d9b02359a1bb15359082bb3521aa3feb98b1004cac700\"}}]}\n"
+    }
+  ],
+  "marker": "{\"version\":2,\"operation\":\"delta-update\",\"transaction\":\"b28c8779-c99b-4718-a32c-9345ec9112c1\",\"root\":{\"name\":\"schemka-DJmJat\",\"dev\":\"36\",\"ino\":\"11534\"},\"directory\":{\"dev\":\"36\",\"ino\":\"11545\"},\"journal\":\"867ebfe6141418a0d258aaaf0b8822cbbbf4f52640d55758cd8b3754165ba9cb\"}\n"
+}

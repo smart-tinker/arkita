@@ -1,0 +1,15 @@
+{
+  "name": "@schemka/model-io",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": "./src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "coverage": "node --test --experimental-test-coverage --test-coverage-include=src/*.js test/*.test.js",
+    "check": "node --check src/index.js && node --check src/mermaid.js && node --check src/project-file.js && node --check test/current-catalog.test.js && node --check test/integration.test.js && node --check test/mermaid.test.js && node --check test/multiplicity.test.js && node --check test/project-file.test.js && node --check src/model-transfer.js && node --check src/csv.js && node --check src/xlsx.js && node --check src/templates.js && node --check src/board-plans.js && node --check test/interchange.test.js && node --check src/xml-safety.js && node --check src/exchange-xml.js && node --check src/archi-native.js && node --check test/exchange-xml.test.js"
+  }
+}

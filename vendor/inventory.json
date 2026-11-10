@@ -1,0 +1,1094 @@
+{
+  "status": "Component inventory and attribution coverage; not a legal certification",
+  "artifact": {
+    "name": "@mermaid-js/tiny",
+    "version": "12.1.0",
+    "sha256": "143c1b9345c45963ff429da4bdcd9051316a43522ea9edd7ccb7a87ff947a804"
+  },
+  "scope": "Identified runtime code plus conservative overinclusive dependency and generated-runtime notices. Presence categories are explicit; full-bundle extras are not claimed to be in Tiny.",
+  "packages": [
+    {
+      "name": "@braintree/sanitize-url",
+      "version": "7.1.2",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@braintree__sanitize-url@7.1.2__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "@braintree__sanitize-url@7.1.2__LICENSE": "0984740e0c3d725c8044dec7edcefe1dbce180ef5a7bc710c251e19607000158"
+      }
+    },
+    {
+      "name": "@chevrotain/cst-dts-gen",
+      "version": "13.2.0",
+      "license": "Apache-2.0",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@chevrotain__cst-dts-gen@13.2.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "@chevrotain__cst-dts-gen@13.2.0__LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "name": "@chevrotain/gast",
+      "version": "13.2.0",
+      "license": "Apache-2.0",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@chevrotain__gast@13.2.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "@chevrotain__gast@13.2.0__LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "name": "@chevrotain/regexp-to-ast",
+      "version": "13.2.0",
+      "license": "Apache-2.0",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@chevrotain__regexp-to-ast@13.2.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "@chevrotain__regexp-to-ast@13.2.0__LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "name": "@chevrotain/utils",
+      "version": "13.2.0",
+      "license": "Apache-2.0",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@chevrotain__utils@13.2.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "@chevrotain__utils@13.2.0__LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "name": "@iconify/utils",
+      "version": "3.0.2",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@iconify__utils@3.0.2__license.txt"
+      ],
+      "licenseFileSha256": {
+        "@iconify__utils@3.0.2__license.txt": "a86793ac023162ce98b91899601c15f6712f44943163c4f92a0a4bf89152b3bf"
+      }
+    },
+    {
+      "name": "@mermaid-js/parser",
+      "version": "2.0.1",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@mermaid-js__parser@2.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "@mermaid-js__parser@2.0.1__LICENSE": "d374061c40bfb6f99c5033290caefda97a9b3e7e477e5ee02f487143ef2177e8"
+      }
+    },
+    {
+      "name": "@mermaid-js/tiny",
+      "version": "12.1.0",
+      "license": "MIT",
+      "presence": "exact_official_artifact",
+      "versionEvidence": "Exact npm archive integrity, package.json, bundled 12.1.0 version",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@mermaid-js__tiny@12.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "@mermaid-js__tiny@12.1.0__LICENSE": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+      }
+    },
+    {
+      "name": "@upsetjs/venn.js",
+      "version": "2.0.0",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "@upsetjs__venn.js@2.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "@upsetjs__venn.js@2.0.0__LICENSE": "6a3508febf2cfccfee96597394543a6154a4bb0b1f91f28404be42c09e9fcb54"
+      }
+    },
+    {
+      "name": "chevrotain",
+      "version": "13.2.0",
+      "license": "Apache-2.0",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "chevrotain@13.2.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "chevrotain@13.2.0__LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "name": "chevrotain-allstar",
+      "version": "0.5.0",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": [
+        "https://github.com/TypeFox/chevrotain-allstar/blob/573c41bdd8715c7fc929f3b97aa51731292405dd/LICENSE"
+      ],
+      "licenseFiles": [
+        "chevrotain-allstar@0.5.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "chevrotain-allstar@0.5.0__LICENSE.txt": "61a510d06eccead56b802d9919e0575f0bbdd9dbdd35b886fb83e2ec391126e5"
+      }
+    },
+    {
+      "name": "d3",
+      "version": "7.9.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3@7.9.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3@7.9.0__LICENSE": "3e6849627f74ff73c257a3ae1efb574015d94fc1035c05ec3c15805165efcbc4"
+      }
+    },
+    {
+      "name": "d3-array",
+      "version": "2.12.1",
+      "license": "BSD-3-Clause",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-array@2.12.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-array@2.12.1__LICENSE": "0747bebeb06b10954913149be9b9a8bdf6fad3e6fdcbd9f9524e7a94c13d2cea"
+      }
+    },
+    {
+      "name": "d3-array",
+      "version": "3.2.4",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-array@3.2.4__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-array@3.2.4__LICENSE": "3e6849627f74ff73c257a3ae1efb574015d94fc1035c05ec3c15805165efcbc4"
+      }
+    },
+    {
+      "name": "d3-axis",
+      "version": "3.0.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-axis@3.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-axis@3.0.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-brush",
+      "version": "3.0.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-brush@3.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-brush@3.0.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-chord",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-chord@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-chord@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-color",
+      "version": "3.1.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-color@3.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-color@3.1.0__LICENSE": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884"
+      }
+    },
+    {
+      "name": "d3-contour",
+      "version": "4.0.2",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-contour@4.0.2__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-contour@4.0.2__LICENSE": "e51cba0e4fa1d8c078e15319868f2b90188f413f9ce9dac1043b62db32901e93"
+      }
+    },
+    {
+      "name": "d3-delaunay",
+      "version": "6.0.4",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-delaunay@6.0.4__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-delaunay@6.0.4__LICENSE": "582c3022bd01942336095f92b58a90b1be624dc547d987555c6c956512dd24c1"
+      }
+    },
+    {
+      "name": "d3-dispatch",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-dispatch@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-dispatch@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-drag",
+      "version": "3.0.0",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-drag@3.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-drag@3.0.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-dsv",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-dsv@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-dsv@3.0.1__LICENSE": "7842a82012622e5a37bfe4f6c1b67cd3bae6350716b5bf87f36cea0bdc1319dc"
+      }
+    },
+    {
+      "name": "d3-ease",
+      "version": "3.0.1",
+      "license": "BSD-3-Clause",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-ease@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-ease@3.0.1__LICENSE": "b989d9085148d21ff64a75e14462aefa06b2589a55553b07b1460c70081c7d08"
+      }
+    },
+    {
+      "name": "d3-fetch",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-fetch@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-fetch@3.0.1__LICENSE": "ffdc17dc9040006bddeb891c95bfbb492e86d6bc64a4a4233666febab1be35e0"
+      }
+    },
+    {
+      "name": "d3-force",
+      "version": "3.0.0",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-force@3.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-force@3.0.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-format",
+      "version": "3.1.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-format@3.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-format@3.1.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-geo",
+      "version": "3.1.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-geo@3.1.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-geo@3.1.1__LICENSE": "3e3edc1224eec9c39cd26491a21304a62883c1e5b6a65c5283ccc7a6cc94baee"
+      }
+    },
+    {
+      "name": "d3-hierarchy",
+      "version": "3.1.2",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-hierarchy@3.1.2__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-hierarchy@3.1.2__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-interpolate",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-interpolate@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-interpolate@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-path",
+      "version": "1.0.9",
+      "license": "BSD-3-Clause",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-path@1.0.9__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-path@1.0.9__LICENSE": "b8265327ab678f554800e71188b1cc6b1ff57522e292d2b1c0be66f27cf328b6"
+      }
+    },
+    {
+      "name": "d3-path",
+      "version": "3.1.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-path@3.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-path@3.1.0__LICENSE": "a09b0d6d76e768fca2085fad05743ee81ddd11946bcda160a3cf5e1081a479aa"
+      }
+    },
+    {
+      "name": "d3-polygon",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-polygon@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-polygon@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-quadtree",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-quadtree@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-quadtree@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-random",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-random@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-random@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-sankey",
+      "version": "0.12.3",
+      "license": "BSD-3-Clause",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-sankey@0.12.3__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-sankey@0.12.3__LICENSE": "2bf785e778d67a4f5266cffcd4f2cc5bb98cde73791666e7efeb8002ba32dfa5"
+      }
+    },
+    {
+      "name": "d3-scale",
+      "version": "4.0.2",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-scale@4.0.2__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-scale@4.0.2__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-scale-chromatic",
+      "version": "3.1.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-scale-chromatic@3.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-scale-chromatic@3.1.0__LICENSE": "0986d93944902cca9af86824b6a641b4b7c2d10602fc510c433a8bcd443919fe"
+      }
+    },
+    {
+      "name": "d3-selection",
+      "version": "3.0.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-selection@3.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-selection@3.0.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-shape",
+      "version": "1.3.7",
+      "license": "BSD-3-Clause",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-shape@1.3.7__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-shape@1.3.7__LICENSE": "7eea8533ea92bd8c32a901e89ecb0305890905bb12711449565ddff96891146d"
+      }
+    },
+    {
+      "name": "d3-shape",
+      "version": "3.2.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-shape@3.2.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-shape@3.2.0__LICENSE": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884"
+      }
+    },
+    {
+      "name": "d3-time",
+      "version": "3.1.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-time@3.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-time@3.1.0__LICENSE": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884"
+      }
+    },
+    {
+      "name": "d3-time-format",
+      "version": "4.1.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-time-format@4.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-time-format@4.1.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-timer",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-timer@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-timer@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-transition",
+      "version": "3.0.1",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-transition@3.0.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-transition@3.0.1__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "d3-zoom",
+      "version": "3.0.0",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "d3-zoom@3.0.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "d3-zoom@3.0.0__LICENSE": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee"
+      }
+    },
+    {
+      "name": "dagre-d3-es",
+      "version": "7.0.14",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "dagre-d3-es@7.0.14__LICENSE.md"
+      ],
+      "licenseFileSha256": {
+        "dagre-d3-es@7.0.14__LICENSE.md": "d01eb84ccce437dbf5fd40853bceea0f287930920acea066597a4a25ead63858"
+      }
+    },
+    {
+      "name": "dayjs",
+      "version": "1.11.21",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "dayjs@1.11.21__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "dayjs@1.11.21__LICENSE": "5faab7526d055651be3aab769d58897be6bd91f3d39d137f25f12dba1b31d5dc"
+      }
+    },
+    {
+      "name": "dompurify",
+      "version": "3.4.12",
+      "license": "Apache-2.0 (selected from MPL-2.0 OR Apache-2.0)",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/cure53/DOMPurify/blob/3.4.12/LICENSE",
+      "licenseFiles": [
+        "dompurify@3.4.12__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "dompurify@3.4.12__LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "name": "es-toolkit",
+      "version": "1.45.1",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/toss/es-toolkit/blob/v1.45.1/LICENSE",
+      "licenseFiles": [
+        "es-toolkit@1.45.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "es-toolkit@1.45.1__LICENSE": "ed68888a2a28f32a05e88f24d4d4ee75075a1bda2b6372a1f2e00fa0576a5524"
+      }
+    },
+    {
+      "name": "fastdom",
+      "version": "1.0.12",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://registry.npmjs.org/fastdom/-/fastdom-1.0.12.tgz, package/README.md License section",
+      "licenseFiles": [
+        "fastdom@1.0.12__README-LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "fastdom@1.0.12__README-LICENSE.txt": "50c0de64f5cd5e39859b43f7eca7f5843fb3c3d5ac7e34a453e27419ad51e08c"
+      }
+    },
+    {
+      "name": "hachure-fill",
+      "version": "0.5.2",
+      "license": "MIT",
+      "presence": "conservative_nested_Rough.js_input",
+      "versionEvidence": "Rough.js 4.6.6 prebundle dependencies and exact Mermaid lockfile; not an independent Tiny source-map entry",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "hachure-fill@0.5.2__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "hachure-fill@0.5.2__LICENSE": "5e807b516a9be9229ed459880bf353a336e2d947867247290680d437017be391"
+      }
+    },
+    {
+      "name": "internmap",
+      "version": "2.0.3",
+      "license": "ISC",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "internmap@2.0.3__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "internmap@2.0.3__LICENSE": "9ea8903938dab5f12c4572d60725069bec2d1b0dc3bcc210b09bae946a5ebb1f"
+      }
+    },
+    {
+      "name": "jison",
+      "version": "0.4.18",
+      "license": "MIT",
+      "presence": "conservative_generated_parser_runtime_attribution",
+      "versionEvidence": "Generated parser headers in official Mermaid source map name Jison 0.4.18",
+      "licenseSource": "https://github.com/zaach/jison/blob/bcf986e180359aa2404b1b73ecbfef1df4c6b011/README.md#license",
+      "licenseFiles": [
+        "jison@0.4.18__README-LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "jison@0.4.18__README-LICENSE.txt": "fe01b322c48274f33cb74b09f8cc75085c31b470ad2bdec8f7a70cea2c66a7f1"
+      }
+    },
+    {
+      "name": "jison-lex",
+      "version": "0.3.4",
+      "license": "MIT",
+      "presence": "conservative_generated_scanner_runtime_attribution",
+      "versionEvidence": "Jison generator dependency and exact Mermaid lockfile; version is build-provenance inference",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "jison-lex@0.3.4__UPSTREAM-DECLARATION-AND-MIT.txt"
+      ],
+      "licenseFileSha256": {
+        "jison-lex@0.3.4__UPSTREAM-DECLARATION-AND-MIT.txt": "de3e5884a080490a56da375c7277263f7dc952f46495050f8df9fcd7a6c0af61"
+      }
+    },
+    {
+      "name": "js-yaml",
+      "version": "4.3.0",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/nodeca/js-yaml/blob/4.3.0/LICENSE",
+      "licenseFiles": [
+        "js-yaml@4.3.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "js-yaml@4.3.0__LICENSE": "a07bc24468b9654ce76a547d47a2db282d07733b715db4c73a98bd63961f9550"
+      }
+    },
+    {
+      "name": "khroma",
+      "version": "2.1.0",
+      "license": "MIT (license file; package.json lacks field)",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "khroma@2.1.0__license"
+      ],
+      "licenseFileSha256": {
+        "khroma@2.1.0__license": "66b333b0f66759a0b710459e03f7029abe17f4358114a128d2c972e642961b49"
+      }
+    },
+    {
+      "name": "langium",
+      "version": "4.4.0",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": [
+        "https://github.com/eclipse-langium/langium/blob/v4.4.0/packages/langium/LICENSE"
+      ],
+      "licenseFiles": [
+        "langium@4.4.0__LICENSE.txt"
+      ],
+      "licenseFileSha256": {
+        "langium@4.4.0__LICENSE.txt": "599bf70b4e55f06250571d103dbd8441e0c47cb7f858c0147ca312ce38e9ef2a"
+      }
+    },
+    {
+      "name": "lodash-es",
+      "version": "4.18.1",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "lodash-es@4.18.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "lodash-es@4.18.1__LICENSE": "f71e8ed126b46346494aad5486874cd8f0aafe95092ed67d2e3cb6110f939abc"
+      }
+    },
+    {
+      "name": "marked",
+      "version": "16.3.0",
+      "license": "MIT; BSD-3-Clause Markdown attribution retained",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/markedjs/marked/blob/v16.3.0/LICENSE.md",
+      "licenseFiles": [
+        "marked@16.3.0__LICENSE.md"
+      ],
+      "licenseFileSha256": {
+        "marked@16.3.0__LICENSE.md": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c"
+      }
+    },
+    {
+      "name": "mermaid",
+      "version": "12.1.0",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "mermaid@12.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "mermaid@12.1.0__LICENSE": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+      }
+    },
+    {
+      "name": "path-browserify",
+      "version": "1.0.1",
+      "license": "MIT",
+      "presence": "embedded_source_match",
+      "licenseSource": [
+        "https://github.com/browserify/path-browserify/blob/v1.0.1/LICENSE"
+      ],
+      "licenseFiles": [
+        "path-browserify@1.0.1__LICENSE",
+        "path-browserify@1.0.1__NODE-MIT-NOTICE.txt"
+      ],
+      "licenseFileSha256": {
+        "path-browserify@1.0.1__LICENSE": "a22b9d5763f574e5db347c30acc0b33eaf4846767c03d2e27d012e864e79a824",
+        "path-browserify@1.0.1__NODE-MIT-NOTICE.txt": "7d9bbda7ede4c2ce10a4ed12687ea68d2b0c123df059f067ee17c0ffc3d40357"
+      }
+    },
+    {
+      "name": "path-data-parser",
+      "version": "0.1.0",
+      "license": "MIT",
+      "presence": "conservative_nested_Rough.js_input",
+      "versionEvidence": "Rough.js 4.6.6 prebundle dependencies and exact Mermaid lockfile; not an independent Tiny source-map entry",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "path-data-parser@0.1.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "path-data-parser@0.1.0__LICENSE": "e9754a00aebde654e80f40bcf41dab667d6a41dfbbd2912bcf14fb07d468bf71"
+      }
+    },
+    {
+      "name": "points-on-curve",
+      "version": "0.2.0",
+      "license": "MIT",
+      "presence": "conservative_nested_Rough.js_input",
+      "versionEvidence": "Rough.js 4.6.6 prebundle dependencies and exact Mermaid lockfile; not an independent Tiny source-map entry",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "points-on-curve@0.2.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "points-on-curve@0.2.0__LICENSE": "e9754a00aebde654e80f40bcf41dab667d6a41dfbbd2912bcf14fb07d468bf71"
+      }
+    },
+    {
+      "name": "points-on-path",
+      "version": "0.2.1",
+      "license": "MIT",
+      "presence": "conservative_nested_Rough.js_input",
+      "versionEvidence": "Rough.js 4.6.6 prebundle dependencies and exact Mermaid lockfile; not an independent Tiny source-map entry",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "points-on-path@0.2.1__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "points-on-path@0.2.1__LICENSE": "b6fc1f7f1d96a48bc97176f3dcef959e364c5c17ba44167511de421500a86c6c"
+      }
+    },
+    {
+      "name": "roughjs",
+      "version": "4.6.6",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "Checked exact versioned package metadata and license text",
+      "licenseFiles": [
+        "roughjs@4.6.6__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "roughjs@4.6.6__LICENSE": "dca9a392272606ac748ac0976a2a1133f14eef841c27beaa51a844d53c56a09d"
+      }
+    },
+    {
+      "name": "stylis",
+      "version": "4.3.6",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/thysultan/stylis/blob/v4.3.6/LICENSE",
+      "licenseFiles": [
+        "stylis@4.3.6__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "stylis@4.3.6__LICENSE": "88c579c6ee44b41137a21321190d177982e5b17d4fa1b83a4a2e3ea325a8fc9a"
+      }
+    },
+    {
+      "name": "ts-dedent",
+      "version": "2.2.0",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/tamino-martinius/node-ts-dedent/blob/70e153460de0141afd09ff402b50047103a4c409/LICENSE",
+      "licenseFiles": [
+        "ts-dedent@2.2.0__LICENSE"
+      ],
+      "licenseFileSha256": {
+        "ts-dedent@2.2.0__LICENSE": "eff13095d9d762c3bd9dda74370c81e2130c28f2691bc455603abf973bac25b9"
+      }
+    },
+    {
+      "name": "uuid",
+      "version": "14.0.0",
+      "license": "MIT",
+      "presence": "conservative_full-bundle_notice_not_proven_present",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": "https://github.com/uuidjs/uuid/blob/v14.0.0/LICENSE.md",
+      "licenseFiles": [
+        "uuid@14.0.0__LICENSE.md"
+      ],
+      "licenseFileSha256": {
+        "uuid@14.0.0__LICENSE.md": "beaa6b04fb82e41dd2ad679e19e27953afb5999b1abbb455b6564e78ebfeb332"
+      }
+    },
+    {
+      "name": "vscode-jsonrpc",
+      "version": "9.0.3",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": [
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/jsonrpc/9.0.3/jsonrpc/License.txt",
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/jsonrpc/9.0.3/jsonrpc/thirdpartynotices.txt"
+      ],
+      "licenseFiles": [
+        "vscode-jsonrpc@9.0.3__LICENSE.txt",
+        "vscode-jsonrpc@9.0.3__thirdpartynotices.txt"
+      ],
+      "licenseFileSha256": {
+        "vscode-jsonrpc@9.0.3__LICENSE.txt": "ec9ee83580841e8eb687aca9867f221503809ba6426c7f876ede17d91b9fcfd0",
+        "vscode-jsonrpc@9.0.3__thirdpartynotices.txt": "a89123562fe364dc8e969e85614eb6c1f8452afe131d6e42bd1314bb2d092b04"
+      }
+    },
+    {
+      "name": "vscode-languageserver-protocol",
+      "version": "3.18.4",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": [
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/protocol/3.18.4/protocol/License.txt",
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/protocol/3.18.4/protocol/thirdpartynotices.txt"
+      ],
+      "licenseFiles": [
+        "vscode-languageserver-protocol@3.18.4__LICENSE.txt",
+        "vscode-languageserver-protocol@3.18.4__thirdpartynotices.txt"
+      ],
+      "licenseFileSha256": {
+        "vscode-languageserver-protocol@3.18.4__LICENSE.txt": "ec9ee83580841e8eb687aca9867f221503809ba6426c7f876ede17d91b9fcfd0",
+        "vscode-languageserver-protocol@3.18.4__thirdpartynotices.txt": "9265d27cf75775aa5ae19c5ba01846fb70ecd5121f8c39c81bef7e03f007072c"
+      }
+    },
+    {
+      "name": "vscode-languageserver-textdocument",
+      "version": "1.0.15",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": [
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/textDocument/1.0.15/textDocument/License.txt",
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/textDocument/1.0.15/textDocument/thirdpartynotices.txt"
+      ],
+      "licenseFiles": [
+        "vscode-languageserver-textdocument@1.0.15__LICENSE.txt",
+        "vscode-languageserver-textdocument@1.0.15__thirdpartynotices.txt"
+      ],
+      "licenseFileSha256": {
+        "vscode-languageserver-textdocument@1.0.15__LICENSE.txt": "ec9ee83580841e8eb687aca9867f221503809ba6426c7f876ede17d91b9fcfd0",
+        "vscode-languageserver-textdocument@1.0.15__thirdpartynotices.txt": "a89123562fe364dc8e969e85614eb6c1f8452afe131d6e42bd1314bb2d092b04"
+      }
+    },
+    {
+      "name": "vscode-languageserver-types",
+      "version": "3.18.4",
+      "license": "MIT",
+      "presence": "structural_code_match",
+      "versionEvidence": "Official full Mermaid 12.1.0 and nested parser source maps; Tiny structural code match where stated",
+      "licenseSource": [
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/types/3.18.4/types/License.txt",
+        "https://github.com/microsoft/vscode-languageserver-node/blob/release/types/3.18.4/types/thirdpartynotices.txt"
+      ],
+      "licenseFiles": [
+        "vscode-languageserver-types@3.18.4__LICENSE.txt",
+        "vscode-languageserver-types@3.18.4__thirdpartynotices.txt"
+      ],
+      "licenseFileSha256": {
+        "vscode-languageserver-types@3.18.4__LICENSE.txt": "ec9ee83580841e8eb687aca9867f221503809ba6426c7f876ede17d91b9fcfd0",
+        "vscode-languageserver-types@3.18.4__thirdpartynotices.txt": "a89123562fe364dc8e969e85614eb6c1f8452afe131d6e42bd1314bb2d092b04"
+      }
+    },
+    {
+      "name": "vscode-uri",
+      "version": "3.1.0",
+      "license": "MIT",
+      "presence": "embedded_source_match",
+      "licenseSource": [
+        "https://github.com/microsoft/vscode-uri/blob/v3.1.0/LICENSE.md"
+      ],
+      "licenseFiles": [
+        "vscode-uri@3.1.0__LICENSE.md",
+        "vscode-uri@3.1.0__SOURCE-ATTRIBUTION.txt"
+      ],
+      "licenseFileSha256": {
+        "vscode-uri@3.1.0__LICENSE.md": "c669138cb1eb01fbb745e8e460b291e4f2869c14a40061390b6095d845ed4c82",
+        "vscode-uri@3.1.0__SOURCE-ATTRIBUTION.txt": "cc587b4dfd3b30a3a46b3c729504010ac75f566aa96ae442f65be8e5d706905c"
+      }
+    },
+    {
+      "name": "webpack",
+      "version": "5.94.0",
+      "license": "MIT",
+      "presence": "conservative_generated_runtime_attribution",
+      "licenseSource": [
+        "https://github.com/webpack/webpack/blob/v5.94.0/LICENSE"
+      ],
+      "licenseFiles": [
+        "webpack@5.94.0__LICENSE.txt",
+        "webpack@5.94.0__RUNTIME-AUTHOR-NOTICE.txt"
+      ],
+      "licenseFileSha256": {
+        "webpack@5.94.0__LICENSE.txt": "9068a8782d2fb4c6e432cfa25334efa56f722822180570802bf86e71b6003b1e",
+        "webpack@5.94.0__RUNTIME-AUTHOR-NOTICE.txt": "a4d979dacf0f3860af1c98f2c466f165dfb36aebd9056649b400d3b06c0e0bea"
+      }
+    }
+  ]
+}

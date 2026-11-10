@@ -1,0 +1,4 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');const root=path.resolve(__dirname,'..'),dir=path.join(root,'release');const version=require('../package.json').version;const lines=fs.readFileSync(path.join(dir,'SHA256SUMS'),'utf8').trim().split('\n');assert.equal(lines.length,2);
+for(const line of lines){const match=/^([0-9a-f]{64})  (schemka-v\d+\.\d+\.\d+\.(html|zip))$/.exec(line);assert(match,'Invalid SHA256SUMS entry');assert.equal(match[2],'schemka-v'+version+'.'+match[3]);assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,match[2]))).digest('hex'),match[1]);console.log('Verified '+match[2])}
+assert.deepEqual(fs.readFileSync(path.join(root,'dist/schemka.html')),fs.readFileSync(path.join(dir,'schemka-v'+version+'.html')));console.log('Release HTML equals the rebuilt app');

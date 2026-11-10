@@ -1,0 +1,9 @@
+{
+  "documentation": "Синтетический пример",
+  "id": "el-beafbe15-fca8-4bf8-b47a-3185e38ff09c",
+  "name": "Учебный узел A",
+  "properties": {
+    "среда": "учебная"
+  },
+  "type": "ApplicationComponent"
+}

@@ -1,0 +1,15 @@
+{
+  "bounds": {
+    "height": 80,
+    "width": 180,
+    "x": 20,
+    "y": 30
+  },
+  "concept": {
+    "id": "el-beafbe15-fca8-4bf8-b47a-3185e38ff09c",
+    "kind": "element"
+  },
+  "id": "occ-bd37c74f-126d-4ec5-b24f-f08cc8fb0faf",
+  "parentOccurrenceId": null,
+  "zIndex": 0
+}

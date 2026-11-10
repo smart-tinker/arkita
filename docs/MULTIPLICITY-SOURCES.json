@@ -1,0 +1,107 @@
+{
+  "schema": "schemka-multiplicity-source-facts@1",
+  "audit_date": "2026-10-13",
+  "purpose": "Bounded technical evidence for optional relationship-end multiplicity text and separate syntax diagnostics. This is not a complete grammar, endpoint rule table or conformance oracle.",
+  "source": {
+    "kind": "owner_provided_specification_technical_fact_check",
+    "publication": "The Open Group C260, ArchiMate 4 Specification, April 2026",
+    "publication_url": "https://publications.opengroup.org/standards/archimate/c260",
+    "sha256": "a29ef66a0771d7a45a1f5bf667d2c88fde1844c23ea88fbd56e4e9b0f844b093",
+    "verification_date": "2026-10-12",
+    "verification_method": "Technical facts relayed from visual inspection of the owner-provided attachment; the ledger author did not read or reproduce the attachment.",
+    "locators": {
+      "multiplicity_section": "Section 5.6, printed page 47; PDF page 65 (one-based)",
+      "one_to_many_example": "Example 5-16, printed page 48; PDF page 66 (one-based)"
+    },
+    "boundary": "Selected technical facts only. No PDF prose, images, standard artwork or document redistributed; no licence interpretation or acceptance claimed. The independent Linked.Archi CC BY declaration does not apply to this attachment.",
+    "evidence_ids": {
+      "archimate4-section-5.6-p47-pdf65": "multiplicity_section",
+      "archimate4-example-5-16-p48-pdf66": "one_to_many_example"
+    }
+  },
+  "confirmed_forms": [
+    {
+      "form": "positive_integer_singleton",
+      "locator": "multiplicity_section"
+    },
+    {
+      "form": "*",
+      "locator": "multiplicity_section"
+    },
+    {
+      "form": "0..*",
+      "locator": "multiplicity_section"
+    },
+    {
+      "form": "nonnegative_ascending_bounded_integer_range",
+      "locator": "multiplicity_section"
+    },
+    {
+      "form": "1..*",
+      "locator": "one_to_many_example"
+    }
+  ],
+  "absence_policy": "An omitted multiplicity has no supplied default. Missing, explicit empty text and an explicit asterisk are preserved as different stored states.",
+  "unverified_forms": [
+    {
+      "form": "other_n..*",
+      "qualification": "A generalized unbounded-range production is not established by the selected section and example. The independently confirmed 1..* must not be classified with the unverified remainder."
+    },
+    {
+      "form": "standalone_0",
+      "qualification": "The selected positive-singleton convention does not establish a blanket normative prohibition on zero. Do not claim that zero is normatively forbidden."
+    }
+  ],
+  "grammar_boundary": "Selected notation conventions and one example do not constitute a full EBNF. Local syntax diagnostics must distinguish confirmed forms, unverified forms and local malformed syntax without promoting any result to model conformance.",
+  "application_contract": {
+    "profile_change": false,
+    "format_version_change": false,
+    "fields": [
+      "sourceMultiplicity",
+      "targetMultiplicity"
+    ],
+    "field_owner": "relationship",
+    "stored_type": "optional raw string",
+    "maximum_utf16_code_units": 128,
+    "bound_origin": "local application limit, not a requirement attributed to C260",
+    "absence": "field omitted",
+    "empty": "explicit empty string retained",
+    "asterisk": "explicit asterisk retained",
+    "command_null": "remove the specified field; do not store JSON null",
+    "persistence": "Every structurally accepted raw string is preserved even if separate diagnostics classify it as UNVERIFIED or INVALID_SYNTAX. No trimming, default insertion or syntax-based save rejection.",
+    "endpoint_policy": "Fields belong to stored source/target roles; visual arrow direction does not swap endpoint IDs or multiplicity fields.",
+    "graph_policy": "Text edits do not create/delete edges, infer edge counts, change endpoint references or establish permitted endpoint kinds.",
+    "assessment_api": "assessMultiplicity",
+    "assessment_boundary": "Separate syntax diagnostics only; never whole-model normative conformance.",
+    "label_placement": "Original local horizontal labels use generated-route endpoint tangents and a bounded outward shift to clear their own node and endpoint marker bounds. Other objects and labels can still overlap. Fit combines conservative local text bounds with measured text bounds. No normative coordinate algorithm or saved end-label positions are claimed.",
+    "command": "updateRelationshipMultiplicity",
+    "command_omitted_field": "leave the selected end unchanged",
+    "diagnostic_statuses": [
+      "ABSENT",
+      "CONFIRMED_SYNTAX",
+      "UNVERIFIED",
+      "INVALID_SYNTAX"
+    ],
+    "diagnostics_storage": "read-only computed result; not saved in the project",
+    "lexical_policy": "The application recognizes a bounded local lexical subset for the confirmed conventions. Diagnostic categories do not claim a complete standard grammar.",
+    "mermaid_export": "Display text annotations with an explicit approximation warning; native Schemka files retain exact raw data.",
+    "display_policy": "Absent fields have no label; explicit empty text has a visible empty marker. Controls and invisible characters are escaped for display. The displayed label is limited to 16 Unicode code points including ellipsis; exact raw text remains in the model and editor.",
+    "current_core_format_version": 2,
+    "current_profile_version": 2,
+    "version_change_scope": "The original raw-text feature did not itself change versions. The separately documented canonical v2 concept/junction increment changes both inner core and profile versions.",
+    "junction_applicability": "assessJunctions diagnoses every present raw multiplicity field at a junction end, including empty text, without changing stored data; the opposite end is not excluded by that rule.",
+    "junction_source_ledger": "docs/CONCEPT-ENDPOINTS.json"
+  },
+  "excluded": [
+    "Normative graph-cardinality validation",
+    "Default multiplicities inferred from omission",
+    "Complete normative grammar claims",
+    "New endpoint permission matrix",
+    "Hierarchy or derivation rules",
+    "Copied PDF definitions, images or artwork",
+    "Standard-prescribed label coordinate algorithm",
+    "Whole-model conformance inferred from bounded junction-end applicability"
+  ],
+  "language_coverage": "partial",
+  "normative_conformance": "UNKNOWN"
+}
