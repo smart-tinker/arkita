@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { setup } from './app-test-fixture.js';
 import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
+import { createProject } from '../../schemka-model-core/src/index.js';
 import { fixtureId } from '../../schemka-model-core/fixtures/relationship-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { CATALOG_SECTIONS } from '../src/catalog-tree.js';
@@ -17,6 +18,56 @@ function filedModel() {
 }
 const leaf = (h, kind, id) => h.document.querySelector(`.catalog button[data-${kind}-id="${id}"]`);
 function context(h, element) { element.dispatchEvent(new h.window.MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2, clientX: 90, clientY: 220 })); return h.$('context-menu'); }
+
+test('catalog context creates a named model element before any view and supports cancel and Undo', async t => {
+  const h = await setup(t); await h.load(serializeProjectFile(createProject('No view'))); const before = await h.download();
+  const menu = context(h, h.$('tree-application').querySelector(':scope > summary'));
+  menu.querySelector('[data-context-action="new-element"]').click();
+  assert.equal(h.$('catalog-folder-dialog').open, true);
+  const types = h.$('catalog-create-element-type');
+  assert.ok([...types.options].some(option => option.value === 'ApplicationComponent'));
+  assert.equal([...types.options].some(option => option.value === 'Role'), false);
+  h.$('catalog-folder-dialog').dispatchEvent(new h.window.Event('cancel', { cancelable: true }));
+  assert.deepEqual(await h.download(), before);
+
+  context(h, h.$('tree-application').querySelector(':scope > summary')).querySelector('[data-context-action="new-element"]').click();
+  h.$('catalog-create-element-name').value = '   ';
+  h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal(h.$('catalog-folder-dialog').open, true);
+  assert.match(h.$('catalog-folder-error').textContent, /имя элемента/i);
+  h.$('catalog-folder-dialog').dispatchEvent(new h.window.Event('cancel', { cancelable: true }));
+  assert.deepEqual(await h.download(), before);
+
+  context(h, h.$('tree-application').querySelector(':scope > summary')).querySelector('[data-context-action="new-element"]').click();
+  h.$('catalog-create-element-type').value = 'ApplicationComponent';
+  h.$('catalog-create-element-name').value = 'Без диаграммы α';
+  h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal(h.$('catalog-folder-dialog').open, false, h.$('catalog-folder-error').textContent);
+  const saved = deserializeProjectFile(await h.download());
+  assert.equal(saved.elements.at(-1).name, 'Без диаграммы α');
+  assert.equal(saved.elements.at(-1).type, 'ApplicationComponent');
+  assert.deepEqual(saved.views, []);
+  assert.ok(h.document.querySelector(`[data-element-id="${saved.elements.at(-1).id}"]`));
+  h.$('undo').click(); assert.deepEqual(await h.download(), before);
+});
+
+test('catalog element creation places the new object in the clicked section folder', async t => {
+  const h = await setup(t), state = createProject('Folder destination');
+  const folderId = fixtureId('fld', 91);
+  state.folders.push({ id: folderId, name: 'Applications', parentFolderId: null, members: [], documentation: '', properties: [{ key: 'arkita:catalog-section', value: 'application' }] });
+  await h.load(serializeProjectFile(state)); openTree(h);
+  const row = h.$('tree-application').querySelector(`[data-folder-id="${folderId}"] > summary button`);
+  context(h, row).querySelector('[data-context-action="new-element"]').click();
+  assert.equal([...h.$('catalog-create-element-type').options].some(option => option.value === 'Role'), false);
+  h.$('catalog-create-element-type').value = 'ApplicationInterface';
+  h.$('catalog-create-element-name').value = 'Folder interface';
+  h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  const saved = deserializeProjectFile(await h.download());
+  const created = saved.elements.find(item => item.name === 'Folder interface');
+  assert.equal(created.type, 'ApplicationInterface');
+  assert.deepEqual(saved.folders.find(item => item.id === folderId).members, [{ kind: 'element', id: created.id }]);
+  assert.deepEqual(saved.views, []);
+});
 
 test('one catalogue tree keeps every filed object reachable once with accurate section counts and full view scope', async t => {
   const h = await setup(t), state = filedModel(), bytes = Buffer.from(serializeProjectFile(state)); await h.load(bytes); openTree(h);

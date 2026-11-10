@@ -1,5 +1,7 @@
 import { conceptRecord } from './concepts.js';
 import { CATALOG_SECTIONS } from './catalog-tree.js';
+import { CURRENT_CATALOG } from '../../schemka-model-core/src/index.js';
+import { notationElement } from './notation.js';
 
 /** Build trusted actions from an ID-only hit context, never from current selection. */
 export function contextActions(context, model, actions) {
@@ -8,6 +10,11 @@ export function contextActions(context, model, actions) {
   const items = [];
   const add = (id, label, action, disabled = false) => items.push({ id, label, action, disabled });
   const properties = () => add('properties', 'Свойства…', () => actions.openProperties({ kind: context.kind, id: context.id }), typeof actions.openProperties !== 'function');
+  const createElement = (destination, sectionId) => {
+    if (CURRENT_CATALOG.elementTypes.some(type => notationElement(state.project.metamodel, type).family === sectionId)) {
+      add('new-element', 'Создать элемент…', () => actions.createElementInCatalog(destination, sectionId), typeof actions.createElementInCatalog !== 'function');
+    }
+  };
   function catalogActions(ref, { duplicate = false, type = false } = {}) {
     add('move-concept', 'Переместить в папку…', () => actions.moveConcept(ref), typeof actions.moveConcept !== 'function');
     add('cut-concept', 'Вырезать для перемещения', () => actions.cutConcept(ref), typeof actions.cutConcept !== 'function');
@@ -53,6 +60,7 @@ export function contextActions(context, model, actions) {
   } else if (context.kind === 'folder') {
     const folder = state.folders.find(item => item.id === context.id);
     if (!folder) return [];
+    createElement(folder.id, context.sectionId);
     properties();
     add('drill-into', 'Перейти внутрь', () => actions.drillInto(folder.id, context.sectionId), typeof actions.drillInto !== 'function');
     add('new-folder', 'Создать папку…', () => actions.newFolder(folder.id, context.sectionId), typeof actions.newFolder !== 'function');
@@ -61,6 +69,7 @@ export function contextActions(context, model, actions) {
     add('delete-folder', 'Удалить папку…', () => actions.deleteFolder(folder.id), typeof actions.deleteFolder !== 'function');
   } else if (context.kind === 'catalogSection') {
     if (!CATALOG_SECTIONS.some(section => section.id === context.id)) return [];
+    createElement(`@${context.id}`, context.id);
     add('new-folder', 'Создать папку…', () => actions.newFolder(`@${context.id}`), typeof actions.newFolder !== 'function');
     paste(`@${context.id}`, context.id);
   } else if (['visualNode', 'visualConnector'].includes(context.kind)) {
