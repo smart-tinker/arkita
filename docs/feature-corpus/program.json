@@ -668,7 +668,7 @@
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "PR #5 merged as fb6e6e4d00cac4d6577b0f684996ef7578c23552; final tested head d39931ee4be0c00153129f21e203b4890b9b55e2. Focused checks: 35/35 at ba28db9; CI run 42747132565 passed Ubuntu 24.04, Windows 2025 and CI gate; Chromium smoke covered folder create/drill-down/Back/Home and light/dark rendering. GitHub reviews: none. Installed Windows/native UI: UNRUN. This evidence refresh does not add closed_criteria.",
+      "verification": "PR #5 merged as fb6e6e4d00cac4d6577b0f684996ef7578c23552; final tested head d39931ee4be0c00153129f21e203b4890b9b55e2. PR #5 reports focused checks 35/35 at ba28db9 and a local Chromium smoke for folder create/drill-down/Back/Home and light/dark rendering; no run receipt or reproducible folder-browser test is retained, so that coverage is UNVERIFIED. CI run 42747132565 passed Ubuntu 24.04, Windows 2025 and CI gate; Windows NSIS was built and checked in-runner. GitHub reviews: none. Installed Windows/native UI: UNRUN. This evidence refresh does not add closed_criteria.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
