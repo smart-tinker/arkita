@@ -2631,11 +2631,11 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Это не групповой inspector; общие/различающиеся значения и компактная группировка не найдены. Критерий частичный. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
+      "remaining": "Grouped inspector реализован для множественного выбора дерева; сводка показывает общие/различающиеся значения и число владельцев свойства, массовое редактирование ограничено зафиксированным набором. Тест покрывает смешанные значения, изменение element и relationship и точный Undo, но не утверждает содержимое компактной панели или свойство, имеющееся лишь у части выбора. Не проверена читаемость в настоящем Windows renderer; оставлять acceptance-pending до точечной приёмки, не считать отсутствием реализации.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Source/test route refreshed against current main b51b3d7f82f0a54e93f9eb73dd901b0525a80432; only CI/security files and package-lock changed since the initial map. Required CI run 42854216127 passed; Extended Windows run 42868379568 retains the maximum-native-inventory timeout. Grouped inspector UI limits are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
