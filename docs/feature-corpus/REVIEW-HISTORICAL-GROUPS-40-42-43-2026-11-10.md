@@ -92,4 +92,3 @@ current_status всех 48 критериев остаётся acceptance-pendin
 3. какие native Windows-сценарии реально нужны для пробной сборки.
 
 0.7.1-rc.1 остаётся patch+CI candidate; этот аудит не расширяет его scope автоматически. Merge, tag, release asset и binary publication не выполнялись.
-
