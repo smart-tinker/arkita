@@ -7,7 +7,7 @@ builds use pinned MinGit from `resources/git`; development uses installed Git.
 File I/O and Git I/O share busy exclusion and the native close guard. Renderer
 networking remains disabled; only fixed, trusted-sender Git methods cross IPC.
 
-Arkita is a standalone desktop application using Electron 44.7.0. `npm run desktop` starts the development shell; `npm run package:win` builds the Windows x64 per-user NSIS installer. No server or installed Node.js is needed by testers. See [Windows build and acceptance](../docs/WINDOWS.md). The separate Mermaid application is not packaged.
+Arkita is a standalone desktop application using Electron 44.10.2. `npm run desktop` starts the development shell; `npm run package:win` builds the Windows x64 per-user NSIS installer. No server or installed Node.js is needed by testers. See [Windows build and acceptance](../docs/WINDOWS.md). The separate Mermaid application is not packaged.
 
 ## File actions
 
