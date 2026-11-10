@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-10-19",
+  "updated_at": "2026-11-10",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -58,13 +58,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Проверить на установленном Windows build при реальном размере окна. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -221,13 +222,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Содержание tutorial и завершённость сценария не сопоставлены с критерием; нужен отдельный readback.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -248,13 +250,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Полнота справочного материала с владельцем не сверялась; выбор backend — отдельный A-ADV-166. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -686,13 +689,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1134,13 +1138,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Windows DPI и отсутствие обрезания не проверены на установленном приложении. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2422,13 +2427,14 @@
       "historical_status": "unverified",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native Windows: выход поверх диалога, второй монитор, сохранение камеры/фокуса — UNRUN. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2622,13 +2628,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Это не групповой inspector; общие/различающиеся значения и компактная группировка не найдены. Критерий частичный. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2649,13 +2656,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Отдельного поля purpose в модели нет: его роль выполняет project documentation. Обновление пути после native Save As не подтверждено. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2705,13 +2713,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Нужна UI-регрессия специализации именно отношения с сохранением и повторным открытием. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2761,13 +2770,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2874,13 +2884,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2901,13 +2912,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Поддержанные file-ссылки отсутствуют: file:// намеренно отклоняется. Это конкретное ограничение безопасности/функциональности, не непроверенный тест. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2929,13 +2941,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "implementation_prs": [
         29,
         30,
@@ -2965,13 +2978,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Source/DOM тесты есть; нативный UI не проверен. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3494,13 +3508,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#metadata"
+        "docs/feature-corpus/RELEASE-0.6.0.md#metadata",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Core проверяет все восемь; app-level UI matrix отдельно не связывает folder, visualNode и visualConnector. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3658,13 +3673,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Это не отдельное окно Navigator; UX-эквивалентность ещё не подтверждена. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3688,13 +3704,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3718,13 +3735,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3748,13 +3766,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Это preview/create-view, а не Navigator drag; подтвердить эквивалентность UX. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3781,13 +3800,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3815,13 +3835,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Не заявлять производительность сверх установленного bounds. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3849,13 +3870,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3883,13 +3905,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3917,13 +3940,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3951,13 +3975,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3985,13 +4010,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Windows renderer alignment не проверен. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4019,13 +4045,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4053,13 +4080,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native save dialog на установленном Windows build не проверен. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4087,13 +4115,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Системный clipboard Windows не проверен на установленном пакете. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4121,13 +4150,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native user acceptance не выполнялась. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4155,13 +4185,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4187,13 +4218,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4217,13 +4249,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4248,13 +4281,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4430,13 +4464,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4460,13 +4495,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4491,13 +4527,14 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Текущий registry ограничен; нормативная полнота ArchiMate 4 остаётся UNKNOWN. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4555,13 +4592,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4586,13 +4624,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Не является подтверждением нормативной полноты viewpoint. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4615,13 +4654,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4647,13 +4687,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4679,13 +4720,14 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4709,13 +4751,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6328,13 +6371,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Не доказывает нормативную полноту ArchiMate. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7161,13 +7205,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Windows DPI/мониторные свойства не проверены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8698,13 +8743,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#workspace"
+        "docs/feature-corpus/RELEASE-0.6.0.md#workspace",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Выбора external/internal backend и сохранённой настройки нет. Это реальная функциональная недостача; нужен отдельный scope/priority decision. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8964,13 +9010,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9869,13 +9916,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#analysis"
+        "docs/feature-corpus/RELEASE-0.6.0.md#analysis",
+        "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
