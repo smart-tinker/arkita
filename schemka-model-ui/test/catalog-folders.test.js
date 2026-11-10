@@ -53,6 +53,19 @@ test('natural folder order, safe delete retaining members, stale and cancelled d
   h.model.execute({ type: 'renameProject', name: 'Changed' }); const changed = h.model.store.exportFiles(); h.submit(); assert.deepEqual(h.model.store.exportFiles(), changed); assert.match(h.$('catalog-folder-error').textContent, /Модель изменилась/);
 });
 
+test('drill-down returns to the nearest existing parent when its current folder is moved or deleted', t => {
+ const h=fixture(t),parent=h.createFolder('Parent'),child=h.createFolder('Child',parent.id);
+ assert.equal(h.ui.drillInto(child.id,'common'),true);
+ assert.match(h.$('catalog-folder-breadcrumb').textContent,/Общие.*Parent.*Child/);
+ h.ui.folderEditor(child.id);h.$('catalog-folder-parent').value='@technology';h.submit();
+ assert.equal(h.ui.currentFolderId,parent.id);
+ assert.equal(h.$('catalog-folder-navigation').hidden,false);
+ assert.match(h.$('catalog-folder-breadcrumb').textContent,/Parent/);
+ h.ui.deleteFolder(parent.id);h.submit();
+ assert.equal(h.$('catalog-folder-navigation'),null);
+ assert.ok(h.model.store.snapshot.folders.some(folder=>folder.id===child.id));
+});
+
 test('concept type change previews whole graph and keeps ID, metadata and drawings through undo', t => {
   const h = fixture(t); const a = h.model.execute({ type: 'createElementAndOccurrence', viewId: h.model.viewId, elementType: 'Role', name: 'Role', documentation: 'Retained\r\ntext', bounds: { x: 10, y: 10, width: 100, height: 80 } }).created;
   const before = h.model.store.exportFiles(); h.ui.changeType({ kind: 'element', id: a.elementId }); assert.equal(h.$('catalog-folder-apply').disabled, true);

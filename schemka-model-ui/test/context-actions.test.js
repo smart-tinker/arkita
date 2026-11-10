@@ -6,7 +6,7 @@ import { contextActions } from '../src/context-actions.js';
 
 function setup() {
   const model = createController(createCurrentFixture()), calls = [];
-  const actions = Object.fromEntries(['newFolder','moveConcept','cutConcept','duplicateConcept','changeConceptType','editFolder','deleteFolder','pasteConcepts','removeVisual','openProperties','rename','addOccurrence','remove','reuseRelationship','openView','duplicateView','newView','createElement','fit','undo','redo'].map(name => [name, (...args) => calls.push([name,...args])]));
+  const actions = Object.fromEntries(['newFolder','moveConcept','cutConcept','duplicateConcept','changeConceptType','editFolder','deleteFolder','drillInto','pasteConcepts','removeVisual','openProperties','rename','addOccurrence','remove','reuseRelationship','openView','duplicateView','newView','createElement','fit','undo','redo'].map(name => [name, (...args) => calls.push([name,...args])]));
   return { model, calls, actions, menu: context => contextActions(context, model, actions) };
 }
 test('context actions bind hit occurrence identity rather than the unrelated current selection', () => {
@@ -132,6 +132,7 @@ test('mixed folder context carries the clicked projection into create and paste 
   const h = setup(), folderId = h.model.execute({ type: 'createFolder', name: 'Mixed' }).created.folderId;
   h.actions.hasCut = () => true;
   const menu = h.menu({ kind: 'folder', id: folderId, sectionId: 'application' });
+  menu.find(item => item.id === 'drill-into').action(); assert.deepEqual(h.calls.at(-1), ['drillInto', folderId, 'application']);
   menu.find(item => item.id === 'new-folder').action(); assert.deepEqual(h.calls.at(-1), ['newFolder', folderId, 'application']);
   menu.find(item => item.id === 'paste-concepts').action(); assert.deepEqual(h.calls.at(-1), ['pasteConcepts', folderId, 'application']);
 });

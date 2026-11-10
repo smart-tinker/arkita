@@ -1965,6 +1965,8 @@ body[data-palette-mode="compact"] .palette-tool > span:not(.palette-glyph) { pos
 /* Model organisation and transient editing tools. */
 .catalog-folder-tools { display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
 .catalog-folder-tools button { padding:4px 7px; font-size:12px; }
+.catalog-folder-breadcrumb { display:flex; flex-wrap:wrap; align-items:center; gap:2px 6px; list-style:none; margin:0; padding:0; }
+.catalog-folder-breadcrumb li+li::before { content:'/'; margin-right:6px; color:var(--tree-muted); }
 .catalog-section { margin:2px 0 4px; }
 .catalog-section > summary { min-height:26px; padding:4px 2px; }
 .catalog-folder { margin:0; }
