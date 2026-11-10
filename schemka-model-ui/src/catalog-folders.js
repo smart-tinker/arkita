@@ -3,6 +3,7 @@ import {relationshipAssessment,relationshipTypeContext,relationshipCoverage,diag
 import { canvasDropPoint } from './drag-drop.js';
 import { CATALOG_SECTIONS, catalogTreeIndex, catalogDestinationOptions, catalogMovePlan, folderSectionProperties, destinationSection } from './catalog-tree.js';
 import { notationElement } from './notation.js';
+import { specializationCreationEntries } from './preferences.js';
 
 const lexicalCollator=new Intl.Collator('ru',{numeric:false,sensitivity:'base'});
 const collator = new Intl.Collator('ru', { numeric: true, sensitivity: 'base' });
@@ -139,12 +140,23 @@ export function installCatalogFolders({ document, window, model, canvas, render,
     }
     return open('Создать элемент в каталоге', () => {
       const type = select('Тип элемента', types.map(value => [value, value]), types[0]); type.id = 'catalog-create-element-type'; type.required = true;
+      const specialization = select('Специализация', [['', 'Без специализации']], ''); specialization.id = 'catalog-create-element-specialization';
+      function updateSpecializations() {
+        const selected = specialization.value;
+        const none = node('option', 'Без специализации'); none.value = ''; specialization.replaceChildren(none);
+        for (const entry of specializationCreationEntries(state).filter(item => item.kind === 'element' && item.type === type.value && types.includes(item.type))) {
+          const option = node('option', entry.label); option.value = entry.profileId; specialization.append(option);
+        }
+        specialization.value = [...specialization.options].some(option => option.value === selected) ? selected : '';
+      }
+      type.addEventListener('change', updateSpecializations); updateSpecializations();
       const name = input('Имя элемента'); name.id = 'catalog-create-element-name'; name.required = true;
-      return () => ({ type: type.value, name: name.value });
+      return () => ({ type: type.value, name: name.value, profileId: specialization.value });
     }, (data, _state, revision) => {
       if (!types.includes(data.type)) throw Error('Выберите поддерживаемый тип элемента.');
       if (!data.name.trim()) throw Error('Введите имя элемента.');
-      const result = model.execute({ type: 'createElementInModel', elementType: data.type, name: data.name, ...(folderId ? { folderId } : {}) }, revision);
+      if (data.profileId && !specializationCreationEntries(_state).some(entry => entry.profileId === data.profileId && entry.kind === 'element' && entry.type === data.type)) throw Error('Выбранная специализация недоступна для этого типа.');
+      const result = model.execute({ type: 'createElementInModel', elementType: data.type, name: data.name, ...(folderId ? { folderId } : {}), ...(data.profileId ? { profileId: data.profileId } : {}) }, revision);
       const ref = { kind: 'element', id: result.created.elementId };
       currentSection = sectionId; currentDestination = folderId ?? `@${sectionId}`; revealKey = key(ref);
       selectConcept(ref);

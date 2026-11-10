@@ -4,6 +4,7 @@ import { setup } from './app-test-fixture.js';
 import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
 import { createProject } from '../../schemka-model-core/src/index.js';
 import { fixtureId } from '../../schemka-model-core/fixtures/relationship-project.js';
+import { profileId, profileDefinition } from '../../schemka-model-core/fixtures/customization-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { CATALOG_SECTIONS } from '../src/catalog-tree.js';
 
@@ -66,6 +67,24 @@ test('catalog element creation places the new object in the clicked section fold
   const created = saved.elements.find(item => item.name === 'Folder interface');
   assert.equal(created.type, 'ApplicationInterface');
   assert.deepEqual(saved.folders.find(item => item.id === folderId).members, [{ kind: 'element', id: created.id }]);
+  assert.deepEqual(saved.views, []);
+});
+
+test('catalog tree creation applies the selected compatible specialization to the new concept', async t => {
+  const h = await setup(t), state = createProject('Specialized tree creation');
+  state.customizationProfiles = [{ id: profileId, ...profileDefinition() }];
+  await h.load(serializeProjectFile(state)); openTree(h);
+  const row = h.$('tree-application').querySelector(':scope > summary');
+  context(h, row).querySelector('[data-context-action="new-element"]').click();
+  const type = h.$('catalog-create-element-type'), specialization = h.$('catalog-create-element-specialization');
+  type.value = 'ApplicationComponent'; type.dispatchEvent(new h.window.Event('change', { bubbles: true }));
+  assert.ok([...specialization.options].some(option => option.value === profileId && option.textContent.includes('ApplicationComponent')));
+  specialization.value = profileId;
+  h.$('catalog-create-element-name').value = 'Specialized from tree';
+  h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  const saved = deserializeProjectFile(await h.download()), created = saved.elements.find(item => item.name === 'Specialized from tree');
+  assert.equal(created.type, 'ApplicationComponent');
+  assert.deepEqual(created.profileApplications, [{ profileId, values: {} }]);
   assert.deepEqual(saved.views, []);
 });
 
