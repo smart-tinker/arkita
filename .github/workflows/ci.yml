@@ -69,6 +69,48 @@ jobs:
           }
           Write-Output "Package smoke passed: $($packages[0].Name) ($($packages[0].Length) bytes)."
 
+      - name: Install and launch Windows installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $packages = @(Get-ChildItem -Path "release/windows" -Filter "Arkita-*-win-x64-setup.exe" -File)
+          if ($packages.Count -ne 1) {
+            throw "Expected exactly one NSIS installer; found $($packages.Count)."
+          }
+          $installDir = Join-Path $env:RUNNER_TEMP "arkita-install-smoke-$env:GITHUB_RUN_ID"
+          if (Test-Path $installDir) {
+            throw "Refusing to replace an existing smoke installation: $installDir"
+          }
+          $install = Start-Process -FilePath $packages[0].FullName -ArgumentList @('/S', "/D=$installDir") -Wait -PassThru
+          if ($install.ExitCode -ne 0) {
+            throw "Silent NSIS install failed with exit code $($install.ExitCode)."
+          }
+          $executable = Join-Path $installDir 'Arkita.exe'
+          if (-not (Test-Path $executable -PathType Leaf)) {
+            throw "Installed Arkita executable was not found: $executable"
+          }
+          $app = Start-Process -FilePath $executable -PassThru
+          try {
+            $deadline = (Get-Date).AddSeconds(45)
+            do {
+              $app.Refresh()
+              if ($app.HasExited) {
+                throw "Installed Arkita exited before showing its main window (code $($app.ExitCode))."
+              }
+              if ($app.MainWindowHandle -ne 0) { break }
+              Start-Sleep -Milliseconds 500
+            } while ((Get-Date) -lt $deadline)
+            $app.Refresh()
+            if ($app.MainWindowHandle -eq 0) {
+              throw "Installed Arkita did not show a main window within 45 seconds."
+            }
+            Write-Output "Installed Arkita launched with a main window: $($app.MainWindowTitle)."
+          }
+          finally {
+            $app.Refresh()
+            if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force }
+          }
+
   ci-gate:
     name: CI gate
     if: always()
