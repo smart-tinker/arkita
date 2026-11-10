@@ -1,8 +1,8 @@
 # Group 46 criterion review
 
-Reviewed 2026-11-10 against `main` at `f648a7570ea29fea4ea5a4166e0c741d68191886` and the focused change in draft PR [#33](https://github.com/smart-tinker/arkita/pull/33), head `555b70b4e144f8aea2ff679e5f23b227988a7c17`.
+Reviewed 2026-11-10 against `main` at `f648a7570ea29fea4ea5a4166e0c741d68191886` and draft PR [#33](https://github.com/smart-tinker/arkita/pull/33), code head `8e04541bd91086b3fa753ac6cd25485dc97ebaa4`; the criterion-ledger follow-up is `28ad225aca1bbd14eea2a1ef7d13c9312844b373`.
 
-This is a source and evidence map, not a release acceptance. All 16 criteria remain `acceptance-pending`; `closed_criteria` stays empty and installed-user Windows acceptance remains unrun. CI run [42824224920](https://github.com/smart-tinker/arkita/actions/runs/42824224920) passed on the code head: Ubuntu and Windows validation plus `CI gate`; Ubuntu renderer smoke and Windows NSIS runner smoke passed. Local checks for PR #33 passed: 20 focused UI tests, production build, 469-file syntax check, and `git diff --check`. The packaged app was not installed and exercised by a user on `userVM`.
+This is a source and evidence map, not a release acceptance. All 16 criteria remain `acceptance-pending`; `closed_criteria` stays empty and installed-user Windows acceptance remains unrun. CI run [42826862908](https://github.com/smart-tinker/arkita/actions/runs/42826862908) passed on prior code head `4c541a58a36c4cfe4e2f2033add4f2203a65b53a`, before A-EDITOR-013 was added, so it does not verify the current feature head. On code head `8e04541`, the aggregate `node scripts/test.mjs`, the 469-file `node scripts/check-platform.mjs` check, and `git diff --check` passed; the focused core and production-DOM regressions also passed. A real-browser check was unavailable because Playwright is not installed. The packaged app was not installed and exercised by a user on `userVM`.
 
 | Criterion | Current route and retained checks | Assessment / remaining work |
 | --- | --- | --- |
