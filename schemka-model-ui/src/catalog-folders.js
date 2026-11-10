@@ -2,6 +2,7 @@ import { CURRENT_CATALOG, exportFiles, conceptTypeChangesImpact } from '../../sc
 import {relationshipAssessment,relationshipTypeContext,relationshipCoverage,diagnosticPresentation,renderAssessmentEvidence} from './profile-ui.js';
 import { canvasDropPoint } from './drag-drop.js';
 import { CATALOG_SECTIONS, catalogTreeIndex, catalogDestinationOptions, catalogMovePlan, folderSectionProperties, destinationSection } from './catalog-tree.js';
+import { captionText } from './visual-drawings.js';
 
 const lexicalCollator=new Intl.Collator('ru',{numeric:false,sensitivity:'base'});
 const collator = new Intl.Collator('ru', { numeric: true, sensitivity: 'base' });
@@ -109,18 +110,22 @@ export function installCatalogFolders({ document, window, model, canvas, render,
       if (item?.parentFolderId && !options.some(([value])=>value===item.parentFolderId)) options.push([item.parentFolderId, title(state.folders.find(folder=>folder.id===item.parentFolderId))]);
       const name = input('Название папки', item?.name ?? 'Новая папка'); name.required = true; name.id = 'catalog-folder-name';
       const parent = select('Расположение', options, initial); parent.id = 'catalog-folder-parent';
-      return () => ({ name: name.value, destination: parent.value });
+      const childLabelTemplate = input('Шаблон подписей непосредственных детей', item?.childLabelTemplate ?? '', 'textarea');
+      childLabelTemplate.id = 'catalog-folder-child-label-template'; childLabelTemplate.placeholder = '${name} · ${type}';
+      fields.append(node('p', 'Действует только на прямых детей этой папки, включая вложенные папки; внутрь вложенных папок не наследуется. Подстановки: ${name}, ${type}, ${id}, ${documentation}, ${property:ключ}. Пустое значение показывает стандартные подписи.'));
+      return () => ({ name: name.value, destination: parent.value, childLabelTemplate: childLabelTemplate.value });
     }, (data, state, revision) => {
       const targetSection = destinationSection(state, data.destination) ?? preferredSection ?? destinationSection(state, destination) ?? currentSection;
       const parentFolderId = data.destination.startsWith('@') ? null : data.destination || null;
       if (folderId) {
         const item = state.folders.find(item => item.id === folderId);
-        if (item.name === data.name && item.parentFolderId === parentFolderId) return;
+        if (item.name === data.name && item.parentFolderId === parentFolderId && (item.childLabelTemplate ?? '') === data.childLabelTemplate) return;
         const plan = item.parentFolderId === parentFolderId ? {snapshot:structuredClone(state)} : catalogMovePlan(state, [{kind:'folder',id:folderId}], data.destination);
-        plan.snapshot.folders.find(item=>item.id===folderId).name=data.name;
+        const updated = plan.snapshot.folders.find(item=>item.id===folderId); updated.name=data.name;
+        if (data.childLabelTemplate) updated.childLabelTemplate=data.childLabelTemplate; else delete updated.childLabelTemplate;
         model.execute({type:'applyProjectSnapshot',files:exportFiles(plan.snapshot)},revision);
       } else {
-        const result=model.execute({ type: 'createFolder', name:data.name, parentFolderId, properties:folderSectionProperties({properties:[]}, targetSection) }, revision);
+        const result=model.execute({ type: 'createFolder', name:data.name, parentFolderId, ...(data.childLabelTemplate ? {childLabelTemplate:data.childLabelTemplate} : {}), properties:folderSectionProperties({properties:[]}, targetSection) }, revision);
         currentDestination=result.created.folderId;currentSection=targetSection;revealKey=`folder:${result.created.folderId}`;focusNewFolder=result.created.folderId;
         for(let item=state.folders.find(folder=>folder.id===parentFolderId);item;item=state.folders.find(folder=>folder.id===item.parentFolderId)) expanded.add(`${targetSection}:${item.id}`);
         roots.get(targetSection).details.open=true;
@@ -233,13 +238,14 @@ export function installCatalogFolders({ document, window, model, canvas, render,
         for(const [offset,label] of [[start-step,'← Предыдущие'],[start+step,`Следующие ${Math.min(step,Math.max(0,items.length-start-step))} →`]]){const more=button(label,()=>{shown.set(id,offset);generation++;refresh();});more.disabled=offset<0||offset>=items.length;more.dataset.catalogMore=id;controls.append(more);}controls.append(node('span',`${start+1}–${Math.min(start+step,items.length)} из ${items.length}`));body.append(controls);}};
     }
     function memberRow(ref){
-      const item=index.records.get(key(ref));let row=makeMemberRow?.(ref,item,{state,view,selected,records:index.records,uses:uses.get(key(ref))??0})??node('div',undefined,'catalog-member-row element-row');
+      const item=index.records.get(key(ref)),owner=byId.get(index.owners.get(key(ref))),catalogLabel=owner?.childLabelTemplate?captionText(owner.childLabelTemplate,{...item,kind:ref.kind},state):null;
+      let row=makeMemberRow?.(ref,item,{state,view,selected,records:index.records,uses:uses.get(key(ref))??0,catalogLabel})??node('div',undefined,'catalog-member-row element-row');
       row.dataset.catalogKind=ref.kind;row.dataset.catalogId=ref.id;
       if(!makeMemberRow){
-        const choose=button('',()=>ref.kind==='view'?activateView(ref.id):selectConcept(ref));choose.append(node('span',title(item),'element-name'));choose.className=ref.kind==='view'?'view-button':ref.kind==='relationship'?'relationship-button':'element-button';
+        const label=catalogLabel??title(item),choose=button('',()=>ref.kind==='view'?activateView(ref.id):selectConcept(ref));choose.append(node('span',label,'element-name'));choose.className=ref.kind==='view'?'view-button':ref.kind==='relationship'?'relationship-button':'element-button';
         choose.dataset[`${ref.kind}Id`]=ref.id;choose.dataset.folderFocus=key(ref);choose.dataset.renameKind=ref.kind;choose.dataset.renameId=ref.id;choose.dataset.focusKey=`${ref.kind}-${ref.id}`;
         if(ref.kind==='view')choose.dataset.viewScope='tree';
-        choose.setAttribute('aria-pressed',String(key(selected??{})===key(ref)));choose.title=`${item.type??'Представление'} · ${ref.id}`;row.append(choose);
+        choose.setAttribute('aria-pressed',String(key(selected??{})===key(ref)));choose.setAttribute('aria-label',label);choose.title=`${item.type??'Представление'} · ${ref.id}`;row.append(choose);
         if(ref.kind!=='view'){
           const count=ref.kind==='relationship'?view?.connections.filter(drawing=>drawing.relationshipId===ref.id).length??0:view?.occurrences.filter(drawing=>key(drawing.concept)===key(ref)).length??0;
           const badge=node('span',String(count),'occurrence-count');badge.title='Экземпляров в текущем представлении';choose.append(badge);
@@ -280,7 +286,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
           // Queued native toggles also follow programmatic reveal/reset; only clicks invalidate an in-flight file operation.
           details.addEventListener('toggle',()=>{if(details.isConnected)updateExpansion(false);});saved={details,choose,count,branch};folderRows.set(cacheKey,saved);
         }
-        const {details,choose,count,branch}=saved;details.open=expanded.has(cacheKey);choose.textContent=folder.name;choose.setAttribute('aria-label',`Папка ${folder.name}`);choose.setAttribute('aria-expanded',String(details.open));count.textContent=String(index.countsForFolder.get(folder.id)?.get(sectionId)??0);branch.replaceChildren();body.append(details);
+        const {details,choose,count,branch}=saved,parent=byId.get(folder.parentFolderId),label=parent?.childLabelTemplate?captionText(parent.childLabelTemplate,{...folder,kind:'folder'},state):folder.name;details.open=expanded.has(cacheKey);choose.textContent=label;choose.setAttribute('aria-label',`Папка ${label}`);choose.setAttribute('aria-expanded',String(details.open));count.textContent=String(index.countsForFolder.get(folder.id)?.get(sectionId)??0);branch.replaceChildren();body.append(details);
         if(details.open)stack.push({sectionId,folderId:folder.id,body:branch});
       }
       currentPage.more();

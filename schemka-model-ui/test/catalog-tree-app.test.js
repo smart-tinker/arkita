@@ -114,3 +114,37 @@ test('mixed folder context keeps its projection when creating children and block
   assert.equal(h.$('catalog-folder-dialog').open, true); assert.equal(h.$('catalog-folder-apply').disabled, true); h.$('catalog-folder-dialog').dispatchEvent(new h.window.Event('cancel', { cancelable: true }));
   assert.deepEqual(await h.download(), before);
 });
+
+test('folder child-label templates affect immediate labels only, follow moves, and survive reopen without renaming records', async t => {
+  const h = await setup(t), state = conceptProject(), child = state.elements[0];
+  child.name = 'Service'; child.documentation = 'Keep this description'; child.properties = [{ key: 'owner', value: 'Ops' }];
+  const parent = folder(91, 'Parent'), nested = folder(92, 'Nested', parent.id, [{ kind: 'element', id: child.id }]);
+  state.folders = [parent, nested]; await h.load(serializeProjectFile(state)); openTree(h);
+  const editTemplate = (folderId, value) => {
+    const button = h.document.querySelector(`[data-folder-id="${folderId}"] > summary button`);
+    context(h, button).querySelector('[data-context-action="edit-folder"]').click();
+    const field = h.$('catalog-folder-child-label-template'); assert.ok(field, 'folder editor exposes its child-label template');
+    field.value = value;
+    h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+    assert.equal(h.$('catalog-folder-dialog').open, false, h.$('catalog-folder-error').textContent);
+  };
+  editTemplate(parent.id, 'P:${name}'); editTemplate(nested.id, 'N:${name} · ${property:owner}');
+  const label = id => h.document.querySelector(`[data-element-id="${id}"] .element-name`).textContent;
+  assert.equal(h.document.querySelector(`[data-folder-id="${nested.id}"] > summary button`).textContent, 'P:Nested');
+  assert.equal(label(child.id), 'N:Service · Ops');
+
+  context(h, leaf(h, 'element', child.id)).querySelector('[data-context-action="move-concept"]').click();
+  h.change('catalog-move-target', parent.id);
+  h.$('catalog-folder-dialog').querySelector('form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal(h.$('catalog-folder-dialog').open, false, h.$('catalog-folder-error').textContent);
+  assert.equal(label(child.id), 'P:Service');
+  const savedBytes = await h.download(), saved = deserializeProjectFile(savedBytes);
+  assert.equal(saved.elements.find(item => item.id === child.id).name, 'Service');
+  assert.equal(saved.elements.find(item => item.id === child.id).documentation, 'Keep this description');
+  assert.deepEqual(saved.elements.find(item => item.id === child.id).properties, [{ key: 'owner', value: 'Ops' }]);
+  assert.deepEqual(saved.folders.find(item => item.id === parent.id).members, [{ kind: 'element', id: child.id }]);
+  assert.equal(saved.folders.find(item => item.id === parent.id).childLabelTemplate, 'P:${name}');
+  assert.equal(saved.folders.find(item => item.id === nested.id).childLabelTemplate, 'N:${name} · ${property:owner}');
+
+  await h.load(savedBytes); openTree(h); assert.equal(label(child.id), 'P:Service');
+});

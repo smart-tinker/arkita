@@ -328,12 +328,12 @@ $('view-tabs').addEventListener('keydown', event => {
   activateView(views[next]);
   $('view-tabs').querySelector(`[data-view-id="${views[next]}"]`).focus();
 });
-function makeCatalogMemberRow(ref, item, { state, view, selected, records }) {
+function makeCatalogMemberRow(ref, item, { state, view, selected, records, catalogLabel }) {
   const { kind, id } = ref;
   const row = node('div', undefined, 'catalog-member-row element-row');
   row.dataset.focusKey = `row-${kind}-${id}`;
   row.dataset.catalogKind = kind; row.dataset.catalogId = id;
-  const label = kind === 'relationship' ? linkName(item) : displayName(item);
+  const label = catalogLabel ?? (kind === 'relationship' ? linkName(item) : displayName(item));
   const choose = button('', () => { cancelGesture(); if (kind === 'view') activateView(id); else selectCatalogConcept(ref); }, kind === 'view' ? 'view-button' : kind === 'relationship' ? 'relationship-button' : 'element-button');
   choose.dataset[`${kind}Id`] = id; choose.dataset.focusKey = `${kind === 'view' ? 'tree' : kind}-${id}`;
   choose.dataset.renameKind = kind; choose.dataset.renameId = id;
