@@ -372,15 +372,19 @@
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/specialization-tools.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-core/src/native-v4-commands.js",
         "schemka-model-ui/src/typed-actions.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js",
+        "schemka-model-core/test/native-v4.test.js",
         "schemka-model-ui/test/typed-actions.test.js",
         "schemka-model-ui/test/profile-ui.test.js"
       ],
-      "remaining": "Добавить tree-originated действие создания с выбранным совместимым профилем и regression tests; существующая specialization route начинается в palette.",
+      "remaining": "Провести criterion-specific rendered/native acceptance: совместимость выбранного профиля, модельное создание без view occurrence, корректную ссылку на профиль и обновление доступных специализаций при изменении модели.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source review against main f648a7570ea29fea4ea5a4166e0c741d68191886 found a concrete implementation gap; acceptance-pending and no closed_criteria added.",
+      "verification": "Tree-originated specialization creation implemented and covered by core and DOM integration regressions in feature PR #33; criterion remains acceptance-pending, closed_criteria is empty, and Windows acceptance is unrun.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
