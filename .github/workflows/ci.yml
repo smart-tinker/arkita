@@ -44,6 +44,14 @@ jobs:
       - name: Check JavaScript syntax
         run: npm run check
 
+      - name: Install Chromium for renderer smoke
+        if: matrix.os == 'ubuntu-24.04'
+        run: npm exec playwright install --with-deps chromium
+
+      - name: Run renderer browser smoke
+        if: matrix.os == 'ubuntu-24.04'
+        run: npm run test:browser:smoke
+
       - name: Build Windows NSIS installer
         if: runner.os == 'Windows'
         run: npm run package:win
