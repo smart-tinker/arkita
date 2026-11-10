@@ -8,6 +8,7 @@
     "build:mermaid": "node scripts/build.cjs",
     "start": "node scripts/serve.mjs",
     "test": "node scripts/test.mjs",
+    "test:browser:smoke": "node schemka-model-ui/test/browser-smoke.mjs",
     "test:mermaid": "node scripts/build.cjs && node --test tests/*.test.cjs",
     "check": "node scripts/check-platform.mjs",
     "desktop": "electron .",
@@ -20,7 +21,8 @@
   "devDependencies": {
     "electron": "44.7.0",
     "electron-builder": "26.15.3",
-    "jsdom": "26.1.0"
+    "jsdom": "26.1.0",
+    "playwright": "1.65.0"
   },
   "main": "electron/entry.mjs",
   "author": "Arkita contributors",

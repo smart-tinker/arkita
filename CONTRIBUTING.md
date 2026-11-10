@@ -4,6 +4,8 @@ Use Node.js 22+, then `npm ci --ignore-scripts`, `npm test`, `npm run check`, `n
 
 Work in feature branches and open draft PRs. Do not bundle secrets, credentials, infrastructure inventories, deployments, workflows, permission changes or history rewrites with platform edits. No deploy is configured by this repository.
 
+Renderer browser checks are separate from `npm test` and native Windows acceptance; see [docs/TESTING-BROWSER.md](docs/TESTING-BROWSER.md) for the pinned Chromium smoke and existing browser-suite inventory.
+
 Keep module boundaries explicit and protect the current file/editing contract. A service catalog entry is not an ArchiMate element until bound by verified IDs. The current catalogue has no normative conformance guarantee.
 
 Add focused regression tests for edits, cancellation, repeated actions and navigation with unsaved work. Run aggregate tests against the final commit. Browser visual/drag testing must be reported separately; DOM tests do not substitute for it. The standalone Mermaid build is hash-pinned and must not silently change when platform navigation changes.
