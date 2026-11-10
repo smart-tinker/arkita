@@ -24,6 +24,7 @@
   },
   "main": "electron/entry.mjs",
   "author": "Arkita contributors",
+  "license": "MIT",
   "build": {
     "appId": "org.smart-tinker.arkita",
     "productName": "Arkita",
