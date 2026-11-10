@@ -19,7 +19,7 @@
     "node": ">=22"
   },
   "devDependencies": {
-    "electron": "44.9.1",
+    "electron": "44.10.2",
     "electron-builder": "26.15.3",
     "jsdom": "26.1.0",
     "playwright": "1.65.0"
