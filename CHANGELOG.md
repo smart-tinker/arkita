@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.1-rc.1 — candidate
+
+- Make the locked test suite path-aware on Windows.
+- Add a reproducible Chromium renderer smoke and run it in the Ubuntu PR gate.
+- Validate source and the NSIS installer in temporary Ubuntu/Windows Actions
+  runners; the workflows do not upload artifacts or use caches.
+- No application feature or model-format change is included in this patch line.
+
+This candidate is for CI and test validation. It is not a user-distribution
+package; exact Windows GUI acceptance and release publication remain pending.
+
 ## 0.7.0 — 2026-10-29
 
 - Consolidate the agreed RC1–RC5 scope: supported Archi import with diagnostics
