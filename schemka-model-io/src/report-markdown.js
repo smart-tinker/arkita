@@ -9,7 +9,7 @@ export function reportMarkdown(text, { externalLinks = false } = {}) {
       if (match[1] !== undefined) out += `<code>${escapeHtml(match[1])}</code>`;
       else if (match[2] !== undefined) out += `<strong>${escapeHtml(match[2])}</strong>`;
       else {
-        let safe = false; try { safe = externalLinks && ['https:', 'http:', 'mailto:'].includes(new URL(match[4]).protocol); } catch { /* Unrecognised links remain text. */ }
+        let safe = false; try { safe = externalLinks && ['https:', 'http:', 'mailto:', 'file:'].includes(new URL(match[4]).protocol); } catch { /* Unrecognised links remain text. */ }
         out += safe ? `<a href="${escapeHtml(match[4])}" target="_blank" rel="noopener noreferrer">${escapeHtml(match[3])}</a>` : `${escapeHtml(match[3])} (${escapeHtml(match[4])})`;
       }
       at = match.index + match[0].length;
