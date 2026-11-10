@@ -54,6 +54,7 @@ export function contextActions(context, model, actions) {
     const folder = state.folders.find(item => item.id === context.id);
     if (!folder) return [];
     properties();
+    add('drill-into', 'Перейти внутрь', () => actions.drillInto(folder.id, context.sectionId), typeof actions.drillInto !== 'function');
     add('new-folder', 'Создать папку…', () => actions.newFolder(folder.id, context.sectionId), typeof actions.newFolder !== 'function');
     add('edit-folder', 'Переименовать…', () => actions.editFolder(folder.id), typeof actions.editFolder !== 'function');
     catalogActions({ kind: 'folder', id: folder.id }); paste(folder.id, context.sectionId);

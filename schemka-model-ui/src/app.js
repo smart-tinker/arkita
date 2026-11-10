@@ -1073,6 +1073,7 @@ const menuActions = {
   duplicateConcept: ref => catalogFolders.duplicate(ref),
   changeConceptType: ref => catalogFolders.changeType(ref),
   editFolder: id => catalogFolders.folderEditor(id),
+  drillInto: (id, sectionId) => catalogFolders.drillInto(id, sectionId),
   newFolder: (destination, sectionId) => catalogFolders.folderEditor(null, destination, sectionId),
   deleteFolder: id => catalogFolders.deleteFolder(id),
   pasteConcepts: (id, sectionId) => catalogFolders.paste(id, sectionId),

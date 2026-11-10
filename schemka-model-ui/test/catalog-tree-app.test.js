@@ -36,6 +36,29 @@ test('one catalogue tree keeps every filed object reachable once with accurate s
   assert.deepEqual(await h.download(), bytes); assert.equal(h.$('undo').disabled, true);
 });
 
+test('folder drill-down shows its path, returns through history, preserves the model and resets between projects', async t => {
+  const h = await setup(t), state = filedModel(); await h.load(serializeProjectFile(state)); openTree(h);
+  const before = await h.download(), folderId = fixtureId('fld', 1);
+  const folderButton = h.$('tree-common').querySelector(`[data-folder-id="${folderId}"] > summary button`);
+  context(h, folderButton).querySelector('[data-context-action="drill-into"]').click();
+  assert.equal(h.$('catalog-folder-back').textContent, 'Назад');
+  assert.equal(h.document.activeElement.id, 'catalog-folder-back');
+  assert.equal(h.$('catalog-folder-home').textContent, 'К началу');
+  assert.match(h.$('catalog-folder-breadcrumb').textContent, /Общие.*Imported root/);
+  assert.equal(h.$('tree-common').hidden, false); assert.equal(h.$('tree-application').hidden, true);
+  assert.ok(h.$('tree-common').querySelector(`[data-folder-id="${fixtureId('fld', 2)}"]`));
+  assert.deepEqual(await h.download(), before); assert.equal(h.$('undo').disabled, true);
+
+  h.$('catalog-folder-back').click(); assert.equal(h.$('catalog-folder-navigation'), null);
+  assert.equal(h.document.activeElement, h.$('tree-common').querySelector(':scope > summary'));
+  assert.equal(h.$('tree-application').hidden, false);
+  context(h, h.$('tree-common').querySelector(`[data-folder-id="${folderId}"] > summary button`)).querySelector('[data-context-action="drill-into"]').click();
+  h.$('catalog-folder-home').click(); assert.equal(h.$('catalog-folder-navigation'), null);
+  await h.load(serializeProjectFile(conceptProject()));
+  assert.equal(h.$('catalog-folder-navigation'), null);
+  assert.equal(h.$('tree-application').hidden, false);
+});
+
 test('section and folder context menus create correctly located folders; disclosure keyboard cannot delete canvas objects', async t => {
   const h = await setup(t), state = filedModel(); await h.load(serializeProjectFile(state)); openTree(h);
   leaf(h, 'element', state.elements[0].id).click(); const before = await h.download();

@@ -33,8 +33,46 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   dialog.setAttribute('aria-labelledby', heading.id);
   const cancelButton = button('Отмена', () => cancel()), apply = node('button', 'Применить'); apply.type = 'submit'; apply.id = 'catalog-folder-apply';
   actions.append(cancelButton, apply); form.append(heading, fields, error, actions); dialog.append(form); document.body.append(dialog);
-  let currentDestination = '@common', currentSection='common', memberRows=new Map(), folderRows=new Map(), projectId = null, observedStore=null, observedSelection='', revealKey=null, focusNewFolder=null, shown=new Map(), expanded=new Set(), pending = null, cut = null, drag = null, generation = 0;
+  let currentDestination = '@common', currentSection='common', location=null, navigation=null, memberRows=new Map(), folderRows=new Map(), projectId = null, observedStore=null, observedSelection='', revealKey=null, focusNewFolder=null, shown=new Map(), expanded=new Set(), pending = null, cut = null, drag = null, generation = 0;
   const folders = state => new Map(state.folders.map(folder => [folder.id, folder]));
+  function setLocation(next, sectionId = currentSection) {
+    location = next?.folders.length ? next : null;
+    currentSection = location?.sectionId ?? sectionId;
+    currentDestination = location?.folders.at(-1) ?? `@${currentSection}`;
+    if (location) roots.get(location.sectionId).details.open = true;
+    generation++; refresh();
+    (location ? navigation?.querySelector('#catalog-folder-back') : roots.get(currentSection)?.details.querySelector(':scope > summary'))?.focus({ preventScroll: true });
+  }
+  function drillInto(folderId, sectionId = null) {
+    const state = model.store.snapshot, index = catalogTreeIndex(state), sections = index.sectionsForFolder.get(folderId);
+    sectionId = sections?.has(sectionId) ? sectionId : [...sections ?? []][0];
+    if (!sectionId) return false;
+    const byId = folders(state), path = [], seen = new Set();
+    for (let id = folderId; id; id = byId.get(id)?.parentFolderId) {
+      if (!byId.has(id) || seen.has(id)) return false;
+      seen.add(id); path.unshift(id);
+    }
+    setLocation({ sectionId, folders: path });
+    return true;
+  }
+  function renderNavigation() {
+    if (!location) { navigation?.remove(); navigation = null; return; }
+    if (!navigation) { navigation = node('nav', undefined, 'catalog-folder-tools'); navigation.id = 'catalog-folder-navigation'; navigation.setAttribute('aria-label', 'Путь в каталоге модели'); section.prepend(navigation); }
+    const { sectionId, folders: path } = location, state = model.store.snapshot;
+    const sectionLabel = CATALOG_SECTIONS.find(item => item.id === sectionId)?.label ?? sectionId;
+    const back = button('Назад', () => setLocation(path.length > 1 ? { sectionId, folders: path.slice(0, -1) } : null, sectionId), 'catalog-folder-back');
+    const home = button('К началу', () => setLocation(null, sectionId), 'catalog-folder-home');
+    const breadcrumb = node('ol', undefined, 'catalog-folder-breadcrumb'); breadcrumb.id = 'catalog-folder-breadcrumb';
+    const crumb = (label, target, current = false) => {
+      const item = node('li'), control = current ? node('span', label) : button(label, () => setLocation(target, sectionId));
+      if (current) control.setAttribute('aria-current', 'location');
+      item.append(control); breadcrumb.append(item);
+    };
+    crumb(sectionLabel, null);
+    path.forEach((id, index) => crumb(state.folders.find(folder => folder.id === id)?.name ?? id,
+      { sectionId, folders: path.slice(0, index + 1) }, index === path.length - 1));
+    navigation.replaceChildren(back, home, breadcrumb);
+  }
   function cancel() { pending = null; generation++; if (dialog.open) dialog.close(); }
   dialog.addEventListener('cancel', event => { event.preventDefault(); cancel(); });
   dialog.addEventListener('close', () => { if (!dialog.open) pending = null; });
@@ -156,12 +194,18 @@ export function installCatalogFolders({ document, window, model, canvas, render,
     const behavior=preferences?.get('behavior')??{naturalSort:true,lazyTree:true,treePageSize:100},sorter=behavior.naturalSort?collator:lexicalCollator;
     const state = model.store.snapshot, view=model.view, index=catalogTreeIndex(state), byId=folders(state);
     if (observedStore!==model.store||projectId !== state.project.id) {
-      observedStore=model.store;projectId=state.project.id;currentDestination='@common';currentSection='common';cut=null;shown.clear();expanded.clear();memberRows.clear();folderRows.clear();observedSelection='';
+      observedStore=model.store;projectId=state.project.id;currentDestination='@common';currentSection='common';location=null;cut=null;shown.clear();expanded.clear();memberRows.clear();folderRows.clear();observedSelection='';
       for(const root of roots.values())root.details.open=true;
+    }
+    if (location) {
+      const valid=[];
+      for(const id of location.folders){const folder=byId.get(id);if(!folder||!index.sectionsForFolder.get(id)?.has(location.sectionId)||folder.parentFolderId!==(valid.at(-1)??null))break;valid.push(id);}
+      if(valid.length!==location.folders.length){currentSection=location.sectionId;location=valid.length?{sectionId:location.sectionId,folders:valid}:null;currentDestination=valid.at(-1)??`@${currentSection}`;}
     }
     if(!currentDestination.startsWith('@')&&!byId.has(currentDestination))currentDestination='@common';
     const selected=selectedConcept(view),selectedKey=key(selected??{}),selectionChanged=selectedKey!==observedSelection,revealTarget=revealKey??(selectionChanged?selectedKey:null);revealKey=null;observedSelection=selectedKey;
     const revealRef = revealTarget ? index.records.has(revealTarget) ? {kind:revealTarget.slice(0,revealTarget.indexOf(':')),id:revealTarget.slice(revealTarget.indexOf(':')+1)} : null : null;
+    if(revealRef&&location){let owner=revealRef.kind==='folder'?revealRef.id:index.owners.get(key(revealRef));while(owner&&owner!==location.folders.at(-1))owner=byId.get(owner)?.parentFolderId;if(!owner)location=null;}
     let revealSection=null;const revealChildren=new Map();
     if(revealRef){
       revealSection=revealRef.kind==='folder'?[...index.sectionsForFolder.get(revealRef.id)??[]][0]:index.sectionFor(revealRef);
@@ -171,6 +215,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
       revealChildren.set(`${revealSection}:root`,key(child));
       currentSection=revealSection;currentDestination=revealRef.kind==='folder'?revealRef.id:index.owners.get(revealTarget)??`@${revealSection}`;
     }
+    renderNavigation();
     const active=document.activeElement?.closest('#catalog-folders')?document.activeElement.dataset.folderFocus:null,activeSection=document.activeElement?.closest('[data-folder-section],[data-catalog-section]')?.dataset;
     const focusedSection=activeSection?.folderSection??activeSection?.catalogSection,scroll=section.closest('.catalog')?.scrollTop;
     const uses=new Map();for(const entry of state.views){for(const item of entry.occurrences){const id=key(item.concept);uses.set(id,(uses.get(id)??0)+1);}for(const item of entry.connections){const id=`relationship:${item.relationshipId}`;uses.set(id,(uses.get(id)??0)+1);}}
@@ -220,7 +265,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
     for(const [id,item] of folderRows)if(!byId.has(item.details.dataset.folderId))folderRows.delete(id);
     // Walk only expanded branches, using a stack so imported deep folder chains stay safe.
     const stack=[];
-    for(const item of CATALOG_SECTIONS){const root=roots.get(item.id);root.count.textContent=String(index.counts.get(item.id)??0);root.body.replaceChildren();stack.push({sectionId:item.id,folderId:null,body:root.body});}
+    for(const item of CATALOG_SECTIONS){const root=roots.get(item.id);root.count.textContent=String(index.counts.get(item.id)??0);root.body.replaceChildren();root.details.hidden=Boolean(location&&location.sectionId!==item.id);if(!location||location.sectionId===item.id)stack.push({sectionId:item.id,folderId:location?.folders.at(-1)??null,body:root.body});}
     while(stack.length){
       const {sectionId,folderId,body}=stack.pop(),pageId=`${sectionId}:${folderId??'root'}`,entries=children(sectionId,folderId),currentPage=page(entries,pageId,body);
       for(const ref of currentPage.items){
@@ -308,5 +353,5 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   });
   preferences?.subscribe((_value,changed)=>{if(changed.includes('behavior')){shown.clear();revealKey=key(selectedConcept()??{});generation++;refresh();}});
   function reveal(ref){observedSelection=key(selectedConcept()??{});revealKey=key(ref);generation++;refresh();return [...section.querySelectorAll('[data-folder-focus]')].find(item=>item.dataset.folderFocus===key(ref)||ref.kind==='folder'&&item.dataset.folderFocus===ref.id);}
-  return { refresh, cancel, reveal, changeType, chooseDestination, folderEditor, deleteFolder, cut: cutConcept, paste, duplicate, get hasCut() { return Boolean(cut); }, get currentFolderId() { return currentDestination.startsWith('@')?null:currentDestination; }, get currentDestination() { return currentDestination; }, get currentSection() { return currentSection; }, get active() { return Boolean(pending); }, get generation() { return generation; } };
+  return { refresh, cancel, reveal, drillInto, changeType, chooseDestination, folderEditor, deleteFolder, cut: cutConcept, paste, duplicate, get hasCut() { return Boolean(cut); }, get currentFolderId() { return currentDestination.startsWith('@')?null:currentDestination; }, get currentDestination() { return currentDestination; }, get currentSection() { return currentSection; }, get active() { return Boolean(pending); }, get generation() { return generation; } };
 }
