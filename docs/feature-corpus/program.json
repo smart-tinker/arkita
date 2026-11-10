@@ -658,13 +658,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/RELEASE-0.6.0.md#catalog",
+        "docs/MODEL-TREE.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-folders.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Независимое GitHub review не опубликовано, установленная Windows/native UI-приёмка не выполнена. Сохранить карточку pending до фиксации review и целевой Windows-проверки; issue #46 включает и другие критерии каталога.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "PR #5 merged as fb6e6e4d00cac4d6577b0f684996ef7578c23552; final tested head d39931ee4be0c00153129f21e203b4890b9b55e2. Focused checks: 35/35 at ba28db9; CI run 42747132565 passed Ubuntu 24.04, Windows 2025 and CI gate; Chromium smoke covered folder create/drill-down/Back/Home and light/dark rendering. GitHub reviews: none. Installed Windows/native UI: UNRUN. This evidence refresh does not add closed_criteria.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
