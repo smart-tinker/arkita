@@ -8,6 +8,7 @@
   runners; the workflows do not upload artifacts or use caches.
 - Update Electron to 44.10.2, including the fix for GHSA-jr5w-w6x2-84p9.
 - Update build/test dependencies to patched fast-uri 3.1.9 and undici 7.30.2.
+- Bound inactive SVG validation work and reject oversized SVG input directly.
 - No application feature or model-format change is included in this patch line.
 
 This candidate is for CI and test validation. It is not a user-distribution
