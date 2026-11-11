@@ -28,23 +28,32 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   stateWithProjectProperty.project.properties = [{ key: 'owner', value: 'Project' }];
   const original = Buffer.from(serializeProjectFile(stateWithProjectProperty));
   await h.load(original);
+  const input = (id, value) => { h.$(id).value = value; h.$(id).dispatchEvent(new h.window.Event('input', { bubbles: true })); };
+  const searchCommand = h.document.querySelector('[data-command="model-search-advanced"]');
+  searchCommand.closest('.app-menu').open = true; searchCommand.click(); input('advanced-query', 'Shared'); h.$('advanced-search-run').click(); await tick(); await tick(); h.$('advanced-search-close').click();
   const command = h.document.querySelector('[data-command="user-properties-manager"]'); assert.ok(command);
   command.closest('.app-menu').open = true; command.click(); await tick();
   assert.equal(h.$('advanced-search-dialog').dataset.mode, 'properties');
   assert.equal(h.$('advanced-search-properties').open, true);
   assert.equal(h.$('advanced-search-dialog').querySelector('form').hidden, true);
+  assert.equal(h.$('advanced-query').value, 'Shared', 'Opening the manager preserves advanced-search criteria');
   await tick();
-  const ownerKey = () => [...h.$('advanced-property-common').querySelectorAll('button')].find(item => item.textContent.startsWith('owner:'));
-  assert.match(ownerKey().textContent, /владельцев 2, записей 2/);
-  ownerKey().click();
-  const input = (id, value) => { h.$(id).value = value; h.$(id).dispatchEvent(new h.window.Event('input', { bubbles: true })); };
+  const propertyRow = key => [...h.$('advanced-property-common').querySelectorAll('button')].find(item => item.textContent.startsWith(`${key}:`));
+  assert.match(propertyRow('owner').textContent, /владельцев 2, записей 2/);
+  propertyRow('owner').click();
   input('advanced-property-new-key', 'escaped'); h.$('advanced-property-rename').click(); await tick();
   assert.match(h.$('advanced-search-preview').textContent, /Коллизии ключей/);
   assert.equal(h.$('advanced-search-apply').disabled, true);
   h.$('advanced-search-close').click();
+  assert.equal(h.$('advanced-query').value, 'Shared');
   assert.deepEqual(await h.download(), original, 'Cancel after a collision leaves the model unchanged');
 
-  command.closest('.app-menu').open = true; command.click(); await tick(); await tick(); ownerKey().click();
+  command.closest('.app-menu').open = true; command.click(); propertyRow('owner').click();
+  input('advanced-property-new-key', 'cancelled-rename'); h.$('advanced-property-rename').click(); await tick();
+  assert.equal(h.$('advanced-search-apply').disabled, false, 'A valid rename preview can be cancelled');
+  h.$('advanced-search-close').click(); assert.deepEqual(await h.download(), original);
+
+  command.closest('.app-menu').open = true; command.click(); await tick(); await tick(); propertyRow('owner').click();
   input('advanced-property-new-key', 'owner-renamed'); h.$('advanced-property-rename').click(); await tick();
   assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 2/);
   assert.match(h.$('advanced-search-preview').textContent, /owner-renamed/);
@@ -58,4 +67,13 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   ]);
   h.$('undo').click(); assert.deepEqual(await h.download(), original);
   h.$('redo').click(); assert.deepEqual(await h.download(), saved);
+
+  command.closest('.app-menu').open = true; command.click(); propertyRow('owner-renamed').click(); h.$('advanced-property-remove').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 2/);
+  h.$('advanced-search-apply').click(); await tick(); h.$('advanced-search-close').click();
+  const removed = await h.download(), withoutProperty = deserializeProjectFile(removed);
+  assert.deepEqual(withoutProperty.project.properties, []);
+  assert.equal(withoutProperty.elements.find(item => item.id === fixture.a.elementId).properties.some(item => item.key === 'owner-renamed'), false);
+  h.$('undo').click(); assert.deepEqual(await h.download(), saved);
+  h.$('redo').click(); assert.deepEqual(await h.download(), removed);
 });

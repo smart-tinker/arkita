@@ -151,6 +151,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   }
   function targets() {
     const all = modelSearchRecords(model.store.snapshot);
+    if (dialog.dataset.mode === 'properties') return all;
     if (propertyScope.value === 'catalog') { const keys = new Set((catalogOwners || []).map(ownerKey)); return all.filter(row => keys.has(ownerKey(row.owner))); }
     if (propertyScope.value === 'selection') {
       const view = model.view, owners = (model.selections?.length ? model.selections : [model.selection]).filter(Boolean).map(ref => ref.kind === 'occurrence' ? view?.occurrences.find(item => item.id === ref.id)?.concept : ref.kind === 'connection' ? { kind: 'relationship', id: view?.connections.find(item => item.id === ref.id)?.relationshipId } : ['visualNode', 'visualConnector'].includes(ref.kind) ? { ...ref, viewId: model.viewId } : ref).filter(Boolean);
@@ -213,7 +214,11 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     if (!pending?.changes.length || pending.collisions.length) return;
     if (!current(pending.captured)) { invalidate(); error.textContent = 'Модель изменилась после предпросмотра. Подготовьте изменения заново.'; return; }
     invalidate();
-    try { model.execute({ type: 'bulkUpdateMetadata', changes: pending.changes }, pending.captured.revision); render(); report('Изменения применены. Одно Undo вернёт их полностью.'); if (dialog.dataset.mode === 'properties') close.textContent = 'Закрыть'; vocabulary(); search(); }
+    try {
+      model.execute({ type: 'bulkUpdateMetadata', changes: pending.changes }, pending.captured.revision); render(); report('Изменения применены. Одно Undo вернёт их полностью.'); vocabulary();
+      if (dialog.dataset.mode === 'properties') { close.textContent = 'Закрыть'; source = stamp(); drawCommon(); }
+      else search();
+    }
     catch (failure) { error.textContent = `Изменения не применены: ${failure.message}`; }
   }
   function open({ owners, propertiesOnly = false } = {}) {
@@ -229,12 +234,9 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
       if (!Array.isArray(owners) || !owners.length || owners.length > 8192) throw Error('Выберите от 1 до 8192 владельцев метаданных.');
       const known = new Map(modelSearchRecords(model.store.snapshot).map(row => [ownerKey(row.owner), row.owner]));
       catalogOwners = [...new Map(owners.map(owner => { const found = known.get(ownerKey(owner)); if (!found) throw Error('Выделение дерева устарело.'); return [ownerKey(found), { ...found }]; })).values()];
-    } else catalogOwners = null;
+    } else if (!propertiesOnly) catalogOwners = null;
     if (propertiesOnly) {
-      query.value = ''; scope.value = 'model'; visibility.value = 'all';
-      for (const id of ['kinds', 'types', 'views', 'profiles', 'keys']) for (const option of controls[id].options) option.selected = false;
-      found = []; chosen.clear(); key.value = ''; value.value = ''; controls['property-new-key'].value = ''; controls['property-collision'].value = '';
-      propertyScope.value = 'results'; common.replaceChildren(node('p', 'Загрузка свойств модели…'));
+      key.value = ''; value.value = ''; controls['property-new-key'].value = ''; controls['property-collision'].value = '';
     }
     const catalogOption = [...propertyScope.options].find(option => option.value === 'catalog'); catalogOption.disabled = !catalogOwners;
     catalogOption.textContent = catalogOwners ? `Зафиксированное выделение дерева (${catalogOwners.length})` : 'Зафиксированное выделение дерева';
@@ -242,7 +244,9 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     trigger = document.activeElement;
     if (source?.store !== model.store) { query.value = ''; chosen.clear(); found = []; draftEntries = []; renderDraft(); }
     vocabulary(); openDialog ? openDialog(dialog.id) : dialog.showModal(); (propertiesOnly ? key : query).focus();
-    if (catalogOwners) { invalidate(); source = stamp(); const keys = new Set(catalogOwners.map(ownerKey)); found = modelSearchRecords(model.store.snapshot).filter(row => keys.has(ownerKey(row.owner))); chosen = keys; drawResults(); report(`Зафиксировано владельцев метаданных из дерева: ${catalogOwners.length}. Поиск ограничен этим набором до закрытия диалога.`); } else search(); return true;
+    if (propertiesOnly) { invalidate(); source = stamp(); drawCommon(); report('Показаны пользовательские свойства всей модели.'); }
+    else if (catalogOwners) { invalidate(); source = stamp(); const keys = new Set(catalogOwners.map(ownerKey)); found = modelSearchRecords(model.store.snapshot).filter(row => keys.has(ownerKey(row.owner))); chosen = keys; drawResults(); report(`Зафиксировано владельцев метаданных из дерева: ${catalogOwners.length}. Поиск ограничен этим набором до закрытия диалога.`); }
+    else search(); return true;
   }
   form.addEventListener('submit', event => { event.preventDefault(); search(); });
   for (const kind of ['input', 'change']) dialog.addEventListener(kind, event => {
