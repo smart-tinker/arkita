@@ -67,6 +67,8 @@ test('query changes require refresh; invalid regex leaves usable dialog; current
   h.$('advanced-property-remove').click(); assert.match(h.$('advanced-search-error').textContent, /обновите поиск/);
   h.input('advanced-scope', 'view'); await h.submit(); h.$('advanced-search-prev').click();
   const last = h.revealed.at(-1); h.$('advanced-search-next').click(); const first = h.revealed.at(-1);
+  const expectedLast = h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).occurrences.find(item => item.concept.id === h.state.elements[1].id);
+  assert.equal(last.id, expectedLast.id, 'previous from the first result wraps to the last result');
   assert.equal(h.revealed.length, 2); assert.notEqual(first.id, last.id);
   h.$('advanced-search-next').click(); assert.equal(h.revealed.at(-1).id, last.id, 'navigation wraps to the prior result');
   assert.ok(h.revealed.every(ref => ref.viewId === h.model.viewId && ref.kind === 'occurrence'));
