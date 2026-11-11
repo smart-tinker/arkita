@@ -81,7 +81,12 @@ jobs:
           if (Test-Path $installDir) {
             throw "Refusing to replace an existing smoke installation: $installDir"
           }
-          $install = Start-Process -FilePath $packages[0].FullName -ArgumentList @('/S', "/D=$installDir") -Wait -PassThru
+          $install = Start-Process -FilePath $packages[0].FullName -ArgumentList @('/S', "/D=$installDir") -PassThru
+          if (-not $install.WaitForExit(120000)) {
+            Stop-Process -Id $install.Id -Force -ErrorAction SilentlyContinue
+            throw "Silent NSIS install did not finish within 120 seconds."
+          }
+          $install.Refresh()
           if ($install.ExitCode -ne 0) {
             throw "Silent NSIS install failed with exit code $($install.ExitCode)."
           }
