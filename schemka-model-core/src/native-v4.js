@@ -1,5 +1,5 @@
 import { rasterImageSize, svgImageSize } from './asset-images.js';
-import { LIMITS, fail, record, text } from './json.js';
+import { LIMITS, byteLength, fail, record, text } from './json.js';
 
 export const VISUAL_NODE_KINDS = Object.freeze(['note', 'group', 'legend', 'viewReference', 'image']);
 export const DRAWING_COLLECTIONS = Object.freeze({ occurrence: 'occurrences', connection: 'connections', visualNode: 'visualNodes', visualConnector: 'visualConnectors' });
@@ -54,10 +54,51 @@ export function validateDrawingStyle(style, line = false, semanticLine = false, 
   }
 }
 
+const transformNames = ['matrix', 'translate', 'scale', 'rotate', 'skewX', 'skewY'];
+function validTransformList(value) {
+  let at = 0, found = false;
+  while (at < value.length) {
+    while (at < value.length && /\s/.test(value[at])) at++;
+    if (at === value.length) break;
+    const name = transformNames.find(candidate => value.startsWith(`${candidate}(`, at));
+    if (!name) return false;
+    at += name.length + 1;
+    const end = value.indexOf(')', at);
+    if (end < 0 || end === at || !/^[0-9eE+.,\s-]+$/.test(value.slice(at, end))) return false;
+    at = end + 1;
+    found = true;
+  }
+  return found;
+}
+
+// Scan one SVG tag at a time; ambiguous whitespace quantifiers can stall on imported SVG.
+function readSvgTag(source, start) {
+  const end = source.indexOf('>', start);
+  if (end < 0) fail('ASSET_SVG', 'Unsupported SVG element');
+  let at = start + 1;
+  while (at < end && /\s/.test(source[at])) at++;
+  const closing = source[at] === '/';
+  if (closing) {
+    at++;
+    while (at < end && /\s/.test(source[at])) at++;
+  }
+  const nameStart = at;
+  if (!/[A-Za-z]/.test(source[at] ?? '')) fail('ASSET_SVG', 'Unsupported SVG element');
+  at++;
+  while (at < end && /[A-Za-z0-9]/.test(source[at])) at++;
+  for (let i = at; i < end; i++) if (source[i] === '<') fail('ASSET_SVG', 'Unsupported SVG element');
+  let attributes = source.slice(at, end);
+  const selfClosing = attributes.endsWith('/');
+  if (selfClosing) attributes = attributes.slice(0, -1);
+  return { end, closing, tag: source.slice(nameStart, at), attributes, selfClosing };
+}
+
 // A closed inactive SVG vocabulary works identically at browser, Node and Git boundaries.
 // Unsupported SVG is refused rather than rewritten or incompletely sanitized.
 export function validateInactiveSvg(source) {
-  if (typeof source !== 'string' || /<!|<\?|[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(source)) fail('ASSET_SVG', 'SVG declarations, entities and active content are unsupported');
+  if (typeof source !== 'string') fail('ASSET_SVG', 'SVG must be text');
+  if (source.length > LIMITS.fileBytes || byteLength(source) > LIMITS.fileBytes) fail('LIMIT', 'SVG exceeds the file size limit');
+  if (/<!|<\?|[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(source)) fail('ASSET_SVG', 'SVG declarations, entities and active content are unsupported');
   const tags = new Set(['svg', 'g', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'text', 'tspan', 'defs', 'linearGradient', 'radialGradient', 'stop', 'clipPath']);
   const numberAttributes = new Set(['x', 'y', 'x1', 'y1', 'x2', 'y2', 'width', 'height', 'rx', 'ry', 'cx', 'cy', 'r', 'viewBox', 'opacity', 'fill-opacity', 'stroke-opacity', 'stroke-width', 'stroke-dasharray', 'font-size', 'offset', 'stop-opacity']);
   const stack = [], ids = new Set(), references = [];
@@ -68,10 +109,10 @@ export function validateInactiveSvg(source) {
     const next = source.indexOf('<', at), content = source.slice(at, next < 0 ? source.length : next);
     if (!entityText(content) || (!stack.length && content.trim()) || (stack.length && !['text', 'tspan'].includes(stack.at(-1)) && content.trim())) fail('ASSET_SVG', 'Invalid SVG text');
     if (next < 0) break;
-    const token = /^<\s*(\/?)\s*([A-Za-z][A-Za-z0-9]*)([^<>]*?)(\/?)>/.exec(source.slice(next));
-    if (!token || !tags.has(token[2])) fail('ASSET_SVG', 'Unsupported SVG element');
-    at = next + token[0].length;
-    const [, closing, tag, attributes, selfClosing] = token;
+    const token = readSvgTag(source, next);
+    if (!tags.has(token.tag)) fail('ASSET_SVG', 'Unsupported SVG element');
+    at = token.end + 1;
+    const { closing, tag, attributes, selfClosing } = token;
     if (closing) {
       if (selfClosing || attributes.trim() || stack.pop() !== tag) fail('ASSET_SVG', 'Unbalanced SVG element');
       continue;
@@ -100,7 +141,7 @@ export function validateInactiveSvg(source) {
       } else if (key === 'points') {
         if (!/^[0-9eE+.,\s-]*$/.test(value)) fail('ASSET_SVG', 'Invalid SVG points');
       } else if (['transform', 'gradientTransform'].includes(key)) {
-        if (!/^(?:\s*(?:matrix|translate|scale|rotate|skewX|skewY)\([0-9eE+.,\s-]+\)\s*)+$/.test(value)) fail('ASSET_SVG', 'Invalid SVG transform');
+        if (!validTransformList(value)) fail('ASSET_SVG', 'Invalid SVG transform');
       } else {
         const values = { 'font-family': /^[\p{L}\p{N} ,_-]{1,120}$/u, 'font-weight': /^(normal|bold|[1-9]00)$/, 'text-anchor': /^(start|middle|end)$/, 'dominant-baseline': /^(auto|middle|central|hanging)$/, 'stroke-linecap': /^(butt|round|square)$/, 'stroke-linejoin': /^(miter|round|bevel)$/, gradientUnits: /^(objectBoundingBox|userSpaceOnUse)$/ };
         if (!values[key]?.test(value)) fail('ASSET_SVG', `Unsupported SVG attribute: ${key}`);
