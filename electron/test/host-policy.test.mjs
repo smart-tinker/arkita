@@ -55,6 +55,21 @@ test('local file links require a native confirmation and an existing local file 
  await assert.rejects(actions.openFileLink({}, 'file:////server/share/guide.pdf', () => {}), { code: 'FILE_LINK_URL' });
  await assert.rejects(actions.openFileLink({}, pathToFileURL(path.join(root, 'missing.pdf')).href, () => {}), { code: 'FILE_LINK_MISSING' });
  await assert.rejects(actions.openFileLink({}, pathToFileURL(root).href, () => {}), { code: 'FILE_LINK_MISSING' });
+ let promptsForUnc = 0, openedUnc = 0;
+ for (const canonical of [String.raw`\\server\share\guide.pdf`, String.raw`\\?\UNC\server\share\guide.pdf`]) {
+  const resolvesToUnc = createHostActions({
+   io: { realpath: async () => canonical, stat: async () => ({ isFile: () => true }) },
+   dialog: { showMessageBox: async () => { promptsForUnc++; return { response: 1 }; } },
+   shell: { openPath: async () => { openedUnc++; return ''; } },
+  });
+  await assert.rejects(resolvesToUnc.openFileLink({}, url, () => {}), { code: 'FILE_LINK_URL' });
+ }
+ assert.equal(promptsForUnc, 0); assert.equal(openedUnc, 0);
+ const extendedDrive = String.raw`\\?\C:\Guide.pdf`, extendedOpened = createHostActions({
+  io: { realpath: async () => extendedDrive, stat: async () => ({ isFile: () => true }) },
+  dialog: { showMessageBox: async () => ({ response: 1 }) }, shell: { openPath: async file => { assert.equal(file, extendedDrive); return ''; } },
+ });
+ assert.equal((await extendedOpened.openFileLink({}, url, () => {})).status, 'opened');
  const noHandler = createHostActions({ dialog: { showMessageBox: async () => ({ response: 1 }) }, shell: { openPath: async () => 'No Windows association' } });
  await assert.rejects(noHandler.openFileLink({}, url, () => {}), { code: 'FILE_LINK_HANDLER' });
  const changing = path.join(root, 'changing.pdf'); await fs.writeFile(changing, 'guide'); let changedOpen = false;
