@@ -38,7 +38,7 @@ npm run package:win
 sha256sum release/windows/Arkita-*-win-x64-setup.exe
 ```
 
-Пакетирует electron-builder **26.15.3**, runtime Electron **44.7.0**.
+Пакетирует electron-builder **26.15.3**, runtime Electron **44.10.2**.
 Первой сборке нужен доступ к официальным загрузкам Electron, NSIS и
 `electron-userland/electron-builder-binaries`. На Linux нужен Wine с поддержкой
 WoW64 для генерации uninstaller; он не входит в приложение. На Windows Wine
