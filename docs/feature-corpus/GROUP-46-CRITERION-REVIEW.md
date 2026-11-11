@@ -26,3 +26,20 @@ This is a source and evidence map, not a release acceptance. All 16 criteria rem
 ## Result
 
 The catalog route is substantially implemented, but group 46 is not complete. One concrete gap remains in current `main`: A-EDITOR-098 folder child-label templates; draft PR [#48](https://github.com/smart-tinker/arkita/pull/48) proposes that work but is not merged or accepted. A-EDITOR-013 now has a tested implementation route; it remains acceptance-pending until its criterion bullets receive scoped rendered results on the reviewed source. Other rows with implementation/test routes also stay pending until their criterion bullets receive scoped results; DOM/unit evidence is not native Windows acceptance. This report does not close issue #12, approve a release, or change the 0.7.1 RC scope.
+
+## Exact-source refresh — 11 Nov 2026, 08:13 UTC
+
+- Public `main` is `a34b405408e5bc6fb5a501e770971aa441bc41bb`; PR #33 application
+  code is at `d077c1542e40fecf7ee156211c1397022ccf8007`, refreshed on that base.
+  The refreshed source map includes the intervening Electron, SVG validator,
+  Windows timeout, and minimatch changes.
+- Required Ubuntu/Windows CI and aggregate gate passed on the exact PR #33 head
+  in [run 42983715968](https://github.com/smart-tinker/arkita/actions/runs/42983715968).
+  CodeQL [42983715953](https://github.com/smart-tinker/arkita/actions/runs/42983715953)
+  and Dependency Review
+  [42983715948](https://github.com/smart-tinker/arkita/actions/runs/42983715948)
+  also passed. Extended CI was not run on this exact head.
+- A-EDITOR-012/013 implementation and tests remain scoped to PR #33; all 16
+  criteria remain `acceptance-pending`, `closed_criteria` stays empty, and
+  A-EDITOR-098 remains pending in draft PR #48. No independent review or
+  installed-user Windows acceptance is recorded.
