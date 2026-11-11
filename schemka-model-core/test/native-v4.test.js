@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { ASSET_LIMITS, rasterImageSize, svgImageSize } from '../src/asset-images.js';
-import { createProject, createStore, exportFiles, importFiles, readProjectFiles, normalizeProject, validateProject, validateProjectV2, validateProjectV3, captureFragment, mergeProjectFiles, metadataRecord, assetUsages, moveDrawingGeometry, conceptTypeChangeImpact } from '../src/index.js';
+import { createProject, createStore, exportFiles, importFiles, readProjectFiles, normalizeProject, validateProject, validateProjectV2, validateProjectV3, captureFragment, mergeProjectFiles, metadataRecord, assetUsages, moveDrawingGeometry, conceptTypeChangeImpact, LIMITS } from '../src/index.js';
 import { metadataFixture, metadataV3Fixture, metadataV2State } from '../fixtures/metadata-compatibility.js';
 import { conceptProject } from '../fixtures/concept-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
@@ -135,6 +136,27 @@ test('used assets cannot be deleted; strict inactive SVG rejects scripting, load
   }
   const files = store.exportFiles(), asset = files.find(file => file.path.startsWith('assets/')); const record = JSON.parse(asset.content); record.data = base64('<svg onload="evil()"/>'); asset.content = JSON.stringify(record);
   assert.throws(() => importFiles(files), error => error.code === 'ASSET_SVG'); assert.throws(() => mergeProjectFiles(files, files, files), error => error.code === 'ASSET_SVG');
+});
+
+function assertSvgValidationFinishes(source, label) {
+  const moduleUrl = new URL('../src/native-v4.js', import.meta.url).href;
+  const script = `import { readFileSync } from 'node:fs'; import { validateInactiveSvg } from ${JSON.stringify(moduleUrl)}; try { validateInactiveSvg(readFileSync(0, 'utf8')); process.exitCode = 1; } catch (error) { if (!['ASSET_SVG', 'LIMIT'].includes(error.code)) throw error; }`;
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', script], { input: source, encoding: 'utf8', timeout: 3000 });
+  assert.equal(result.error, undefined, `${label}: child timed out or failed to start`);
+  assert.equal(result.status, 0, `${label}: ${result.stderr}`);
+}
+
+test('invalid SVG tag with long whitespace is rejected without quadratic regex work', () => {
+  assertSvgValidationFinishes(`<svg><${' '.repeat(100000)}></svg>`, 'tag whitespace');
+});
+
+test('invalid SVG transform sequence is rejected without exponential regex work', () => {
+  assertSvgValidationFinishes(`<svg><g transform="${'scale(\t)\t'.repeat(100)}x"/></svg>`, 'transform repetition');
+});
+
+test('direct SVG validation enforces the model file-size bound', () => {
+  assert.throws(() => validateInactiveSvg(' '.repeat(LIMITS.fileBytes + 1)), { code: 'LIMIT' });
+  assert.throws(() => validateInactiveSvg('🙂'.repeat(LIMITS.fileBytes / 4 + 1)), { code: 'LIMIT' });
 });
 
 test('strict style/reference errors and resource budgets leave candidate and history unchanged', () => {
