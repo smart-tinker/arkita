@@ -49,7 +49,7 @@ test('confirmed replace is one command, literal safe text, stale previews and re
 
 test('property preview scopes checked owners, counts duplicate rows, preserves individuals and requires collision choice', async t => {
   const h = await setup(t); h.input('advanced-query', 'Сервер'); await h.submit();
-  assert.match(h.$('advanced-property-common').textContent, /значения различаются.*объектов 2, записей 3/);
+  assert.match(h.$('advanced-property-common').textContent, /значения различаются.*владельцев 2, записей 3/);
   assert.equal(h.$('advanced-property-sort').disabled, true);
   const check = h.$('advanced-search-results').querySelector('input'); check.click(); h.input('advanced-property-scope', 'checked');
   h.input('advanced-property-key', 'owner'); h.input('advanced-property-new-key', 'keep'); h.$('advanced-property-rename').click();
