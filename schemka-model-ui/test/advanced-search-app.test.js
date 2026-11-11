@@ -51,7 +51,9 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   command.closest('.app-menu').open = true; command.click(); propertyRow('owner').click();
   input('advanced-property-new-key', 'cancelled-rename'); h.$('advanced-property-rename').click(); await tick();
   assert.equal(h.$('advanced-search-apply').disabled, false, 'A valid rename preview can be cancelled');
-  h.$('advanced-search-close').click(); assert.deepEqual(await h.download(), original);
+  const escape = new h.window.Event('cancel', { cancelable: true }); h.$('advanced-search-dialog').dispatchEvent(escape);
+  assert.equal(escape.defaultPrevented, true); assert.equal(h.$('advanced-search-dialog').open, false);
+  assert.deepEqual(await h.download(), original, 'Escape closes the valid preview without changing the model');
 
   command.closest('.app-menu').open = true; command.click(); await tick(); await tick(); propertyRow('owner').click();
   input('advanced-property-new-key', 'owner-renamed'); h.$('advanced-property-rename').click(); await tick();
