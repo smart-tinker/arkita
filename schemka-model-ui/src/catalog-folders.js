@@ -112,7 +112,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
       const parent = select('Расположение', options, initial); parent.id = 'catalog-folder-parent';
       const childLabelTemplate = input('Шаблон подписей непосредственных детей', item?.childLabelTemplate ?? '', 'textarea');
       childLabelTemplate.id = 'catalog-folder-child-label-template'; childLabelTemplate.placeholder = '${name} · ${type}';
-      fields.append(node('p', 'Действует только на прямых детей этой папки, включая вложенные папки; внутрь вложенных папок не наследуется. Подстановки: ${name}, ${type}, ${id}, ${documentation}, ${property:ключ}. Пустое значение показывает стандартные подписи.'));
+      fields.append(node('p', 'Действует только на прямых детей этой папки, включая вложенные папки; внутрь вложенных папок не наследуется. Подстановки: ${name}, ${type}, ${id}, ${documentation}, ${model.name}, ${property:ключ}. Пустое значение показывает стандартные подписи.'));
       return () => ({ name: name.value, destination: parent.value, childLabelTemplate: childLabelTemplate.value });
     }, (data, state, revision) => {
       const targetSection = destinationSection(state, data.destination) ?? preferredSection ?? destinationSection(state, destination) ?? currentSection;
