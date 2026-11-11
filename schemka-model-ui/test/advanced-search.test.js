@@ -63,8 +63,11 @@ test('property preview scopes checked owners, counts duplicate rows, preserves i
 test('query changes require refresh; invalid regex leaves usable dialog; current-view navigation identifies exact drawing', async t => {
   const h = await setup(t); h.input('advanced-query', 'Сервер'); h.input('advanced-property-key', 'owner');
   h.$('advanced-property-remove').click(); assert.match(h.$('advanced-search-error').textContent, /обновите поиск/);
-  h.input('advanced-scope', 'view'); await h.submit(); h.$('advanced-search-next').click();
-  assert.equal(h.revealed.length, 1); assert.equal(h.revealed[0].viewId, h.model.viewId); assert.equal(h.revealed[0].kind, 'occurrence');
+  h.input('advanced-scope', 'view'); await h.submit(); h.$('advanced-search-prev').click();
+  const last = h.revealed.at(-1); h.$('advanced-search-next').click(); const first = h.revealed.at(-1);
+  assert.equal(h.revealed.length, 2); assert.notEqual(first.id, last.id);
+  h.$('advanced-search-next').click(); assert.equal(h.revealed.at(-1).id, last.id, 'navigation wraps to the prior result');
+  assert.ok(h.revealed.every(ref => ref.viewId === h.model.viewId && ref.kind === 'occurrence'));
   h.$('advanced-regex').click(); h.input('advanced-query', '['); await h.submit(); assert.match(h.$('advanced-search-error').textContent, /Некорректное/);
   assert.equal(h.dialog.open, true); assert.equal(h.store.history.undo, 0);
 });
