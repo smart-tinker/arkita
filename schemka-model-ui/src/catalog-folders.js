@@ -249,7 +249,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
         if(ref.kind!=='view'){
           const count=ref.kind==='relationship'?view?.connections.filter(drawing=>drawing.relationshipId===ref.id).length??0:view?.occurrences.filter(drawing=>key(drawing.concept)===key(ref)).length??0;
           const badge=node('span',String(count),'occurrence-count');badge.title='Экземпляров в текущем представлении';choose.append(badge);
-          if(!uses.get(key(ref))){const unused=node('span','∅','unused-marker');unused.title='Не используется ни в одном представлении';choose.append(unused);choose.setAttribute('aria-label',`${title(item)}. Не используется ни в одном представлении`);}
+          if(!uses.get(key(ref))){const unused=node('span','∅','unused-marker');unused.title='Не используется ни в одном представлении';choose.append(unused);choose.setAttribute('aria-label',`${label}. Не используется ни в одном представлении`);}
           if(['element','junction'].includes(ref.kind)){const add=button('＋',()=>addConcept(ref));add.className='tree-add-element';add.disabled=!view||!(model.conceptVisible?.(ref)??true);add.setAttribute('aria-label',`Добавить экземпляр: ${title(item)}`);row.append(add);}
         }
       }
