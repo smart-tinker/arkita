@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-10",
+  "updated_at": "2026-11-11",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -65,7 +65,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -229,7 +229,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -257,7 +257,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -696,7 +696,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1145,7 +1145,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2434,7 +2434,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2635,7 +2635,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source/test route refreshed against current main b51b3d7f82f0a54e93f9eb73dd901b0525a80432; only CI/security files and package-lock changed since the initial map. Required CI run 42854216127 passed; Extended Windows run 42868379568 retains the maximum-native-inventory timeout. Grouped inspector UI limits are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2663,7 +2663,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2720,7 +2720,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2777,7 +2777,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2891,7 +2891,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2919,7 +2919,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2948,7 +2948,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "implementation_prs": [
         29,
         30,
@@ -2985,7 +2985,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3515,7 +3515,7 @@
       "issue": 40,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3680,7 +3680,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3711,7 +3711,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3742,7 +3742,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3773,7 +3773,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3807,7 +3807,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3842,7 +3842,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3877,7 +3877,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3912,7 +3912,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3947,7 +3947,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3982,7 +3982,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4017,7 +4017,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4052,7 +4052,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4087,7 +4087,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4122,7 +4122,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4157,7 +4157,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4192,7 +4192,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4225,7 +4225,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4256,7 +4256,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4288,7 +4288,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4471,7 +4471,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4502,7 +4502,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4534,7 +4534,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4599,7 +4599,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4631,7 +4631,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4661,7 +4661,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4694,7 +4694,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4727,7 +4727,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4758,7 +4758,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6378,7 +6378,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7212,7 +7212,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8750,7 +8750,7 @@
       "issue": 43,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9017,7 +9017,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9923,7 +9923,7 @@
       "issue": 42,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test route mapped at main f648a7570ea29fea4ea5a4166e0c741d68191886. Extended CI run 42801101567 details are recorded in REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. No criterion was accepted; closed_criteria remains empty.",
+      "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
