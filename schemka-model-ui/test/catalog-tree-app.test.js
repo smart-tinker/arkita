@@ -148,3 +148,19 @@ test('folder child-label templates affect immediate labels only, follow moves, a
 
   await h.load(savedBytes); openTree(h); assert.equal(label(child.id), 'P:Service');
 });
+
+test('folder child-label expansion stays within the native string limit', async t => {
+  const h = await setup(t), state = conceptProject(), child = state.elements[0];
+  child.documentation = 'x'.repeat(8192);
+  const parent = folder(93, 'Bounded', null, [{ kind: 'element', id: child.id }]);
+  const nested = folder(94, 'x'.repeat(8192), parent.id); nested.documentation = child.documentation;
+  parent.childLabelTemplate = '${documentation}'.repeat(511);
+  state.folders = [parent, nested]; await h.load(serializeProjectFile(state)); openTree(h);
+  const button = leaf(h, 'element', child.id), label = button.querySelector('.element-name').textContent;
+  assert.equal(label.length, 8192);
+  assert.ok(label.endsWith('…'));
+  assert.ok(button.getAttribute('aria-label').includes(label));
+  const nestedButton = h.document.querySelector(`[data-folder-id="${nested.id}"] > summary button`);
+  assert.equal(nestedButton.textContent.length, 8192);
+  assert.ok(nestedButton.textContent.endsWith('…'));
+});

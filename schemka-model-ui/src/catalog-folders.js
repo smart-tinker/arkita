@@ -1,4 +1,4 @@
-import { CURRENT_CATALOG, exportFiles, conceptTypeChangesImpact } from '../../schemka-model-core/src/index.js';
+import { CURRENT_CATALOG, LIMITS, exportFiles, conceptTypeChangesImpact } from '../../schemka-model-core/src/index.js';
 import {relationshipAssessment,relationshipTypeContext,relationshipCoverage,diagnosticPresentation,renderAssessmentEvidence} from './profile-ui.js';
 import { canvasDropPoint } from './drag-drop.js';
 import { CATALOG_SECTIONS, catalogTreeIndex, catalogDestinationOptions, catalogMovePlan, folderSectionProperties, destinationSection } from './catalog-tree.js';
@@ -238,7 +238,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
         for(const [offset,label] of [[start-step,'← Предыдущие'],[start+step,`Следующие ${Math.min(step,Math.max(0,items.length-start-step))} →`]]){const more=button(label,()=>{shown.set(id,offset);generation++;refresh();});more.disabled=offset<0||offset>=items.length;more.dataset.catalogMore=id;controls.append(more);}controls.append(node('span',`${start+1}–${Math.min(start+step,items.length)} из ${items.length}`));body.append(controls);}};
     }
     function memberRow(ref){
-      const item=index.records.get(key(ref)),owner=byId.get(index.owners.get(key(ref))),catalogLabel=owner?.childLabelTemplate?captionText(owner.childLabelTemplate,{...item,kind:ref.kind},state):null;
+      const item=index.records.get(key(ref)),owner=byId.get(index.owners.get(key(ref))),catalogLabel=owner?.childLabelTemplate?captionText(owner.childLabelTemplate,{...item,kind:ref.kind},state,LIMITS.string):null;
       let row=makeMemberRow?.(ref,item,{state,view,selected,records:index.records,uses:uses.get(key(ref))??0,catalogLabel})??node('div',undefined,'catalog-member-row element-row');
       row.dataset.catalogKind=ref.kind;row.dataset.catalogId=ref.id;
       if(!makeMemberRow){
@@ -286,7 +286,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
           // Queued native toggles also follow programmatic reveal/reset; only clicks invalidate an in-flight file operation.
           details.addEventListener('toggle',()=>{if(details.isConnected)updateExpansion(false);});saved={details,choose,count,branch};folderRows.set(cacheKey,saved);
         }
-        const {details,choose,count,branch}=saved,parent=byId.get(folder.parentFolderId),label=parent?.childLabelTemplate?captionText(parent.childLabelTemplate,{...folder,kind:'folder'},state):folder.name;details.open=expanded.has(cacheKey);choose.textContent=label;choose.setAttribute('aria-label',`Папка ${label}`);choose.setAttribute('aria-expanded',String(details.open));count.textContent=String(index.countsForFolder.get(folder.id)?.get(sectionId)??0);branch.replaceChildren();body.append(details);
+        const {details,choose,count,branch}=saved,parent=byId.get(folder.parentFolderId),label=parent?.childLabelTemplate?captionText(parent.childLabelTemplate,{...folder,kind:'folder'},state,LIMITS.string):folder.name;details.open=expanded.has(cacheKey);choose.textContent=label;choose.setAttribute('aria-label',`Папка ${label}`);choose.setAttribute('aria-expanded',String(details.open));count.textContent=String(index.countsForFolder.get(folder.id)?.get(sectionId)??0);branch.replaceChildren();body.append(details);
         if(details.open)stack.push({sectionId,folderId:folder.id,body:branch});
       }
       currentPage.more();
