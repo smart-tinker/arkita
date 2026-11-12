@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import { installWorkbench } from '../src/workbench.js';
+import { createLocalPreferences } from '../src/preferences.js';
 
 test('native-like menu/keyboard save share the draft guard, including stopped inline key events', () => {
   const dom = new JSDOM('<button data-command="save">Save</button><button id="file-button" hidden>File</button><div class="inline-editor"><input></div>');
@@ -49,5 +50,33 @@ test('physical Ctrl/Meta shortcuts work in Russian layout without consuming IME,
     calls.length = 0;
     document.body.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: keys.code.slice(3), shiftKey: keys.shiftKey, ctrlKey: true, bubbles: true }));
     assert.deepEqual(calls, expected, 'Latin key-only events remain supported');
+  }
+});
+
+test('plain custom command keys keep text entry native while canvas bindings and Ctrl/F1 shortcuts work', t => {
+  const dom = new JSDOM('<button id="file-button"></button><button id="desktop-open-project"></button><button id="save-project"></button><button id="new-project"></button><svg id="canvas"></svg><input><textarea></textarea><select><option>A</option></select><div contenteditable="true"><span>draft</span></div><div contenteditable="plaintext-only">draft</div>', { url: 'https://arkita.invalid' });
+  t.after(() => dom.window.close());
+  const { document } = dom.window, preferences = createLocalPreferences(dom.window.localStorage), calls = [];
+  dom.window.schemkaDesktop = {};
+  for (const id of ['file-button', 'desktop-open-project', 'save-project', 'new-project']) document.getElementById(id).addEventListener('click', () => calls.push(id));
+  installWorkbench({ document, window: dom.window, preferences, files: { save: () => calls.push('save') }, blocked: () => false, status() {}, onHelp: () => calls.push('help') });
+  const key = (target, extra = {}) => {
+    const event = new dom.window.KeyboardEvent('keydown', { key: 'a', code: 'KeyA', bubbles: true, cancelable: true, ...extra });
+    target.dispatchEvent(event); return event;
+  };
+  for (const [command, expected] of [['save', ['save']], ['save-as', ['file-button', 'save-project']], ['open', ['file-button', 'desktop-open-project']], ['new', ['file-button', 'new-project']], ['help-button', ['help']]]) {
+    preferences.reset(); const keys = preferences.get('keys'); keys[command] = 'KeyA'; preferences.update('keys', keys);
+    for (const target of document.querySelectorAll('input,textarea,select,[contenteditable] span,[contenteditable="plaintext-only"]')) {
+      calls.length = 0;
+      assert.equal(key(target).defaultPrevented, false, `${command} must not consume text entry`);
+      assert.deepEqual(calls, []);
+    }
+    calls.length = 0;
+    assert.equal(key(document.getElementById('canvas')).defaultPrevented, true);
+    assert.deepEqual(calls, expected);
+  }
+  preferences.reset();
+  for (const [keys, expected] of [[{ key: 's', code: 'KeyS', ctrlKey: true }, ['save']], [{ key: 'o', code: 'KeyO', ctrlKey: true }, ['file-button', 'desktop-open-project']], [{ key: 'F1', code: 'F1' }, ['help']]]) {
+    calls.length = 0; assert.equal(key(document.querySelector('input'), keys).defaultPrevented, true); assert.deepEqual(calls, expected);
   }
 });
