@@ -22,8 +22,12 @@ test('detached tree uses inert labels, emits owner actions, filters all rows, an
   receive(dto); await Promise.resolve();
   assert.equal(document.querySelectorAll('script:not([src])').length, 0);
   assert.equal(document.querySelector('#catalog-window-title').textContent, 'Дерево · Synthetic');
-  document.querySelectorAll('#catalog-window-items summary')[1].click();
+  const folderSummary = document.querySelectorAll('#catalog-window-items summary')[1];
+  folderSummary.focus(); assert.equal(document.activeElement, folderSummary);
+  folderSummary.click();
   await new Promise(resolve => window.setTimeout(resolve, 0));
+  assert.equal(document.activeElement.tagName, 'SUMMARY', 'the folder disclosure keeps keyboard focus after the tree rerenders');
+  assert.equal(document.activeElement.dataset.catalogIndex, '1');
   const openedRow = document.querySelector('.catalog-window-row button');
   await new Promise(resolve => window.setTimeout(resolve, 0));
   await new Promise(resolve => window.setTimeout(resolve, 0));

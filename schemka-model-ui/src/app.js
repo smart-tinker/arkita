@@ -1241,7 +1241,7 @@ modelAnalysis = installModelAnalysis({ document, window, preferences, model, ope
 installWorkbench({ document, window, preferences, onDefaultPaste: () => fragmentClipboard?.run('paste'), onHelp: target => workspace?.openContextHelp(target), onHistory: action => { if (workspace?.active || inline.active || files.transient || git?.transient || document.querySelector('dialog[open]')) { status('Завершите или отмените текущую правку перед историей.'); return; } history(action); }, files, blocked: workbenchBlocked, status });
 workspace = installWorkspace({ document, window, preferences, blocked: workbenchBlocked, status, openDialog, panel, beforeHelp: cancelGesture,
   canHelp: () => !inline.active && !files.transient && !git?.transient && !gesture && !model.drag && !internalDrag?.active && !viewport?.active });
-detachedCatalog = installDetachedCatalog({ document, window, model, session: projectSession, preferences, blocked: workbenchBlocked, status,
+detachedCatalog = installDetachedCatalog({ document, window, model, session: projectSession, preferences, blocked: workbenchBlocked, status, panel,
   activate(ref, action) { if (action === 'add') menuActions.addOccurrence(ref); else if (ref.kind === 'view') activateView(ref.id); else selectCatalogConcept(ref); } });
 modelSearch = installModelSearch({ document, preferences, model, panel, selectConcept: selectCatalogConcept, openConcept: openInspector, openMetadata: owner => metadataUI.open(owner), activateView, blocked: workbenchBlocked, status, openDialog, render,
   revealDrawing(ref) {

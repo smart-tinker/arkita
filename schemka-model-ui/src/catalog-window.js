@@ -38,7 +38,7 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
       const entry = state.entries[index];
       if (entry.kind !== 'folder') { container.append(leaf(entry, index)); continue; }
       const details = document.createElement('details'), summary = document.createElement('summary'), label = document.createElement('span'), branch = document.createElement('div');
-      label.textContent = entry.label; summary.append(label); details.open = expanded.has(rowKey(entry, index)); branch.className = 'catalog-branch';
+      summary.dataset.catalogIndex = String(index); label.textContent = entry.label; summary.append(label); details.open = expanded.has(rowKey(entry, index)); branch.className = 'catalog-branch';
       details.append(summary, branch); container.append(details);
       if (details.open) folders.push({ parent: index, branch });
       details.addEventListener('toggle', () => {

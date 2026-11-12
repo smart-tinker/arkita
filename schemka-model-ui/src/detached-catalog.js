@@ -7,7 +7,7 @@ const key = ref => `${ref.kind}:${ref.id}`;
 const title = item => item?.name || item?.label || '(без названия)';
 
 /** The detached window is a read-only view; all model commands return to this owner. */
-export function installDetachedCatalog({ document, window, model, session, preferences, blocked, status, activate, desktop = window.schemkaDesktop }) {
+export function installDetachedCatalog({ document, window, model, session, preferences, blocked, status, activate, panel, desktop = window.schemkaDesktop }) {
   const button = (label, id, action) => { const control = document.createElement('button'); control.type = 'button'; control.id = id; control.textContent = label; control.addEventListener('click', action); return control; };
   let detached = false, busy = false, generation = 0, signature = '', publishing = false, publishAgain = false;
   const trigger = button('Отделить дерево', 'catalog-detach', open);
@@ -78,7 +78,9 @@ export function installDetachedCatalog({ document, window, model, session, prefe
       const result = await desktop.catalogOpen(snapshot());
       if (ticket !== generation) return;
       if (result?.status !== 'detached') throw Error(result?.message || result?.reason || 'Окно недоступно.');
-      detached = true; signature = ''; paint(); await refresh();
+      detached = true; signature = ''; paint();
+      if (document.body.dataset.mobilePanel === 'catalog') panel('canvas');
+      await refresh();
     } catch (error) { status(`Дерево не открыто: ${error.message}`); }
     finally { busy = false; paint(); }
   }
