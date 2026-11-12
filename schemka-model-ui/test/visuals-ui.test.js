@@ -71,6 +71,34 @@ test('upload and create-image commit once, unsafe SVG/late async reads leave the
   h.$('visual-add-image').click(); const input = h.$('visual-upload'); Object.defineProperty(input, 'files', { value: [delayed], configurable: true }); input.dispatchEvent(new h.window.Event('change', { bubbles: true })); h.$('visual-cancel').click(); release(new TextEncoder().encode(source).buffer); await new Promise(resolve => setImmediate(resolve)); assert.deepEqual(h.store.exportFiles(), valid); assert.equal(h.$('visual-dialog').open, false);
 });
 
+test('canvas image drop uses validated import at the drop point and failed imports leave no resource', async t => {
+  const h = fixture(t), before = h.store.exportFiles();
+  const file = (name, value, type = 'image/svg+xml') => {
+    const blob = new Blob([value], { type }); Object.defineProperty(blob, 'name', { value: name }); return blob;
+  };
+  const drop = file => {
+    const event = new h.window.MouseEvent('drop', { bubbles: true, cancelable: true, clientX: 120, clientY: 140 });
+    Object.defineProperty(event, 'dataTransfer', { value: { files: [file], types: ['Files'] } }); h.canvas.dispatchEvent(event); return event;
+  };
+  const settle = () => new Promise(resolve => setImmediate(resolve));
+
+  const accepted = drop(file('Canvas.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20"/></svg>'));
+  await settle();
+  assert.equal(accepted.defaultPrevented, true); assert.equal(h.$('visual-dialog').open, true);
+  assert.equal(h.$('visual-x').value, '120'); assert.equal(h.$('visual-y').value, '140');
+  assert.deepEqual(h.store.exportFiles(), before);
+  h.submit();
+  const view = h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId), image = view.visualNodes.find(item => item.kind === 'image');
+  assert.ok(image); assert.deepEqual({ x: image.bounds.x, y: image.bounds.y }, { x: 120, y: 140 });
+  assert.equal(h.store.snapshot.assets.length, 1); assert.equal(h.store.history.undo, 1);
+
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+  drop(file('Unsafe.svg', '<svg onload="bad()"/>')); await settle();
+  assert.match(h.$('visual-error').textContent, /не добавлено/); assert.equal(h.store.snapshot.assets.length, 0);
+  assert.deepEqual(h.store.exportFiles(), before);
+  h.$('visual-cancel').click(); assert.deepEqual(h.store.exportFiles(), before);
+});
+
 test('view-reference double click/Enter navigate, resource library reuses resources and protects used deletion', t => {
   const h = fixture(t), reference = h.add('viewReference'), target = h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.find(item => item.id === reference.id).targetViewId, marker = h.marker(reference);
   marker.dispatchEvent(new h.window.MouseEvent('dblclick', { bubbles: true })); assert.equal(h.model.viewId, target);
