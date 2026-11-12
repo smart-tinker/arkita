@@ -21,7 +21,7 @@ export function installDocumentationEditor({ document, model, session = null, op
     if (!pending) return false;
     if (!exact(pending)) { error.textContent = 'Модель, представление или выделение изменились. Закройте диалог и начните правку заново.'; return false; }
     if (reading && rawValue().length > LIMITS.string) { error.textContent = `Документация не должна превышать ${LIMITS.string} единиц UTF-16.`; return false; }
-    if (reading) preview.innerHTML = reportMarkdown(rawValue(), { externalLinks: true });
+    if (reading) preview.innerHTML = reportMarkdown(rawValue(), { externalLinks: true, fileLinks: true });
     preview.hidden = !reading; value.hidden = reading; edit.setAttribute('aria-pressed', String(!reading)); view.setAttribute('aria-pressed', String(reading));
     (reading ? preview : value).focus(); return true;
   }
