@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "c7d366189aa5acccf5a361cbdd1580c577882698dce952a8c4d4a8ced03a7482",
-    "docs/feature-corpus/program.json": "662d6de4f13c8d6e3b188e7e5464a943c25eb5a1e1cbb28cd0c70b08522375e1"
+    "docs/feature-corpus/program.json": "a095461c87a635ec2c155849dd00beff471b11967223d3e08035c056952bee27"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -63,6 +63,14 @@
     "scope": "Full applicable corpus now authorized before local Windows acceptance. All original IDs are assigned to family issues; no new feature acceptance or runtime PASS is implied by this documentation update.",
     "records": 339,
     "original_exclusions": 9,
-    "runtime_acceptance": "Tracked per PR; not implied by this manifest."
+    "runtime_acceptance": "Tracked per PR; not implied by this manifest.",
+    "current_evidence_review": {
+      "updated_at": "2026-11-12",
+      "issue": 24,
+      "source_sha": "a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d",
+      "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43121393082",
+      "result": "Five criteria have current source/test evidence; all remain acceptance-pending because installed Windows Git GUI acceptance is unrun.",
+      "ledger": "docs/feature-corpus/program.json"
+    }
   }
 }
