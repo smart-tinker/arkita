@@ -24,6 +24,10 @@ test('detached tree uses inert labels, emits owner actions, filters all rows, an
   assert.equal(document.querySelector('#catalog-window-title').textContent, 'Дерево · Synthetic');
   document.querySelectorAll('#catalog-window-items summary')[1].click();
   await new Promise(resolve => window.setTimeout(resolve, 0));
+  const openedRow = document.querySelector('.catalog-window-row button');
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  await new Promise(resolve => window.setTimeout(resolve, 0));
+  assert.equal(openedRow.isConnected, true, 'an open folder must settle without replacing its controls repeatedly');
   assert.match(document.querySelector('.catalog-window-row button').textContent, /<script>текст<\/script>/);
   document.querySelector('.catalog-window-row button').click(); await Promise.resolve(); assert.deepEqual(sent[0], { nonce: 'owner-snapshot', index: 2, action: 'select' });
   document.querySelector('.catalog-window-add').click(); await Promise.resolve(); assert.deepEqual(sent[1], { nonce: 'owner-snapshot', index: 2, action: 'add' });

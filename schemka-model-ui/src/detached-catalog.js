@@ -7,7 +7,7 @@ const key = ref => `${ref.kind}:${ref.id}`;
 const title = item => item?.name || item?.label || '(без названия)';
 
 /** The detached window is a read-only view; all model commands return to this owner. */
-export function installDetachedCatalog({ document, window, model, session, preferences, status, activate, desktop = window.schemkaDesktop }) {
+export function installDetachedCatalog({ document, window, model, session, preferences, blocked, status, activate, desktop = window.schemkaDesktop }) {
   const button = (label, id, action) => { const control = document.createElement('button'); control.type = 'button'; control.id = id; control.textContent = label; control.addEventListener('click', action); return control; };
   let detached = false, busy = false, generation = 0, signature = '', publishing = false, publishAgain = false;
   const trigger = button('Отделить дерево', 'catalog-detach', open);
@@ -72,7 +72,7 @@ export function installDetachedCatalog({ document, window, model, session, prefe
   function paint() { document.body.dataset.catalogDetached = String(detached); trigger.disabled = busy; dock.hidden = !detached; }
   function docked() { detached = false; signature = ''; generation++; paint(); }
   async function open() {
-    if (busy || !desktop?.catalogOpen) return;
+    if (busy || blocked() || !desktop?.catalogOpen) return;
     busy = true; paint(); const ticket = ++generation;
     try {
       const result = await desktop.catalogOpen(snapshot());
@@ -98,6 +98,7 @@ export function installDetachedCatalog({ document, window, model, session, prefe
     finally { publishing = false; }
   }
   function command(request) {
+    if (blocked()) { status('Завершите или отмените текущую правку перед действием в дереве.'); return; }
     if (!detached || request?.documentToken !== session.documentToken || request.revision !== model.store.revision || request.viewId !== model.viewId) { status('Элемент дерева устарел. Выберите его заново.'); void refresh(); return; }
     const ref = { kind: request.kind, id: request.id };
     if (request.action === 'add') {

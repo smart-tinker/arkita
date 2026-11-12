@@ -42,7 +42,7 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
       details.append(summary, branch); container.append(details);
       if (details.open) folders.push({ parent: index, branch });
       details.addEventListener('toggle', () => {
-        if (!details.isConnected) return;
+        if (!details.isConnected || details.open === expanded.has(rowKey(entry, index))) return;
         if (details.open) expanded.add(rowKey(entry, index)); else expanded.delete(rowKey(entry, index));
         render();
       });
