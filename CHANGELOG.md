@@ -11,6 +11,8 @@
 - Update build/test dependencies to patched fast-uri 3.1.9 and undici 7.30.2;
   override vulnerable minimatch 9.0.9 and 10.2.6 consumers to 11.0.1.
 - Bound inactive SVG validation work and reject oversized SVG input directly.
+- Preserve destination-specific line decorations when the format brush copies appearance
+  across model views; the action remains undoable.
 - No application feature or model-format change is included in this patch line.
 
 This candidate is for CI and test validation. It is not a user-distribution
