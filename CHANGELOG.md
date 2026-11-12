@@ -5,9 +5,11 @@
 - Make the locked test suite path-aware on Windows.
 - Add a reproducible Chromium renderer smoke and run it in the Ubuntu PR gate.
 - Validate source and the NSIS installer in temporary Ubuntu/Windows Actions
-  runners; the workflows do not upload artifacts or use caches.
+  runners. No workflow uploads artifacts or configures dependency caches;
+  CodeQL keeps its automatic database cache separately.
 - Update Electron to 44.10.2, including the fix for GHSA-jr5w-w6x2-84p9.
-- Update build/test dependencies to patched fast-uri 3.1.9 and undici 7.30.2.
+- Update build/test dependencies to patched fast-uri 3.1.9 and undici 7.30.2;
+  override vulnerable minimatch 9.0.9 and 10.2.6 consumers to 11.0.1.
 - Bound inactive SVG validation work and reject oversized SVG input directly.
 - No application feature or model-format change is included in this patch line.
 
