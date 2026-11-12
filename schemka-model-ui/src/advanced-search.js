@@ -236,7 +236,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
       catalogOwners = [...new Map(owners.map(owner => { const found = known.get(ownerKey(owner)); if (!found) throw Error('Выделение дерева устарело.'); return [ownerKey(found), { ...found }]; })).values()];
     } else if (!propertiesOnly) catalogOwners = null;
     if (propertiesOnly) {
-      advancedPropertyDraft = { key: key.value, value: value.value, newKey: controls['property-new-key'].value, collision: controls['property-collision'].value };
+      advancedPropertyDraft = { key: key.value, value: value.value, scope: propertyScope.value, newKey: controls['property-new-key'].value, collision: controls['property-collision'].value };
       key.value = ''; value.value = ''; controls['property-new-key'].value = ''; controls['property-collision'].value = '';
     }
     const catalogOption = [...propertyScope.options].find(option => option.value === 'catalog'); catalogOption.disabled = !catalogOwners;
@@ -259,6 +259,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     invalidate();
     if (dialog.dataset.mode === 'properties' && advancedPropertyDraft) {
       key.value = advancedPropertyDraft.key; value.value = advancedPropertyDraft.value;
+      propertyScope.value = advancedPropertyDraft.scope;
       controls['property-new-key'].value = advancedPropertyDraft.newKey; controls['property-collision'].value = advancedPropertyDraft.collision;
       advancedPropertyDraft = null;
     }

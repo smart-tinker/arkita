@@ -52,7 +52,9 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   await h.load(original);
   const input = (id, value) => { h.$(id).value = value; h.$(id).dispatchEvent(new h.window.Event('input', { bubbles: true })); };
   const searchCommand = h.document.querySelector('[data-command="model-search-advanced"]');
-  searchCommand.closest('.app-menu').open = true; searchCommand.click(); input('advanced-query', 'Shared'); h.$('advanced-search-run').click(); await tick(); await tick(); h.$('advanced-search-close').click();
+  searchCommand.closest('.app-menu').open = true; searchCommand.click(); input('advanced-query', 'Shared'); h.$('advanced-search-run').click(); await tick(); await tick();
+  const propertyScope = h.$('advanced-property-scope'); propertyScope.value = 'checked'; propertyScope.dispatchEvent(new h.window.Event('change', { bubbles: true }));
+  h.$('advanced-search-close').click();
   const command = h.document.querySelector('[data-command="user-properties-manager"]'); assert.ok(command);
   command.closest('.app-menu').open = true; command.click(); await tick();
   assert.equal(h.$('advanced-search-dialog').dataset.mode, 'properties');
@@ -68,6 +70,7 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   assert.equal(h.$('advanced-search-apply').disabled, true);
   h.$('advanced-search-close').click();
   assert.equal(h.$('advanced-query').value, 'Shared');
+  assert.equal(propertyScope.value, 'checked', 'Opening and cancelling the global manager preserves the search property scope');
   assert.deepEqual(await h.download(), original, 'Cancel after a collision leaves the model unchanged');
 
   command.closest('.app-menu').open = true; command.click(); propertyRow('owner').click();
