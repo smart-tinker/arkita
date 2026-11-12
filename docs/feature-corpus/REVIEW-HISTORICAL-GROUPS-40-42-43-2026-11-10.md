@@ -68,6 +68,25 @@ current_status всех 48 критериев остаётся acceptance-pendin
 - All 48 records remain `acceptance-pending`, with empty `closed_criteria`.
   No user-facing or Windows/native acceptance is inferred from aggregate CI.
 
+## Current source refresh — 12 Nov 2026, 07:45 UTC
+
+- Public `main` is `2f021a4c9dd2433b976770c22d7649c26e0e244a`. Since the
+  previous source review at `a34b405408e5bc6fb5a501e770971aa441bc41bb`, eight
+  files changed: CI/docs and three test files. No production implementation or
+  `docs/feature-corpus` source changed; the implementation map below remains
+  applicable. The added advanced-search tests are extra automated coverage,
+  not acceptance of the related product criteria.
+- Current PR head is `2c1b3bfd1b22374ef48bc110e511888e8f9c0d0a`. Required CI
+  [43175227956](https://github.com/smart-tinker/arkita/actions/runs/43175227956),
+  CodeQL
+  [43175228003](https://github.com/smart-tinker/arkita/actions/runs/43175228003),
+  and Dependency Review
+  [43175227965](https://github.com/smart-tinker/arkita/actions/runs/43175227965)
+  completed successfully on that exact SHA.
+- All 48 issue #10 records remain `acceptance-pending`; `closed_criteria` is
+  still empty. The source refresh adds no accepted criteria and does not claim
+  installed Windows or user acceptance.
+
 Групповое evidence:
 - Метаданные: [`metadata-ui.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/src/metadata-ui.js), [`object-properties.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/src/object-properties.js), [`documentation-editor.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/src/documentation-editor.js), [`metadata.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-core/src/metadata.js), [`format.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-core/src/format.js); тесты [`metadata-app.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/metadata-app.test.js), [`object-properties-app.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/object-properties-app.test.js), [`documentation-editor.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/documentation-editor.test.js), [`documentation-markdown-app.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/documentation-markdown-app.test.js), [`native-v4.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-core/test/native-v4.test.js), [`customization.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-io/test/customization.test.js).
 - Пространство и настройки: [`workspace-ui.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/src/workspace-ui.js), [`preferences-ui.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/src/preferences-ui.js), [`preferences.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/src/preferences.js); тесты [`workspace-ui.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/workspace-ui.test.js), [`workspace-app.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/workspace-app.test.js), [`preferences.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/preferences.test.js), [`preferences-effects-app.test.js`](https://github.com/smart-tinker/arkita/blob/a34b405408e5bc6fb5a501e770971aa441bc41bb/schemka-model-ui/test/preferences-effects-app.test.js).
