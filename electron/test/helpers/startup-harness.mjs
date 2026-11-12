@@ -169,6 +169,7 @@ const modules = {
   './host-actions.mjs': synthetic({ createHostActions: () => ({}) }),
   './window-bounds.mjs': synthetic({ visibleWindowBounds, watchWindowBounds }),
   './palette-service.mjs': synthetic({ createPaletteService: () => ({ closed() {}, ready: () => ({ status: 'error', code: 'IPC_SENDER' }), activate: () => ({ status: 'error', code: 'IPC_SENDER' }), childDock: () => ({ status: 'error', code: 'IPC_SENDER' }) }) }),
+  './catalog-service.mjs': synthetic({ createCatalogService: () => ({ closed() {}, ready: () => ({ status: 'error', code: 'IPC_SENDER' }), activate: () => ({ status: 'error', code: 'IPC_SENDER' }), childDock: () => ({ status: 'error', code: 'IPC_SENDER' }) }) }),
   './print-service.mjs': synthetic({ createPrintService: () => async () => ({ status: 'cancelled' }) }),
   './clipboard-service.mjs': synthetic({ createClipboardService: ({ ClipboardItem }) => { assert.equal(typeof ClipboardItem, 'function'); return { closed(record) { clipboardClosed.push(record.window); }, read: async () => { throw Object.assign(Error('native clipboard rejected'), { code: 'CLIPBOARD_DENIED' }); } }; } }),
   './document-preferences.mjs': synthetic({ createDocumentPreferences: () => ({ status: async () => ({ status: 'ok' }), remember: async () => {}, backup: async () => {}, windowBounds: async () => null, setWindowBounds: async () => {} }) }),

@@ -11,6 +11,7 @@ import { createFileService, prepareFileOpen } from './file-service.mjs';
 import { createGitService } from './git-service.mjs';
 import { visibleWindowBounds, watchWindowBounds } from './window-bounds.mjs';
 import { createPaletteService } from './palette-service.mjs';
+import { createCatalogService } from './catalog-service.mjs';
 import { createPrintService } from './print-service.mjs';
 import { createClipboardService } from './clipboard-service.mjs';
 import { createDocumentPreferences } from './document-preferences.mjs';
@@ -52,6 +53,7 @@ const hostActions = createHostActions({ dialog, shell });
 const clip = createClipboardService({ clipboard, nativeImage, ClipboardItem });
 const preferences = createDocumentPreferences(path.join(app.getPath('userData'), 'documents'));
 const palettes = createPaletteService({ BrowserWindow, screen, session: local, root, loadBounds: preferences.windowBounds, saveBounds: preferences.setWindowBounds });
+const catalogs = createCatalogService({ BrowserWindow, screen, session: local, root, loadBounds: preferences.windowBounds, saveBounds: preferences.setWindowBounds });
 async function createDocument(initial = { kind: 'new' }) {
   let savedBounds; try { savedBounds = await preferences.windowBounds('main'); } catch { /* Defaults preserve startup if local settings cannot be read. */ }
   const bounds = visibleWindowBounds(savedBounds, screen.getAllDisplays());
@@ -74,7 +76,7 @@ async function createDocument(initial = { kind: 'new' }) {
     gitPath: app.isPackaged && process.platform === 'win32' ? path.join(process.resourcesPath, 'git', 'cmd', 'git.exe') : undefined });
   documents.register(record);
   next.on('focus', () => { window = next; });
-  next.once('closed', () => { clip.closed(record); palettes.closed(record); if (window === next) window = documents.records.at(-1)?.window; });
+  next.once('closed', () => { clip.closed(record); palettes.closed(record); catalogs.closed(record); if (window === next) window = documents.records.at(-1)?.window; });
   installWindowGuards(next, dialog, {
     get busy() { return record.files.busy || record.git.busy || record.openBusy; },
     get hasDirectoryIssue() { return record.files.hasDirectoryIssue; },
@@ -97,11 +99,16 @@ function handle(name, action) {
 }
 async function clipboardAction(action) { try { return await action(); } catch (error) { return { status: 'error', code: error.code || 'CLIPBOARD_IO', message: error.message }; } }
 async function paletteAction(action) { try { return await action(); } catch (error) { return { status: 'error', code: error.code || 'PALETTE_IO', message: error.message }; } }
+async function catalogAction(action) { try { return await action(); } catch (error) { return { status: 'error', code: error.code || 'CATALOG_IO', message: error.message }; } }
 handle('palette-open', (record, _event, snapshot) => paletteAction(() => palettes.open(record, snapshot)));
 handle('palette-publish', (record, _event, snapshot) => paletteAction(() => palettes.publish(record, snapshot)));
 handle('palette-dock', record => paletteAction(() => palettes.dock(record)));
 handle('palette-resolve-drop', (record, _event, data) => paletteAction(() => palettes.resolveDrop(record, data)));
 for (const [name, method] of [['palette-ready', 'ready'], ['palette-activate', 'activate'], ['palette-child-dock', 'childDock']]) ipcMain.handle(`schemka:${name}`, (event, data) => paletteAction(() => palettes[method](event, data)));
+handle('catalog-open', (record, _event, snapshot) => catalogAction(() => catalogs.open(record, snapshot)));
+handle('catalog-publish', (record, _event, snapshot) => catalogAction(() => catalogs.publish(record, snapshot)));
+handle('catalog-dock', record => catalogAction(() => catalogs.dock(record)));
+for (const [name, method] of [['catalog-ready', 'ready'], ['catalog-activate', 'activate'], ['catalog-child-dock', 'childDock']]) ipcMain.handle(`schemka:${name}`, (event, data) => catalogAction(() => catalogs[method](event, data)));
 handle('clipboard-write-fragment', (record, _event, options) => clipboardAction(() => clip.write(record, options)));
 handle('clipboard-read-fragment', () => clipboardAction(() => clip.read()));
 handle('clipboard-acknowledge-cut', (record, _event, id, token) => clipboardAction(() => clip.acknowledge(record, id, token)));

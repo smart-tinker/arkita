@@ -1,6 +1,19 @@
 const { contextBridge, ipcRenderer, webUtils } = require('electron');
 
 contextBridge.exposeInMainWorld('schemkaDesktop', Object.freeze({
+  catalogOpen: snapshot => ipcRenderer.invoke('schemka:catalog-open', snapshot),
+  catalogPublish: snapshot => ipcRenderer.invoke('schemka:catalog-publish', snapshot),
+  catalogDock: () => ipcRenderer.invoke('schemka:catalog-dock'),
+  onCatalogAction: callback => {
+    if (typeof callback !== 'function') throw new TypeError('Expected callback');
+    const listener = (_event, data) => callback(data); ipcRenderer.on('schemka:catalog-command', listener);
+    return () => ipcRenderer.removeListener('schemka:catalog-command', listener);
+  },
+  onCatalogDocked: callback => {
+    if (typeof callback !== 'function') throw new TypeError('Expected callback');
+    const listener = () => callback(); ipcRenderer.on('schemka:catalog-docked', listener);
+    return () => ipcRenderer.removeListener('schemka:catalog-docked', listener);
+  },
   paletteOpen: snapshot => ipcRenderer.invoke('schemka:palette-open', snapshot),
   palettePublish: snapshot => ipcRenderer.invoke('schemka:palette-publish', snapshot),
   paletteDock: () => ipcRenderer.invoke('schemka:palette-dock'),
