@@ -7791,11 +7791,11 @@
         "schemka-model-core/test/semantic-editing.test.js",
         "schemka-model-ui/test/semantic-editing-ui.test.js"
       ],
-      "remaining": "Current regression fixtures cover multiple drawings in one view, not separate views. Add a focused multi-view regression before closure; native dialog acceptance is UNRUN.",
+      "remaining": "Focused regression covers three uses across two views, per-view bindings, cancellation, route/label preservation and one-step undo. Native Windows dialog acceptance remains UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
+      "verification": "Base source reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 passed on Ubuntu and Windows. Focused UI regression `node --test schemka-model-ui/test/semantic-editing-ui.test.js` passed 8/8 and core regression `node --test schemka-model-core/test/semantic-editing.test.js` passed 7/7 at test commit 54ed22b0bfe50ef2149789a1a2a079c1ab9bb5a0. Native Windows dialog acceptance remains unrun; criterion stays acceptance-pending and closed_criteria is empty. Details: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
