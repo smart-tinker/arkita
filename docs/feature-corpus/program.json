@@ -9389,11 +9389,11 @@
         "schemka-model-ui/test/connection-presentation.test.js",
         "schemka-model-ui/test/visuals-ui.test.js"
       ],
-      "remaining": "Route-relative label behavior through routing edits and relationship inversion is not established; manual labelPosition remains absolute. Windows acceptance is UNRUN.",
+      "remaining": "Focused regression at d5e38b1 proves labelAnchor/labelOffset through the style dialog, project codec and Undo; displayed placement follows bendpoint edits and reversed endpoint direction. A user-facing inversion action and native Windows rendering/long-label handle remain unverified; explicit absolute labelPosition still overrides the relative style.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows. Local focused tests at PR branch commit d5e38b1 passed: connection-presentation 8/8 and visuals-ui 16/16. Verified style-dialog persistence, project codec roundtrip, Undo, bendpoint edit and changed connector endpoint direction. User-facing inversion and native Windows rendering/long-label handle were not tested. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
