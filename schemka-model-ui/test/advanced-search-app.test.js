@@ -79,3 +79,63 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   h.$('undo').click(); assert.deepEqual(await h.download(), saved);
   h.$('redo').click(); assert.deepEqual(await h.download(), removed);
 });
+test(`${production ? 'production' : 'source'} property suggestions, add/remove and saved order survive native-file reopen`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture();
+  await h.load(Buffer.from(serializeProjectFile(fixture.state)));
+  const openSearch = async query => {
+    const command = h.document.querySelector('[data-command="model-search-advanced"]');
+    command.closest('.app-menu').open = true; command.click(); await tick();
+    h.$('advanced-query').value = query; h.$('advanced-query').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+    h.$('advanced-search-run').click(); await tick();
+  };
+  const input = (id, value) => {
+    h.$(id).value = value; h.$(id).dispatchEvent(new h.window.Event('input', { bubbles: true }));
+  };
+  const apply = async action => {
+    h.$(action).click(); assert.equal(h.$('advanced-search-apply').disabled, false, h.$('advanced-search-error').textContent);
+    h.$('advanced-search-apply').click(); await tick(); h.$('advanced-search-close').click();
+  };
+
+  await openSearch('Shared collaboration');
+  input('advanced-property-key', 'owner');
+  assert.deepEqual([...h.$('advanced-property-keys').options].map(option => option.value).includes('owner'), true);
+  assert.deepEqual([...h.$('advanced-property-values').options].map(option => option.value), ['Synthetic']);
+  input('advanced-property-value', 'Synthetic'); h.change('advanced-property-mode', 'all'); h.$('advanced-property-queue').click();
+  await apply('advanced-property-add');
+  let saved = await h.download(), state = deserializeProjectFile(saved);
+  assert.deepEqual(state.elements.find(item => item.id === fixture.a.elementId).properties, [
+    { key: 'owner', value: 'Synthetic' }, { key: 'escaped', value: '<script>\r\n日本語 & "' }, { key: 'owner', value: 'Synthetic' },
+  ]);
+  await h.load(saved);
+  state = deserializeProjectFile(await h.download());
+  assert.deepEqual(state.elements.find(item => item.id === fixture.a.elementId).properties, [
+    { key: 'owner', value: 'Synthetic' }, { key: 'escaped', value: '<script>\r\n日本語 & "' }, { key: 'owner', value: 'Synthetic' },
+  ]);
+
+  await openSearch('Shared collaboration'); input('advanced-property-key', 'owner');
+  await apply('advanced-property-remove');
+  saved = await h.download(); state = deserializeProjectFile(saved);
+  assert.deepEqual(state.elements.find(item => item.id === fixture.a.elementId).properties, [{ key: 'escaped', value: '<script>\r\n日本語 & "' }]);
+  await h.load(saved);
+  state = deserializeProjectFile(await h.download());
+  assert.deepEqual(state.elements.find(item => item.id === fixture.a.elementId).properties, [{ key: 'escaped', value: '<script>\r\n日本語 & "' }]);
+});
+
+test(`${production ? 'production' : 'source'} property row reorder is saved and restored without changing values`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture();
+  await h.load(Buffer.from(serializeProjectFile(fixture.state)));
+  const command = h.document.querySelector('[data-command="model-search-advanced"]');
+  command.closest('.app-menu').open = true; command.click(); await tick();
+  h.$('advanced-query').value = 'Shared collaboration'; h.$('advanced-query').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+  h.$('advanced-search-run').click(); await tick();
+  const order = h.$('advanced-property-order'); assert.equal(order.options.length, 2);
+  order.options[1].selected = true; h.$('advanced-property-up').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false);
+  h.$('advanced-search-apply').click(); await tick(); h.$('advanced-search-close').click();
+  const saved = await h.download(), expected = [
+    { key: 'escaped', value: '<script>\r\n日本語 & "' }, { key: 'owner', value: 'Synthetic' },
+  ];
+  assert.deepEqual(deserializeProjectFile(saved).elements.find(item => item.id === fixture.a.elementId).properties, expected);
+  await h.load(saved);
+  assert.deepEqual(deserializeProjectFile(await h.download()).elements.find(item => item.id === fixture.a.elementId).properties, expected);
+});
