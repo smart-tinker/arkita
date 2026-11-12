@@ -82,7 +82,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   dialog.append(heading, form, message, error, navigation, results, replacement, properties, preview, apply, discard, close); document.body.append(dialog);
   const opener = button('model-search-advanced', 'Поиск и замена…', () => open()); opener.hidden = true; document.body.append(opener);
   const propertiesOpener = button('user-properties-manager', 'Управление пользовательскими свойствами…', () => open({ propertiesOnly: true })); propertiesOpener.hidden = true; document.body.append(propertiesOpener);
-  let catalogOwners = null;
+  let catalogOwners = null, advancedPropertyDraft = null;
   let generation = 0, source = null, found = [], chosen = new Set(), active = -1, plan = null, trigger = null, orderIndices = [], selection = null;
   const selected = id => [...controls[id].selectedOptions].map(option => option.value);
   const stamp = () => ({ store: model.store, revision: model.store.revision, viewId: model.viewId });
@@ -236,6 +236,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
       catalogOwners = [...new Map(owners.map(owner => { const found = known.get(ownerKey(owner)); if (!found) throw Error('Выделение дерева устарело.'); return [ownerKey(found), { ...found }]; })).values()];
     } else if (!propertiesOnly) catalogOwners = null;
     if (propertiesOnly) {
+      advancedPropertyDraft = { key: key.value, value: value.value, newKey: controls['property-new-key'].value, collision: controls['property-collision'].value };
       key.value = ''; value.value = ''; controls['property-new-key'].value = ''; controls['property-collision'].value = '';
     }
     const catalogOption = [...propertyScope.options].find(option => option.value === 'catalog'); catalogOption.disabled = !catalogOwners;
@@ -254,7 +255,15 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     invalidate(); if (form.contains(event.target)) { source = null; report('Параметры изменены. Нажмите «Найти / обновить».'); } if (event.target === key) vocabulary(); if (event.target === propertyScope) drawCommon();
   });
   dialog.addEventListener('cancel', event => { event.preventDefault(); dialog.close(); });
-  dialog.addEventListener('close', () => { invalidate(); if (!document.querySelector('dialog[open]') && trigger?.isConnected) trigger.focus(); });
+  dialog.addEventListener('close', () => {
+    invalidate();
+    if (dialog.dataset.mode === 'properties' && advancedPropertyDraft) {
+      key.value = advancedPropertyDraft.key; value.value = advancedPropertyDraft.value;
+      controls['property-new-key'].value = advancedPropertyDraft.newKey; controls['property-collision'].value = advancedPropertyDraft.collision;
+      advancedPropertyDraft = null;
+    }
+    if (!document.querySelector('dialog[open]') && trigger?.isConnected) trigger.focus();
+  });
   invalidate();
   return { open, cancel() { if (dialog.open) dialog.close(); else invalidate(); }, get active() { return dialog.open; }, get generation() { return generation; },
     refresh() { if (dialog.open && source && current(source) && propertyScope.value === 'selection' && selection !== selectionKey()) { invalidate(); drawCommon(); } if (dialog.open && source && !current(source)) { invalidate(); vocabulary(); found = []; drawResults(); source = null; report('Модель изменилась. Нажмите «Найти / обновить».'); } } };

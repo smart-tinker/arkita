@@ -4,6 +4,28 @@ import { setup, production, richLifecycleFixture } from './app-test-fixture.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/index.js';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
+test(`${production ? 'production' : 'source'} global property manager preserves an advanced property draft when switching modes`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture();
+  await h.load(Buffer.from(serializeProjectFile(fixture.state)));
+  const advanced = () => { const command = h.document.querySelector('[data-command="model-search-advanced"]'); command.closest('.app-menu').open = true; command.click(); };
+  const manager = () => { const command = h.document.querySelector('[data-command="user-properties-manager"]'); command.closest('.app-menu').open = true; command.click(); };
+  advanced(); await tick();
+  h.$('advanced-property-key').value = 'owner';
+  h.$('advanced-property-value').value = 'unfinished value';
+  h.$('advanced-property-new-key').value = 'unfinished rename';
+  h.change('advanced-property-collision', 'merge');
+  h.$('advanced-search-close').click();
+
+  manager(); await tick();
+  h.$('advanced-search-close').click();
+  advanced(); await tick();
+
+  assert.equal(h.$('advanced-property-key').value, 'owner');
+  assert.equal(h.$('advanced-property-value').value, 'unfinished value');
+  assert.equal(h.$('advanced-property-new-key').value, 'unfinished rename');
+  assert.equal(h.$('advanced-property-collision').value, 'merge');
+});
+
 test(`${production ? 'production' : 'source'} advanced search is reachable, applies one rename command, preserves metadata and roundtrips through Save/Undo`, async t => {
   const h = await setup(t), fixture = richLifecycleFixture(), original = Buffer.from(serializeProjectFile(fixture.state));
   await h.load(original);
