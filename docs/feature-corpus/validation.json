@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "d2dd2a344c4138c7d2dc00598d1c6a7f21f9a94a8ee16e44659ff222b3e7718c"
+    "docs/feature-corpus/program.json": "cbbb67ce56a5a5c20e6a585997085b69fb6d721acd109cab74024420489e67b7"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,12 +57,12 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-10-19",
+    "updated_at": "2026-11-12",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Full applicable corpus now authorized before local Windows acceptance. All original IDs are assigned to family issues; no new feature acceptance or runtime PASS is implied by this documentation update.",
+    "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
     "records": 339,
     "original_exclusions": 9,
-    "runtime_acceptance": "Tracked per PR; not implied by this manifest."
+    "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN."
   }
 }

@@ -21,11 +21,18 @@ This is a source and evidence map, not a release acceptance. All 16 criteria rem
 | A-EDITOR-022 | `schemka-model-ui/src/catalog-folders.js`; `test/unused-tree-app.test.js` | The unused marker is derived from stored drawings and has add/undo coverage. Criterion-level acceptance is not recorded. |
 | A-EDITOR-023 | `schemka-model-ui/src/catalog-selection.js`, `catalog-folders.js`; `test/catalog-selection.test.js`, `test/catalog-selection-app.test.js` | Linked tree/view selection routes have tests. Criterion-level acceptance is not recorded. |
 | A-EDITOR-024 | `schemka-model-ui/src/catalog-folders.js`; `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | Drill-down, breadcrumbs, Back/Home, and moved/deleted-folder recovery have tests. Criterion-level acceptance is not recorded. |
-| A-EDITOR-098 | `schemka-model-core/src/format.js`, `native-v4-commands.js`; `schemka-model-ui/src/metadata-ui.js`, `documentation-editor.js`; `test/context-properties-app.test.js`, `test/metadata-app.test.js` | Folder records support documentation and the folder metadata route opens; the retained folder test checks that route, while generic documentation tests cover the editor. No folder-specific documentation edit test, persisted child-label template, or tree rendering route was found. A visual-object `labelTemplate` is a different contract and does not satisfy it. |
+| A-EDITOR-098 | `schemka-model-core/src/format.js`, `native-v4-commands.js`; `schemka-model-ui/src/metadata-ui.js`, `documentation-editor.js`, `visual-drawings.js`, `catalog-folders.js`; `test/context-properties-app.test.js`, `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | PR #48 is merged in `main` as `62aa163`. Folder documentation and persisted child-label templates now have direct-edit, move, reopen, and bounded-render regressions. Required PR checks passed before merge. The source and CI evidence do not substitute for installed Windows acceptance; the criterion remains pending. |
 
 ## Result
 
-The catalog route is substantially implemented, but group 46 is not complete. One concrete gap remains in current `main`: A-EDITOR-098 folder child-label templates; draft PR [#48](https://github.com/smart-tinker/arkita/pull/48) proposes that work but is not merged or accepted. A-EDITOR-013 now has a tested implementation route; it remains acceptance-pending until its criterion bullets receive scoped rendered results on the reviewed source. Other rows with implementation/test routes also stay pending until their criterion bullets receive scoped results; DOM/unit evidence is not native Windows acceptance. This report does not close issue #12, approve a release, or change the 0.7.1 RC scope.
+The catalog route is substantially implemented, but group 46 is not complete. PR [#48](https://github.com/smart-tinker/arkita/pull/48) merged A-EDITOR-098 implementation into `main` as `62aa163`; its criterion remains acceptance-pending until installed Windows acceptance is recorded. A-EDITOR-013 now has a tested implementation route; it remains acceptance-pending until its criterion bullets receive scoped rendered results on the reviewed source. Other rows with implementation/test routes also stay pending until their criterion bullets receive scoped results; DOM/unit evidence is not native Windows acceptance. This report does not close issue #12, approve a release, or change the 0.7.1 RC scope.
+
+## Current exact-source refresh — 12 Nov 2026, 10:36 UTC
+
+- Current `main`: `62aa1639752be2d4d345c97f4610e3673f0e5767`; PR #48 is merged.
+- A-EDITOR-098 implementation and its direct edit/move/reopen/boundary tests are present. Required CI, CodeQL and Dependency Review passed on PR head `3e712412bb82a6c85359a9d8a99b297ef2ab79de`; post-merge CI `43201799027` is still running and CodeQL `43201799295` passed.
+- All 16 group criteria remain `acceptance-pending`; `closed_criteria` remains empty. Installed Windows GUI acceptance is `UNRUN`.
+- PR #33 implements A-EDITOR-012/013 and is being synchronized to the new main; its prior checks are not current-base evidence.
 
 ## Exact-source refresh — 11 Nov 2026, 08:13 UTC
 

@@ -104,6 +104,20 @@ test('folder parent/member edits are atomic, cycles and multiple owners are refu
   run({ type: 'deleteFolder', folderId: folder }); assert.equal(store.snapshot.folders.find(item => item.id === child).parentFolderId, null); assert.ok(store.snapshot.elements.length > 0);
 });
 
+test('folder child-label templates persist as folder data and reject malformed updates atomically', () => {
+  const { store, run, folder } = rich(), before = store.exportFiles();
+  run({ type: 'updateFolder', folderId: folder, childLabelTemplate: '${name} · ${property:owner}' });
+  const updated = store.exportFiles();
+  assert.equal(store.snapshot.folders.find(item => item.id === folder).childLabelTemplate, '${name} · ${property:owner}');
+  const archive = serializeProjectFile(store.snapshot);
+  assert.deepEqual(serializeProjectFile(deserializeProjectFile(archive)), archive);
+  assert.throws(() => run({ type: 'updateFolder', folderId: folder, childLabelTemplate: 7 }), error => error.code === 'SCHEMA');
+  assert.deepEqual(store.exportFiles(), updated);
+  store.undo(store.revision); assert.deepEqual(store.exportFiles(), before);
+  const created = run({ type: 'createFolder', name: 'Templated', childLabelTemplate: '${name}' }).created.folderId;
+  assert.equal(store.snapshot.folders.find(item => item.id === created).childLabelTemplate, '${name}');
+});
+
 test('typed geometric parent cycles/cross-view refs and semantic endpoint substitution fail without losing Undo', () => {
   const { store, run, viewId, group, note } = rich(), before = store.exportFiles(), history = store.history;
   for (const command of [

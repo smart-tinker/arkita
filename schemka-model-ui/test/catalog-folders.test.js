@@ -43,6 +43,17 @@ test('one section tree keeps model identity, compact member rows and one-command
   const bytes=serializeProjectFile(h.model.store.snapshot);assert.deepEqual(serializeProjectFile(deserializeProjectFile(bytes)),bytes);
 });
 
+test('fallback member rows keep the rendered template in the unused item accessible name', t => {
+  const h = fixture(t), folder = h.createFolder('Owner');
+  const elementId = h.model.execute({ type: 'createElementInModel', elementType: 'Role', name: 'Stored name', folderId: folder.id }, h.model.revision).created.elementId;
+  h.model.execute({ type: 'updateFolder', folderId: folder.id, childLabelTemplate: 'Short: ${name}' }, h.model.revision);
+  h.render(); h.document.querySelector(`[data-folder-focus="${folder.id}"]`).click();
+  const choose = h.document.querySelector(`[data-element-id="${elementId}"]`);
+  assert.equal(choose.querySelector('.element-name').textContent, 'Short: Stored name');
+  assert.match(choose.getAttribute('aria-label'), /^Short: Stored name/);
+  assert.match(choose.getAttribute('aria-label'), /Не используется ни в одном представлении/);
+});
+
 test('natural folder order, safe delete retaining members, stale and cancelled dialogs cannot apply', t => {
   const h = fixture(t), f = h.createFolder('Folder 10'); h.createFolder('Folder 2');
   assert.deepEqual([...h.document.querySelectorAll('[data-folder-id] > summary button')].map(item => item.textContent), ['Folder 2', 'Folder 10']);

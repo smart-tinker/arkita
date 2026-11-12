@@ -2902,13 +2902,16 @@
         "schemka-model-ui/src/documentation-editor.js",
         "schemka-model-ui/src/catalog-folders.js",
         "schemka-model-ui/test/context-properties-app.test.js",
-        "schemka-model-ui/test/metadata-app.test.js"
+        "schemka-model-ui/test/metadata-app.test.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/test/catalog-folders.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Добавить folder-specific регрессию редактирования документации и сохраняемый контракт child-label template с отображением непосредственных детей; общий documentation editor не заменяет проверку папки.",
+      "remaining": "Провести установленную Windows acceptance для документации папки и child-label template на выбранном exact package; не считать CI или DOM-тесты native acceptance.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source review against main f648a7570ea29fea4ea5a4166e0c741d68191886 found a concrete implementation gap; acceptance-pending and no closed_criteria added.",
+      "verification": "PR #48 merged in main as 62aa1639752be2d4d345c97f4610e3673f0e5767. Exact PR-head Ubuntu/Windows CI, CodeQL and Dependency Review passed. Installed Windows GUI acceptance is UNRUN; no criterion is closed by CI alone.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
