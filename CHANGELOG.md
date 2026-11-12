@@ -2,6 +2,7 @@
 
 ## 0.7.1-rc.1 — candidate
 
+- Keep plain-letter shortcuts from interrupting text entry; color-scheme imports preserve other unsaved preference edits.
 - Make the locked test suite path-aware on Windows.
 - Add a reproducible Chromium renderer smoke and run it in the Ubuntu PR gate.
 - Validate source and the NSIS installer in temporary Ubuntu/Windows Actions
