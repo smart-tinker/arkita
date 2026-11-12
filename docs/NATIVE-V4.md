@@ -35,6 +35,12 @@ The parent is another folder ID or null. Members are typed element, junction,
 relationship or view references. Each member has at most one folder owner.
 Folder parents are acyclic. Deleting a folder retains concepts and views,
 promotes its child folders and moves members to its parent or the model root.
+The optional `childLabelTemplate` string controls labels for the folder's direct
+members and child folders; child folders do not inherit it for their own contents.
+It supports `${name}`, `${type}`, `${id}`, `${documentation}`, `${model.name}`,
+and `${property:key}`. Missing or empty templates use the standard label. Older
+releases with a closed V4 schema that predates this field reject these files
+rather than silently dropping it; files without the field keep their prior encoding.
 
 ## Drawings and references
 
