@@ -39,3 +39,32 @@ test('detached tree uses inert labels, emits owner actions, filters all rows, an
   assert.equal(document.querySelectorAll('.catalog-window-result').length, 1); assert.equal(document.documentElement.dataset.theme, 'dark'); assert.equal(typeof ui.model, 'undefined');
   document.getElementById('catalog-dock').click(); await Promise.resolve(); assert.equal(docked, 1);
 });
+
+test('detached tree keeps folder pages attached to their folder after siblings are inserted', async t => {
+  const dom = new JSDOM(readFileSync(new URL('../catalog.html', import.meta.url), 'utf8'), { url: 'https://catalog.test' });
+  t.after(() => dom.window.close()); const { document, window } = dom.window; let receive;
+  installCatalogWindow({ document, window, bridge: {
+    onState(callback) { receive = callback; return () => {}; }, ready: async () => ({}), command: async () => ({ status: 'ok' }), dock: async () => ({ status: 'docked' }),
+  } });
+  const treeSnapshot = (folders, revision) => {
+    const entries = [{ ...dto.entries[0] }]; let nextElementId = 1;
+    for (const { id, name } of folders) {
+      const parent = entries.length;
+      entries.push({ kind: 'folder', id, parent: 0, label: name, selected: false, active: false, uses: 0, drawings: 0, canAdd: false });
+      for (let index = 0; index < 101; index++) entries.push({ kind: 'element', id: `el-00000000-0000-4000-8000-${String(nextElementId++).padStart(12, '0')}`, parent, label: `${name} child ${index}`, type: 'Role', selected: false, active: false, uses: 0, drawings: 0, canAdd: false });
+    }
+    return { ...dto, revision, entries };
+  };
+  const tick = () => new Promise(resolve => window.setTimeout(resolve, 0));
+
+  receive(treeSnapshot([{ id: 'fld-00000000-0000-4000-8000-000000000101', name: 'A' }], 3));
+  document.querySelectorAll('#catalog-window-items summary')[1].click(); await tick();
+  document.querySelector('#catalog-window-items .catalog-window-pages button:last-child').click();
+
+  receive(treeSnapshot([{ id: 'fld-00000000-0000-4000-8000-000000000102', name: 'B' }, { id: 'fld-00000000-0000-4000-8000-000000000101', name: 'A' }], 4));
+  const folder = name => [...document.querySelectorAll('#catalog-window-items details')].find(item => item.querySelector('summary span')?.textContent === name);
+  assert.equal(folder('A').open, true, 'inserting a sibling keeps the open state with folder A');
+  assert.ok([...folder('A').querySelectorAll('.catalog-window-row button')].some(button => button.textContent.startsWith('A child 100')));
+  document.querySelectorAll('#catalog-window-items summary')[1].click(); await tick();
+  assert.ok([...document.querySelectorAll('#catalog-window-items .catalog-window-row button')].some(button => button.textContent.startsWith('B child 0')));
+});

@@ -4,10 +4,11 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
   const feedback = document.getElementById('catalog-window-status'), count = document.getElementById('catalog-window-count');
   const previous = document.getElementById('catalog-previous'), next = document.getElementById('catalog-next');
   const expanded = new Set(), pages = new Map();
-  let state = null, page = 0, query = '', received = false, composing = false;
+  let state = null, sectionIds = [], page = 0, query = '', received = false, composing = false;
   const message = text => { feedback.textContent = text; };
   const validViewId = value => value === null || typeof value === 'string' && /^view-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(value);
-  const rowKey = (entry, index) => `${entry.kind}:${entry.id}:${entry.parent ?? index}`;
+  const branchKey = index => JSON.stringify([sectionIds[index], state.entries[index].id]);
+  const rowKey = (entry, index) => JSON.stringify([entry.kind, entry.id, branchKey(entry.parent ?? index)]);
   function valid(value) {
     return value && typeof value.nonce === 'string' && Array.isArray(value.entries) && value.entries.length <= 65536 &&
       Number.isSafeInteger(value.revision) && typeof value.documentToken === 'string' && validViewId(value.viewId) && typeof value.projectName === 'string' && ['light', 'dark'].includes(value.theme);
@@ -33,7 +34,7 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
     return row;
   }
   function descendants(parent, children, container) {
-    const source = children.get(parent) || [], start = pages.get(parent) || 0, shown = source.slice(start, start + 100), folders = [];
+    const key = branchKey(parent), source = children.get(parent) || [], start = pages.get(key) || 0, shown = source.slice(start, start + 100), folders = [];
     for (const index of shown) {
       const entry = state.entries[index];
       if (entry.kind !== 'folder') { container.append(leaf(entry, index)); continue; }
@@ -53,8 +54,8 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
       back.type = more.type = 'button'; back.textContent = '← Предыдущие'; more.textContent = 'Следующие →';
       back.disabled = start === 0; more.disabled = start + shown.length >= source.length;
       label.textContent = `${start + 1}–${Math.min(start + 100, source.length)} из ${source.length}`;
-      back.addEventListener('click', () => { pages.set(parent, Math.max(0, start - 100)); render(); });
-      more.addEventListener('click', () => { pages.set(parent, start + 100); render(); });
+      back.addEventListener('click', () => { pages.set(key, Math.max(0, start - 100)); render(); });
+      more.addEventListener('click', () => { pages.set(key, start + 100); render(); });
       controls.append(back, label, more); container.append(controls);
     }
     return folders;
@@ -104,7 +105,9 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
   function accept(value) {
     const snapshot = value?.snapshot ?? value;
     if (!valid(snapshot)) { message('Не удалось получить дерево модели.'); return; }
-    state = snapshot; document.documentElement.dataset.theme = state.theme; render();
+    state = snapshot; sectionIds = [];
+    state.entries.forEach((entry, index) => { sectionIds[index] = entry.kind === 'section' ? entry.id : sectionIds[entry.parent]; });
+    document.documentElement.dataset.theme = state.theme; render();
   }
   input.addEventListener('input', () => { page = 0; if (!composing) render(); });
   input.addEventListener('compositionstart', () => { composing = true; }); input.addEventListener('compositionend', () => { composing = false; page = 0; render(); });
