@@ -47,15 +47,16 @@ export function applyV4Command(state, command, result) {
       result.affectedViewIds = [target.view.id]; break;
     }
     case 'createFolder': {
-      shape(['name'], ['parentFolderId', 'members', 'documentation', 'properties']);
+      shape(['name'], ['parentFolderId', 'members', 'documentation', 'properties', 'childLabelTemplate']);
       const folder = { id: newId('fld'), ...metadata(), parentFolderId: command.parentFolderId ?? null, members: command.members ?? [] };
+      if (Object.hasOwn(command, 'childLabelTemplate')) folder.childLabelTemplate = command.childLabelTemplate;
       state.folders.push(folder); result.created.folderId = folder.id; break;
     }
     case 'updateFolder': {
-      shape(['folderId'], ['name', 'documentation', 'properties', 'parentFolderId']);
+      shape(['folderId'], ['name', 'documentation', 'properties', 'parentFolderId', 'childLabelTemplate']);
       const folder = find(state.folders, command.folderId);
       const patch = Object.fromEntries(Object.entries(command).filter(([key]) => !['type', 'folderId'].includes(key)));
-      if (!Object.keys(patch).length || Object.entries(patch).every(([key, value]) => canonicalJSON(folder[key]) === canonicalJSON(value))) fail('COMMAND', 'Folder update must change a field');
+      if (!Object.keys(patch).length || Object.entries(patch).every(([key, value]) => Object.hasOwn(folder, key) && canonicalJSON(folder[key]) === canonicalJSON(value))) fail('COMMAND', 'Folder update must change a field');
       Object.assign(folder, patch); break;
     }
     case 'moveFolderMembers': {
