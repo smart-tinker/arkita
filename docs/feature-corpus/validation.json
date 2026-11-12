@@ -28,17 +28,17 @@
   },
   "scope": "Historical corpus integrity and immutable source-to-baseline mapping only; checked_at and the baseline checks retain the 2026-10-18 result. SHA256 covers the current listed corpus documents and excludes this report itself. The documentation_update record describes the later queue-status and Windows-plan refresh without changing cards, coverage, source records or baseline counts. No app runtime, browser, Windows acceptance or final-main aggregate is implied by corpus PASS.",
   "sha256": {
-    "docs/feature-corpus/README.md": "3342a17fd25693f959325a4ba99196f984c4790f78fcdfa61a99335fea54a3d1",
-    "docs/feature-corpus/ROADMAP.md": "8a9fd244421380703a50fb69d7036f3235d0eb1386b9a68f5d422489e6f2ca2a",
-    "docs/feature-corpus/WINDOWS-ACCEPTANCE.md": "927e385ef4346690459220d9af5b24b5795bc7cc2e88327ae11a0048f7c7f4dc",
-    "docs/feature-corpus/advanced.md": "6610334ef150cc8a1a213a42e7e5ea2ba8fa747842060818ec2aa5f179c8e4ff",
-    "docs/feature-corpus/coverage.json": "0f4976cdaf19f0e683b0b285d161ae915f9b9b3323fea8efaf577abf712edaba",
+    "docs/feature-corpus/README.md": "1662e6f9c8f7030315108809c43754a8e091634bbc12053ac5794cda50108c7c",
+    "docs/feature-corpus/ROADMAP.md": "ed7fb3f8d681ba19509dce9b2a575c205a708e7c4eddf3055e31aa69d0391f9c",
+    "docs/feature-corpus/WINDOWS-ACCEPTANCE.md": "ce4c15096301e3808abf459961cc97edf47069ce24fd20af970e1dc774e0761b",
+    "docs/feature-corpus/advanced.md": "212cd4b915b81d6c35a15175dd93adfd474f245b1040d28ae3f97b111beee9ff",
+    "docs/feature-corpus/coverage.json": "b685ecd17a0e087f1954fd1b6c4620555aad42ede65afc7ab70ba2a475800227",
     "docs/feature-corpus/editor.md": "6394248b6e190525fab264433a5ab57bda0d05d85fa843d7de381c6234ab9b1c",
     "docs/feature-corpus/extensions.md": "67b2af8b16dacdca3be59e56208a8ecdb15854c246cf52796cf5a96b16376a2f",
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
-    "docs/feature-corpus/PROGRAM.md": "c7d366189aa5acccf5a361cbdd1580c577882698dce952a8c4d4a8ced03a7482",
-    "docs/feature-corpus/program.json": "7abc59ddffc5bf518a97d7dfc2a433186bba9e60775ccb0a92523197c13a124e"
+    "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
+    "docs/feature-corpus/program.json": "d2dd2a344c4138c7d2dc00598d1c6a7f21f9a94a8ee16e44659ff222b3e7718c"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
