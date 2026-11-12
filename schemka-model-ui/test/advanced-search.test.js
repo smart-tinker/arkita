@@ -6,12 +6,14 @@ import { conceptProject } from '../../schemka-model-core/fixtures/concept-projec
 import { createController } from '../src/controller.js';
 import { createProjectSession } from '../src/project-session.js';
 import { searchModel, planNameReplacement } from '../../schemka-model-core/src/model-search.js';
+import { customizationProject, profileId } from '../../schemka-model-core/fixtures/customization-project.js';
+import { viewpointGraph } from '../../schemka-model-core/fixtures/viewpoint-project.js';
 import { installAdvancedSearch } from '../src/advanced-search.js';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
-async function setup(t, taskOverride) {
+async function setup(t, taskOverride, initial = conceptProject()) {
   const dom = new JSDOM('<!doctype html><body><section id="model-search-region"></section></body>', { pretendToBeVisual: true }); t.after(() => dom.window.close());
-  const { document } = dom.window, $ = id => document.getElementById(id), state = conceptProject();
+  const { document } = dom.window, $ = id => document.getElementById(id), state = structuredClone(initial);
   state.elements[0].name = 'Сервер 2'; state.elements[1].name = 'Сервер 10';
   state.elements[0].properties = [{ key: 'owner', value: 'A' }, { key: 'owner', value: 'B' }, { key: 'keep', value: '<img src=x>' }];
   state.elements[1].properties = [{ key: 'owner', value: 'C' }];
@@ -63,10 +65,40 @@ test('property preview scopes checked owners, counts duplicate rows, preserves i
 test('query changes require refresh; invalid regex leaves usable dialog; current-view navigation identifies exact drawing', async t => {
   const h = await setup(t); h.input('advanced-query', 'Сервер'); h.input('advanced-property-key', 'owner');
   h.$('advanced-property-remove').click(); assert.match(h.$('advanced-search-error').textContent, /обновите поиск/);
-  h.input('advanced-scope', 'view'); await h.submit(); h.$('advanced-search-next').click();
-  assert.equal(h.revealed.length, 1); assert.equal(h.revealed[0].viewId, h.model.viewId); assert.equal(h.revealed[0].kind, 'occurrence');
+  h.input('advanced-scope', 'view'); await h.submit(); h.$('advanced-search-prev').click();
+  const last = h.revealed.at(-1); h.$('advanced-search-next').click(); const first = h.revealed.at(-1);
+  const expectedLast = h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).occurrences.find(item => item.concept.id === h.state.elements[1].id);
+  assert.equal(last.id, expectedLast.id, 'previous from the first result wraps to the last result');
+  assert.equal(h.revealed.length, 2); assert.notEqual(first.id, last.id);
+  h.$('advanced-search-next').click(); assert.equal(h.revealed.at(-1).id, last.id, 'navigation wraps to the prior result');
+  assert.ok(h.revealed.every(ref => ref.viewId === h.model.viewId && ref.kind === 'occurrence'));
   h.$('advanced-regex').click(); h.input('advanced-query', '['); await h.submit(); assert.match(h.$('advanced-search-error').textContent, /Некорректное/);
   assert.equal(h.dialog.open, true); assert.equal(h.store.history.undo, 0);
+});
+
+test('current-view search excludes viewpoint-hidden objects unless explicitly included', async t => {
+  const graph = viewpointGraph({ selection: { elementTypes: ['ApplicationComponent'], junctionTypes: [], relationshipTypes: [] } });
+  const h = await setup(t, undefined, graph.state); h.input('advanced-query', 'Сервер'); h.input('advanced-scope', 'view'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 1);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(h.state.elements[0].id));
+  assert.doesNotMatch(h.$('advanced-search-results').textContent, new RegExp(h.state.elements[1].id));
+  h.input('advanced-visibility', 'all'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 2);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(h.state.elements[1].id));
+});
+
+test('search refreshes after deleting an owner and changing its profile application', async t => {
+  const h = await setup(t, undefined, customizationProject());
+  const profile = h.$('advanced-profiles').querySelector(`option[value="${profileId}"]`); assert.ok(profile); profile.selected = true;
+  h.input('advanced-query', 'Сервер'); await h.submit(); assert.equal(h.$('advanced-search-results').children.length, 2);
+  const deletedId = h.state.elements[0].id, retainedId = h.state.elements[1].id;
+  h.model.execute({ type: 'deleteElementFromModel', elementId: deletedId }); h.ui.refresh();
+  assert.equal(h.$('advanced-search-results').children.length, 0); assert.match(h.$('advanced-search-message').textContent, /Модель изменилась/);
+  await h.submit(); assert.equal(h.$('advanced-search-results').children.length, 1);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(retainedId)); assert.doesNotMatch(h.$('advanced-search-results').textContent, new RegExp(deletedId));
+  h.model.execute({ type: 'removeProfileApplication', concept: { kind: 'element', id: retainedId }, profileId }); h.ui.refresh();
+  assert.equal(h.$('advanced-search-results').children.length, 0); assert.match(h.$('advanced-search-message').textContent, /Модель изменилась/);
+  await h.submit(); assert.equal(h.$('advanced-search-results').children.length, 0);
 });
 
 test('cancelled and stale asynchronous search results cannot reappear in another session', async t => {
