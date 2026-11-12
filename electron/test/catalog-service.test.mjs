@@ -26,6 +26,12 @@ test('catalog DTO rejects malformed hierarchy and keeps labels inert; detached b
   assert.ok(bounds.x >= area.x && bounds.x + bounds.width <= 0); assert.ok(bounds.y >= 0 && bounds.y + bounds.height <= 720);
 });
 
+test('catalog DTO rejects oversized unknown fields before encoding the raw IPC payload', () => {
+  const state = snapshot(owner());
+  state.entries[1].unexpected = 'x'.repeat(8 * 1024 * 1024);
+  assert.throws(() => catalogSnapshot(state), { code: 'CATALOG_ENTRY' });
+});
+
 test('detached catalog accepts only its child sender and current owner snapshot; docking restores the owner', async () => {
   const windows = [], ownerA = owner(), ownerB = owner(), commands = [], docked = [];
   ownerA.window.webContents.send = (...args) => { if (args[0].endsWith('command')) commands.push(args); else docked.push(args); };

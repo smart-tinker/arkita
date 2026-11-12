@@ -14,20 +14,24 @@ const validUuid = value => typeof value === 'string' && new RegExp(`^${uuid}$`).
 export function catalogSnapshot(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).some(key => !['documentToken', 'revision', 'viewId', 'theme', 'projectName', 'entries'].includes(key)) ||
       !validUuid(input.documentToken) || input.viewId !== null && !validId(input.viewId, 'view') || !Number.isSafeInteger(input.revision) || input.revision < 0 || !['dark', 'light'].includes(input.theme) ||
-      !text(input.projectName, 200) || !Array.isArray(input.entries) || input.entries.length > 65536 || Buffer.byteLength(JSON.stringify(input)) > 8 * 1024 * 1024) fail('CATALOG_STATE', 'Некорректное состояние дерева модели.');
-  const entries = [];
+      !text(input.projectName, 200) || !Array.isArray(input.entries) || input.entries.length > 65536) fail('CATALOG_STATE', 'Некорректное состояние дерева модели.');
+  const snapshot = { documentToken: input.documentToken, revision: input.revision, viewId: input.viewId, theme: input.theme, projectName: input.projectName, entries: [] };
+  let bytes = Buffer.byteLength(JSON.stringify(snapshot));
   for (let index = 0; index < input.entries.length; index++) {
     const item = input.entries[index];
     if (!item || typeof item !== 'object' || Array.isArray(item) || Object.keys(item).some(key => !['kind', 'id', 'parent', 'label', 'type', 'selected', 'active', 'uses', 'drawings', 'canAdd'].includes(key)) ||
         !['section', 'folder', 'element', 'junction', 'relationship', 'view'].includes(item.kind) || !text(item.label, 8192) ||
         item.type !== undefined && !text(item.type, 100) || typeof item.selected !== 'boolean' || typeof item.active !== 'boolean' ||
         !Number.isSafeInteger(item.uses) || item.uses < 0 || !Number.isSafeInteger(item.drawings) || item.drawings < 0 || typeof item.canAdd !== 'boolean') fail('CATALOG_ENTRY', 'Некорректный элемент дерева модели.');
-    if (item.kind === 'section' ? !sectionIds.has(item.id) || item.parent !== null : !validId(item.id, prefixes[item.kind]) || !Number.isInteger(item.parent) || item.parent < 0 || item.parent >= index || !['section', 'folder'].includes(entries[item.parent]?.kind)) fail('CATALOG_ENTRY', 'Некорректная связь в дереве модели.');
-    if (item.kind === 'section' && entries.some(entry => entry.kind === 'section' && entry.id === item.id)) fail('CATALOG_ENTRY', 'Повтор раздела дерева.');
+    if (item.kind === 'section' ? !sectionIds.has(item.id) || item.parent !== null : !validId(item.id, prefixes[item.kind]) || !Number.isInteger(item.parent) || item.parent < 0 || item.parent >= index || !['section', 'folder'].includes(snapshot.entries[item.parent]?.kind)) fail('CATALOG_ENTRY', 'Некорректная связь в дереве модели.');
+    if (item.kind === 'section' && snapshot.entries.some(entry => entry.kind === 'section' && entry.id === item.id)) fail('CATALOG_ENTRY', 'Повтор раздела дерева.');
     if (item.canAdd && !['element', 'junction'].includes(item.kind)) fail('CATALOG_ENTRY', 'Для этого элемента нельзя добавить экземпляр.');
-    entries.push({ ...item });
+    const entry = { ...item };
+    bytes += Buffer.byteLength(JSON.stringify(entry)) + Number(index > 0);
+    if (bytes > 8 * 1024 * 1024) fail('CATALOG_STATE', 'Некорректное состояние дерева модели.');
+    snapshot.entries.push(entry);
   }
-  return { documentToken: input.documentToken, revision: input.revision, viewId: input.viewId, theme: input.theme, projectName: input.projectName, entries };
+  return snapshot;
 }
 
 export const visibleCatalogBounds = (bounds, displays) => visibleWindowBounds(bounds, displays, { width: 360, height: 650, minWidth: 280, minHeight: 320, maxWidth: 1000, maxHeight: 1600 });
