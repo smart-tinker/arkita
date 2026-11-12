@@ -51,6 +51,44 @@ test('style modal applies human fields once, reset and brush are atomic and neve
   assert.equal(h.document.querySelector('[aria-label*=JSON],textarea[name*=json]'), null);
 });
 
+test('format brush crosses views and skips a visual-node shape unsupported by a semantic occurrence', t => {
+  const h = fixture(t), source = h.add('note'), viewId = h.store.snapshot.views.find(entry => entry.view.id !== h.model.viewId).view.id;
+  h.model.execute({ type: 'updateDrawingStyle', viewId: h.model.viewId, drawing: source, style: { fill: '#123456', shape: 'actor' } });
+  h.model.select(source); h.ui.refresh(); h.$('visual-style').click(); h.$('visual-style-copy').click();
+  const elementId = h.model.execute({ type: 'createElementInModel', elementType: 'Service', name: 'Target' }).created.elementId;
+  const occurrenceId = h.model.execute({ type: 'addOccurrence', viewId, concept: { kind: 'element', id: elementId }, bounds: { x: 10, y: 20, width: 120, height: 80 } }).created.occurrenceId;
+  const before = h.store.exportFiles(), undo = h.store.history.undo;
+  h.model.switchView(viewId); h.model.select({ kind: 'occurrence', id: occurrenceId }); h.ui.refresh(); h.$('visual-style-paste').click(); h.submit();
+  assert.equal(h.$('visual-dialog').open, false, h.$('visual-error').textContent);
+  assert.deepEqual(h.store.snapshot.views.find(entry => entry.view.id === viewId).occurrences.find(item => item.id === occurrenceId).style, { fill: '#123456' });
+  assert.equal(h.store.history.undo, undo + 1);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+});
+
+test('format brush keeps connection-only and connector-only line details at their destination', t => {
+  const h = fixture(t), sourceView = h.model.viewId, targetView = h.store.snapshot.views.find(entry => entry.view.id !== sourceView).view.id;
+  const sourceElement = h.model.execute({ type: 'createElementAndOccurrence', viewId: sourceView, elementType: 'Service', name: 'Source', bounds: { x: 0, y: 0, width: 120, height: 80 } }).created;
+  const targetElement = h.model.execute({ type: 'createElementAndOccurrence', viewId: sourceView, elementType: 'Process', name: 'Target', bounds: { x: 250, y: 0, width: 120, height: 80 } }).created;
+  const connectionId = h.model.execute({ type: 'createRelationshipAndConnection', viewId: sourceView, relationshipType: 'Flow', label: '', source: { kind: 'occurrence', id: sourceElement.occurrenceId }, target: { kind: 'occurrence', id: targetElement.occurrenceId } }).created.connectionId;
+  h.model.execute({ type: 'updateDrawingStyle', viewId: sourceView, drawing: { kind: 'connection', id: connectionId }, style: { stroke: '#123456', hideWhenNested: true, strokeDash: 'dash', sourceEnding: 'arrow', targetEnding: 'circle' } });
+  h.model.switchView(targetView); const a = h.add('note'), b = h.add('group');
+  const connectorId = h.model.execute({ type: 'createVisualConnector', viewId: targetView, source: a, target: b, routePoints: [], style: { stroke: '#abcdef', strokeDash: 'solid', sourceEnding: 'none', targetEnding: 'none' } }).created.visualConnectorId;
+  h.model.switchView(sourceView); h.model.select({ kind: 'connection', id: connectionId }); h.ui.refresh(); h.$('visual-style').click(); h.$('visual-style-copy').click();
+  const before = h.store.exportFiles(), undo = h.store.history.undo;
+  h.model.switchView(targetView); h.model.select({ kind: 'visualConnector', id: connectorId }); h.ui.refresh(); h.$('visual-style-paste').click(); h.submit();
+  assert.equal(h.$('visual-dialog').open, false, h.$('visual-error').textContent);
+  assert.deepEqual(h.store.snapshot.views.find(entry => entry.view.id === targetView).visualConnectors.find(item => item.id === connectorId).style, { stroke: '#123456', strokeDash: 'solid', sourceEnding: 'none', targetEnding: 'none' });
+  assert.equal(h.store.history.undo, undo + 1);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+  const beforeReverse = h.store.exportFiles(), undoReverse = h.store.history.undo;
+  h.model.select({ kind: 'visualConnector', id: connectorId }); h.ui.refresh(); h.$('visual-style').click(); h.$('visual-style-copy').click();
+  h.model.switchView(sourceView); h.model.select({ kind: 'connection', id: connectionId }); h.ui.refresh(); h.$('visual-style-paste').click(); h.submit();
+  assert.equal(h.$('visual-dialog').open, false, h.$('visual-error').textContent);
+  assert.deepEqual(h.store.snapshot.views.find(entry => entry.view.id === sourceView).connections.find(item => item.id === connectionId).style, { stroke: '#abcdef', hideWhenNested: true, strokeDash: 'dash', sourceEnding: 'arrow', targetEnding: 'circle' });
+  assert.equal(h.store.history.undo, undoReverse + 1);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), beforeReverse);
+});
+
 test('dragged visual connector is one undo action, cancellation/stale release cannot write and no semantic relation is created', t => {
   const h = fixture(t), a = h.add('note'), b = h.add('group'), source = h.marker(a), target = h.marker(b), before = h.store.exportFiles(), undo = h.store.history.undo;
   h.$('visual-connector-tool').click(); h.pointer(source, 'pointerdown', 100, 100); h.pointer(h.canvas, 'pointermove', 300, 120); h.document.elementFromPoint = () => target; h.pointer(h.canvas, 'pointerup', 300, 120);
