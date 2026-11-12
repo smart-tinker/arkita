@@ -89,6 +89,19 @@ test('format brush keeps connection-only and connector-only line details at thei
   h.model.undo(); assert.deepEqual(h.store.exportFiles(), beforeReverse);
 });
 
+test('format brush between visual connectors preserves the destination line decorations', t => {
+  const h = fixture(t), viewId = h.model.viewId, a = h.add('note'), b = h.add('group'), c = h.add('note'), d = h.add('group');
+  const sourceId = h.model.execute({ type: 'createVisualConnector', viewId, source: a, target: b, routePoints: [], style: { stroke: '#123456' } }).created.visualConnectorId;
+  const targetId = h.model.execute({ type: 'createVisualConnector', viewId, source: c, target: d, routePoints: [], style: { stroke: '#abcdef', strokeDash: 'dot', sourceEnding: 'diamond', targetEnding: 'arrow' } }).created.visualConnectorId;
+  h.model.select({ kind: 'visualConnector', id: sourceId }); h.ui.refresh(); h.$('visual-style').click(); h.$('visual-style-copy').click();
+  const before = h.store.exportFiles(), undo = h.store.history.undo;
+  h.model.select({ kind: 'visualConnector', id: targetId }); h.ui.refresh(); h.$('visual-style-paste').click(); h.submit();
+  assert.equal(h.$('visual-dialog').open, false, h.$('visual-error').textContent);
+  assert.deepEqual(h.store.snapshot.views.find(entry => entry.view.id === viewId).visualConnectors.find(item => item.id === targetId).style, { stroke: '#123456', strokeDash: 'dot', sourceEnding: 'diamond', targetEnding: 'arrow' });
+  assert.equal(h.store.history.undo, undo + 1);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+});
+
 test('dragged visual connector is one undo action, cancellation/stale release cannot write and no semantic relation is created', t => {
   const h = fixture(t), a = h.add('note'), b = h.add('group'), source = h.marker(a), target = h.marker(b), before = h.store.exportFiles(), undo = h.store.history.undo;
   h.$('visual-connector-tool').click(); h.pointer(source, 'pointerdown', 100, 100); h.pointer(h.canvas, 'pointermove', 300, 120); h.document.elementFromPoint = () => target; h.pointer(h.canvas, 'pointerup', 300, 120);

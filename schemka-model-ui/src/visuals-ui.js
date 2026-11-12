@@ -13,7 +13,7 @@ const gridPoint = point => point && ({ x: Math.round(point.x * 10) / 10 || 0, y:
 const refKey = ref => `${ref.kind}:${ref.id}`;
 function brushStyle(sourceKind, target, currentStyle, copiedStyle) {
   const style = { ...copiedStyle }, keep = [];
-  if (target.kind === 'connection' || (target.kind === 'visualConnector' && sourceKind === 'connection')) keep.push('strokeDash', 'sourceEnding', 'targetEnding');
+  if (target.kind === 'connection' || target.kind === 'visualConnector') keep.push('strokeDash', 'sourceEnding', 'targetEnding');
   if (target.kind === 'connection' && sourceKind !== 'connection') keep.push('hideWhenNested');
   if (target.kind === 'visualConnector') delete style.hideWhenNested;
   if (target.kind === 'occurrence' && style.shape === 'actor') keep.push('shape');
