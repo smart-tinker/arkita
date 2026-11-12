@@ -64,3 +64,23 @@ test('standard size is reachable, uses local defaults in preview and commits onc
   const after = await state(h), occurrence = after.views.find(entry => entry.view.id === f.viewId).occurrences.find(item => item.id === f.a.occurrenceId); assert.deepEqual(occurrence.bounds, { ...f.state.views.find(entry => entry.view.id === f.viewId).occurrences.find(item => item.id === f.a.occurrenceId).bounds, width: 300, height: 140 });
   h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await state(h), after);
 });
+
+test('same-type selection unions the selected drawing types in the active view without editing model files', async t => {
+  const h = await setup(t), f = richLifecycleFixture(), store = createStore(f.state);
+  const duplicate = store.execute({ type: 'createElementAndOccurrence', viewId: f.viewId, elementType: 'Collaboration', name: 'Shared role', bounds: { x: 600, y: 80, width: 210, height: 90 } }, store.revision).created;
+  await h.load(serializeProjectFile(store.snapshot)); h.document.querySelector(`[data-view-id="${f.viewId}"]`).click();
+  const pointer = (target, shiftKey = false) => {
+    const event = new h.window.Event('pointerdown', { bubbles: true, cancelable: true });
+    Object.assign(event, { button: 0, isPrimary: true, pointerId: 1, clientX: 100, clientY: 100, shiftKey }); target.dispatchEvent(event);
+    h.pointer(h.$('canvas'), 'pointerup', 100, 100, 1);
+  };
+  const occurrence = id => h.$('canvas').querySelector(`[data-kind="occurrence"][data-id="${id}"]`);
+  const connection = h.$('canvas').querySelector(`[data-kind="connection"][data-id="${f.relation.connectionId}"]`);
+  pointer(occurrence(f.a.occurrenceId)); pointer(connection, true);
+  const before = await h.download(), history = h.$('history-state').textContent, dirty = h.$('file-state').dataset.dirty;
+  h.$('diagram-tools-button').click(); h.$('diagram-select-same').click();
+  const selected = [...h.$('canvas').querySelectorAll('.selected[data-kind]')].map(item => `${item.dataset.kind}:${item.dataset.id}`).sort();
+  assert.deepEqual(selected, [`connection:${f.relation.connectionId}`, `occurrence:${f.a.occurrenceId}`, `occurrence:${duplicate.occurrenceId}`].sort());
+  assert.match(h.$('selection-summary').textContent, /Выбрано: 3/);
+  assert.deepEqual(await h.download(), before); assert.equal(h.$('history-state').textContent, history); assert.equal(h.$('file-state').dataset.dirty, dirty);
+});
