@@ -27,6 +27,13 @@ This is a source and evidence map, not a release acceptance. All 16 criteria rem
 
 The catalog route is substantially implemented, but group 46 is not complete. PR [#48](https://github.com/smart-tinker/arkita/pull/48) merged A-EDITOR-098 implementation into `main` as `62aa163`; its criterion remains acceptance-pending until installed Windows acceptance is recorded. A-EDITOR-013 now has a tested implementation route; it remains acceptance-pending until its criterion bullets receive scoped rendered results on the reviewed source. Other rows with implementation/test routes also stay pending until their criterion bullets receive scoped results; DOM/unit evidence is not native Windows acceptance. This report does not close issue #12, approve a release, or change the 0.7.1 RC scope.
 
+## Exact-source refresh — 13 Nov 2026, 10:43 UTC
+
+- Public `main` is `a8a145cbe903ba80d74afd20ab6e1cd8a590105b`. PR #33 is open and unmerged at `f1a406dce2ffa23bb4394d9197a2723f5cb59071`; it implements A-EDITOR-012/013.
+- Required CI [run 43350873840](https://github.com/smart-tinker/arkita/actions/runs/43350873840) passed Ubuntu and Windows validation plus the gate. CodeQL [run 43350873897](https://github.com/smart-tinker/arkita/actions/runs/43350873897) and Dependency Review [run 43350873899](https://github.com/smart-tinker/arkita/actions/runs/43350873899) passed.
+- Full Extended CI [run 43406746555](https://github.com/smart-tinker/arkita/actions/runs/43406746555) passed on the exact PR head. Windows completed 292/295 tests with 0 failures and 3 skips; Ubuntu completed 287/295 with 0 failures and 8 skips. `npm run check` passed on both runners with 469 JavaScript files.
+- A-EDITOR-012/013 remain `acceptance-pending`; all 16 group-46 criteria remain pending, `closed_criteria` stays empty, issue #12 remains open, and installed-user Windows GUI acceptance is `UNRUN`. No independent GitHub review is recorded.
+
 ## Current exact-source refresh — 12 Nov 2026, 10:36 UTC
 
 - Current `main`: `62aa1639752be2d4d345c97f4610e3673f0e5767`; PR #48 is merged.

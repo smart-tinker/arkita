@@ -361,11 +361,11 @@
         "schemka-model-ui/test/context-actions.test.js",
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Required CI прошёл на code-head 555b70b4e144f8aea2ff679e5f23b227988a7c17; остаются независимое review и installed-user acceptance на Windows. Локальный маршрут создания проверялся через JSDOM, а CI renderer smoke не был целевым сценарием создания из каталога.",
+      "remaining": "PR #33 открыт и не слит на code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071 поверх main a8a145cbe903ba80d74afd20ab6e1cd8a590105b. Required CI, CodeQL, Dependency Review и Extended CI прошли. Независимое review и installed-user acceptance на Windows не записаны; criterion remains pending.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Draft PR #33 code-head 555b70b4e144f8aea2ff679e5f23b227988a7c17 over main f648a7570ea29fea4ea5a4166e0c741d68191886 passed run 42824224920: Ubuntu/Windows validation and CI gate; Ubuntu renderer smoke and Windows NSIS runner smoke passed. Focused local checks passed. No independent review, installed-user Windows run, or closed_criteria recorded.",
+      "verification": "PR #33 code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071 over main a8a145cbe903ba80d74afd20ab6e1cd8a590105b passed required CI run 43350873840 (Ubuntu/Windows validation and gate), CodeQL run 43350873897, and Dependency Review run 43350873899. Extended CI run 43406746555 passed on the exact head: Windows 292/295 PASS, 0 FAIL, 3 SKIP; Ubuntu 287/295 PASS, 0 FAIL, 8 SKIP. Syntax check passed on both runners (469 JavaScript files). No independent review or installed-user Windows acceptance is recorded; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -400,7 +400,7 @@
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Tree-originated specialization creation implemented and covered by core and DOM integration regressions in feature PR #33; criterion remains acceptance-pending, closed_criteria is empty, and Windows acceptance is unrun.",
+      "verification": "Tree-originated specialization creation is implemented and covered by core and DOM integration regressions in PR #33 at code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071. Required CI run 43350873840, CodeQL run 43350873897, Dependency Review run 43350873899, and Extended CI run 43406746555 passed on the exact head; Extended results were Windows 292/295 PASS with 3 SKIP and Ubuntu 287/295 PASS with 8 SKIP. Criterion remains acceptance-pending; closed_criteria is empty and installed-user Windows acceptance is unrun.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
