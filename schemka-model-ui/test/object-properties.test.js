@@ -9,7 +9,7 @@ import { installObjectProperties } from '../src/object-properties.js';
 
 const rowsOf = value => Array.isArray(value) ? value : Object.entries(value).map(([key, value]) => ({ key, value }));
 
-function setup(t, { kind = 'element', properties = { owner: 'Team', note: ' raw\r\nline\rtext ' }, noViews = false } = {}) {
+function setup(t, { kind = 'element', properties = { owner: 'Team', note: ' raw\r\nline\rtext ' }, noViews = false, openLink = null } = {}) {
   const dom = new JSDOM('<!doctype html><body><aside id="inspector"></aside></body>', { pretendToBeVisual: true });
   t.after(() => dom.window.close());
   const { document } = dom.window, $ = id => document.getElementById(id), state = customizationProject();
@@ -20,7 +20,7 @@ function setup(t, { kind = 'element', properties = { owner: 'Team', note: ' raw\
   Object.defineProperty(adapted, 'execute', { value(command, revision) { commands.push(structuredClone(command)); hook?.(); return store.execute(command, revision); } });
   const model = createController(adapted); model.select(['project', 'view'].includes(kind) ? null : concept);
   const event = (target, type) => target.dispatchEvent(new dom.window.Event(type, { bubbles: true, cancelable: true }));
-  editor = installObjectProperties({ document, model, blocked: () => flags.blocked,
+  editor = installObjectProperties({ document, model, blocked: () => flags.blocked, openLink,
     openDialog(id) { if (flags.open) throw Error('synthetic open'); if (flags.cancelOnOpen) editor.cancel(); $(id).setAttribute('open', ''); },
     render() { assert.equal(editor.active, false); renders++; if (flags.render) throw Error('synthetic render'); },
     status(text) { reports.push(text); if (flags.status) throw Error('synthetic status'); } });
@@ -37,6 +37,16 @@ function setup(t, { kind = 'element', properties = { owner: 'Team', note: ' raw\
     capture: () => ({ files: store.exportFiles(), revision: store.revision, history: store.history, dirty: session.dirty }),
     get item() { return metadataRecord(store.snapshot, concept); }, get renders() { return renders; }, set hook(value) { hook = value; } };
 }
+
+test('properties inspector labels local file actions distinctly and opens only on explicit click', t => {
+  const target = 'file:///C:/docs/Guide%20and%20reference.pdf', opened = [];
+  const h = setup(t, { properties: { Guide: target }, openLink: value => opened.push(value) });
+  const action = h.$('object-property-link-0');
+  assert.equal(action.textContent, 'Открыть файл…');
+  assert.deepEqual(opened, []);
+  action.click();
+  assert.deepEqual(opened, [target]);
+});
 
 test('properties inspector and dialogs display inert accessible text, with property controls for every shared concept kind', t => {
   for (const kind of ['project', 'view', 'element', 'junction', 'relationship']) {

@@ -30,6 +30,7 @@ contextBridge.exposeInMainWorld('schemkaDesktop', Object.freeze({
   printView: (svg, options, token) => ipcRenderer.invoke('schemka:print-view', svg, options, token),
   savePdf: (svg, title, options, token) => ipcRenderer.invoke('schemka:save-pdf', svg, title, options, token),
   openExternalLink: (url, token) => ipcRenderer.invoke('schemka:open-external-link', url, token),
+  openFileLink: (url, token) => ipcRenderer.invoke('schemka:open-file-link', url, token),
   openCredentialManager: token => ipcRenderer.invoke('schemka:open-credential-manager', token),
   outlineText: (runs, token) => ipcRenderer.invoke('schemka:outline-text', runs, token),
   validateExchangeXml: (bytes, token) => ipcRenderer.invoke('schemka:validate-exchange-xml', bytes, token),
