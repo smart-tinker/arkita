@@ -31,10 +31,17 @@ export function installDetachedCatalog({ document, window, model, session, prefe
   function snapshot() {
     const state = model.store.snapshot, view = model.view, index = catalogTreeIndex(state), selected = selectedRef(state), selectedKey = selected && key(selected);
     const behavior = preferences?.get('behavior'), collator = behavior?.naturalSort === false ? collators.lexical : collators.natural;
-    const uses = new Map();
+    const uses = new Map(), drawingsByRef = new Map();
     for (const entry of state.views) {
-      for (const item of entry.occurrences) { const ref = key(item.concept); uses.set(ref, (uses.get(ref) || 0) + 1); }
-      for (const item of entry.connections) { const ref = `relationship:${item.relationshipId}`; uses.set(ref, (uses.get(ref) || 0) + 1); }
+      const active = entry.view.id === view?.id;
+      for (const item of entry.occurrences) {
+        const ref = key(item.concept); uses.set(ref, (uses.get(ref) || 0) + 1);
+        if (active) drawingsByRef.set(ref, (drawingsByRef.get(ref) || 0) + 1);
+      }
+      for (const item of entry.connections) {
+        const ref = `relationship:${item.relationshipId}`; uses.set(ref, (uses.get(ref) || 0) + 1);
+        if (active) drawingsByRef.set(ref, (drawingsByRef.get(ref) || 0) + 1);
+      }
     }
     const entries = CATALOG_SECTIONS.map(section => ({ kind: 'section', id: section.id, parent: null, label: section.label, selected: false, active: false, uses: 0, drawings: index.counts.get(section.id) || 0, canAdd: false }));
     const compare = (a, b) => collator.compare(title(index.records.get(key(a))), title(index.records.get(key(b)))) || a.id.localeCompare(b.id);
@@ -53,8 +60,7 @@ export function installDetachedCatalog({ document, window, model, session, prefe
         for (const ref of refs) {
           const item = index.records.get(key(ref)), owner = ref.kind === 'folder' ? index.records.get(`folder:${item.parentFolderId}`) : folder;
           const label = owner?.childLabelTemplate ? captionText(owner.childLabelTemplate, { ...item, kind: ref.kind }, state, LIMITS.string) : title(item);
-          const drawings = ref.kind === 'relationship' ? view?.connections.filter(entry => entry.relationshipId === ref.id).length || 0
-            : ['element', 'junction'].includes(ref.kind) ? view?.occurrences.filter(entry => key(entry.concept) === key(ref)).length || 0 : 0;
+          const drawings = ['element', 'junction', 'relationship'].includes(ref.kind) ? drawingsByRef.get(key(ref)) || 0 : 0;
           const entryIndex = entries.push({ kind: ref.kind, id: ref.id, parent, label, type: item.type || (ref.kind === 'view' ? 'Представление' : ref.kind === 'folder' ? 'Папка' : ''),
             selected: key(ref) === selectedKey, active: ref.kind === 'view' && model.viewId === ref.id, uses: uses.get(key(ref)) || 0, drawings,
             canAdd: Boolean(view && ['element', 'junction'].includes(ref.kind) && model.conceptVisible(ref)) }) - 1;
