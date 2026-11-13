@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { visibleWindowBounds } from './window-bounds.mjs';
+import { visibleWindowBounds, watchWindowBounds } from './window-bounds.mjs';
 import { randomUUID } from 'node:crypto';
 import { validateAsset } from '../schemka-model-core/src/native-v4.js';
 import { CURRENT_CATALOG } from '../schemka-model-core/src/index.js';
@@ -51,11 +51,12 @@ export function createPaletteService({ BrowserWindow, screen, session, root, loa
       if (owners.has(record)) { update(record, snapshot); owners.get(record).window.show(); owners.get(record).window.focus(); return { status: 'detached' }; }
       let saved; try { saved = await loadBounds(); } catch { /* Missing bounds use the current monitor. */ }
       if (record.window.isDestroyed() || record.files.documentToken !== snapshot.documentToken) fail('DOCUMENT_STALE', 'Окно модели закрыто.');
-      const window = new BrowserWindow({ ...visiblePaletteBounds(lastBounds || saved || record.window.getBounds(), screen.getAllDisplays()), minWidth: 240, minHeight: 280, title: 'Arkita — Палитра', parent: record.window,
+      const bounds = visiblePaletteBounds(lastBounds || saved || record.window.getBounds(), screen.getAllDisplays());
+      const window = new BrowserWindow({ ...bounds, minWidth: 240, minHeight: 280, title: 'Arkita — Палитра', parent: record.window,
         webPreferences: { session, preload: path.join(root, 'electron/preload-palette.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true, allowRunningInsecureContent: false, webviewTag: false, navigateOnDragDrop: false } });
       const state = { owner: record, window, snapshot: null, signature: null }; owners.set(record, state);
       window.webContents.setWindowOpenHandler(() => ({ action: 'deny' })); for (const name of ['will-navigate', 'will-frame-navigate', 'will-redirect', 'will-attach-webview']) window.webContents.on(name, event => event.preventDefault());
-      window.once('close', () => { lastBounds = window.getBounds(); void saveBounds(lastBounds).catch(() => {}); });
+      watchWindowBounds(window, next => { lastBounds = next; return saveBounds(next); }, bounds);
       window.once('closed', () => { if (owners.get(record) === state) owners.delete(record); if (!record.window.isDestroyed()) record.window.webContents.send('schemka:palette-docked'); });
       try { update(record, snapshot); await window.loadURL(PALETTE_URL); return { status: 'detached' }; } catch (error) { if (!window.isDestroyed()) window.destroy(); throw error; }
       }

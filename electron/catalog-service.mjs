@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { visibleWindowBounds } from './window-bounds.mjs';
+import { visibleWindowBounds, watchWindowBounds } from './window-bounds.mjs';
 
 export const CATALOG_URL = 'schemka://app/schemka-model-ui/catalog.html';
 const fail = (code, message) => { throw Object.assign(Error(message), { code }); };
@@ -65,11 +65,12 @@ export function createCatalogService({ BrowserWindow, screen, session, root, loa
     if (owners.has(record)) { update(record, snapshot); owners.get(record).window.show(); owners.get(record).window.focus(); return { status: 'detached' }; }
     let saved; try { saved = await loadBounds('catalog'); } catch { /* Missing bounds use the current monitor. */ }
     if (record.window.isDestroyed() || record.files.documentToken !== snapshot.documentToken) fail('DOCUMENT_STALE', 'Окно модели закрыто.');
-    const window = new BrowserWindow({ ...visibleCatalogBounds(lastBounds || saved || record.window.getBounds(), screen.getAllDisplays()), minWidth: 280, minHeight: 320, title: 'Arkita — Дерево модели', parent: record.window,
+    const bounds = visibleCatalogBounds(lastBounds || saved || record.window.getBounds(), screen.getAllDisplays());
+    const window = new BrowserWindow({ ...bounds, minWidth: 280, minHeight: 320, title: 'Arkita — Дерево модели', parent: record.window,
       webPreferences: { session, preload: path.join(root, 'electron/preload-catalog.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true, allowRunningInsecureContent: false, webviewTag: false, navigateOnDragDrop: false } });
     const state = { owner: record, window, snapshot: null, signature: null }; owners.set(record, state);
     window.webContents.setWindowOpenHandler(() => ({ action: 'deny' })); for (const name of ['will-navigate', 'will-frame-navigate', 'will-redirect', 'will-attach-webview']) window.webContents.on(name, event => event.preventDefault());
-    window.once('close', () => { lastBounds = window.getBounds(); void saveBounds(lastBounds, 'catalog').catch(() => {}); });
+    watchWindowBounds(window, next => { lastBounds = next; return saveBounds(next, 'catalog'); }, bounds);
     window.once('closed', () => { if (owners.get(record) === state) owners.delete(record); if (!record.window.isDestroyed()) record.window.webContents.send('schemka:catalog-docked'); });
     try { update(record, snapshot); await window.loadURL(CATALOG_URL); return { status: 'detached' }; } catch (error) { if (!window.isDestroyed()) window.destroy(); throw error; }
   }
