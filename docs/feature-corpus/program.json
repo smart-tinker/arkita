@@ -10074,13 +10074,18 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#git"
+        "docs/feature-corpus/RELEASE-0.6.0.md#git",
+        "schemka-model-ui/index.html",
+        "schemka-model-ui/src/git-actions.js",
+        "electron/git-service.mjs",
+        "schemka-model-ui/test/git-actions.test.js",
+        "electron/test/git-service.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
       "issue": 58,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-actions.test.js covers native-file dirty state after Git commit; git-service.test.mjs covers local versions, push/adoption and server failure retaining history. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10106,13 +10111,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#git"
+        "docs/feature-corpus/RELEASE-0.6.0.md#git",
+        "schemka-model-ui/src/git-actions.js",
+        "electron/git-service.mjs",
+        "electron/git-repository.mjs",
+        "schemka-model-ui/test/git-actions.test.js",
+        "electron/test/git-service.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
       "issue": 58,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-service.test.mjs covers read-only revision inspection and explicit restore; git-actions.test.js covers metadata/geometry preview and one-step Undo. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10136,13 +10146,19 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#git"
+        "docs/feature-corpus/RELEASE-0.6.0.md#git",
+        "schemka-model-ui/index.html",
+        "schemka-model-ui/src/git-actions.js",
+        "electron/git-service.mjs",
+        "electron/git-repository.mjs",
+        "schemka-model-ui/test/git-actions.test.js",
+        "electron/test/git-service.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
       "issue": 58,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-service.test.mjs covers guarded branch preview/switch; git-actions.test.js covers local creation, dirty preview, cancel and explicit replacement. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10166,13 +10182,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#git"
+        "docs/feature-corpus/RELEASE-0.6.0.md#git",
+        "electron/git-changes.mjs",
+        "electron/git-service.mjs",
+        "schemka-model-ui/src/git-actions.js",
+        "electron/test/git-service.test.mjs",
+        "schemka-model-ui/test/git-actions.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
       "issue": 58,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-service.test.mjs covers base/local/remote context, affected relationships/views and validation; git-actions.test.js covers explicit record or whole-model choices and apply/cancel. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10197,13 +10218,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#git"
+        "docs/feature-corpus/RELEASE-0.6.0.md#git",
+        "electron/git-repository.mjs",
+        "electron/git-service.mjs",
+        "schemka-model-ui/src/git-actions.js",
+        "electron/test/git-repository.test.mjs",
+        "electron/test/git-service.test.mjs",
+        "schemka-model-ui/test/git-actions.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
       "issue": 58,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-repository.test.mjs, git-service.test.mjs and git-actions.test.js cover create, inspect, publish and local delete as separate actions. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
