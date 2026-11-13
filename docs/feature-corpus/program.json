@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-12",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -1927,13 +1927,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/format.js",
+        "schemka-model-core/src/semantic-editing.js",
+        "schemka-model-ui/src/semantic-editing-ui.js",
+        "schemka-model-core/test/semantic-editing.test.js",
+        "schemka-model-ui/test/semantic-editing-ui.test.js",
+        "schemka-model-ui/test/semantic-editing-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native drag/resize acceptance on Windows is UNRUN; the checked-in tests do not replace that visual scenario.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1945,7 +1950,7 @@
         "remaining": "validateProject явно отклоняет parentOccurrenceId != null: Occurrence nesting is not supported. Семантический nesting и keep-children поверх него отсутствуют.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-EDITOR-068",
@@ -1954,13 +1959,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/semantic-editing.js",
+        "schemka-model-ui/src/semantic-editing-ui.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-core/test/semantic-editing.test.js",
+        "schemka-model-ui/test/semantic-editing-ui.test.js",
+        "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native dialog/drag acceptance on Windows is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1972,7 +1982,7 @@
         "remaining": "validateProject явно отклоняет parentOccurrenceId != null: Occurrence nesting is not supported. Семантический nesting и keep-children поверх него отсутствуют.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-EDITOR-069",
@@ -2230,13 +2240,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/store.js",
+        "schemka-model-core/test/drawing-selection-delete.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native context-menu acceptance on Windows is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2248,7 +2259,7 @@
         "remaining": "validateProject явно отклоняет parentOccurrenceId != null: Occurrence nesting is not supported. Семантический nesting и keep-children поверх него отсутствуют.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-EDITOR-078",
@@ -4577,13 +4588,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/format.js",
+        "schemka-model-profiles/test/integration.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "No diagnostic currently names the specific view and nested drawing pair. A verified Arkita 4 diagnostic contract is needed before implementing it; Windows acceptance is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4599,7 +4611,7 @@
         "remaining": "Нативная схема прямо требует parentOccurrenceId=null и отклоняет вложенность. Проверок семантики вложенных рисунков/декоративных контейнеров нет; нельзя подключать правила Archi 3.2 к отсутствующему контракту Arkita 4.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-029",
@@ -7586,13 +7598,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/smart-relationship.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/semantic-editing-ui.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native shortcut acceptance is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7606,7 +7620,7 @@
         "remaining": "Уже есть два практических пути: выбрать тип отношения и протянуть, либо Magic Relationship сначала выбирает концы и затем тип. Оба идут через типизированные команды и diagnostics. Настройки default-порядка и временной смены порядка модификатором нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-126",
@@ -7615,13 +7629,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/connection-geometry.js",
+        "schemka-model-ui/src/svg-export.js",
+        "schemka-model-ui/test/styled-geometry.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Windows visual comparison at 100/150/200% is UNRUN; no evidenced need for an extra quality toggle.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7637,7 +7653,7 @@
         "remaining": "Линии и маркеры рисуются SVG браузерным renderer, без отдельной bitmap-отрисовки или пользовательского переключателя сглаживания. Наличие SVG — основа качества; сравнение прямых/диагоналей/окончаний на Windows 100/150/200% здесь не выполнено.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-127",
@@ -7646,13 +7662,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/connection-geometry.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/styled-geometry.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "A general selectable orthogonal attachment strategy for all supported shapes is absent; this is a feature gap, not a test portability fix.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7667,7 +7685,7 @@
         "remaining": "Geometry уже считает пересечения с контурами и использует ортогональные terminal/exterior маршруты для некоторых специальных форм; ручные anchors хранятся отдельно. Общей выбираемой стратегии ортогонального примыкания на всех фигурах и её UI нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-128",
@@ -7676,13 +7694,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/connection-geometry.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/styled-geometry.test.js",
+        "schemka-model-ui/src/svg-export.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "No focused SVG export regression was found for short/self-referencing rounded routes; native visual acceptance is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7698,7 +7719,7 @@
         "remaining": "Автоматическая геометрия имеет кривые для петель/особых случаев, но сохранённые bendpoints строятся полилинией. Визуального режима скругления углов этих маршрутов, его параметра и экспортного поведения нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-129",
@@ -7707,13 +7728,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/connection-presentation.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/test/connection-presentation.test.js",
+        "schemka-model-ui/src/svg-export.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "No focused assertion of the final exported SVG bridge was found; native visual acceptance is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7728,7 +7752,7 @@
         "remaining": "Отрисовка вычисляет геометрию отдельных соединений. Механизма определения пересечений между независимыми линиями, мостиков line jumps и настройки их порядка нет; view anchor/junction имеют другую семантику.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-130",
@@ -7737,13 +7761,16 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/style.css",
+        "schemka-model-ui/src/svg-export.js",
+        "schemka-model-ui/test/preferences-effects-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Windows contrast comparison in light and dark themes is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7758,7 +7785,7 @@
         "remaining": "Selection handles/styles exist; SVG export now removes editor-only selection. Optional selection-effect preference still absent.",
         "verification": "reviewed shipped post-baseline implementation and corresponding merged feature tests; no Windows acceptance claim"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-131",
@@ -7767,13 +7794,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/src/connection-presentation.js",
+        "schemka-model-ui/test/connection-presentation.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Print output parity and native Windows acceptance are UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7788,7 +7817,7 @@
         "remaining": "Подписи сейчас имеют один CSS halo через paint-order:stroke и цвет холста. Выбора transparent/opaque/clipping режимов и согласованного вывода в печать/изображение нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-132",
@@ -7797,13 +7826,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/semantic-editing.js",
+        "schemka-model-ui/src/semantic-editing-ui.js",
+        "schemka-model-core/test/semantic-editing.test.js",
+        "schemka-model-ui/test/semantic-editing-ui.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Focused regression covers three uses across two views, per-view bindings, cancellation, route/label preservation and one-step undo. Native Windows dialog acceptance remains UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Base source reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 passed on Ubuntu and Windows. Focused UI regression `node --test schemka-model-ui/test/semantic-editing-ui.test.js` passed 8/8 and core regression `node --test schemka-model-core/test/semantic-editing.test.js` passed 7/7 at test commit 54ed22b0bfe50ef2149789a1a2a079c1ab9bb5a0. Native Windows dialog acceptance remains unrun; criterion stays acceptance-pending and closed_criteria is empty. Details: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7817,7 +7849,7 @@
         "remaining": "Есть rebindConnectionEndpoint для рисунка: после проверки его конец должен разрешаться в тот же concept endpoint общего отношения. Это не изменение source/target общего relationship во всех видах. Семантической перепривязки и предварительного отчёта всех затронутых видов нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-133",
@@ -7826,13 +7858,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/semantic-editing.js",
+        "schemka-model-core/src/native-v4.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-core/test/semantic-editing.test.js",
+        "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "User navigation to a hidden semantic relationship and native Windows acceptance are UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7848,7 +7884,7 @@
         "remaining": "parentOccurrenceId!=null прямо отклоняется форматом. Предложения, неявного отображения и скрытия семантических связей через вложенность нет. Viewpoint projection — фильтр, а не создание вложенности; соответствующие правила 3.2 не переносятся.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-134",
@@ -7857,13 +7893,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/semantic-editing.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/semantic-editing-ui.js",
+        "schemka-model-core/test/semantic-editing.test.js",
+        "schemka-model-ui/test/semantic-editing-ui.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native Windows pass across create, reuse and move is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7879,7 +7919,7 @@
         "remaining": "parentOccurrenceId!=null прямо отклоняется форматом. Предложения, неявного отображения и скрытия семантических связей через вложенность нет. Viewpoint projection — фильтр, а не создание вложенности; соответствующие правила 3.2 не переносятся.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-135",
@@ -7888,13 +7928,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/semantic-editing.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-core/test/semantic-editing.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native Windows dialog acceptance is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7910,7 +7952,7 @@
         "remaining": "parentOccurrenceId!=null прямо отклоняется форматом. Предложения, неявного отображения и скрытия семантических связей через вложенность нет. Viewpoint projection — фильтр, а не создание вложенности; соответствующие правила 3.2 не переносятся.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-136",
@@ -7919,13 +7961,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native Windows visual acceptance is UNRUN.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows; tests were inspected, not rerun in this audit. Source assessment and test limits: docs/feature-corpus/ISSUE-16-AUDIT-20261112.md. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7941,7 +7984,7 @@
         "remaining": "parentOccurrenceId!=null прямо отклоняется форматом. Предложения, неявного отображения и скрытия семантических связей через вложенность нет. Viewpoint projection — фильтр, а не создание вложенности; соответствующие правила 3.2 не переносятся.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-ADV-137",
@@ -9386,13 +9429,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+        "schemka-model-core/src/native-v4.js",
+        "schemka-model-ui/src/connection-geometry.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/test/connection-presentation.test.js",
+        "schemka-model-ui/test/visuals-ui.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Focused regression at d5e38b1 proves labelAnchor/labelOffset through the style dialog, project codec and Undo; displayed placement follows bendpoint edits and reversed endpoint direction. A user-facing inversion action and native Windows rendering/long-label handle remain unverified; explicit absolute labelPosition still overrides the relative style.",
       "issue": 50,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at public main 62aa1639752be2d4d345c97f4610e3673f0e5767; GitHub CI run 43201799027 for this exact main SHA passed on Ubuntu and Windows. Local focused tests at PR branch commit d5e38b1 passed: connection-presentation 8/8 and visuals-ui 16/16. Verified style-dialog persistence, project codec roundtrip, Undo, bendpoint edit and changed connector endpoint direction. User-facing inversion and native Windows rendering/long-label handle were not tested. Criterion remains acceptance-pending; Windows acceptance unrun; closed_criteria empty.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9407,7 +9454,7 @@
         "remaining": "Label position редактируется отдельно от текста, сохраняется как абсолютные native координаты и участвует в Undo; layout editor имеет ручки маршрута/подписи. Relative-to-route политика, инверсия общей связи и её согласованное преобразование label offset пока отсутствуют; абсолютный контракт нельзя молча назвать относительным.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#nesting"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-16-AUDIT-20261112.md"
     },
     {
       "id": "A-EXT-015",
