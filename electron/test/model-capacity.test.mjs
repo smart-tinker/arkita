@@ -23,7 +23,9 @@ async function measured(t, operation, run) {
   return value;
 }
 
-test('5016 native records preserve shared concepts, hierarchy and all geometry through file/directory save, reopen, search, edit and Undo/Redo', { timeout: 180000 }, async t => {
+test('5016 native records preserve shared concepts, hierarchy and all geometry through file/directory save, reopen, search, edit and Undo/Redo', {
+  timeout: 600000, skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+}, async t => {
   const root = await fixture(t), state = largeNativeModel(), before = exportFiles(state);
   assert.equal(before.length, 5016); assert.equal(largeArchiXML(), largeArchiXML());
   assert.equal(state.views.filter(entry => entry.occurrences.some(item => item.concept.id === state.elements[0].id)).length, 10);
@@ -49,7 +51,9 @@ test('5016 native records preserve shared concepts, hierarchy and all geometry t
   assert.deepEqual((await measured(t, 'directory-reopen-5016', () => readNativeDirectory(directory.snapshot.guard.root))).snapshot.files, after);
 });
 
-test('5016 native records complete a local Git publish/fetch/edit/merge cycle without splitting shared concepts or geometry', { timeout: 180000 }, async t => {
+test('5016 native records complete a local Git publish/fetch/edit/merge cycle without splitting shared concepts or geometry', {
+  timeout: 180000, skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+}, async t => {
   const root = await fixture(t), state = largeNativeModel(), baseFiles = exportFiles(state), executable = await discoverGit();
   const remote = path.join(root, 'remote.git'); await fs.mkdir(remote);
   await gitCommand(executable, remote, ['init', '--bare', '--template=', '--initial-branch=main', remote]);

@@ -16,7 +16,7 @@ const encode = state => Buffer.from(serializeProjectFile(state));
 const failure = () => Object.assign(Error('injected I/O interruption'), { code: 'EIO' });
 const proxy = (handle, overrides) => new Proxy(handle, { get(target, key) { return overrides[key] ?? (typeof target[key] === 'function' ? target[key].bind(target) : target[key]); } });
 async function fixture(t, native = false) {
-  const parent = await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-preserved-')); t.after(() => fs.rm(parent, { recursive: true, force: true }));
+  const parent = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-preserved-'))); t.after(() => fs.rm(parent, { recursive: true, force: true }));
   const before = createProject('Before'), after = structuredClone(before); after.project.name = 'After!';
   if (native) {
     before.elements = [{ id: fixtureId('el', 1), type: 'Role', name: 'Before', documentation: '', properties: [] }];

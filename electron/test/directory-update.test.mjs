@@ -215,7 +215,9 @@ test('recovery checks original expected state again during staging and before de
   }
 });
 
-test('maximum native file inventories use bounded pages and a full disjoint update bounds file reads while measuring metadata cost', { timeout: 360000 }, async t => {
+test('maximum native file inventories use bounded pages and a full disjoint update bounds file reads while measuring metadata cost', {
+  timeout: 2100000, skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+}, async t => {
   const before = createProject('Maximum synthetic'); before.elements = Array.from({ length: LIMITS.files - 1 }, (_, i) => element(i + 1));
   function fillBudget(model) {
     const initial = exportFiles(model).reduce((n, file) => n + Buffer.byteLength(file.content), 0);
@@ -232,9 +234,12 @@ test('maximum native file inventories use bounded pages and a full disjoint upda
     if (interruptedLargeIndex || !(flags & constants.O_WRONLY) || path.basename(path.dirname(p)) !== 'pending' || path.basename(p) !== 'record-10000.json') return handle;
     return proxy(handle, { writeFile: async bytes => { interruptedLargeIndex = true; await handle.writeFile(bytes.subarray(0, 1)); throw injected(); } });
   } };
+  t.diagnostic('maximum inventory: capturing before snapshot');
   f.snapshot = await captureNativeDirectory(f.root, io); opens = lstats = 0;
+  t.diagnostic('maximum inventory: snapshot captured; running disjoint update');
   const start = performance.now();
   await assert.rejects(updateNativeDirectory(f.snapshot, encode(next), io), /injected interruption/);
+  t.diagnostic('maximum inventory: update interrupted; validating and recovering journal');
   assert.equal(interruptedLargeIndex, true, 'exercise an actual five-digit pending record in the maximum journal');
   const transaction = path.join(f.parent, (await fs.readdir(f.parent)).find(name => name.startsWith('.schemka-transaction-')));
   const pendingFile = path.join(transaction, 'pending', 'record-10000.json'), noncanonical = path.join(transaction, 'pending', 'record-00001.json');

@@ -42,8 +42,8 @@ export function installWorkbench({ document, window, files, blocked, status, pre
       const keys = preferences.get('keys'), code = /^Key[A-Z]$|^Digit[0-9]$|^F(?:[1-9]|1[0-2])$/.test(event.code) ? event.code : /^F(?:[1-9]|1[0-2])$/.test(event.key) ? event.key : /^[a-z]$/i.test(event.key) ? `Key${event.key.toUpperCase()}` : /^[0-9]$/.test(event.key) ? `Digit${event.key}` : '';
       const chord = `${event.ctrlKey || event.metaKey ? 'Ctrl+' : ''}${event.shiftKey ? 'Shift+' : ''}${code}`;
       const command = Object.entries(keys).find(([,binding]) => binding && binding === chord)?.[0] || (chord === 'Ctrl+Shift+KeyZ' && keys.redo === 'Ctrl+KeyY' ? 'redo' : null);
-      const text = event.target.closest?.('input,textarea,select,[contenteditable="true"],[contenteditable=""]'), canvasOnly = value => value?.startsWith('fragment-');
-      if (text && !['save','save-as','open','new','help-button'].includes(command)) return;
+      const text = event.target.closest?.('input,textarea,select,[contenteditable="true"],[contenteditable=""],[contenteditable="plaintext-only"]'), canvasOnly = value => value?.startsWith('fragment-');
+      if (text && (!['save','save-as','open','new','help-button'].includes(command) || !(event.ctrlKey || event.metaKey || code.startsWith('F')))) return;
       if (canvasOnly(command) && !event.target.closest?.('#canvas')) return;
       if (command) { event.preventDefault(); event.stopImmediatePropagation(); if (command === 'help-button') {if(onHelp)onHelp(event.target);else $('help-button').click();} else if (['undo','redo'].includes(command) && onHistory) onHistory(command); else if(command==='fragment-paste-reuse'&&onDefaultPaste){if(!blocked())onDefaultPaste();else status('Завершите или отмените текущую правку перед этой командой.');}else run(command); return; }
       // Earlier fixed handlers must not also run an old binding after reassignment.

@@ -68,7 +68,9 @@ function changeList(count) {
 const pageButton = (list, text) => [...list.querySelectorAll('button')].find(button => button.textContent === text);
 const changeRows = list => [...list.children].filter(row => row.querySelector('details'));
 
-test('5016 Git changes stay bounded, expose every record and retain page/details through input and busy refresh', async t => {
+test('5016 Git changes stay bounded, expose every record and retain page/details through input and busy refresh', {
+  skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+}, async t => {
   const changes = changeList(5016), h = setup(t, {}, { changes });
   h.rename('Complete snapshot'); const bytes = serializeProjectFile(h.model.store.snapshot), token = h.session.documentToken, history = h.model.store.history;
   await h.open(); const list = h.$('git-changes');

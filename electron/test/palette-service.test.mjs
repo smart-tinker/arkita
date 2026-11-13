@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { randomUUID } from 'node:crypto';
+import path from 'node:path';
 import { paletteSnapshot, createPaletteService, visiblePaletteBounds, PALETTE_URL } from '../palette-service.mjs';
 const owner = () => ({ window: { isDestroyed: () => false, getBounds: () => ({ x: 0, y: 0, width: 1000, height: 800 }), webContents: { send() {} }, focus() {} }, files: { documentToken: randomUUID(), busy: false }, git: { busy: false } });
 const snapshot = record => ({ documentToken: record.files.documentToken, revision: 7, viewId: 'view-' + randomUUID(), theme: 'dark', types: [{ kind: 'element', type: 'ApplicationComponent', label: '<script>typed</script>', description: 'plain text', enabled: true }] });
@@ -17,7 +18,7 @@ test('native detached palette has only its own sender route, same-owner nonce dr
   const windows = [], ownerA = owner(), ownerB = owner(), delivered = [], docked = []; ownerA.window.webContents.send = (...args) => { if (args[0].endsWith('command')) delivered.push(args); else docked.push(args); };
   const screen = new EventEmitter(); screen.getAllDisplays = () => [{ workArea: { x: 0, y: 0, width: 1200, height: 800 } }];
   class Window extends EventEmitter {
-    constructor(options) { super(); this.bounds = options; this.webContents = new EventEmitter(); this.webContents.mainFrame = { url: PALETTE_URL }; this.webContents.send = () => {}; this.webContents.setWindowOpenHandler = fn => assert.equal(fn().action, 'deny'); assert.equal(options.webPreferences.preload, '/app/electron/preload-palette.cjs'); assert.equal(options.webPreferences.sandbox, true); windows.push(this); }
+    constructor(options) { super(); this.bounds = options; this.webContents = new EventEmitter(); this.webContents.mainFrame = { url: PALETTE_URL }; this.webContents.send = () => {}; this.webContents.setWindowOpenHandler = fn => assert.equal(fn().action, 'deny'); assert.equal(options.webPreferences.preload, path.join('/app', 'electron', 'preload-palette.cjs')); assert.equal(options.webPreferences.sandbox, true); windows.push(this); }
     async loadURL(url) { assert.equal(url, PALETTE_URL); } isDestroyed() { return Boolean(this.dead); } getBounds() { return { x: 0, y: 0, width: 300, height: 650 }; } setBounds(value) { this.bounds = value; } show() {} focus() {}
     close() { this.emit('close'); this.dead = true; this.emit('closed'); } destroy() { this.dead = true; this.emit('closed'); }
   }

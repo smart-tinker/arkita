@@ -14,7 +14,7 @@ const deferred = () => { let resolve; const promise = new Promise(r => { resolve
 const failure = () => Object.assign(Error('injected write interruption'), { code: 'EIO' });
 const encode = state => Buffer.from(serializeProjectFile(state));
 async function fixture(t, options = {}) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-file-recovery-ui-'));
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-file-recovery-ui-')));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const file = path.join(root, 'model.arkita'), before = createProject('Before'), after = structuredClone(before);
   after.project.name = 'After!'; await fs.writeFile(file, encode(before));

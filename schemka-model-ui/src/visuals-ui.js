@@ -11,6 +11,15 @@ const names = { note: 'Заметка', group: 'Группа', legend: 'Леге
 const lineKind = kind => ['connection', 'visualConnector'].includes(kind);
 const gridPoint = point => point && ({ x: Math.round(point.x * 10) / 10 || 0, y: Math.round(point.y * 10) / 10 || 0 });
 const refKey = ref => `${ref.kind}:${ref.id}`;
+function brushStyle(sourceKind, target, currentStyle, copiedStyle) {
+  const style = { ...copiedStyle }, keep = [];
+  if (target.kind === 'connection' || target.kind === 'visualConnector') keep.push('strokeDash', 'sourceEnding', 'targetEnding');
+  if (target.kind === 'connection' && sourceKind !== 'connection') keep.push('hideWhenNested');
+  if (target.kind === 'visualConnector') delete style.hideWhenNested;
+  if (target.kind === 'occurrence' && style.shape === 'actor') keep.push('shape');
+  for (const key of keep) if (Object.hasOwn(currentStyle, key)) style[key] = currentStyle[key]; else delete style[key];
+  return style;
+}
 
 /** Versioned drawing drafts stay outside the model until one complete user action commits. */
 export function installVisualsUI({ document, window, model, readDefaults = () => ({}), readResizeBehavior = () => 'retain', canvas, openDialog, render, status, blocked = () => false, beforeChange = () => {}, nextBounds = () => ({ x: 80, y: 80, width: 220, height: 120 }), openMetadata = () => {}, activateView = id => model.switchView(id) }) {
@@ -166,7 +175,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     field('labelVisible', 'Подпись', style.labelVisible === undefined ? '' : String(style.labelVisible), 'text', [['', 'По умолчанию'], ['true', 'Показывать'], ['false', 'Скрыть']]);
     if (line) { color('labelBackground', 'Фон подписи'); field('label-x', 'Смещение подписи X', style.labelOffset?.x ?? '', 'number'); field('label-y', 'Смещение подписи Y', style.labelOffset?.y ?? '', 'number'); }
     const extra = node('div', undefined, 'visual-inline-actions'); extra.append(button('visual-style-reset', 'Сбросить оформление', () => commit(request, run => run({ type: 'resetDrawingStyle', viewId: request.viewId, drawing: ref }), 'Оформление сброшено · можно отменить.')),
-      button('visual-style-copy', 'Скопировать оформление', () => { if (!usable(request)) return; brush = { line, style: structuredClone(style) }; cancel(); refresh(); status('Оформление скопировано. Выберите другой рисунок и примените его.'); })); fields.append(extra); return true;
+      button('visual-style-copy', 'Скопировать оформление', () => { if (!usable(request)) return; brush = { kind: ref.kind, line, style: structuredClone(style) }; cancel(); refresh(); status('Оформление скопировано. Выберите другой рисунок и примените его.'); })); fields.append(extra); return true;
   }
   function hierarchySelected() {
     const ref = selection(), item = ref && drawing(model.store.snapshot, ref); if (!item?.bounds) return false;
@@ -220,7 +229,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     const refs = model.selections.filter(ref => DRAWING_COLLECTIONS[ref.kind]);
     if (!refs.length || refs.some(ref => lineKind(ref.kind) !== brush.line)) { status('Выберите рисунки того же вида: узлы или линии.'); return; }
     const request = show('brush', 'Применить оформление?'); if (!request) return;
-    request.refs = refs; fields.append(node('p', `Оформление будет заменено у ${refs.length} рисунков. Одна отмена восстановит их прежний вид.`));
+    request.refs = refs; fields.append(node('p', `Совместимое оформление будет применено к ${refs.length} рисункам; неподдерживаемые поля останутся без изменений. Одна отмена восстановит прежний вид.`));
   }
   async function readUpload(file, request, position = null) {
     if (!file || !usable(request)) return;
@@ -297,7 +306,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
       }
       else if (request.mode === 'style') { const style = readStyle(); if (controls.labelTemplate.value === request.initialTemplate && Object.hasOwn(request.original.style, 'labelTemplate')) style.labelTemplate = request.original.style.labelTemplate; commit(request, run => run({ type: 'updateDrawingStyle', viewId: request.viewId, drawing: request.ref, style }), 'Оформление сохранено · можно отменить.', request.ref); }
       else if (request.mode === 'delete') commit(request, run => run({ type: request.ref.kind === 'visualNode' ? 'removeVisualNode' : 'removeVisualConnector', viewId: request.viewId, [request.ref.kind === 'visualNode' ? 'nodeId' : 'connectorId']: request.ref.id }), 'Рисунок удалён. Дети контейнера сохранены · можно отменить.');
-      else if (request.mode === 'brush') commit(request, run => { for (const ref of request.refs) { const item = drawing(model.store.snapshot, ref); const style={...brush.style};if(ref.kind==='connection')for(const key of ['strokeDash','sourceEnding','targetEnding']){delete style[key];if(Object.hasOwn(item.style,key))style[key]=item.style[key];}if (JSON.stringify(item.style) !== JSON.stringify(style)) run({ type: 'updateDrawingStyle', viewId: request.viewId, drawing: ref, style }); } }, 'Оформление применено · можно отменить.');
+      else if (request.mode === 'brush') commit(request, run => { for (const ref of request.refs) { const item = drawing(model.store.snapshot, ref), currentStyle = item.style ?? {}, style = brushStyle(brush.kind, ref, currentStyle, brush.style); if (JSON.stringify(currentStyle) !== JSON.stringify(style)) run({ type: 'updateDrawingStyle', viewId: request.viewId, drawing: ref, style }); } }, 'Оформление применено · можно отменить.');
     } catch (failure) { error.textContent = `Не сохранено: ${failure.message}`; }
   }
   const connectorButton = button('visual-connector-tool', 'Визуальный соединитель', () => {

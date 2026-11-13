@@ -11,7 +11,7 @@ import { createProject } from '../../schemka-model-core/src/index.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
 const deferred = () => { let resolve; const promise = new Promise(r => { resolve = r; }); return { promise, resolve }; };
 async function fixture(t, options = {}) {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-current-')); t.after(() => fs.rm(dir, { recursive: true, force: true }));
+  const dir = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-current-'))); t.after(() => fs.rm(dir, { recursive: true, force: true }));
   const file = path.join(dir, 'model.arkita'), state = createProject('Initial'), bytes = serializeProjectFile(state);
   await fs.writeFile(file, bytes);
   const window = { isDestroyed: () => false, webContents: { mainFrame: { url: APP_URL } } };

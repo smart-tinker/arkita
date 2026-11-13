@@ -1,6 +1,6 @@
 {
   "name": "arkita",
-  "version": "0.7.0",
+  "version": "0.7.1-rc.1",
   "private": true,
   "description": "Arkita — desktop architecture modeller for ArchiMate 4",
   "scripts": {
@@ -8,6 +8,7 @@
     "build:mermaid": "node scripts/build.cjs",
     "start": "node scripts/serve.mjs",
     "test": "node scripts/test.mjs",
+    "test:browser:smoke": "node schemka-model-ui/test/browser-smoke.mjs",
     "test:mermaid": "node scripts/build.cjs && node --test tests/*.test.cjs",
     "check": "node scripts/check-platform.mjs",
     "desktop": "electron .",
@@ -18,12 +19,18 @@
     "node": ">=22"
   },
   "devDependencies": {
-    "electron": "44.7.0",
+    "electron": "44.10.2",
     "electron-builder": "26.15.3",
-    "jsdom": "26.1.0"
+    "jsdom": "26.1.0",
+    "playwright": "1.65.0"
+  },
+  "overrides": {
+    "minimatch@^9.0.3": "11.0.1",
+    "minimatch@^10.2.5": "11.0.1"
   },
   "main": "electron/entry.mjs",
   "author": "Arkita contributors",
+  "license": "MIT",
   "build": {
     "appId": "org.smart-tinker.arkita",
     "productName": "Arkita",

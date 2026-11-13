@@ -13,7 +13,7 @@ const css = await readFile(new URL('../style.css', import.meta.url), 'utf8');
 test('prepared browser checks follow the current standalone controls rather than removed selectors', async () => {
   const directory = new URL('./', import.meta.url);
   const scripts = (await readdir(directory)).filter(name => /^browser(?:-[a-z-]+)?\.mjs$/.test(name));
-  assert.equal(scripts.length, 9);
+  assert.equal(scripts.length, 10);
   for (const name of scripts) {
     const source = await readFile(new URL(name, directory), 'utf8');
     assert.doesNotMatch(source, /#(?:reuse-link-button|view-name|notation-mode|notation-status)(?![\w-])|#catalogue-palette\s*>\s*summary/, name);

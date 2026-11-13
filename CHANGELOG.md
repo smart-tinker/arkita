@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.7.1-rc.1 — candidate
+
+- Keep plain-letter shortcuts from interrupting text entry; color-scheme imports preserve other unsaved preference edits.
+- Make the locked test suite path-aware on Windows.
+- Add a reproducible Chromium renderer smoke and run it in the Ubuntu PR gate.
+- Validate source and the NSIS installer in temporary Ubuntu/Windows Actions
+  runners. No workflow uploads artifacts or configures dependency caches;
+  CodeQL keeps its automatic database cache separately.
+- Update Electron to 44.10.2, including the fix for GHSA-jr5w-w6x2-84p9.
+- Update build/test dependencies to patched fast-uri 3.1.9 and undici 7.30.2;
+  override vulnerable minimatch 9.0.9 and 10.2.6 consumers to 11.0.1.
+- Bound inactive SVG validation work and reject oversized SVG input directly.
+- Preserve destination-specific line decorations when the format brush copies appearance
+  across model views; the action remains undoable.
+- No application feature or model-format change is included in this patch line.
+
+This candidate is for CI and test validation. It is not a user-distribution
+package; exact Windows GUI acceptance and release publication remain pending.
+
 ## 0.7.0 — 2026-10-29
 
 - Consolidate the agreed RC1–RC5 scope: supported Archi import with diagnostics
