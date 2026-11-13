@@ -241,7 +241,8 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     }
     const catalogOption = [...propertyScope.options].find(option => option.value === 'catalog'); catalogOption.disabled = !catalogOwners;
     catalogOption.textContent = catalogOwners ? `Зафиксированное выделение дерева (${catalogOwners.length})` : 'Зафиксированное выделение дерева';
-    propertyScope.value = catalogOwners ? 'catalog' : 'results';
+    if (catalogOwners) propertyScope.value = 'catalog';
+    else if (propertiesOnly || propertyScope.value === 'catalog') propertyScope.value = 'results';
     trigger = document.activeElement;
     if (source?.store !== model.store) { query.value = ''; chosen.clear(); found = []; draftEntries = []; renderDraft(); }
     vocabulary(); openDialog ? openDialog(dialog.id) : dialog.showModal(); (propertiesOnly ? key : query).focus();

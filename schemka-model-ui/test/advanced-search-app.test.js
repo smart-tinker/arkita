@@ -73,6 +73,10 @@ test(`${production ? 'production' : 'source'} global property manager previews c
   assert.equal(propertyScope.value, 'checked', 'Opening and cancelling the global manager preserves the search property scope');
   assert.deepEqual(await h.download(), original, 'Cancel after a collision leaves the model unchanged');
 
+  searchCommand.closest('.app-menu').open = true; searchCommand.click(); await tick();
+  assert.equal(propertyScope.value, 'checked', 'Reopening advanced search keeps its prior property scope');
+  h.$('advanced-search-close').click();
+
   command.closest('.app-menu').open = true; command.click(); propertyRow('owner').click();
   input('advanced-property-new-key', 'cancelled-rename'); h.$('advanced-property-rename').click(); await tick();
   assert.equal(h.$('advanced-search-apply').disabled, false, 'A valid rename preview can be cancelled');
