@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "cbbb67ce56a5a5c20e6a585997085b69fb6d721acd109cab74024420489e67b7"
+    "docs/feature-corpus/program.json": "cc52884ce690559c7d369ee57b1ea4ef2d1c0cd50a273e55682160e958bcc788"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -63,6 +63,14 @@
     "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
     "records": 339,
     "original_exclusions": 9,
-    "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN."
+    "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
+    "current_evidence_review": {
+      "updated_at": "2026-11-12",
+      "issue": 24,
+      "source_sha": "a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d",
+      "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43121393082",
+      "result": "Five criteria have current source/test evidence; all remain acceptance-pending because installed Windows Git GUI acceptance is unrun.",
+      "ledger": "docs/feature-corpus/program.json"
+    }
   }
 }
