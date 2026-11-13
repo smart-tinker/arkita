@@ -1,0 +1,21 @@
+body.catalog-window { display:flex; flex-direction:column; gap:10px; height:100vh; min-height:0; margin:0; padding:12px; overflow:hidden; color:var(--ink); background:var(--surface); font:13px/1.45 "Segoe UI",system-ui,sans-serif; }
+.catalog-window header { display:flex; align-items:center; justify-content:space-between; gap:8px; flex:none; }
+.catalog-window h1 { margin:0; font-size:16px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.catalog-window-search { display:grid; gap:4px; flex:none; }
+.catalog-window-search input { width:100%; }
+.catalog-window-pages { display:flex; align-items:center; justify-content:space-between; gap:8px; flex:none; min-height:30px; }
+.catalog-window-pages span { color:var(--tree-muted); text-align:center; }
+#catalog-window-items { flex:1; min-height:0; overflow:auto; }
+#catalog-window-items details { margin:1px 0; }
+#catalog-window-items > details { border-bottom:1px solid var(--line); }
+#catalog-window-items summary { cursor:pointer; padding:5px 2px; }
+.catalog-window .catalog-branch { margin-left:12px; padding-left:5px; border-left:1px solid var(--tree-line); }
+.catalog-window-row { display:flex; align-items:center; gap:4px; min-height:30px; }
+.catalog-window-row > button:first-child { min-width:0; flex:1; text-align:left; justify-content:flex-start; overflow-wrap:anywhere; }
+.catalog-window-row > button[aria-pressed="true"], .catalog-window-row > button[aria-current="true"] { background:var(--tree-selected); color:var(--tree-selected-ink); }
+.catalog-window-row small { display:block; color:var(--tree-muted); font-size:11px; }
+.catalog-window-add { flex:none; min-width:32px; }
+.catalog-window-result { padding:3px 0; border-bottom:1px solid var(--line); }
+.catalog-window-result .catalog-path { color:var(--tree-muted); font-size:11px; overflow-wrap:anywhere; }
+#catalog-window-status { margin:0; flex:none; overflow-wrap:anywhere; }
+#catalog-window-status:empty { display:none; }

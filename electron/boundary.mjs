@@ -25,7 +25,7 @@ export async function createAssetHandler(root) {
       if (entry.isFile() && entry.name.endsWith('.js')) assets.set(`/${pkg}/src/${entry.name}`, path.join(root, pkg, 'src', entry.name));
     }
   }
-  for (const name of ['index.html', 'style.css', 'palette.html', 'palette.css']) assets.set(`/schemka-model-ui/${name}`, path.join(root, 'schemka-model-ui', name));
+  for (const name of ['index.html', 'style.css', 'palette.html', 'palette.css', 'catalog.html', 'catalog.css']) assets.set(`/schemka-model-ui/${name}`, path.join(root, 'schemka-model-ui', name));
   const contents = new Map();
   for (const [url, file] of assets) {
     if ((await fs.realpath(file)) !== path.resolve(file)) throw Error(`Bundled asset may not be a symbolic link: ${url}`);

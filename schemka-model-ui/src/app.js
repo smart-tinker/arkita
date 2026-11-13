@@ -8,6 +8,7 @@ import { installModelGallery } from './model-gallery.js';
 import { installRelationshipReference } from './relationship-reference.js';
 import { capturePreferenceMotion, animatePreferenceMotion, cancelPreferenceMotion } from './preferences-motion.js';
 import { installDetachedPalette } from './detached-palette.js';
+import { installDetachedCatalog } from './detached-catalog.js';
 import { installSpecializationTools } from './specialization-tools.js';
 import { createLocalPreferences, applyPreferencePresentation, applyPreferenceView, prepareCreationCommand } from './preferences.js';
 import { installPreferencesUI } from './preferences-ui.js';
@@ -123,6 +124,7 @@ let relationshipReference;
 let catalogUsedConcepts = new Set();
 let viewTabs;
 let detachedPalette;
+let detachedCatalog;
 let specializationTools;
 let modelSearch;
 let customizationUI;
@@ -226,6 +228,7 @@ function restoreFocus(bookmark) {
   else focusVisiblePanel();
 }
 function panel(name) {
+  if (name === 'catalog' && document.body.dataset.catalogDetached === 'true') name = 'canvas';
   workspace?.revealPanel(name);
   document.body.dataset.mobilePanel = name;
   for (const item of document.querySelectorAll('[data-panel]')) item.setAttribute('aria-pressed', String(item.dataset.panel === name));
@@ -301,7 +304,7 @@ function selectCatalogConcept(concept) {
   const drawing = concept.kind === 'relationship' ? view?.connections.find(item => item.relationshipId === concept.id)
     : view?.occurrences.find(item => item.concept.kind === concept.kind && item.concept.id === concept.id);
   select(drawing ? { kind: concept.kind === 'relationship' ? 'connection' : 'occurrence', id: drawing.id } : concept);
-  panel('catalog');
+  panel(detachedCatalog?.detached ? 'canvas' : 'catalog');
 }
 function activateView(viewId) {
   whereUsed?.cancel();
@@ -385,7 +388,7 @@ function renderCatalog() {
   $('model-count').textContent = `${state.elements.length} / ${state.junctions.length} / ${state.relationships.length}`;
   catalogFolders?.refresh();
   modelSearch?.refresh();
-  catalogSelection?.refresh();
+  catalogSelection?.refresh(); detachedCatalog?.refresh();
   restoreFocus(bookmark);
 }
 function appendGraphIssues(container, state, filter) {
@@ -1167,7 +1170,7 @@ for (const type of ['pointerdown', 'click', 'keydown']) document.addEventListene
   }
 }, true);
 
-const workbenchBlocked = (except = '') => Boolean(workspace?.active || catalogSelection?.active || semanticEditing?.active || hostPolicyUI?.active || hostPolicyUI?.transient || (except !== 'automation' && automationUI?.active) || automationUI?.transient || preferencesUI?.active || detachedPalette?.transient || (except !== 'interchange' && (interchangeUI?.active || interchangeUI?.transient)) || (except !== 'templates' && (templatesUI?.active || templatesUI?.transient)) || (except !== 'clipboard' && fragmentClipboard?.active) || (except !== 'export' && exportReportUI?.active) || inline.active || gesture || smartRelationship.enabled || layoutEditor.active || internalDrag.active || catalogFolders?.active || visualsUI?.active || visualsUI?.enabled || editingTools?.active || gestureTools?.active || model.drag || files.transient || git?.transient || viewport?.active || document.querySelector(except === 'host' ? 'dialog[open]:not(#git-dialog)' : except === 'automation' ? 'dialog[open]:not(#automation-dialog)' : 'dialog[open]'));
+const workbenchBlocked = (except = '') => Boolean(workspace?.active || catalogSelection?.active || semanticEditing?.active || hostPolicyUI?.active || hostPolicyUI?.transient || (except !== 'automation' && automationUI?.active) || automationUI?.transient || preferencesUI?.active || detachedPalette?.transient || detachedCatalog?.transient || (except !== 'interchange' && (interchangeUI?.active || interchangeUI?.transient)) || (except !== 'templates' && (templatesUI?.active || templatesUI?.transient)) || (except !== 'clipboard' && fragmentClipboard?.active) || (except !== 'export' && exportReportUI?.active) || inline.active || gesture || smartRelationship.enabled || layoutEditor.active || internalDrag.active || catalogFolders?.active || visualsUI?.active || visualsUI?.enabled || editingTools?.active || gestureTools?.active || model.drag || files.transient || git?.transient || viewport?.active || document.querySelector(except === 'host' ? 'dialog[open]:not(#git-dialog)' : except === 'automation' ? 'dialog[open]:not(#automation-dialog)' : 'dialog[open]'));
 function propertyEditorBlocked() {
   return Boolean(workspace?.active || inline.active || gesture || smartRelationship?.enabled || layoutEditor?.active || internalDrag?.active || model.drag || files?.transient || git?.transient || fragmentClipboard?.active || viewport?.active || document.querySelector('dialog[open]:not(#inspector-panel)'));
 }
@@ -1238,6 +1241,8 @@ modelAnalysis = installModelAnalysis({ document, window, preferences, model, ope
 installWorkbench({ document, window, preferences, onDefaultPaste: () => fragmentClipboard?.run('paste'), onHelp: target => workspace?.openContextHelp(target), onHistory: action => { if (workspace?.active || inline.active || files.transient || git?.transient || document.querySelector('dialog[open]')) { status('Завершите или отмените текущую правку перед историей.'); return; } history(action); }, files, blocked: workbenchBlocked, status });
 workspace = installWorkspace({ document, window, preferences, blocked: workbenchBlocked, status, openDialog, panel, beforeHelp: cancelGesture,
   canHelp: () => !inline.active && !files.transient && !git?.transient && !gesture && !model.drag && !internalDrag?.active && !viewport?.active });
+detachedCatalog = installDetachedCatalog({ document, window, model, session: projectSession, preferences, blocked: workbenchBlocked, status, panel,
+  activate(ref, action) { if (action === 'add') menuActions.addOccurrence(ref); else if (ref.kind === 'view') activateView(ref.id); else selectCatalogConcept(ref); } });
 modelSearch = installModelSearch({ document, preferences, model, panel, selectConcept: selectCatalogConcept, openConcept: openInspector, openMetadata: owner => metadataUI.open(owner), activateView, blocked: workbenchBlocked, status, openDialog, render,
   revealDrawing(ref) {
     if (model.viewId !== ref.viewId) activateView(ref.viewId);
@@ -1296,7 +1301,7 @@ render();
 if (preferenceStorageError) status(preferenceStorageError);
 readLeaveState = createModelLeaveState({ model, session: projectSession, inline,
   directoryWarning: () => Boolean(files?.directoryWarning),
-  transient: () => Boolean(workspace?.active || catalogSelection?.active || semanticEditing?.active || hostPolicyUI?.active || hostPolicyUI?.transient || automationUI?.active || automationUI?.transient || preferencesUI?.active || detachedPalette?.transient || objectProperties?.active || documentationEditor?.active || catalogFolders?.active || visualsUI?.active || visualsUI?.enabled || editingTools?.active || interchangeUI?.transient || templatesUI?.transient || exportReportUI?.active || fragmentClipboard?.active || smartRelationship?.enabled || gesture || layoutEditor?.active || internalDrag?.active || model.drag || files?.transient || git?.transient || document.querySelector('dialog[open]')) });
+  transient: () => Boolean(workspace?.active || catalogSelection?.active || semanticEditing?.active || hostPolicyUI?.active || hostPolicyUI?.transient || automationUI?.active || automationUI?.transient || preferencesUI?.active || detachedPalette?.transient || detachedCatalog?.transient || objectProperties?.active || documentationEditor?.active || catalogFolders?.active || visualsUI?.active || visualsUI?.enabled || editingTools?.active || interchangeUI?.transient || templatesUI?.transient || exportReportUI?.active || fragmentClipboard?.active || smartRelationship?.enabled || gesture || layoutEditor?.active || internalDrag?.active || model.drag || files?.transient || git?.transient || document.querySelector('dialog[open]')) });
 
 for (const id of ['project-name', 'project-tree-name']) $(id).addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); renameFrom(event.currentTarget); });
 document.addEventListener('dblclick', event => {
