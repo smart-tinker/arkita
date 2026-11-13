@@ -268,5 +268,5 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   });
   invalidate();
   return { open, cancel() { if (dialog.open) dialog.close(); else invalidate(); }, get active() { return dialog.open; }, get generation() { return generation; },
-    refresh() { if (dialog.open && source && current(source) && propertyScope.value === 'selection' && selection !== selectionKey()) { invalidate(); drawCommon(); } if (dialog.open && source && !current(source)) { invalidate(); vocabulary(); found = []; drawResults(); source = null; report('Модель изменилась. Нажмите «Найти / обновить».'); } } };
+    refresh() { if (dialog.open && source && current(source) && propertyScope.value === 'selection' && selection !== selectionKey()) { invalidate(); drawCommon(); } if (dialog.open && source && !current(source)) { invalidate(); vocabulary(); found = []; if (dialog.dataset.mode === 'properties') { source = stamp(); drawCommon(); report('Модель изменилась. Список свойств обновлён.'); } else { drawResults(); source = null; report('Модель изменилась. Нажмите «Найти / обновить».'); } } } };
 }

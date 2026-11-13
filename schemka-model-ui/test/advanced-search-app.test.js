@@ -26,6 +26,24 @@ test(`${production ? 'production' : 'source'} global property manager preserves 
   assert.equal(h.$('advanced-property-collision').value, 'merge');
 });
 
+test(`${production ? 'production' : 'source'} global property manager remains usable after an external model change`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture();
+  await h.load(Buffer.from(serializeProjectFile(fixture.state)));
+  h.$('new-view').click(); h.$('new-view-name').value = 'Temporary view';
+  h.$('view-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal(h.$('undo').disabled, false);
+
+  const command = h.document.querySelector('[data-command="user-properties-manager"]');
+  command.closest('.app-menu').open = true; command.click(); await tick();
+  h.$('undo').click(); await tick();
+
+  const owner = [...h.$('advanced-property-common').querySelectorAll('button')].find(item => item.textContent.startsWith('owner:'));
+  assert.ok(owner, 'The global property list remains visible after the model changes');
+  owner.click(); h.$('advanced-property-new-key').value = 'owner-updated';
+  h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false, h.$('advanced-search-error').textContent);
+});
+
 test(`${production ? 'production' : 'source'} advanced search is reachable, applies one rename command, preserves metadata and roundtrips through Save/Undo`, async t => {
   const h = await setup(t), fixture = richLifecycleFixture(), original = Buffer.from(serializeProjectFile(fixture.state));
   await h.load(original);
