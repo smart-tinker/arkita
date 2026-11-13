@@ -2,6 +2,8 @@ import { CURRENT_CATALOG, LIMITS, exportFiles, conceptTypeChangesImpact } from '
 import {relationshipAssessment,relationshipTypeContext,relationshipCoverage,diagnosticPresentation,renderAssessmentEvidence} from './profile-ui.js';
 import { canvasDropPoint } from './drag-drop.js';
 import { CATALOG_SECTIONS, catalogTreeIndex, catalogDestinationOptions, catalogMovePlan, folderSectionProperties, destinationSection } from './catalog-tree.js';
+import { notationElement } from './notation.js';
+import { specializationCreationEntries } from './preferences.js';
 import { captionText } from './visual-drawings.js';
 
 const lexicalCollator=new Intl.Collator('ru',{numeric:false,sensitivity:'base'});
@@ -130,6 +132,39 @@ export function installCatalogFolders({ document, window, model, canvas, render,
         for(let item=state.folders.find(folder=>folder.id===parentFolderId);item;item=state.folders.find(folder=>folder.id===item.parentFolderId)) expanded.add(`${targetSection}:${item.id}`);
         roots.get(targetSection).details.open=true;
       }
+    });
+  }
+  function createElementInCatalog(destination, preferredSection = null) {
+    if (blocked()) return false;
+    const state = model.store.snapshot;
+    const sectionId = preferredSection ?? destinationSection(state, destination) ?? currentSection;
+    const folderId = destination.startsWith('@') ? null : destination;
+    const types = CURRENT_CATALOG.elementTypes.filter(type => notationElement(state.project.metamodel, type).family === sectionId);
+    if (!types.length || folderId && !catalogTreeIndex(state).sectionsForFolder.get(folderId)?.has(sectionId)) {
+      status('В выбранном разделе нет поддерживаемых типов для создания.'); return false;
+    }
+    return open('Создать элемент в каталоге', () => {
+      const type = select('Тип элемента', types.map(value => [value, value]), types[0]); type.id = 'catalog-create-element-type'; type.required = true;
+      const specialization = select('Специализация', [['', 'Без специализации']], ''); specialization.id = 'catalog-create-element-specialization';
+      function updateSpecializations() {
+        const selected = specialization.value;
+        const none = node('option', 'Без специализации'); none.value = ''; specialization.replaceChildren(none);
+        for (const entry of specializationCreationEntries(state).filter(item => item.kind === 'element' && item.type === type.value && types.includes(item.type))) {
+          const option = node('option', entry.label); option.value = entry.profileId; specialization.append(option);
+        }
+        specialization.value = [...specialization.options].some(option => option.value === selected) ? selected : '';
+      }
+      type.addEventListener('change', updateSpecializations); updateSpecializations();
+      const name = input('Имя элемента'); name.id = 'catalog-create-element-name'; name.required = true;
+      return () => ({ type: type.value, name: name.value, profileId: specialization.value });
+    }, (data, _state, revision) => {
+      if (!types.includes(data.type)) throw Error('Выберите поддерживаемый тип элемента.');
+      if (!data.name.trim()) throw Error('Введите имя элемента.');
+      if (data.profileId && !specializationCreationEntries(_state).some(entry => entry.profileId === data.profileId && entry.kind === 'element' && entry.type === data.type)) throw Error('Выбранная специализация недоступна для этого типа.');
+      const result = model.execute({ type: 'createElementInModel', elementType: data.type, name: data.name, ...(folderId ? { folderId } : {}), ...(data.profileId ? { profileId: data.profileId } : {}) }, revision);
+      const ref = { kind: 'element', id: result.created.elementId };
+      currentSection = sectionId; currentDestination = folderId ?? `@${sectionId}`; revealKey = key(ref);
+      selectConcept(ref);
     });
   }
   function scopedSelection(ref) {
@@ -359,5 +394,5 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   });
   preferences?.subscribe((_value,changed)=>{if(changed.includes('behavior')){shown.clear();revealKey=key(selectedConcept()??{});generation++;refresh();}});
   function reveal(ref){observedSelection=key(selectedConcept()??{});revealKey=key(ref);generation++;refresh();return [...section.querySelectorAll('[data-folder-focus]')].find(item=>item.dataset.folderFocus===key(ref)||ref.kind==='folder'&&item.dataset.folderFocus===ref.id);}
-  return { refresh, cancel, reveal, drillInto, changeType, chooseDestination, folderEditor, deleteFolder, cut: cutConcept, paste, duplicate, get hasCut() { return Boolean(cut); }, get currentFolderId() { return currentDestination.startsWith('@')?null:currentDestination; }, get currentDestination() { return currentDestination; }, get currentSection() { return currentSection; }, get active() { return Boolean(pending); }, get generation() { return generation; } };
+  return { refresh, cancel, reveal, drillInto, changeType, chooseDestination, folderEditor, createElementInCatalog, deleteFolder, cut: cutConcept, paste, duplicate, get hasCut() { return Boolean(cut); }, get currentFolderId() { return currentDestination.startsWith('@')?null:currentDestination; }, get currentDestination() { return currentDestination; }, get currentSection() { return currentSection; }, get active() { return Boolean(pending); }, get generation() { return generation; } };
 }

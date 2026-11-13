@@ -291,13 +291,16 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/demo.js",
+        "schemka-model-ui/src/file-actions.js",
+        "schemka-model-ui/test/file-actions.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Проверить оба исходных сценария на точном reviewed-кандидате и записать результат отдельно; имеющиеся тесты не являются Windows package acceptance.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -309,7 +312,7 @@
         "remaining": "createBlankModel создаёт пустую модель с одним view; подключён к guarded replacement файла/модели.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-011",
@@ -318,13 +321,18 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-tree.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-core/src/current-catalog.js",
+        "schemka-model-ui/test/catalog-tree.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать criterion-level результат для полноты каталога и группировки current registry; renderer/package acceptance не зафиксирована.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -337,7 +345,7 @@
         "remaining": "Каталог перечисляет elements/junctions/relationships/views, группируя элементы через trusted notation metadata; не опирается на legacy Mermaid src/.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-012",
@@ -346,13 +354,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/src/context-actions.js",
+        "schemka-model-ui/test/context-actions.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "PR #33 открыт и не слит на code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071 поверх main a8a145cbe903ba80d74afd20ab6e1cd8a590105b. Required CI, CodeQL, Dependency Review и Extended CI прошли. Независимое review и installed-user acceptance на Windows не записаны; criterion remains pending.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "PR #33 code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071 over main a8a145cbe903ba80d74afd20ab6e1cd8a590105b passed required CI run 43350873840 (Ubuntu/Windows validation and gate), CodeQL run 43350873897, and Dependency Review run 43350873899. Extended CI run 43406746555 passed on the exact head: Windows 292/295 PASS, 0 FAIL, 3 SKIP; Ubuntu 287/295 PASS, 0 FAIL, 8 SKIP. Syntax check passed on both runners (469 JavaScript files). No independent review or installed-user Windows acceptance is recorded; closed_criteria remains empty.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -364,7 +377,7 @@
         "remaining": "Создание element/junction в командах только совместно с occurrence и viewId; самостоятельной команды создания в каталоге без изображения нет.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-013",
@@ -373,13 +386,21 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/specialization-tools.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-core/src/native-v4-commands.js",
+        "schemka-model-ui/src/typed-actions.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js",
+        "schemka-model-core/test/native-v4.test.js",
+        "schemka-model-ui/test/typed-actions.test.js",
+        "schemka-model-ui/test/profile-ui.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Провести criterion-specific rendered/native acceptance: совместимость выбранного профиля, модельное создание без view occurrence, корректную ссылку на профиль и обновление доступных специализаций при изменении модели.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Tree-originated specialization creation is implemented and covered by core and DOM integration regressions in PR #33 at code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071. Required CI run 43350873840, CodeQL run 43350873897, Dependency Review run 43350873899, and Extended CI run 43406746555 passed on the exact head; Extended results were Windows 292/295 PASS with 3 SKIP and Ubuntu 287/295 PASS with 8 SKIP. Criterion remains acceptance-pending; closed_criteria is empty and installed-user Windows acceptance is unrun.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -391,7 +412,7 @@
         "remaining": "Палитра перечисляет базовые current catalog types; создание из предвыбранной специализации не входит в поля команды или UI создания. Применение profiles существует отдельно.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-014",
@@ -400,13 +421,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-tree.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-tree.test.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать criterion-level результат для вложения/перемещения папок и сохранности потомков/ID; package UI acceptance не зафиксирована.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -419,7 +444,7 @@
         "remaining": "В модели нет сущности пользовательской папки. Группы дерева — фиксированные presentation disclosures, не сохраняемые model folders; нет folder CRUD/move/drill-down.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-015",
@@ -428,13 +453,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/src/catalog-selection.js",
+        "schemka-model-ui/test/catalog-folders.test.js",
+        "schemka-model-ui/test/catalog-selection-app.test.js",
+        "schemka-model-ui/test/browser-context-drag.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Зафиксировать фактическую Windows renderer проверку drag/cut/paste и отказа недопустимого drop; DOM/automation маршруты не заменяют package acceptance.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -447,7 +477,7 @@
         "remaining": "В модели нет сущности пользовательской папки. Группы дерева — фиксированные presentation disclosures, не сохраняемые model folders; нет folder CRUD/move/drill-down.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-016",
@@ -456,13 +486,19 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/src/controller.js",
+        "schemka-model-core/test/core.test.js",
+        "schemka-model-core/test/concept-endpoints.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать result для preview затронутого графа, удаления связей/изображений и полного Undo на reviewed-кандидате; реальная UI-проверка не зафиксирована.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -475,7 +511,7 @@
         "remaining": "deletionImpact рассчитывает транзитивные зависимости, askDelete показывает counts/views; delete*FromModel удаляет граф через валидируемую snapshot-команду с Undo.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-017",
@@ -484,13 +520,19 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/rename.js",
+        "schemka-model-ui/src/inline-editor.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/rename.test.js",
+        "schemka-model-ui/test/inline-editor.test.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Зафиксировать end-to-end результат для имени/ID, одинаковых имён, Unicode, пустого имени и отмены на reviewed-кандидате.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -503,7 +545,7 @@
         "remaining": "Есть общие rename project/view/element/junction/relationship по ID с inline UI. Пользовательских папок нет, поэтому полный перечень карточки не покрыт.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-018",
@@ -512,13 +554,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-core/src/native-v4-commands.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Проверить criterion bullets о независимом ID, метаданных и том, что прежние отношения/изображения не перепривязываются; отдельный результат не записан.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -530,7 +575,7 @@
         "remaining": "Команда Duplicate есть для view; отдельного clone concept в switch команд и UI нет.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-019",
@@ -539,13 +584,17 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/src/view-actions.js",
+        "schemka-model-core/test/duplicate-view.test.js",
+        "schemka-model-ui/test/duplicate-order-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать полный criterion-level результат для независимости раскладки, общих концептов, удаления копии и порядка/геометрии.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -557,7 +606,7 @@
         "remaining": "duplicateView создаёт новые view/drawing/anchor IDs, сохраняет общие concept/relation IDs и относительный tie-order; native form имеет revision guard.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-020",
@@ -566,13 +615,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-core/test/catalog-selection.test.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Criterion-level acceptance всего затронутого графа, включая UNKNOWN и явные исправления, не записана.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -584,7 +637,7 @@
         "remaining": "Есть только переключение AndJunction/OrJunction. Общей смены типа элемента/отношения и preview исправлений затронутого графа нет.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-021",
@@ -593,13 +646,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/object-properties.js",
+        "schemka-model-ui/src/metadata-ui.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/object-properties-app.test.js",
+        "schemka-model-ui/test/context-properties-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать реальный сценарий областей свойств tree versus drawing и перехода между объектами без применения старого ввода.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -612,7 +670,7 @@
         "remaining": "Инспектор concept/occurrence разделяет общие свойства и размер; документация доступна только element/junction. Нет полноты свойств model/view/relationship и локального оформления.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-022",
@@ -621,13 +679,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/unused-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать проверку обновления индикатора для всех views, нескольких изображений, добавления/удаления и Undo на reviewed-кандидате.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -638,7 +698,7 @@
         "remaining": "Дерево показывает occurrence count только текущего view. Инспектор элемента считает использования во всей модели, но нет единого признака неиспользования в каталоге.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-023",
@@ -647,13 +707,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-selection.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-core/test/catalog-selection.test.js",
+        "schemka-model-ui/test/catalog-selection-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать renderer результат для включения/выключения связанного выбора, множественного выбора и нескольких изображений без цикла обновлений.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -665,7 +729,7 @@
         "remaining": "Один selection синхронизирует подсветку concept/occurrence и каталог. Нет toggle link-to-view, многовыбора и явной навигации к нескольким изображениям.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-024",
@@ -674,13 +738,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-folders.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Записать criterion-level сценарий навигации Back/Home и восстановления контекста после удаления или перемещения текущей папки.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -693,7 +760,7 @@
         "remaining": "В модели нет сущности пользовательской папки. Группы дерева — фиксированные presentation disclosures, не сохраняемые model folders; нет folder CRUD/move/drill-down.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-025",
@@ -2844,13 +2911,23 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
+        "schemka-model-core/src/format.js",
+        "schemka-model-core/src/native-v4-commands.js",
+        "schemka-model-ui/src/metadata-ui.js",
+        "schemka-model-ui/src/documentation-editor.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/context-properties-app.test.js",
+        "schemka-model-ui/test/metadata-app.test.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/test/catalog-folders.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Провести установленную Windows acceptance для документации папки и child-label template на выбранном exact package; не считать CI или DOM-тесты native acceptance.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "PR #48 merged in main as 62aa1639752be2d4d345c97f4610e3673f0e5767. Exact PR-head Ubuntu/Windows CI, CodeQL and Dependency Review passed. Installed Windows GUI acceptance is UNRUN; no criterion is closed by CI alone.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2863,7 +2940,7 @@
         "remaining": "В модели нет сущности пользовательской папки. Группы дерева — фиксированные presentation disclosures, не сохраняемые model folders; нет folder CRUD/move/drill-down.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+      "implementation_ledger": "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md"
     },
     {
       "id": "A-EDITOR-099",

@@ -5,6 +5,7 @@ import { ASSET_LIMITS, rasterImageSize, svgImageSize } from '../src/asset-images
 import { createProject, createStore, exportFiles, importFiles, readProjectFiles, normalizeProject, validateProject, validateProjectV2, validateProjectV3, captureFragment, mergeProjectFiles, metadataRecord, assetUsages, moveDrawingGeometry, conceptTypeChangeImpact, LIMITS } from '../src/index.js';
 import { metadataFixture, metadataV3Fixture, metadataV2State } from '../fixtures/metadata-compatibility.js';
 import { conceptProject } from '../fixtures/concept-project.js';
+import { fixtureId } from '../fixtures/relationship-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
 import { validateInactiveSvg } from '../src/native-v4.js';
 
@@ -12,6 +13,27 @@ const bounds = (x = 0, y = 0) => ({ x, y, width: 120, height: 80 });
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect width="20" height="20" fill="#123456"/></svg>';
 const base64 = value => Buffer.from(value).toString('base64');
 const execute = store => command => store.execute(command, store.revision);
+
+test('createElementInModel applies only an existing compatible specialization and undoes it with the concept', () => {
+  const state = conceptProject(), profileId = fixtureId('prf', 90), attributesId = fixtureId('prf', 91), incompatibleId = fixtureId('prf', 92);
+  state.customizationProfiles = [
+    { id: profileId, name: 'Specialized service', purpose: 'specialization', targets: [{ kind: 'element', type: 'Service' }], attributes: {} },
+    { id: attributesId, name: 'Attribute profile', purpose: 'attributes', targets: [{ kind: 'element', type: 'Service' }], attributes: {} },
+    { id: incompatibleId, name: 'Specialized process', purpose: 'specialization', targets: [{ kind: 'element', type: 'Process' }], attributes: {} },
+  ];
+  const store = createStore(state), run = execute(store), before = store.exportFiles();
+  const created = run({ type: 'createElementInModel', elementType: 'Service', name: 'Specialized', profileId }).created.elementId;
+  assert.deepEqual(store.snapshot.elements.find(item => item.id === created).profileApplications, [{ profileId, values: {} }]);
+  assert.equal(store.history.undo, 1);
+  store.undo(store.revision);
+  assert.deepEqual(store.exportFiles(), before);
+  for (const [invalidProfileId, elementType] of [[fixtureId('prf', 93), 'Service'], [attributesId, 'Service'], [incompatibleId, 'Service']]) {
+    const invalidStore = createStore(state), invalidRun = execute(invalidStore), unchanged = invalidStore.exportFiles();
+    assert.throws(() => invalidRun({ type: 'createElementInModel', elementType, name: 'Rejected', profileId: invalidProfileId }));
+    assert.deepEqual(invalidStore.exportFiles(), unchanged);
+    assert.equal(invalidStore.history.undo, 0);
+  }
+});
 function rich() {
   const store = createStore(conceptProject()), run = execute(store), viewId = store.snapshot.views[0].view.id;
   const assetId = run({ type: 'createAsset', name: 'Icon', mediaType: 'image/svg+xml', data: base64(svg) }).created.assetId;
