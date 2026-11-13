@@ -34,13 +34,17 @@
       "historical_status": "unverified",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "package.json",
+        "electron/document-registry.mjs",
+        "electron/main.mjs",
+        "electron/test/document-registry.test.mjs",
+        "electron/test/startup.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Clean installed and portable launch, file association, and uninstall preservation still need Windows acceptance.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -49,7 +53,7 @@
         "remaining": "В этой проверке нет достаточного чтения кода для оценки всей карточки.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-002",
@@ -86,13 +90,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/workspace-ui.js",
+        "schemka-model-ui/test/workspace-ui.test.js",
+        "electron/window-bounds.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "General panes still lack detach/reattach; native second-monitor recovery requires Windows acceptance.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -104,7 +110,7 @@
         "remaining": "В прочитанной desktop UI фиксированная компоновка; нет команды отделения, docking или управления плавающей панелью/палитрой.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-004",
@@ -113,13 +119,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/view-tabs.js",
+        "schemka-model-ui/test/view-tabs.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native view switching and camera/selection continuity in the installed app remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -132,7 +139,7 @@
         "remaining": "Views представлены вкладками по ID, камера сохраняется на view. switchView сбрасывает selection; нет перестановки/закрытия отдельных вкладок.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-005",
@@ -141,13 +148,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/document-registry.mjs",
+        "electron/test/document-registry.test.mjs",
+        "electron/main.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native edit/save/close isolation across two open model windows remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -159,7 +168,7 @@
         "remaining": "Один активный store/project session; открытие модели выполняет guarded replacement, не добавляет второй независимый документ.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-006",
@@ -168,13 +177,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/controller.js",
+        "schemka-model-ui/test/controller.test.js",
+        "schemka-model-ui/test/workbench.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Windows focus and keyboard Undo/Redo behavior remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -187,7 +198,7 @@
         "remaining": "Есть bounded snapshot Undo/Redo, revision guards и отмена жеста. Мультидокументного контекста нет; произвольные core no-op команды не имеют общего подавления истории.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-007",
@@ -196,13 +207,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/project-session.js",
+        "schemka-model-ui/src/file-actions.js",
+        "schemka-model-ui/test/file-actions.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows visible dirty-state behavior remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -213,7 +226,7 @@
         "remaining": "UI различает dirty, подтверждённую запись и более новые изменения. Полная проверка контрактов project session не повторена в этой части; Windows сценарии не запускались.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-008",
@@ -1166,13 +1179,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/detached-palette.js",
+        "electron/palette-service.mjs",
+        "schemka-model-ui/test/palette-window.test.js",
+        "electron/test/palette-service.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native detach/reattach and active-view context switching remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1184,7 +1200,7 @@
         "remaining": "В прочитанной desktop UI фиксированная компоновка; нет команды отделения, docking или управления плавающей панелью/палитрой.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EDITOR-042",
@@ -4815,13 +4831,15 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/document-registry.mjs",
+        "electron/test/document-registry.test.mjs",
+        "electron/file-service.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Packaged Windows native-dialog and duplicate-file activation acceptance remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4840,7 +4858,7 @@
         "remaining": "Нативный open через диалог есть: кандидат валидируется до замены модели, учитывается dirty и файловое состояние. Приложение имеет одну модель; реестра нескольких открытых документов и активации уже открытого файла по нормализованной идентичности пути нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-037",
@@ -4849,13 +4867,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/file-actions.js",
+        "schemka-model-ui/test/file-actions.test.js",
+        "electron/preload.cjs",
+        "electron/main.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Renderer-harness regression tests pass locally; actual packaged Windows drag/drop, cancellation and invalid-file behavior remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4873,7 +4894,7 @@
         "remaining": "Drag/drop реализован для внутренних типизированных объектов редактора. Входящего открытия File через drop нет; native open вызывается диалогом, а навигация/drop браузерной страницы запрещены.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-038",
@@ -4882,13 +4903,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "package.json",
+        "electron/main.mjs",
+        "electron/document-registry.mjs",
+        "electron/test/document-registry.test.mjs",
+        "electron/test/startup.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Shell association, second activation and uninstall behavior remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4902,7 +4927,7 @@
         "remaining": "В electron-builder нет fileAssociations. Single-instance обработчик только фокусирует окно; обработчиков open-file/аргументов файла и передачи .arkita в текущую сессию нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-039",
@@ -4911,13 +4936,17 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/file-actions.js",
+        "electron/file-service.mjs",
+        "electron/document-preferences.mjs",
+        "electron/test/files.test.mjs",
+        "electron/test/document-preferences.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows save, cancellation and external-conflict acceptance remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4937,7 +4966,7 @@
         "remaining": "Save/Save As и привязанный native directory уже реализованы. Сессия учитывает подтверждённую ревизию; отмена/ошибка/конфликт не объявляют документ сохранённым, файловый слой проверяет изменение на диске, а directory update имеет восстановление. Новая Windows приёмка в этом обзоре не выполнялась.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-040",
@@ -4946,13 +4975,16 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/file-actions.js",
+        "electron/file-service.mjs",
+        "electron/test/export-native-guard.test.mjs",
+        "electron/test/files.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows Save As and exact readback remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4971,7 +5003,7 @@
         "remaining": "Save As создаёт выбранный .arkita и переключает привязку после успешной записи; native serializer/loader сохраняют ID и текущий формат v2. Вложения ещё не входят в формат: их будущий round trip относится к A-ADV-107, а не к уже существующей записи native. Windows диалог/файловая приёмка здесь не запускались.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-041",
@@ -4980,13 +5012,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/window-guards.mjs",
+        "electron/main.mjs",
+        "schemka-model-ui/src/file-actions.js",
+        "electron/test/boundaries.test.mjs",
+        "schemka-model-ui/test/file-actions.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native close prompt, save/discard/cancel and reopen behavior remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5001,7 +5037,7 @@
         "remaining": "Защита несохранённой работы при замене модели и закрытии окна есть; busy блокирует закрытие. На закрытии окна есть Stay/Close without saving. Отдельной команды закрытия документа с состоянием «нет открытой модели» и единым Save/Discard/Cancel потоком нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-042",
@@ -5010,13 +5046,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/document-registry.mjs",
+        "electron/test/document-registry.test.mjs",
+        "electron/main.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native cross-window switching and closing one dirty model while retaining another remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5030,7 +5068,7 @@
         "remaining": "Один BrowserWindow создаёт один controller/store/projectSession; открытие заменяет его модель. Вкладки относятся к видам одного проекта, не к независимым документам с собственными путями и Undo.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-043",
@@ -5039,13 +5077,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/print-service.mjs",
+        "electron/test/clipboard-print.test.mjs",
+        "electron/main.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Real Windows printer output, DPI and page clipping remain unverified; service tests use a simulated Electron window.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5060,7 +5100,7 @@
         "remaining": "Ни desktop меню, ни preload/main IPC не предлагают печать. В поставляемом коде нет webContents.print/printToPDF/window.print или подготовки страниц; совпадения PDF — ссылки на страницы стандарта, не вывод документов.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-044",
@@ -8290,13 +8330,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/view-tabs.js",
+        "schemka-model-ui/test/view-tabs.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Representative large-model responsiveness and cancellation in installed Electron remain unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8309,7 +8350,7 @@
         "remaining": "Полный SVG строится только для активного view; после загрузки выбирается один вид. Но tabs/list создаются для всех views, понятия opened/closed set и настраиваемой политики/лимита автоматического открытия нет. Порог отзывчивости на большой модели не измерялся.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-151",
@@ -8318,13 +8359,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/document-preferences.mjs",
+        "electron/test/document-preferences.test.mjs",
+        "electron/file-service.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows backup and recovery acceptance remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8339,7 +8382,7 @@
         "remaining": "Есть проверяемая запись и journal/recovery для прерванного directory update. Это не сохраняемая предыдущая успешная версия: нет настройки backup, ротации и пользовательского восстановления истории файлов. Git commits — отдельный существующий механизм версий.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-152",
@@ -8348,13 +8391,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "electron/document-preferences.mjs",
+        "electron/main.mjs",
+        "electron/preload.cjs",
+        "electron/test/document-preferences.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Native MRU menu reopening with Unicode paths remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8368,7 +8414,7 @@
         "remaining": "Нет списка недавних проектов, MRU persist/нормализации и настройки лимита. Native dialogs используют dontAddToRecent; текущая sourceLabel показывает только активный документ.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-ADV-153",
@@ -9431,13 +9477,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+        "schemka-model-ui/src/view-tabs.js",
+        "schemka-model-ui/test/view-tabs.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "No measured installed-Electron threshold or large-view responsiveness evidence; this performance criterion remains unverified.",
       "issue": 45,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9450,7 +9497,7 @@
         "remaining": "Рендерится только active view; неактивные виды не создают второй полный SVG. Однако tabs строятся для всех видов, списка opened/closed view и управляемого массового открытия с количеством/отменой/измеренным порогом нет.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#documents"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-11-2026-11-10.md"
     },
     {
       "id": "A-EXT-018",
