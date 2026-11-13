@@ -209,8 +209,9 @@ function validateOrganization(state, unique) {
   const folders = new Map(state.folders.map(item => [item.id, item])), owned = new Set();
   const index = projectIndex(state);
   for (const folder of state.folders) {
-    record(folder, ['id', 'name', 'documentation', 'properties', 'parentFolderId', 'members'], ['archiSource']);
+    record(folder, ['id', 'name', 'documentation', 'properties', 'parentFolderId', 'members'], ['archiSource', 'childLabelTemplate']);
     unique(folder.id, 'fld'); text(folder.name); text(folder.documentation); validatePropertyRows(folder.properties); list(folder.members);
+    if (Object.hasOwn(folder, 'childLabelTemplate')) text(folder.childLabelTemplate);
     if (folder.parentFolderId !== null && !folders.has(folder.parentFolderId)) fail('REFERENCE', 'Parent folder does not exist');
     for (const member of folder.members) {
       record(member, ['kind', 'id']);

@@ -5,7 +5,7 @@ import { installTheme } from '../src/theme.js';
 import { installWorkspace } from '../src/workspace-ui.js';
 import { installGestureTools } from '../src/gesture-tools.js';
 import { JSDOM } from 'jsdom';
-import { PREFERENCE_DEFAULTS,PREFERENCES_KEY,createLocalPreferences,validatePreferences,serializePreferences,deserializePreferences,preferenceDrawingStyle,applyPreferenceView,prepareCreationCommand,viewUsageLabel } from '../src/preferences.js';
+import { PREFERENCE_DEFAULTS,PREFERENCES_KEY,createLocalPreferences,validatePreferences,serializePreferences,serializeColorScheme,deserializePreferences,preferenceDrawingStyle,applyPreferenceView,prepareCreationCommand,viewUsageLabel } from '../src/preferences.js';
 import { installPreferencesUI } from '../src/preferences-ui.js';
 import { installWorkbench } from '../src/workbench.js';
 
@@ -32,6 +32,30 @@ test('preferences draft Apply/cancel/reset/import remains local and late import 
  const h=fixture(t),before=h.preferences.snapshot;h.ui.open();h.$('preferences-display-statusBar').checked=false;h.$('preferences-form').dispatchEvent(new h.window.Event('input',{bubbles:true}));h.ui.cancel();assert.deepEqual(h.preferences.snapshot,before);h.ui.open();h.$('preferences-display-statusBar').checked=false;h.submit();assert.equal(h.preferences.get('display').statusBar,false);assert.equal(h.applies,1);assert.equal(h.document.body.dataset.preferenceStatus,'false');
  h.ui.open();const next=h.preferences.snapshot;next.theme='dark';let complete;const input=h.$('preferences-import');Object.defineProperty(input,'files',{value:[{size:100,arrayBuffer:()=>new Promise(resolve=>complete=resolve)}],configurable:true});input.dispatchEvent(new h.window.Event('change',{bubbles:true}));h.ui.cancel();complete(new TextEncoder().encode(serializePreferences(next)).buffer);await new Promise(resolve=>setImmediate(resolve));assert.equal(h.preferences.get('theme'),'system');
  h.ui.open();const fresh=h.$('preferences-import');Object.defineProperty(fresh,'files',{value:[{size:100,arrayBuffer:async()=>new TextEncoder().encode(serializePreferences(next)).buffer}],configurable:true});fresh.dispatchEvent(new h.window.Event('change',{bubbles:true}));await new Promise(resolve=>setImmediate(resolve));assert.match(h.$('preferences-error').textContent,/Импортирован черновик/);assert.equal(h.preferences.get('theme'),'system');h.submit();assert.equal(h.preferences.get('theme'),'dark');
+});
+test('color import preserves current non-color form edits, Cancel stays local, and full import replaces the draft', async t => {
+  const h = fixture(t), before = h.preferences.snapshot;
+  const upload = async text => {
+    const bytes = new TextEncoder().encode(text), input = h.$('preferences-import');
+    Object.defineProperty(input, 'files', { value: [{ size: bytes.byteLength, arrayBuffer: async () => bytes.buffer }], configurable: true });
+    input.dispatchEvent(new h.window.Event('change', { bubbles: true }));
+    await new Promise(resolve => setImmediate(resolve));
+    assert.match(h.$('preferences-error').textContent, /Импортирован черновик/);
+  };
+  const colors = { ...before.display.colors, common: '#123456' };
+  h.ui.open(); h.$('preferences-workspace-catalogWidth').value = '320'; h.$('preferences-theme').value = 'dark';
+  await upload(serializeColorScheme(colors));
+  assert.equal(h.$('preferences-workspace-catalogWidth').value, '320'); assert.equal(h.$('preferences-theme').value, 'dark');
+  assert.deepEqual(h.preferences.snapshot, before, 'import stages a draft without applying it');
+  h.submit(); const applied = h.preferences.snapshot;
+  assert.equal(applied.workspace.catalogWidth, 320); assert.equal(applied.theme, 'dark'); assert.deepEqual(applied.display.colors, colors);
+  h.ui.open(); h.$('preferences-workspace-catalogWidth').value = '360';
+  await upload(serializeColorScheme({ ...colors, common: '#654321' })); h.ui.cancel();
+  assert.deepEqual(h.preferences.snapshot, applied, 'Cancel discards imported colors and other draft fields');
+  h.ui.open(); h.$('preferences-workspace-catalogWidth').value = '0';
+  const replacement = h.preferences.snapshot; replacement.workspace.catalogWidth = 250; replacement.theme = 'light';
+  await upload(serializePreferences(replacement)); h.submit();
+  assert.deepEqual(h.preferences.snapshot, replacement, 'a full profile replaces even an invalid current draft');
 });
 test('one custom-key capture handler respects text/IME, consumes reassigned originals and dispatches guarded commands once',t=>{
  const h=fixture(t),events=[];let saves=0;h.$('fragment-copy').addEventListener('click',()=>events.push('copy'));h.$('redo').addEventListener('click',()=>events.push('redo'));installWorkbench({document:h.document,window:h.window,preferences:h.preferences,files:{save:()=>saves++},blocked:()=>false,status:()=>{}});

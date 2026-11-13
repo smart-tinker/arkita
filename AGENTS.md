@@ -1,6 +1,7 @@
 # Arkita: working agreement
 
 Start with [CONTRIBUTING.md](CONTRIBUTING.md), [README.md](README.md) and the issue's linked domain contract. Keep this entry point short; do not duplicate the handbook.
+Use [docs/VERSIONING.md](docs/VERSIONING.md) as the canonical version and release procedure.
 
 ## Boundaries and invariants
 - Core model/commands, profiles, IO, renderer and Electron host have separate responsibilities. Shared concepts are not their view geometry; preserve stable IDs and cross-view references.
