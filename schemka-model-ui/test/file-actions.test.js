@@ -103,6 +103,34 @@ test('picker cancellation and invalid file preserve full state/history, and same
   assert.deepEqual(h.model.store.exportFiles(),before);assert.deepEqual(h.model.store.history,history);assert.match(h.statuses.at(-1),/Файл не открыт/);assert.equal(h.session.dirty,true);assert.equal(h.$('project-file').focused,true);
   await h.choose(file());await h.$('load-project').event('click');assert.equal(h.model.store.snapshot.project.name,'Opened');assert.deepEqual(h.model.store.history,{undo:0,redo:0});assert.equal(h.session.dirty,false);assert.equal(h.afterLoads,1);assert.equal(h.$('file-dialog').open,false);
 });
+test('native file drop uses the desktop open route without altering the current dirty session',async()=>{
+  for(const [result,message] of [
+    [{status:'opened-window'},/Модель открыта в отдельном окне/],
+    [{status:'focused'},/Модель уже открыта/],
+    [{status:'cancelled'},/Открытие отменено/],
+    [Error('unsupported model'),/Файл не открыт: unsupported model/],
+  ]){
+    const calls=[],h=setup({openDroppedFile:async selected=>{calls.push(selected);if(result instanceof Error)throw result;return result;}});
+    h.rename('Unsaved');h.rename('Redo retained');h.model.undo();h.actions.refresh();
+    const before={files:h.model.store.exportFiles(),history:h.model.store.history,dirty:h.session.dirty,token:h.session.documentToken,revision:h.model.store.revision};
+    const selected=file('Модель.arkita'),event={dataTransfer:{types:['Files'],files:[selected]},prevented:false,stopped:false,preventDefault(){this.prevented=true;},stopPropagation(){this.stopped=true;}};
+    await h.handlers.get('document:drop')(event);
+    assert.deepEqual(calls,[selected]);assert.equal(event.prevented,true);assert.equal(event.stopped,true);
+    assert.deepEqual({files:h.model.store.exportFiles(),history:h.model.store.history,dirty:h.session.dirty,token:h.session.documentToken,revision:h.model.store.revision},before);
+    assert.match(h.statuses.at(-1),message);
+  }
+});
+test('unsupported and multiple dropped files never reach native open or change the current session',async()=>{
+  const calls=[],h=setup({openDroppedFile:async selected=>{calls.push(selected);return{status:'opened-window'};}});
+  h.rename('Unsaved');const before={files:h.model.store.exportFiles(),history:h.model.store.history,dirty:h.session.dirty,token:h.session.documentToken,revision:h.model.store.revision};
+  for(const files of [[file('unsupported.json')],[file('one.arkita'),file('two.arkita')]]){
+    const event={dataTransfer:{files},preventDefault(){},stopPropagation(){}};
+    await h.handlers.get('document:drop')(event);
+    assert.deepEqual(calls,[]);
+    assert.deepEqual({files:h.model.store.exportFiles(),history:h.model.store.history,dirty:h.session.dirty,token:h.session.documentToken,revision:h.model.store.revision},before);
+  }
+  assert.match(h.statuses.at(-1),/Перетащите один файл \.arkita/);
+});
 test('late load after Close or newer file never overwrites model or status', async()=>{
   const h=setup();const read=deferred(),bytes=serializeProjectFile(createDemo().snapshot);await h.$('file-button').event('click');
   await h.choose({name:'old',size:bytes.length,arrayBuffer:()=>read.promise});const pending=h.$('load-project').event('click');
