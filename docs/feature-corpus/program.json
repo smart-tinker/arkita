@@ -437,13 +437,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#catalog"
+        "docs/feature-corpus/RELEASE-0.6.0.md#catalog",
+        "schemka-model-core/src/catalog-selection.js",
+        "schemka-model-core/test/catalog-selection.test.js",
+        "schemka-model-ui/src/catalog-tree.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Формальный независимый review и установленная Windows/native acceptance на точном пакете: групповое перемещение целиком; сохранение IDs и использований; отказ до изменения при цикле или несовместимом разделе; отмена и устаревшая вставка не меняют исходные данные. Core/UI тесты не заменяют native drag-and-drop и clipboard-поведение.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Routes and targeted tests reviewed against public main a8a145cbe903ba80d74afd20ab6e1cd8a590105b; the listed source/test files are byte-identical to PR #61 head 20dbc7734317e72d62b12012112fe12a2e31637c. Focused command `node --test schemka-model-ui/test/catalog-folders.test.js schemka-model-core/test/catalog-selection.test.js schemka-model-core/test/native-v4.test.js` on PR #61 head: 40/40 PASS. Automated core/UI evidence only; formal GitHub review and installed Windows/native acceptance remain unrun. No closed_criteria added.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
