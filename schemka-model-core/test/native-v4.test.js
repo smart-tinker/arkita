@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { ASSET_LIMITS, rasterImageSize, svgImageSize } from '../src/asset-images.js';
-import { createProject, createStore, exportFiles, importFiles, readProjectFiles, normalizeProject, validateProject, validateProjectV2, validateProjectV3, captureFragment, mergeProjectFiles, metadataRecord, assetUsages, moveDrawingGeometry, conceptTypeChangeImpact } from '../src/index.js';
+import { createProject, createStore, exportFiles, importFiles, readProjectFiles, normalizeProject, validateProject, validateProjectV2, validateProjectV3, captureFragment, mergeProjectFiles, metadataRecord, assetUsages, moveDrawingGeometry, conceptTypeChangeImpact, LIMITS } from '../src/index.js';
 import { metadataFixture, metadataV3Fixture, metadataV2State } from '../fixtures/metadata-compatibility.js';
 import { conceptProject } from '../fixtures/concept-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
@@ -81,6 +82,20 @@ test('folder parent/member edits are atomic, cycles and multiple owners are refu
   run({ type: 'deleteFolder', folderId: folder }); assert.equal(store.snapshot.folders.find(item => item.id === child).parentFolderId, null); assert.ok(store.snapshot.elements.length > 0);
 });
 
+test('folder child-label templates persist as folder data and reject malformed updates atomically', () => {
+  const { store, run, folder } = rich(), before = store.exportFiles();
+  run({ type: 'updateFolder', folderId: folder, childLabelTemplate: '${name} · ${property:owner}' });
+  const updated = store.exportFiles();
+  assert.equal(store.snapshot.folders.find(item => item.id === folder).childLabelTemplate, '${name} · ${property:owner}');
+  const archive = serializeProjectFile(store.snapshot);
+  assert.deepEqual(serializeProjectFile(deserializeProjectFile(archive)), archive);
+  assert.throws(() => run({ type: 'updateFolder', folderId: folder, childLabelTemplate: 7 }), error => error.code === 'SCHEMA');
+  assert.deepEqual(store.exportFiles(), updated);
+  store.undo(store.revision); assert.deepEqual(store.exportFiles(), before);
+  const created = run({ type: 'createFolder', name: 'Templated', childLabelTemplate: '${name}' }).created.folderId;
+  assert.equal(store.snapshot.folders.find(item => item.id === created).childLabelTemplate, '${name}');
+});
+
 test('typed geometric parent cycles/cross-view refs and semantic endpoint substitution fail without losing Undo', () => {
   const { store, run, viewId, group, note } = rich(), before = store.exportFiles(), history = store.history;
   for (const command of [
@@ -135,6 +150,27 @@ test('used assets cannot be deleted; strict inactive SVG rejects scripting, load
   }
   const files = store.exportFiles(), asset = files.find(file => file.path.startsWith('assets/')); const record = JSON.parse(asset.content); record.data = base64('<svg onload="evil()"/>'); asset.content = JSON.stringify(record);
   assert.throws(() => importFiles(files), error => error.code === 'ASSET_SVG'); assert.throws(() => mergeProjectFiles(files, files, files), error => error.code === 'ASSET_SVG');
+});
+
+function assertSvgValidationFinishes(source, label) {
+  const moduleUrl = new URL('../src/native-v4.js', import.meta.url).href;
+  const script = `import { readFileSync } from 'node:fs'; import { validateInactiveSvg } from ${JSON.stringify(moduleUrl)}; try { validateInactiveSvg(readFileSync(0, 'utf8')); process.exitCode = 1; } catch (error) { if (!['ASSET_SVG', 'LIMIT'].includes(error.code)) throw error; }`;
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', script], { input: source, encoding: 'utf8', timeout: 3000 });
+  assert.equal(result.error, undefined, `${label}: child timed out or failed to start`);
+  assert.equal(result.status, 0, `${label}: ${result.stderr}`);
+}
+
+test('invalid SVG tag with long whitespace is rejected without quadratic regex work', () => {
+  assertSvgValidationFinishes(`<svg><${' '.repeat(100000)}></svg>`, 'tag whitespace');
+});
+
+test('invalid SVG transform sequence is rejected without exponential regex work', () => {
+  assertSvgValidationFinishes(`<svg><g transform="${'scale(\t)\t'.repeat(100)}x"/></svg>`, 'transform repetition');
+});
+
+test('direct SVG validation enforces the model file-size bound', () => {
+  assert.throws(() => validateInactiveSvg(' '.repeat(LIMITS.fileBytes + 1)), { code: 'LIMIT' });
+  assert.throws(() => validateInactiveSvg('🙂'.repeat(LIMITS.fileBytes / 4 + 1)), { code: 'LIMIT' });
 });
 
 test('strict style/reference errors and resource budgets leave candidate and history unchanged', () => {

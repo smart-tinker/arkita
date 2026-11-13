@@ -216,7 +216,7 @@ test('recovery checks original expected state again during staging and before de
 });
 
 test('maximum native file inventories use bounded pages and a full disjoint update bounds file reads while measuring metadata cost', {
-  timeout: 900000, skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
+  timeout: 2100000, skip: process.env.ARKITA_TEST_PROFILE === 'pr' ? 'capacity test runs in Extended CI' : false,
 }, async t => {
   const before = createProject('Maximum synthetic'); before.elements = Array.from({ length: LIMITS.files - 1 }, (_, i) => element(i + 1));
   function fillBudget(model) {

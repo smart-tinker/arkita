@@ -29,8 +29,9 @@ export function visualGeometry(line, view, radiusFor = () => 0, storedGeometry =
     storedGeometry, lines);
 }
 
-export function captionText(template, item, state) {
-  return template.replace(/\$\{([^}]+)\}/g, (original, key) => {
+export function captionText(template, item, state, maxLength = Infinity) {
+  const matcher = /\$\{([^}]+)\}/g;
+  const replacement = (original, key) => {
     if (key === 'name') return item.name ?? item.label ?? '';
     if (key === 'type') return item.type ?? item.kind ?? '';
     if (key === 'id') return item.id;
@@ -38,7 +39,30 @@ export function captionText(template, item, state) {
     if (key === 'model.name') return state.project.name;
     if (key.startsWith('property:')) return (item.properties ?? []).filter(row => row.key === key.slice(9)).map(row => row.value).join(', ');
     return original;
-  });
+  };
+  if (maxLength === Infinity) return template.replace(matcher, replacement);
+  const parts = []; let length = 0, truncated = false, cursor = 0;
+  const append = value => {
+    value = String(value); const remaining = maxLength - length;
+    if (value.length > remaining) { parts.push(value.slice(0, Math.max(0, remaining))); length = maxLength; truncated = true; }
+    else { parts.push(value); length += value.length; }
+  };
+  for (const match of template.matchAll(matcher)) {
+    append(template.slice(cursor, match.index)); if (truncated) break;
+    const key = match[1];
+    if (key.startsWith('property:')) {
+      let found = false;
+      for (const row of item.properties ?? []) if (row.key === key.slice(9)) {
+        if (found) append(', '); append(row.value); found = true;
+        if (truncated) break;
+      }
+    } else append(replacement(match[0], key));
+    cursor = match.index + match[0].length;
+    if (truncated) break;
+  }
+  if (!truncated) append(template.slice(cursor));
+  const result = parts.join('');
+  return truncated && maxLength > 0 ? `${result.slice(0, maxLength - 1)}…` : result;
 }
 
 export function occurrenceImageLayout(bounds,position='center'){
