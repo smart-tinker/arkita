@@ -34,7 +34,8 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
     return row;
   }
   function descendants(parent, children, container) {
-    const key = branchKey(parent), source = children.get(parent) || [], start = pages.get(key) || 0, shown = source.slice(start, start + 100), folders = [];
+    const key = branchKey(parent), source = children.get(parent) || [], requested = pages.get(key) || 0, start = Math.min(requested, Math.max(0, Math.floor((source.length - 1) / 100) * 100)), shown = source.slice(start, start + 100), folders = [];
+    if (start !== requested) pages.set(key, start);
     for (const index of shown) {
       const entry = state.entries[index];
       if (entry.kind !== 'folder') { container.append(leaf(entry, index)); continue; }

@@ -68,3 +68,27 @@ test('detached tree keeps folder pages attached to their folder after siblings a
   document.querySelectorAll('#catalog-window-items summary')[1].click(); await tick();
   assert.ok([...document.querySelectorAll('#catalog-window-items .catalog-window-row button')].some(button => button.textContent.startsWith('B child 0')));
 });
+
+test('detached tree clamps a folder page when its entries are removed', async t => {
+  const dom = new JSDOM(readFileSync(new URL('../catalog.html', import.meta.url), 'utf8'), { url: 'https://catalog.test' });
+  t.after(() => dom.window.close()); const { document, window } = dom.window; let receive;
+  installCatalogWindow({ document, window, bridge: {
+    onState(callback) { receive = callback; return () => {}; }, ready: async () => ({}), command: async () => ({ status: 'ok' }), dock: async () => ({ status: 'docked' }),
+  } });
+  const treeSnapshot = (count, revision) => {
+    const entries = [{ ...dto.entries[0] }, { ...dto.entries[1] }];
+    for (let index = 0; index < count; index++) entries.push({ ...dto.entries[2], id: `el-00000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`, parent: 1, label: `A child ${index}` });
+    return { ...dto, revision, entries };
+  };
+  const tick = () => new Promise(resolve => window.setTimeout(resolve, 0));
+
+  receive(treeSnapshot(250, 3));
+  document.querySelectorAll('#catalog-window-items summary')[1].click(); await tick();
+  const next = () => [...document.querySelectorAll('#catalog-window-items .catalog-window-pages button')].find(button => button.textContent.startsWith('Следующие'));
+  next().click(); next().click();
+  assert.equal(document.querySelectorAll('.catalog-window-row').length, 50);
+
+  receive(treeSnapshot(20, 4));
+  assert.equal(document.querySelectorAll('.catalog-window-row').length, 20);
+  assert.match(document.querySelector('.catalog-window-row button').textContent, /^A child 0/);
+});
