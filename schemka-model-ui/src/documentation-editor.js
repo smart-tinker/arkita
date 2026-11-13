@@ -73,7 +73,7 @@ export function installDocumentationEditor({ document, model, session = null, op
     const request = { concept: { ...concept }, store, revision: store.revision, viewId: model.viewId,
       selection: selectionKey(), token: session?.documentToken ?? null, initialRaw: item.documentation, initialDOMValue: value.value };
     error.textContent = '';
-    $('documentation-reference').textContent = `${concept.kind}: «${item.name || item.label || '(без названия)'}» (${item.id}). ${concept.kind === 'project' ? 'Документация всей модели.' : concept.kind === 'view' ? 'Документация этого представления.' : 'Общая документация концепта во всех представлениях.'}`;
+    $('documentation-reference').textContent = `${concept.kind}: «${item.name || item.label || '(без названия)'}» (${item.id}). ${concept.kind === 'project' ? 'Документация всей модели.' : concept.kind === 'view' ? 'Документация этого представления.' : concept.kind === 'folder' ? 'Документация этой папки.' : 'Общая документация концепта во всех представлениях.'}`;
     try {
       // Opening a modal cancels earlier gestures; install the request after that boundary.
       openDialog('documentation-dialog');
