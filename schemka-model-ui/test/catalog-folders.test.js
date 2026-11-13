@@ -110,7 +110,7 @@ test('catalogue selection moves atomically with cycle preview and group type cha
 });
 
 
-test('context API cut/paste scopes the hit group, duplicate is one command and replacement clears cut state', t => {
+test('context API cut/paste scopes the hit group and replacement clears cut state', t => {
   const h = fixture(t), a = h.createFolder('A'), b = h.createFolder('B');
   const ids = ['Service', 'Process'].map(elementType => h.model.execute({ type: 'createElementInModel', elementType, name: elementType, folderId: a.id }).created.elementId);
   const refs = ids.map(id => ({ kind: 'element', id })); h.select(refs); const before = h.model.store.exportFiles(), history = h.model.store.history.undo;
@@ -118,11 +118,48 @@ test('context API cut/paste scopes the hit group, duplicate is one command and r
   h.ui.paste(b.id); assert.equal(h.$('catalog-folder-dialog').open, true); h.submit();
   assert.deepEqual(h.model.store.snapshot.folders.find(folder => folder.id === b.id).members, refs); assert.equal(h.model.store.history.undo, history + 1); assert.equal(h.ui.hasCut, false);
   h.model.undo(); h.render(); assert.deepEqual(h.model.store.exportFiles(), before);
-  assert.equal(h.ui.duplicate(refs[0]), true); assert.equal(h.model.store.history.undo, history + 1); assert.equal(h.model.store.snapshot.elements.length, 3); assert.ok(h.model.store.snapshot.elements.some(item => item.name === 'Service — копия'));
+  assert.equal(h.ui.duplicate(refs[0]), true); assert.equal(h.$('catalog-folder-dialog').open, true); assert.equal(h.model.store.snapshot.elements.length, 2);
+  h.submit(); assert.equal(h.$('catalog-folder-dialog').open, false); assert.equal(h.model.store.history.undo, history + 1); assert.equal(h.model.store.snapshot.elements.length, 3); assert.ok(h.model.store.snapshot.elements.some(item => item.name === 'Service — копия'));
   h.model.undo(); h.render(); assert.deepEqual(h.model.store.exportFiles(), before);
   assert.equal(h.ui.duplicate({ kind: 'folder', id: a.id }), false); assert.equal(h.ui.cut({ kind: 'element', id: 'missing' }), false);
   h.ui.cut(refs[0]); h.ui.paste(b.id); h.model.execute({ type: 'renameProject', name: 'New revision' }); const changed = h.model.store.exportFiles(); h.submit(); assert.deepEqual(h.model.store.exportFiles(), changed); assert.match(h.$('catalog-folder-error').textContent, /Модель изменилась/); h.ui.cancel();
   h.model.store = createStore(createProject('Replacement')); h.render(); assert.equal(h.ui.hasCut, false); assert.equal(h.ui.paste(), false);
+});
+
+test('concept duplicate previews retained drawings and relations; cancel is read-only and confirmed copy stays independent', t => {
+  const h = fixture(t), viewId = h.model.viewId, bounds = { x: 10, y: 20, width: 120, height: 60 };
+  const source = h.model.execute({ type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Source', documentation: 'Keep this text', properties: [{ key: 'owner', value: 'Ops' }], bounds }).created;
+  const target = h.model.execute({ type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Target', bounds }).created;
+  const secondViewId = h.model.execute({ type: 'createView', name: 'Second view' }).created.viewId;
+  h.model.execute({ type: 'addOccurrence', viewId: secondViewId, concept: { kind: 'element', id: source.elementId }, bounds });
+  h.model.execute({ type: 'addOccurrence', viewId: secondViewId, concept: { kind: 'element', id: target.elementId }, bounds });
+  h.model.execute({ type: 'createRelationshipAndConnection', viewId, relationshipType: 'Association', label: 'Uses', source: { kind: 'occurrence', id: source.occurrenceId }, target: { kind: 'occurrence', id: target.occurrenceId } });
+  const ref = { kind: 'element', id: source.elementId }, before = h.model.store.exportFiles(), history = h.model.store.history;
+
+  assert.equal(h.ui.duplicate(ref), true);
+  assert.equal(h.$('catalog-folder-dialog').open, true);
+  assert.match(h.$('catalog-folder-fields').textContent, /изображений: 2/i);
+  assert.match(h.$('catalog-folder-fields').textContent, /отношений: 1/i);
+  assert.match(h.$('catalog-folder-fields').textContent, /останутся у исходного объекта/i);
+  assert.equal(h.$('catalog-folder-apply').textContent, 'Создать копию');
+  h.$('catalog-folder-dialog').querySelector('button[type="button"]').click();
+  assert.deepEqual(h.model.store.exportFiles(), before);
+  assert.deepEqual(h.model.store.history, history);
+
+  h.ui.duplicate(ref); h.submit();
+  assert.equal(h.$('catalog-folder-dialog').open, false, h.$('catalog-folder-error').textContent);
+  const state = h.model.store.snapshot, copy = state.elements.find(item => item.id !== source.elementId && item.name === 'Source — копия');
+  assert.ok(copy);
+  assert.notEqual(copy.id, source.elementId);
+  assert.equal(copy.type, 'ApplicationComponent');
+  assert.equal(copy.documentation, 'Keep this text');
+  assert.deepEqual(copy.properties, [{ key: 'owner', value: 'Ops' }]);
+  assert.equal(state.views.reduce((count, entry) => count + entry.occurrences.filter(item => item.concept.id === source.elementId).length, 0), 2);
+  assert.equal(state.views.reduce((count, entry) => count + entry.occurrences.filter(item => item.concept.id === copy.id).length, 0), 0);
+  assert.deepEqual(state.relationships[0].source, ref);
+  assert.equal(h.model.selection.id, copy.id);
+  assert.equal(h.model.store.history.undo, history.undo + 1);
+  h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
 });
 
 test('fixed sections and nested empty folders retain local expansion without changing the model',t=>{
