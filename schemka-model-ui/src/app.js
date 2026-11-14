@@ -766,8 +766,22 @@ function askDelete(kind, id) {
   let lines, command;
   if (global) {
     const impact = model.impact({ kind, id });
-    const views = model.store.snapshot.views.filter(entry => impact.viewIds.includes(entry.view.id)).map(entry => displayName(entry.view));
-    lines = [`Элементов: ${impact.elementIds.length}`, `Junctions: ${impact.junctionIds.length}`, `Отношений: ${impact.relationshipIds.length}`, `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`, `Затронутые виды: ${views.join(', ') || 'нет'}`];
+    const state = model.store.snapshot, viewIds = new Set(impact.viewIds);
+    const relationshipNames = new Map(state.relationships.map(item => [item.id, displayName(item)]));
+    const conceptNames = new Map([
+      ...state.elements.map(item => [`element:${item.id}`, displayName(item)]),
+      ...state.junctions.map(item => [`junction:${item.id}`, displayName(item)]),
+    ]);
+    const occurrences = new Set(impact.occurrenceIds), connections = new Set(impact.connectionIds);
+    const targetName = kind === 'relationship' ? relationshipNames.get(id) : conceptNames.get(`${kind}:${id}`);
+    lines = [`Удаляемый объект: «${targetName}»`, `Элементов: ${impact.elementIds.length}`, `Junctions: ${impact.junctionIds.length}`, `Отношений: ${impact.relationshipIds.length}`, `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`];
+    for (const relationId of impact.relationshipIds) if (kind !== 'relationship' || relationId !== id) lines.push(`Зависимое отношение: «${relationshipNames.get(relationId)}»`);
+    for (const entry of state.views) {
+      const viewName = displayName(entry.view);
+      if (viewIds.has(entry.view.id)) lines.push(`Затронутое представление: «${viewName}»`);
+      for (const occurrence of entry.occurrences) if (occurrences.has(occurrence.id)) lines.push(`Изображение: «${conceptNames.get(`${occurrence.concept.kind}:${occurrence.concept.id}`)}» · «${viewName}»`);
+      for (const connection of entry.connections) if (connections.has(connection.id)) lines.push(`Соединение: «${relationshipNames.get(connection.relationshipId)}» · «${viewName}»`);
+    }
     command = kind === 'junction' ? { type: 'deleteJunctionFromModel', junctionId: id } : kind === 'element' ? { type: 'deleteElementFromModel', elementId: id } : { type: 'deleteRelationshipFromModel', relationshipId: id };
     $('delete-title').textContent = kind === 'junction' ? 'Удалить junction из всей модели?' : kind === 'element' ? 'Удалить элемент из всей модели?' : 'Удалить отношение из всей модели?';
     $('delete-description').textContent = 'Будут удалены объект и все перечисленные зависимости во всех представлениях.';
