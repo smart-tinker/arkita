@@ -6,7 +6,7 @@ import { contextActions } from '../src/context-actions.js';
 
 function setup() {
   const model = createController(createCurrentFixture()), calls = [];
-  const actions = Object.fromEntries(['newFolder','moveConcept','cutConcept','duplicateConcept','changeConceptType','editFolder','deleteFolder','drillInto','pasteConcepts','removeVisual','openProperties','rename','addOccurrence','remove','reuseRelationship','openView','duplicateView','newView','createElement','fit','undo','redo'].map(name => [name, (...args) => calls.push([name,...args])]));
+  const actions = Object.fromEntries(['newFolder','createElementInCatalog','moveConcept','cutConcept','duplicateConcept','changeConceptType','editFolder','deleteFolder','drillInto','pasteConcepts','removeVisual','openProperties','rename','addOccurrence','remove','reuseRelationship','openView','duplicateView','newView','createElement','fit','undo','redo'].map(name => [name, (...args) => calls.push([name,...args])]));
   return { model, calls, actions, menu: context => contextActions(context, model, actions) };
 }
 test('context actions bind hit occurrence identity rather than the unrelated current selection', () => {
@@ -117,12 +117,15 @@ test('visual node and connector properties preserve exact hit IDs and never reta
 test('fixed catalogue sections create real folders without offering properties or rename of virtual roots', () => {
   const h = setup();
   const menu = h.menu({ kind: 'catalogSection', id: 'technology' });
-  assert.deepEqual(menu.map(item => item.id), ['new-folder', 'undo', 'redo']);
-  menu[0].action(); assert.deepEqual(h.calls, [['newFolder', '@technology']]);
+  assert.deepEqual(menu.map(item => item.id), ['new-element', 'new-folder', 'undo', 'redo']);
+  menu.find(item => item.id === 'new-element').action(); assert.deepEqual(h.calls, [['createElementInCatalog', '@technology', 'technology']]);
+  menu.find(item => item.id === 'new-folder').action(); assert.deepEqual(h.calls.at(-1), ['newFolder', '@technology']);
   h.actions.hasCut = () => true; h.menu({ kind: 'catalogSection', id: 'technology' }).find(item => item.id === 'paste-concepts').action();
   assert.deepEqual(h.calls.at(-1), ['pasteConcepts', '@technology', 'technology']);
   assert.deepEqual(h.menu({ kind: 'catalogSection', id: 'untrusted' }), []);
   const folder = h.model.execute({ type: 'createFolder', name: 'Native' }).created.folderId;
+  h.menu({ kind: 'folder', id: folder, sectionId: 'technology' }).find(item => item.id === 'new-element').action();
+  assert.deepEqual(h.calls.at(-1), ['createElementInCatalog', folder, 'technology']);
   h.menu({ kind: 'folder', id: folder }).find(item => item.id === 'new-folder').action();
   assert.deepEqual(h.calls.at(-1), ['newFolder', folder, undefined]);
 });
@@ -132,6 +135,7 @@ test('mixed folder context carries the clicked projection into create and paste 
   const h = setup(), folderId = h.model.execute({ type: 'createFolder', name: 'Mixed' }).created.folderId;
   h.actions.hasCut = () => true;
   const menu = h.menu({ kind: 'folder', id: folderId, sectionId: 'application' });
+  menu.find(item => item.id === 'new-element').action(); assert.deepEqual(h.calls.at(-1), ['createElementInCatalog', folderId, 'application']);
   menu.find(item => item.id === 'drill-into').action(); assert.deepEqual(h.calls.at(-1), ['drillInto', folderId, 'application']);
   menu.find(item => item.id === 'new-folder').action(); assert.deepEqual(h.calls.at(-1), ['newFolder', folderId, 'application']);
   menu.find(item => item.id === 'paste-concepts').action(); assert.deepEqual(h.calls.at(-1), ['pasteConcepts', folderId, 'application']);
