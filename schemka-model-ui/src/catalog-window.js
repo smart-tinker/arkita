@@ -76,17 +76,47 @@ export function installCatalogWindow({ document, window, bridge = window.arkitaC
   }
   function breadcrumbs(index) {
     const path = []; let entry = state.entries[index], parent = entry.parent;
-    while (parent !== null) { const ancestor = state.entries[parent]; if (ancestor.kind === 'section' || ancestor.kind === 'folder') path.unshift(ancestor.label); parent = ancestor.parent; }
-    return path.join(' / ');
+    while (parent !== null) { const ancestor = state.entries[parent]; if (ancestor.kind === 'section' || ancestor.kind === 'folder') path.push(ancestor.label); parent = ancestor.parent; }
+    return path.reverse().join(' / ');
   }
   function renderSearch() {
-    const matches = [];
-    state.entries.forEach((entry, index) => { if (!['section', 'folder'].includes(entry.kind) && `${entry.label} ${entry.type} ${breadcrumbs(index)}`.toLocaleLowerCase().includes(query)) matches.push({ entry, index }); });
+    const matches = [], pathStates = new Uint16Array(state.entries.length), pathMatched = new Uint8Array(state.entries.length), pathPrefixes = new Array(state.entries.length);
+    const prefixLimit = query.length - 1, table = new Uint16Array(query.length);
+    for (let index = 1, matched = 0; index < query.length; index++) {
+      while (matched && query[index] !== query[matched]) matched = table[matched - 1];
+      if (query[index] === query[matched]) matched++;
+      table[index] = matched;
+    }
+    const scanPath = (value, start) => {
+      let matched = start, found = false;
+      for (let index = 0; index < value.length; index++) {
+        while (matched && value[index] !== query[matched]) matched = table[matched - 1];
+        if (value[index] === query[matched]) matched++;
+        if (matched === query.length) { found = true; matched = table[matched - 1]; }
+      }
+      return { matched, found };
+    };
+    state.entries.forEach((entry, index) => {
+      const parent = entry.parent;
+      if (entry.kind === 'section' || entry.kind === 'folder') {
+        const segment = `${parent === null ? '' : ' / '}${entry.label}`.toLocaleLowerCase();
+        const result = scanPath(segment, parent === null ? 0 : pathStates[parent]);
+        pathStates[index] = result.matched;
+        pathMatched[index] = result.found || parent !== null && pathMatched[parent] ? 1 : 0;
+        const prefix = parent === null ? '' : pathPrefixes[parent];
+        pathPrefixes[index] = prefixLimit === 0 || prefix.length >= prefixLimit ? prefix : prefix + segment.slice(0, prefixLimit - prefix.length);
+      } else {
+        const owner = `${entry.label} ${entry.type} `.toLocaleLowerCase();
+        const boundary = parent !== null && prefixLimit > 0 && `${owner.slice(-prefixLimit)}${pathPrefixes[parent]}`.includes(query);
+        if (owner.includes(query) || parent !== null && pathMatched[parent] || boundary) matches.push(index);
+      }
+    });
     const totalPages = Math.max(1, Math.ceil(matches.length / 100)); page = Math.min(page, totalPages - 1);
     const visible = matches.slice(page * 100, (page + 1) * 100);
     previous.hidden = page === 0; next.hidden = page >= totalPages - 1; previous.disabled = page === 0; next.disabled = page >= totalPages - 1;
     previous.onclick = () => { page--; render(); }; next.onclick = () => { page++; render(); };
-    for (const { entry, index } of visible) {
+    for (const index of visible) {
+      const entry = state.entries[index];
       const item = document.createElement('div'), path = document.createElement('div'); item.className = 'catalog-window-result'; path.className = 'catalog-path';
       path.textContent = breadcrumbs(index); item.append(path, leaf(entry, index)); host.append(item);
     }

@@ -32,7 +32,7 @@ test('catalog DTO rejects oversized unknown fields before encoding the raw IPC p
   assert.throws(() => catalogSnapshot(state), { code: 'CATALOG_ENTRY' });
 });
 
-test('detached catalog accepts only its child sender and current owner snapshot; docking restores the owner', async () => {
+test('detached catalog opens supported long names, accepts only its child sender, and docking restores the owner', async () => {
   const windows = [], ownerA = owner(), ownerB = owner(), commands = [], docked = [];
   ownerA.window.webContents.send = (...args) => { if (args[0].endsWith('command')) commands.push(args); else docked.push(args); };
   const screen = new EventEmitter(); screen.getAllDisplays = () => [{ workArea: { x: 0, y: 0, width: 1200, height: 800 } }];
@@ -41,9 +41,11 @@ test('detached catalog accepts only its child sender and current owner snapshot;
     async loadURL(url) { assert.equal(url, CATALOG_URL); } isDestroyed() { return Boolean(this.dead); } getBounds() { return { x: 0, y: 0, width: 360, height: 650 }; } getNormalBounds() { return this.getBounds(); } setBounds(value) { this.bounds = value; } show() {} focus() {}
     close() { this.emit('close'); this.dead = true; this.emit('closed'); } destroy() { this.dead = true; this.emit('closed'); }
   }
-  const service = createCatalogService({ BrowserWindow: Window, screen, root: '/app', session: {} }), state = snapshot(ownerA);
+  const service = createCatalogService({ BrowserWindow: Window, screen, root: '/app', session: {} }), state = { ...snapshot(ownerA), projectName: 'x'.repeat(201) };
   await Promise.all([service.open(ownerA, state), service.open(ownerA, state)]); assert.equal(windows.length, 1);
   const child = windows[0], event = { sender: child.webContents, senderFrame: child.webContents.mainFrame }, ready = service.ready(event), data = { nonce: ready.nonce, index: 1, action: 'select' };
+  assert.equal(ready.projectName, state.projectName);
+  assert.throws(() => catalogSnapshot({ ...state, projectName: 'x'.repeat(8193) }), { code: 'CATALOG_STATE' });
   assert.throws(() => service.ready({ ...event, senderFrame: { url: CATALOG_URL } }), { code: 'IPC_SENDER' });
   assert.throws(() => service.activate({ sender: {} }, data), { code: 'IPC_SENDER' });
   service.activate(event, data); assert.deepEqual(commands[0][1], { kind: 'element', id: id('el'), action: 'select', documentToken: ownerA.files.documentToken, revision: 4, viewId: id('view') });

@@ -14,7 +14,7 @@ const validUuid = value => typeof value === 'string' && new RegExp(`^${uuid}$`).
 export function catalogSnapshot(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).some(key => !['documentToken', 'revision', 'viewId', 'theme', 'projectName', 'entries'].includes(key)) ||
       !validUuid(input.documentToken) || input.viewId !== null && !validId(input.viewId, 'view') || !Number.isSafeInteger(input.revision) || input.revision < 0 || !['dark', 'light'].includes(input.theme) ||
-      !text(input.projectName, 200) || !Array.isArray(input.entries) || input.entries.length > 65536) fail('CATALOG_STATE', 'Некорректное состояние дерева модели.');
+      !text(input.projectName, 8192) || !Array.isArray(input.entries) || input.entries.length > 65536) fail('CATALOG_STATE', 'Некорректное состояние дерева модели.');
   const snapshot = { documentToken: input.documentToken, revision: input.revision, viewId: input.viewId, theme: input.theme, projectName: input.projectName, entries: [] };
   let bytes = Buffer.byteLength(JSON.stringify(snapshot));
   for (let index = 0; index < input.entries.length; index++) {

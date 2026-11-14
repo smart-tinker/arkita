@@ -40,6 +40,36 @@ test('detached tree uses inert labels, emits owner actions, filters all rows, an
   document.getElementById('catalog-dock').click(); await Promise.resolve(); assert.equal(docked, 1);
 });
 
+test('detached tree search walks a deep hierarchy once and builds breadcrumbs only for visible results', t => {
+  const dom = new JSDOM(readFileSync(new URL('../catalog.html', import.meta.url), 'utf8'), { url: 'https://catalog.test' });
+  t.after(() => dom.window.close()); const { document, window } = dom.window; let receive, parentReads = 0;
+  document.getElementById('catalog-window-query').value = 'Role';
+  installCatalogWindow({ document, window, bridge: { onState(callback) { receive = callback; return () => {}; }, ready: async () => ({}), command: async () => ({ status: 'ok' }), dock: async () => ({ status: 'docked' }) } });
+  const entries = [{ ...dto.entries[0] }]; let parentIndex = 0;
+  const countedParent = (entry, parent) => { Object.defineProperty(entry, 'parent', { enumerable: true, get() { parentReads++; return parent; } }); return entry; };
+  for (let index = 0; index < 800; index++) {
+    const folderIndex = entries.length;
+    entries.push(countedParent({ ...dto.entries[1], id: `folder-${index}`, label: `Folder ${index}` }, parentIndex));
+    entries.push(countedParent({ ...dto.entries[2], id: `element-${index}`, parent: folderIndex, label: `Leaf ${index}`, type: 'Role' }, folderIndex));
+    parentIndex = folderIndex;
+  }
+  receive({ ...dto, entries });
+  assert.equal(document.getElementById('catalog-window-count').textContent, '1–100 из 800');
+  assert.ok(parentReads < entries.length * 8, `expected a linear ancestor walk, got ${parentReads} parent reads for ${entries.length} entries`);
+});
+
+test('detached tree search retains matches spanning breadcrumb and owner/path boundaries', t => {
+  const dom = new JSDOM(readFileSync(new URL('../catalog.html', import.meta.url), 'utf8'), { url: 'https://catalog.test' });
+  t.after(() => dom.window.close()); const { document, window } = dom.window; let receive;
+  installCatalogWindow({ document, window, bridge: { onState(callback) { receive = callback; return () => {}; }, ready: async () => ({}), command: async () => ({ status: 'ok' }), dock: async () => ({ status: 'docked' }) } });
+  receive(dto);
+  const input = document.getElementById('catalog-window-query');
+  for (const query of ['Общие / Папка', 'ApplicationComponent Общие']) {
+    input.value = query; input.dispatchEvent(new window.Event('input'));
+    assert.equal(document.querySelectorAll('.catalog-window-result').length, 1, query);
+  }
+});
+
 test('detached tree keeps folder pages attached to their folder after siblings are inserted', async t => {
   const dom = new JSDOM(readFileSync(new URL('../catalog.html', import.meta.url), 'utf8'), { url: 'https://catalog.test' });
   t.after(() => dom.window.close()); const { document, window } = dom.window; let receive;
