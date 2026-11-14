@@ -1075,6 +1075,7 @@ const menuActions = {
   cutConcept: ref => catalogFolders.cut(ref),
   duplicateConcept: ref => catalogFolders.duplicate(ref),
   changeConceptType: ref => catalogFolders.changeType(ref),
+  createElementInCatalog: (destination, sectionId) => catalogFolders.createElementInCatalog(destination, sectionId),
   editFolder: id => catalogFolders.folderEditor(id),
   drillInto: (id, sectionId) => catalogFolders.drillInto(id, sectionId),
   newFolder: (destination, sectionId) => catalogFolders.folderEditor(null, destination, sectionId),
