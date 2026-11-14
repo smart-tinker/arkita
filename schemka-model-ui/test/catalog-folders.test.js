@@ -159,7 +159,12 @@ test('concept duplicate previews retained drawings and relations; cancel is read
   assert.deepEqual(state.relationships[0].source, ref);
   assert.equal(h.model.selection.id, copy.id);
   assert.equal(h.model.store.history.undo, history.undo + 1);
-  h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
+  const copyRef = { kind: 'element', id: copy.id };
+  h.model.execute({ type: 'updateConceptProperties', concept: copyRef, properties: [{ key: 'owner', value: 'Platform' }] });
+  const edited = h.model.store.snapshot;
+  assert.deepEqual(edited.elements.find(item => item.id === source.elementId).properties, [{ key: 'owner', value: 'Ops' }]);
+  assert.deepEqual(edited.elements.find(item => item.id === copy.id).properties, [{ key: 'owner', value: 'Platform' }]);
+  h.model.undo(); h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
 });
 
 test('fixed sections and nested empty folders retain local expansion without changing the model',t=>{
