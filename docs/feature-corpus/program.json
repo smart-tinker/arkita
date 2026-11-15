@@ -1004,7 +1004,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1031,7 +1031,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1058,7 +1058,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1084,7 +1084,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1111,7 +1111,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1138,7 +1138,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1193,7 +1193,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1279,7 +1279,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1307,7 +1307,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1343,7 +1343,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1380,7 +1380,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1408,7 +1408,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1445,7 +1445,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1472,7 +1472,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1500,7 +1500,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1528,7 +1528,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1555,7 +1555,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1582,7 +1582,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1609,7 +1609,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1636,7 +1636,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1663,7 +1663,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1691,7 +1691,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1718,7 +1718,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1746,7 +1746,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1774,7 +1774,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1941,7 +1941,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -1969,7 +1969,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2051,7 +2051,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2273,7 +2273,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2327,7 +2327,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2355,7 +2355,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2392,7 +2392,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2429,7 +2429,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2457,7 +2457,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -2485,7 +2485,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -9169,7 +9169,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -9198,7 +9198,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -9347,7 +9347,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -9377,7 +9377,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
@@ -9437,7 +9437,7 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
       ],
       "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 48,
+      "issue": 14,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
