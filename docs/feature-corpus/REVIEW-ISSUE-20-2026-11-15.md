@@ -17,7 +17,10 @@ The source review found no need to change application code. This branch adds
 three focused CSV regression assertions in `interchange.test.js` for exact
 flattened output, spreadsheet-safe output, and the supported relationship
 notation fields. The touched test file passed locally on Node v22.22.1:
-16 PASS, 0 FAIL, 0 SKIP. The exact-head GitHub CI for this branch is pending.
+16 PASS, 0 FAIL, 0 SKIP. Exact-head GitHub run
+[`43678542233`](https://github.com/smart-tinker/arkita/actions/runs/43678542233)
+passed on Ubuntu and Windows, including the Windows NSIS install/launch smoke
+and aggregate CI gate. The run has no Actions artifacts.
 
 All 25 issue #20 records remain `acceptance-pending`; `closed_criteria` stays
 empty. Native Windows dialog and installed-package behavior have not been
@@ -55,11 +58,9 @@ verified for this group.
 
 ## Next minimal work
 
-1. Require exact-head CI on the issue #20 branch; PR #76's green Windows run is
-   only a baseline and does not include the new regression assertions.
-2. Keep native Windows acceptance `UNRUN` until the installed UI/file routes
+1. Keep native Windows acceptance `UNRUN` until the installed UI/file routes
    are exercised. The source review and Node test run do not substitute for it.
-3. Do not close issue #20 from code presence or CI alone; preserve the current
+2. Do not close issue #20 from code presence or CI alone; preserve the current
    criterion-level gaps and the `acceptance-pending` state.
 
 ## Verification boundary
@@ -68,6 +69,8 @@ The implementation review is against public main `3a4a58afe154ab88cd8bcd4383d0d6
 the stacked branch starts at PR #76 head
 `560c6f8bac7088631d897a7dcb66ae0a5b344a09`. The focused test command was
 `node --test schemka-model-io/test/interchange.test.js` on Linux/Node v22.22.1.
-That result is not the full aggregate, Windows execution, installed UI, or native
-acceptance. No application source, feature-corpus historical cards, or
-`coverage.json` changed.
+The PR test profile passed on both Ubuntu and Windows at exact PR head
+`6915b691c9a74d20a10c432f9d62730b9779f0e1`; Windows also passed NSIS build,
+package verification, installation and launch. These runner results do not
+verify native file dialogs or installed user acceptance. No application source,
+feature-corpus historical cards, or `coverage.json` changed.

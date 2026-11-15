@@ -76,7 +76,7 @@
       "updated_at": "2026-11-15",
       "issue": 20,
       "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
-      "result": "Reviewed all 25 current interoperability criteria against source and test routes; added focused CSV assertions, and the interchange test file passed 16/16 locally. Exact-head CI for the stacked issue #20 branch and native Windows acceptance are pending. All criteria remain acceptance-pending.",
+      "result": "Reviewed all 25 current interoperability criteria against source and test routes; added focused CSV assertions, and the interchange test file passed 16/16 locally. Exact PR head 6915b691c9a74d20a10c432f9d62730b9779f0e1 passed Ubuntu and Windows validation plus CI gate in run 43678542233; Windows installer install/launch smoke passed and the run has 0 Actions artifacts. Native Windows file-dialog acceptance remains unrun; all criteria remain acceptance-pending.",
       "ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     }
   }
