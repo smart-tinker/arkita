@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { setup, production } from './app-test-fixture.js';
-import { CURRENT_CATALOG } from '../../schemka-model-core/src/index.js';
+import { CURRENT_CATALOG, createStore } from '../../schemka-model-core/src/index.js';
 import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
 import { customizationProject, profileId } from '../../schemka-model-core/fixtures/customization-project.js';
 import { viewpointGraph, viewpointId } from '../../schemka-model-core/fixtures/viewpoint-project.js';
@@ -84,4 +84,19 @@ test(`${mode} hint controls preserve an unfinished inline draft and Escape close
   assert.deepEqual(history(h), before); key(h, input, 'Escape');
   h.$('context-hints-title').focus(); key(h, h.$('context-hints-title'), 'Escape'); assert.equal(h.$('context-hints-panel').hidden, true);
   assert.equal(h.$('context-hints-toggle').getAttribute('aria-expanded'), 'false');
+});
+
+test(`${mode} selected Canvas instructions render safely in the keyboard-accessible follow-selection panel`, async t => {
+  const h = await setup(t), state = conceptProject(), store = createStore(state), viewId = state.views[0].view.id;
+  const id = store.execute({ type: 'createVisualNode', viewId, kind: 'note', name: 'Canvas card', text: 'Draft', instruction: '**Fill this card**\n\n<script>globalThis.bad = true</script>', bounds: { x: 20, y: 20, width: 180, height: 100 } }, store.revision).created.visualNodeId;
+  const before = serializeProjectFile(store.snapshot); await h.load(before); const historyBefore = history(h);
+  h.$('context-hints-toggle').click();
+  const block = h.document.querySelector(`[data-kind="visualNode"][data-id="${id}"]`); block.focus();
+  const selection = new h.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }); block.dispatchEvent(selection);
+  assert.equal(selection.defaultPrevented, true); assert.equal(block.classList.contains('selected'), true);
+  const instruction = h.$('context-hints-instruction');
+  assert.equal(instruction.hidden, false); assert.equal(instruction.getAttribute('aria-live'), 'polite');
+  assert.match(instruction.textContent, /Fill this card/); assert.ok(instruction.querySelector('strong'));
+  assert.equal(instruction.querySelector('script'), null); assert.match(instruction.textContent, /<script>/);
+  assert.deepEqual(history(h), historyBefore); assert.ok(Buffer.from(await h.download()).equals(Buffer.from(before)));
 });

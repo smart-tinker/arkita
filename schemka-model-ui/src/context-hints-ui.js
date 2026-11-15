@@ -1,6 +1,7 @@
 import { CURRENT_CATALOG } from '../../schemka-model-core/src/index.js';
 import { conceptRecord, conceptName, endpointConcept } from './concepts.js';
 import { modelProfiles } from './profile-ui.js';
+import { reportMarkdown } from '../../schemka-model-io/src/report-markdown.js';
 
 const kindNames = { element: 'Элемент', junction: 'Junction', relationship: 'Отношение' };
 const excerpt = (value, limit = 1200) => typeof value !== 'string' ? '' : value.length <= limit ? value : `${value.slice(0, limit)}…\nОписание сокращено; полный текст доступен в свойствах.`;
@@ -30,14 +31,17 @@ export function installContextHints({ document, window, model, blocked, status, 
     }
     const state = cachedState, entry = state.views.find(item => item.view.id === model.viewId), view = entry?.view;
     const profile = modelProfiles.get(state.project.metamodel), reference = state.project.metamodel;
-    const result = { title: '', identity: '', description: '', documentation: '', lines: [], revision: model.store.revision };
+    const result = { title: '', identity: '', description: '', documentation: '', instruction: '', lines: [], revision: model.store.revision };
     result.lines.push(`Профиль каталога: ${reference.id} · версия ${reference.version}${profile ? '' : ' · UNKNOWN: профиль не установлен'}.`);
     result.lines.push('Пояснения интерфейса Arkita. Допустимость конкретного отношения проверяется отдельно; соответствие всей модели стандарту — UNKNOWN.');
     let target = following;
     if (target.kind === 'selection') {
       const chosen = model.selection;
-      const ref = ['occurrence', 'connection'].includes(chosen?.kind) ? entry && endpointConcept(entry, chosen) : chosen;
-      target = conceptRecord(state, ref) ? ref : { kind: 'view', id: model.viewId };
+      if (chosen?.kind === 'visualNode') target = entry?.visualNodes.find(item => item.id === chosen.id)?.instruction ? chosen : { kind: 'view', id: model.viewId };
+      else {
+        const ref = ['occurrence', 'connection'].includes(chosen?.kind) ? entry && endpointConcept(entry, chosen) : chosen;
+        target = conceptRecord(state, ref) ? ref : { kind: 'view', id: model.viewId };
+      }
     }
     if (target.kind === 'smart-link') {
       result.title = 'Инструмент связи'; result.identity = 'smart-link-tool';
@@ -53,6 +57,13 @@ export function installContextHints({ document, window, model, blocked, status, 
         const definition = state.customizationProfiles?.find(item => item.id === application.profileId);
         result.lines.push(`Локальный профиль: ${excerpt(definition?.name, 180) || '(нет определения)'} · ${application.profileId} · ${definition?.purpose ?? 'UNKNOWN'}. Базовый тип остаётся ${type}.`);
       }
+    } else if (target.kind === 'visualNode') {
+      const item = entry?.visualNodes.find(row => row.id === target.id);
+      if (!item) { result.title = 'Объект больше не существует'; result.identity = target.id; return result; }
+      result.title = item.name || (item.kind === 'group' ? 'Блок' : 'Карточка');
+      result.identity = `Canvas · ${item.kind} · ${item.id}`;
+      result.description = 'Инструкция для заполнения переносимого блока Canvas.';
+      result.instruction = item.instruction ?? '';
     } else {
       const viewpoint = state.viewpoints?.find(item => item.id === view?.viewpointId);
       if (target.kind === 'viewpoint') {
@@ -78,6 +89,8 @@ export function installContextHints({ document, window, model, blocked, status, 
     $('context-hints-title').textContent = value.title; $('context-hints-identity').textContent = value.identity;
     $('context-hints-description').textContent = value.description; $('context-hints-documentation').textContent = value.documentation;
     $('context-hints-documentation').hidden = !value.documentation;
+    const instruction = $('context-hints-instruction'); instruction.hidden = !value.instruction;
+    $('context-hints-instruction-content').innerHTML = value.instruction ? reportMarkdown(value.instruction) : '';
     const list = $('context-hints-details'); list.replaceChildren();
     for (const text of value.lines) { const item = document.createElement('li'); item.textContent = text; list.append(item); }
   }
