@@ -272,6 +272,7 @@ function select(selection, announce = true, mode = 'replace') {
   if (mode === 'toggle') model.toggleSelection(selection);
   else if (mode === 'anchor') model.selectMany(model.selections, selection);
   else model.select(selection);
+  visualsUI?.refresh();
   paintSelection();
   renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh();
   modelAnalysis?.refresh();
