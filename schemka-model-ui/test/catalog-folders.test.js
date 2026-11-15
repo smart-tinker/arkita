@@ -148,6 +148,7 @@ test('concept duplicate previews retained drawings and relations; cancel is read
 
   h.ui.duplicate(ref); h.submit();
   assert.equal(h.$('catalog-folder-dialog').open, false, h.$('catalog-folder-error').textContent);
+  assert.equal(h.reports.at(-1), 'Изменения внесены в модель. Можно отменить одним действием.');
   const state = h.model.store.snapshot, copy = state.elements.find(item => item.id !== source.elementId && item.name === 'Source — копия');
   assert.ok(copy);
   assert.notEqual(copy.id, source.elementId);
@@ -165,6 +166,34 @@ test('concept duplicate previews retained drawings and relations; cancel is read
   assert.deepEqual(edited.elements.find(item => item.id === source.elementId).properties, [{ key: 'owner', value: 'Ops' }]);
   assert.deepEqual(edited.elements.find(item => item.id === copy.id).properties, [{ key: 'owner', value: 'Platform' }]);
   h.model.undo(); h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
+});
+
+test('relationship duplicate previews its connections and leaves them with the original', t => {
+  const h = fixture(t), viewId = h.model.viewId, bounds = { x: 10, y: 20, width: 120, height: 60 };
+  const source = h.model.execute({ type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Source', bounds }).created;
+  const target = h.model.execute({ type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Target', bounds }).created;
+  const relationshipId = h.model.execute({ type: 'createRelationshipAndConnection', viewId, relationshipType: 'Association', label: 'Uses', source: { kind: 'occurrence', id: source.occurrenceId }, target: { kind: 'occurrence', id: target.occurrenceId } }).created.relationshipId;
+  const ref = { kind: 'relationship', id: relationshipId }, before = h.model.store.exportFiles(), history = h.model.store.history;
+
+  assert.equal(h.ui.duplicate(ref), true);
+  assert.match(h.$('catalog-folder-fields').textContent, /изображений: 1/i);
+  h.$('catalog-folder-dialog').querySelector('button[type="button"]').click();
+  assert.deepEqual(h.model.store.exportFiles(), before);
+  assert.deepEqual(h.model.store.history, history);
+
+  h.ui.duplicate(ref); h.submit();
+  const state = h.model.store.snapshot, original = state.relationships.find(item => item.id === relationshipId);
+  const copy = state.relationships.find(item => item.id !== relationshipId && item.label === 'Uses — копия');
+  assert.ok(copy);
+  assert.notEqual(copy.id, relationshipId);
+  assert.equal(copy.type, original.type);
+  assert.deepEqual(copy.source, original.source);
+  assert.deepEqual(copy.target, original.target);
+  assert.equal(state.views[0].connections.length, 1);
+  assert.equal(state.views[0].connections[0].relationshipId, relationshipId);
+  assert.equal(h.model.selection.id, copy.id);
+  assert.equal(h.model.store.history.undo, history.undo + 1);
+  h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
 });
 
 test('fixed sections and nested empty folders retain local expansion without changing the model',t=>{

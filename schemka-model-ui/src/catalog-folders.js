@@ -90,7 +90,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   form.addEventListener('submit', event => {
     event.preventDefault(); const request = pending; if (!request || apply.disabled) return;
     if (request.store !== model.store || request.revision !== model.store.revision) { error.textContent = 'Модель изменилась. Закройте диалог и проверьте действие заново.'; apply.disabled = true; return; }
-    try { request.commit(); cancel(); render(); status('Изменения модели сохранены. Можно отменить одним действием.'); }
+    try { request.commit(); cancel(); render(); status('Изменения внесены в модель. Можно отменить одним действием.'); }
     catch (failure) { error.textContent = failure.message; }
   });
   const input = (name, initial = '', kind = 'input') => {
