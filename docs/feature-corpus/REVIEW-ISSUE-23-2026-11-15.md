@@ -42,6 +42,9 @@ CI, with Windows test/CI fixes included. Keep the open feature criteria and
 their acceptance evidence on the later feature line. No Actions artifacts,
 release or issue closure is claimed.
 
+The top-level `issues.extensions` value remains `57` as the historical corpus
+group mapping; the ten applicable criterion records point to public issue `#23`.
+
 ## Next work
 
 1. Keep the ten criteria pending until their evidence is tied to exact source

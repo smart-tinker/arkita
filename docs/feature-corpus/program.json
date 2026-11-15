@@ -8871,7 +8871,7 @@
         "schemka-model-ui/test/notation-app.test.js"
       ],
       "remaining": "Installed Windows offline-help, keyboard and inert-render acceptance remains unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -8909,7 +8909,7 @@
         "electron/test/host-policy.test.mjs"
       ],
       "remaining": "Installed Windows confirmation, default-browser handoff and unavailable-site behavior remain unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -9093,7 +9093,7 @@
         "schemka-model-ui/test/host-policy-app.test.js"
       ],
       "remaining": "Real Windows direct/proxy/auth-failure/offline acceptance remains unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -9129,7 +9129,7 @@
         "schemka-model-ui/test/host-policy-app.test.js"
       ],
       "remaining": "Native Windows Credential Manager flow remains unrun; do not add an app-managed password store.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -9167,7 +9167,7 @@
         "electron/test/host-policy.test.mjs"
       ],
       "remaining": "Installed Windows confirmation and system-browser handoff remain unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -9204,7 +9204,7 @@
         "schemka-model-core/test/automation.test.js"
       ],
       "remaining": "Installed package install/update/remove flow and model preservation remain unrun; no arbitrary JS/Node plugin loader is present or required by the inspected automation contract.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -9954,7 +9954,7 @@
         "electron/test/helpers/cli-entry-harness.mjs"
       ],
       "remaining": "Exact Windows executable stdout/exit codes and output-directory behavior remain unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -10149,7 +10149,7 @@
         "schemka-model-ui/test/automation-ui.test.js"
       ],
       "remaining": "Packaged read-query parity remains unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -10187,7 +10187,7 @@
         "schemka-model-ui/test/automation-app.test.js"
       ],
       "remaining": "Installed batch preview/apply/Undo and save/reopen acceptance remains unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
@@ -10225,7 +10225,7 @@
         "schemka-model-ui/test/automation-app.test.js"
       ],
       "remaining": "Installed Windows manual-run, cancellation and error-feedback acceptance remains unrun.",
-      "issue": 57,
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source and existing test routes reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; tests not rerun. Installed Windows acceptance remains unrun. See docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md.",
