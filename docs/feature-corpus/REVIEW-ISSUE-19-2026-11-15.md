@@ -28,4 +28,10 @@ user acceptance. All eight `program.json` records remain
 `acceptance-pending`, `closed_criteria` remains empty, and Windows acceptance
 remains `unrun`. Issue #19 and the parent corpus issue #9 stay open.
 
+The top-level `issues` map preserves the historical corpus issue mapping
+(`profiles: 53`); criterion-level `issue` fields point at current public tracker
+issue #19. `implementation_ledger` links to the report without row fragments,
+because criterion mappings are table rows rather than heading anchors.
+`validation.json` contains the updated `program.json` SHA-256.
+
 No application code, version, release, tag, workflow or permission was changed.

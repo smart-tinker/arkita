@@ -19,8 +19,8 @@
     "nesting": 50,
     "clipboard": 51,
     "output": 52,
-    "profiles": 19,
-    "interoperability": 20,
+    "profiles": 53,
+    "interoperability": 54,
     "templates": 55,
     "preferences": 56,
     "extensions": 57,
@@ -2679,7 +2679,7 @@
         "remaining": "Viewpoint CRUD/binding и projection сохраняют полную модель. Имеются ограниченные user-defined subsets; соответствие полному набору normative viewpoints не утверждается.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-089"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-090",
@@ -2710,7 +2710,7 @@
         "remaining": "Projection и checkScope ограничивают canvas/creation, palette и некоторые действия; полная cross-panel navigation/ghost/hidden feedback требует расширения.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-090"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-091",
@@ -2802,7 +2802,7 @@
         "remaining": "Plain-text документация element/junction реализована с guards; профильные applications существуют отдельно. Специализации Archi и текущие customization profiles не объявлены полной эквивалентностью.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-093"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-094",
@@ -2864,7 +2864,7 @@
         "remaining": "Реализованы типы current registry, source/targetMultiplicity и junctionRole; эти поля нельзя считать буквальным покрытием directed/access/strength Archi 3.2 без отдельного mapping.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-095"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-096",
@@ -4480,7 +4480,7 @@
         "remaining": "Manager уже создаёт и редактирует model-owned профили с purpose specialization, конкретными targets и числом применений по концептам. Типы и ID валидируются. Имена проверяются на непустоту, но отдельной политики одноимённых специализаций нет; уточнение области уникальности не должно вводить правило Archi автоматически.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-021"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-022",
@@ -4515,7 +4515,7 @@
         "remaining": "Инспектор выбирает только подходящие не назначенные профили; store повторно проверяет concrete target, типы значений и существование определения. Применение и снятие изменяют общий концепт, обновляют его использования, сериализуются и входят в Undo. Это существующий контракт Arkita 4; одно определение нельзя назначить дважды, но запрет нескольких разных специализаций из Archi не переносится.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-022"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-023",
@@ -4547,7 +4547,7 @@
         "remaining": "Уже есть безопасная политика: используемый профиль удалять нельзя; UI перечисляет concept ID и требует явно снять применения в инспекторе. Неиспользуемое определение удаляется после подтверждения через Undo-команду. Единого preview/пакета снятия всех применений вместе с удалением нет; существующий запрет не является ошибкой и не требует автоматического каскадного удаления.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-023"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-024",
@@ -4585,7 +4585,7 @@
         "remaining": "Профили содержат name/purpose/targets/attributes, но не изображение; применение меняет подпись специализации. В нативном формате и UI нет ресурса иконки, наследования изображений или индивидуального image override.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-024"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-025",
