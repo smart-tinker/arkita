@@ -21,7 +21,8 @@ The corpus cards and `coverage.json` preserve the historical baseline. Their old
 | `A-ADV-076` | The export dialog offers SVG, PNG, PDF, print, and HTML; native dialogs select output location. | Report output is HTML. PDF is a single-view diagram export; report PDF, RTF, Word, PowerPoint, and OpenDocument are absent. The issue has no recorded priority decision for these formats. |
 | `A-ADV-078` | `ru-RU` and `en-US` are supported for report labels, numbers, and dates; unsupported locales are rejected. | Missing-translation fallback has no separate demonstrated case. |
 | `A-EXT-015` | Read-only relationship analysis supports navigation/history, zoom, filters, orientation, orthogonal routes, and stable IDs. Tests check that analysis preserves model bytes/history. | Installed UI acceptance is not recorded. |
-| `A-EXT-022`, `023` | No general model-field/context expression for concept labels was found. Preferences for usage-label expressions are a different feature. | This is an actual feature gap; keep it on the `0.8.0-alpha.1` feature line, outside `0.7.1-rc.1`. |
+| `A-EXT-022` | Partial implementation exists in `visuals-ui.js`, `visual-drawings.js`, and `native-v4.js`: per-drawing `style.labelTemplate` is stored in native v4; `captionText()` resolves `${name}`, `${type}`, `${id}`, `${documentation}`, `${model.name}`, and repeated `${property:key}` values. Unknown placeholders remain literal. The renderer is used for semantic occurrences and relationships; `visual-drawings.test.js` covers substitutions and rendering. | No authoring preview or template diagnostics were found. The text field is not bound to type/relation-specific property choices or specialization profiles. Treat as partial, not absent; any completion belongs on the `0.8.0-alpha.1` feature line. |
+| `A-EXT-023` | No context resolver for view, parent, or relationship endpoints was found. Existing `model.name` lookup and folder child-label templates resolve only their direct record; they do not implement the requested stable-ID context references. | Context expressions and rules for missing/multiple targets, cycles, and inheritance remain a separate `0.8.0-alpha.1` feature gap, outside `0.7.1-rc.1`. |
 
 ## Minimal next plan
 
@@ -33,4 +34,4 @@ The corpus cards and `coverage.json` preserve the historical baseline. Their old
 
 ## Outcome
 
-Most of this group is not an implementation-absent gap. The main work is an accurate current ledger and bounded installed-Windows acceptance. Output-format scope needs a priority decision; label expressions are a separate feature gap. Issue #18 remains open, and this review does not change `0.7.1-rc.1` scope or status.
+Most of this group is not an implementation-absent gap. The main work is an accurate current ledger and bounded installed-Windows acceptance. Output-format scope needs a priority decision. A-EXT-022 is partially implemented; A-EXT-023 is a separate feature gap. Both remain outside `0.7.1-rc.1`. Issue #18 remains open, and this review does not change the RC scope or status.
