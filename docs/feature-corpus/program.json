@@ -6068,11 +6068,11 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#output",
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Exclusion runs before rendering and automated checks verify excluded text and source immutability; saved-byte coverage for an excluded image-bearing drawing or attachment is still missing.",
+      "remaining": "Draft PR #82 adds saved-byte coverage for an excluded image-bearing drawing: retained image data stays in the report, excluded image data is absent, and source bytes stay unchanged. The PR is unmerged and not independently reviewed; installed Windows acceptance remains unrun.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. Draft PR #82 head 28e5931a095ac20e2ed422f552f3086eb2208259 adds a saved-byte regression; focused suite 11/11 PASS and exact-head Actions run 43731796719 passed Ubuntu, Windows, CI gate, CodeQL, Analyze and Dependency Review. PR #82 remains unmerged and lacks independent review. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
