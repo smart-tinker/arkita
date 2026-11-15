@@ -71,3 +71,24 @@ test('detached catalog saves its bounds when the owner force-closes the child wi
   await new Promise(resolve => setImmediate(resolve));
   assert.deepEqual(saved, [{ bounds: { x: 220, y: 180, width: 420, height: 700 }, kind: 'catalog' }]);
 });
+
+test('detached catalog moves back into the remaining work area when its display is removed', async () => {
+  const record = owner(), displays = [
+    { workArea: { x: 0, y: 0, width: 1000, height: 800 } },
+    { workArea: { x: 1000, y: 0, width: 800, height: 800 } },
+  ];
+  const screen = new EventEmitter(); screen.getAllDisplays = () => displays;
+  let child;
+  class Window extends EventEmitter {
+    constructor(options) { super(); child = this; this.bounds = { x: options.x, y: options.y, width: options.width, height: options.height }; this.webContents = new EventEmitter(); this.webContents.mainFrame = { url: CATALOG_URL }; this.webContents.send = () => {}; this.webContents.setWindowOpenHandler = () => {}; }
+    async loadURL() {} isDestroyed() { return Boolean(this.dead); } getBounds() { return this.bounds; } getNormalBounds() { return this.bounds; } setBounds(value) { this.bounds = value; } show() {} focus() {}
+    destroy() { this.dead = true; this.emit('closed'); }
+  }
+  const service = createCatalogService({ BrowserWindow: Window, screen, root: '/app', session: {}, loadBounds: async () => ({ x: 1200, y: 40, width: 360, height: 650 }) });
+  await service.open(record, snapshot(record));
+  assert.equal(child.bounds.x, 1200, 'the saved window starts on the second display');
+
+  displays.splice(1, 1); screen.emit('display-removed');
+  assert.ok(child.bounds.x >= 0 && child.bounds.x + child.bounds.width <= 1000);
+  assert.ok(child.bounds.y >= 0 && child.bounds.y + child.bounds.height <= 800);
+});
