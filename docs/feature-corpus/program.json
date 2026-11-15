@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-15",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -7354,13 +7354,17 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/theme.js",
+        "schemka-model-ui/test/theme.test.js",
+        "schemka-model-ui/test/preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7373,7 +7377,7 @@
         "remaining": "Есть system/light/dark control, наблюдение prefers-color-scheme, нормализация/сохранение локального выбора и theme CSS для UI/холста. Смена темы не вызывает store-команд. Статус означает наличие реализации; визуальная Windows/DPI приёмка всех состояний здесь не проводилась.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-115",
@@ -7382,13 +7386,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/file-actions.js",
+        "schemka-model-ui/src/project-session.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/test/preferences-effects-app.test.js",
+        "schemka-model-ui/test/preferences-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7402,7 +7411,7 @@
         "remaining": "Dirty уже вычисляется сессией и отражается видимым текстом file-state в document bar. file-actions обновляет также маркер и aria-label file-button, однако эта кнопка hidden в текущем HTML. Метки на вкладке/в заголовке окна и выбора circle/asterisk нет; саму логику dirty повторно реализовывать не нужно.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-116",
@@ -7411,13 +7420,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/file-actions.js",
+        "schemka-model-ui/test/preferences-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7432,7 +7445,7 @@
         "remaining": "Строка состояния присутствует постоянно, файлы и ошибки также имеют собственные диалоги. Команды скрытия/показа status bar и сохранённой настройки видимости нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-117",
@@ -7458,13 +7471,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/theme.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/theme.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7480,7 +7498,7 @@
         "remaining": "Цвета, шрифты и типовые формы задаются закрытыми notation/CSS mappings и темой. Нет пользовательских цветовых/шрифтовых defaults, импортируемых схем, derived/explicit цветов границы или сохраняемого per-drawing оформления; occurrence schema содержит bounds/parentOccurrenceId/zIndex, не appearance.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-119",
@@ -7489,13 +7507,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/preferences-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7511,7 +7533,7 @@
         "remaining": "Цвета, шрифты и типовые формы задаются закрытыми notation/CSS mappings и темой. Нет пользовательских цветовых/шрифтовых defaults, импортируемых схем, derived/explicit цветов границы или сохраняемого per-drawing оформления; occurrence schema содержит bounds/parentOccurrenceId/zIndex, не appearance.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-120",
@@ -7520,13 +7542,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7542,7 +7567,7 @@
         "remaining": "Цвета, шрифты и типовые формы задаются закрытыми notation/CSS mappings и темой. Нет пользовательских цветовых/шрифтовых defaults, импортируемых схем, derived/explicit цветов границы или сохраняемого per-drawing оформления; occurrence schema содержит bounds/parentOccurrenceId/zIndex, не appearance.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-121",
@@ -7551,13 +7576,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7573,7 +7600,7 @@
         "remaining": "Цвета, шрифты и типовые формы задаются закрытыми notation/CSS mappings и темой. Нет пользовательских цветовых/шрифтовых defaults, импортируемых схем, derived/explicit цветов границы или сохраняемого per-drawing оформления; occurrence schema содержит bounds/parentOccurrenceId/zIndex, не appearance.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-122",
@@ -7582,13 +7609,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/element-captions.js",
+        "schemka-model-ui/test/preferences-app.test.js",
+        "schemka-model-ui/test/element-captions.test.js",
+        "schemka-model-ui/test/element-captions-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7604,7 +7637,7 @@
         "remaining": "Цвета, шрифты и типовые формы задаются закрытыми notation/CSS mappings и темой. Нет пользовательских цветовых/шрифтовых defaults, импортируемых схем, derived/explicit цветов границы или сохраняемого per-drawing оформления; occurrence schema содержит bounds/parentOccurrenceId/zIndex, не appearance.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-123",
@@ -8027,13 +8060,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/gesture-tools.js",
+        "schemka-model-ui/src/viewport.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/test/gesture-tools.test.js",
+        "schemka-model-ui/test/preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8047,7 +8085,7 @@
         "remaining": "Сетка нарисована фиксированным CSS узором, координаты округляются, камера умеет fit/reveal и отрицательные области. Пользовательской настройки шага/отступа и явного режима snap-to-grid нет; изменение существующей геометрии сеткой не выполняется.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-138",
@@ -8056,13 +8094,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/workspace-ui.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/workspace-ui.test.js",
+        "schemka-model-ui/test/palette-window.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8076,7 +8118,7 @@
         "remaining": "Палитра имеет фиксированную панель и раскрываемые группы, поиск типов восстанавливает состояние групп. Настройки «автоматически открывать палитру при входе в view» и отдельной политики её видимости нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-139",
@@ -8085,13 +8127,16 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/notation-palette-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8104,7 +8149,7 @@
         "remaining": "На SVG/кнопках есть native title, доступные имена и инспектор с полными данными. Пользовательского включения/выключения diagram tooltips нет; основная информация уже доступна без hover.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-140",
@@ -8113,13 +8158,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/typed-actions.js",
+        "schemka-model-ui/src/inline-editor.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/unused-tree-app.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8133,7 +8183,7 @@
         "remaining": "Создание элемента открывает форму и просит имя до команды; существующий inline rename вызывается отдельно. Настраиваемого автоматического входа в rename после создания и соответствующей политики Escape нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-141",
@@ -8142,13 +8192,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/palette-actions.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/preferences-app.test.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js",
+        "schemka-model-ui/test/notation-palette-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8163,7 +8219,7 @@
         "remaining": "Палитра/контекстное создание перечисляют базовые CURRENT_CATALOG types. Применённые профили видны в инспекторе и подписи, но specialization entries/icons для создания в палитре/дереве и настройка их показа отсутствуют.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-142",
@@ -8172,13 +8228,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/editing-tools.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/editing-tools-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8193,7 +8252,7 @@
         "remaining": "Есть контекстное меню создания и клавиатурные команды, но нет Alt-click Quick Add popup, его включения или связанной настройки сочетаний. Наличие обычного context menu не считается этой возможностью.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-143",
@@ -8202,13 +8261,19 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/viewpoint-ui.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/viewpoint-ui.test.js",
+        "schemka-model-ui/test/notation-viewpoints-app.test.js",
+        "schemka-model-ui/test/notation-palette-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8224,7 +8289,7 @@
         "remaining": "Canvas projection, palette visibility, disabled reuse в дереве и создание связей используют текущие viewpoint правила. Нет пользовательского согласованного выбора hidden/disabled/ghost presentation для всех поверхностей; диагностические UNKNOWN не заменяют запрет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-144",
@@ -8233,13 +8298,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/workbench.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8253,7 +8321,7 @@
         "remaining": "Ctrl+V explicitly reuses concepts; Ctrl+Shift+V explicitly clones same-model fragments. User-configurable default absent.",
         "verification": "reviewed shipped post-baseline implementation and corresponding merged feature tests; no Windows acceptance claim"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-145",
@@ -8262,13 +8330,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/resize-preferences.js",
+        "schemka-model-ui/src/editing-tools.js",
+        "schemka-model-ui/test/resize-preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8282,7 +8353,7 @@
         "remaining": "Поддерживается resize одного occurrence; вложенные parent/child drawings запрещены схемой. Поэтому стратегии перемещения детей при resize родителя и её настройки нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-146",
@@ -8291,13 +8362,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/element-captions.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/element-captions.test.js",
+        "schemka-model-ui/test/element-captions-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8311,7 +8386,7 @@
         "remaining": "SVG export reuses actual fitted captions and renderer; configurable wrap/crop preferences and Windows font/DPI acceptance remain.",
         "verification": "reviewed shipped post-baseline implementation and corresponding merged feature tests; no Windows acceptance claim"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-147",
@@ -8320,13 +8395,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/preferences-app.test.js",
+        "schemka-model-ui/test/resize-preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8341,7 +8421,7 @@
         "remaining": "У новых фигур есть кодовые размеры и фиксированные правила caption/layout. Настройки стартовой ширины/высоты/выравнивания/градиента отсутствуют; нативная схема не хранит пользовательское appearance.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-148",
@@ -8350,13 +8430,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/node-shapes.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/preferences-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8370,7 +8455,7 @@
         "remaining": "Для каждого типа работает закрытое соответствие форме нотации Arkita 4. Session stored-geometry переключает маршруты, не фигуры. Выбора альтернативной фигуры и сохраняемого figure variant нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-149",
@@ -8379,13 +8464,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/visuals-ui.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/visuals-ui.test.js",
+        "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8398,7 +8489,7 @@
         "remaining": "В Help есть статическая легенда нотации, с теми же mapping что у палитры. Объекта легенды в модели и настроек его сортировки/колонок/подписей/цветов нет; справочная таблица не считается вставляемой легендой.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-150",
@@ -8500,13 +8591,16 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/unused-tree-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8518,7 +8612,7 @@
         "remaining": "Инспектор выбранного концепта считает использования во всей модели. Дерево показывает только количество occurrence в текущем проецируемом view; отдельного глобального unused-маркера, не зависящего от viewpoint, нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-154",
@@ -8527,13 +8621,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/model-search.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/model-search.test.js",
+        "schemka-model-ui/test/model-search-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8546,7 +8644,7 @@
         "remaining": "Есть живой поиск типов в палитре с восстановлением раскрытия групп. Поиска объектов модели и пользовательской настройки его запуска «при вводе/Enter» нет; эти два вида поиска не следует смешивать.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-155",
@@ -8555,13 +8653,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/test/group-selection-app.test.js",
+        "schemka-model-ui/test/browser.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8574,7 +8676,7 @@
         "remaining": "deleteImpact/drawingDeletionImpact и подтверждение уже различают удаление рисунка и общего концепта, показывают затронутые виды/связи и атомарно удаляют зависимую цепочку. Нет настройки частоты предупреждения. Проверку ссылочной целостности и существующий preview сохранять.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-156",
@@ -8583,13 +8685,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/model-search.js",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/model-search.test.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8602,7 +8708,7 @@
         "remaining": "Порядок сериализации канонизируется по ID, views/рисунки также стабилизируются по ID/zIndex. Пользовательской сортировки имён с числовыми фрагментами и объявленных правил natural comparison нет; стабильный ID порядок не считается natural sort.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-157",
@@ -8611,13 +8717,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8630,7 +8738,7 @@
         "remaining": "renderCatalog строит строки полного набора элементов/отношений и всех видов; фиксированные details-группы лишь раскрываются/скрываются. Windowing, загрузки порциями и поиска по всему набору независимо от видимых строк нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-158",
@@ -8639,13 +8747,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/src/where-used-ui.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/where-used-ui.test.js",
+        "schemka-model-ui/test/where-used-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8661,7 +8774,7 @@
         "remaining": "Нет списка uses с отдельными подписями/выражениями и пользовательской иерархии папок. Инспектор сообщает суммарные counts; parent path и label-expression для результатов анализа отсутствуют.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-159",
@@ -8670,13 +8783,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/catalog-folders.js",
+        "schemka-model-ui/test/catalog-folders.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8689,7 +8804,7 @@
         "remaining": "Есть ограниченная смена And/Or junction с валидацией; общей смены типа элемента/отношения с перестройкой зависимостей, preview и заметкой в документации нет. Автоматическое понижение отношений до Association не выполняется и не должно добавляться по аналогии с Archi 3.2.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-160",
@@ -8806,13 +8921,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-motion.js",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/preferences-motion.test.js",
+        "schemka-model-ui/test/preferences-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8826,7 +8945,7 @@
         "remaining": "Undo/Redo и смена геометрии вызывают непосредственный render. Управляемой модельной анимации маршрутов/Undo со скоростью, отменой и пользовательским отключением нет; CSS состояния элементов UI — другая область.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-165",
@@ -8835,13 +8954,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-motion.js",
+        "schemka-model-ui/src/model-analysis-ui.js",
+        "schemka-model-ui/test/preferences-motion.test.js",
+        "schemka-model-ui/test/model-analysis-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8857,7 +8980,7 @@
         "remaining": "Visualiser отсутствует, вместе с ним отсутствует и анимация появления/повторной раскладки временного графа. Анимации обычного UI не покрывают этот пункт.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-166",
@@ -8896,13 +9019,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/src/workbench.js",
+        "schemka-model-ui/test/preferences.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8916,7 +9042,7 @@
         "remaining": "Реальные фиксированные shortcuts, подсказки и guard текстового ввода уже есть. Менеджера команд/контекстов с пользовательским назначением, проверкой конфликтов и сохранением настроек нет; существующие сочетания не требуется заново создавать.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-ADV-168",
@@ -9077,13 +9203,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/viewport.js",
+        "schemka-model-ui/src/preferences-ui.js",
+        "schemka-model-ui/test/zoom-fit-app.test.js",
+        "schemka-model-ui/test/gesture-tools.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9095,7 +9225,7 @@
         "remaining": "Уже исправленная камера выполняет монотонный ограниченный Ctrl/Cmd-wheel zoom под указателем через inverseScreenPoint, wheel pan и Space/middle-button pan с отменой pointer/blur/Escape. Специального pinch handler нет; фактическая поддержка trackpad gestures и Windows DPI остаётся приёмкой. Повторно реализовывать основу zoom не нужно.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-EXT-002",
@@ -9315,13 +9445,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/src/preferences.js",
+        "schemka-model-ui/test/preferences.test.js",
+        "schemka-model-ui/test/preferences-effects-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9335,7 +9469,7 @@
         "remaining": "Уже есть cache проекции по revision/view ID, cache junction diagnostics по ревизии и стабильная ID/zIndex отрисовка; сериализация канонизирует файловый набор, Git сравнивает records без косметического порядка. Нет подтверждённых измерений времени/памяти малых/средних/больших моделей и полного cache-performance контракта.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-EXT-010",
@@ -9888,13 +10022,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "electron/team-profile.mjs",
+        "schemka-model-io/src/team-profile.js",
+        "electron/test/team-profile.test.mjs",
+        "schemka-model-ui/test/team-profile-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9908,7 +10046,7 @@
         "remaining": "Windows portable target уже настроен, локальные UI preferences существуют. Нет импортируемого командного профиля палитр/шаблонов/предпочтений с порядком приоритетов. Запуск нескольких portable версий на чистом Windows профиле здесь не проверялся.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-EXT-029",
@@ -9917,13 +10055,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+        "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md",
+        "schemka-model-ui/src/theme.js",
+        "schemka-model-ui/style.css",
+        "schemka-model-ui/src/element-captions.js",
+        "schemka-model-ui/test/theme.test.js",
+        "schemka-model-ui/test/element-captions.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
       "issue": 56,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9937,7 +10080,7 @@
         "remaining": "Default shape/symbol/text legend and static SVG are shipped. Grayscale/user color mode plus empirical readability remain.",
         "verification": "reviewed shipped post-baseline implementation and corresponding merged feature tests; no Windows acceptance claim"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#preferences"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
     },
     {
       "id": "A-EXT-030",
