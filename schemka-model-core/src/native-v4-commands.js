@@ -1,5 +1,6 @@
 import { canonicalJSON, fail, record } from './json.js';
 import { conceptRecord, drawingRecord, newId, projectIndex, visualEndpointRecord } from './format.js';
+import { profileAppliesTo } from './customization.js';
 
 export function assetUsages(state, assetId) {
   const usages = [];
@@ -85,8 +86,14 @@ export function applyV4Command(state, command, result) {
     case 'createElementInModel':
     case 'createJunctionInModel': {
       const kind = command.type === 'createElementInModel' ? 'element' : 'junction';
-      shape([`${kind}Type`, 'name'], ['documentation', 'properties', 'folderId']);
+      shape([`${kind}Type`, 'name'], ['documentation', 'properties', 'folderId', 'profileId']);
       const item = { id: newId(kind === 'element' ? 'el' : 'jct'), type: command[`${kind}Type`], ...metadata() };
+      if (Object.hasOwn(command, 'profileId')) {
+        const profile = state.customizationProfiles?.find(item => item.id === command.profileId);
+        if (!profile) fail('REFERENCE', 'Customization profile does not exist');
+        if (profile.purpose !== 'specialization' || !profileAppliesTo(profile, kind, item.type)) fail('TYPE', 'Customization profile does not target this concept type');
+        item.profileApplications = [{ profileId: command.profileId, values: {} }];
+      }
       state[kind === 'element' ? 'elements' : 'junctions'].push(item);
       if (command.folderId != null) find(state.folders, command.folderId).members.push({ kind, id: item.id });
       result.created[`${kind}Id`] = item.id; break;
