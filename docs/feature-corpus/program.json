@@ -2085,7 +2085,7 @@
         "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-и-независимая-копия-фрагмента"
       ],
       "remaining": "Implemented at the current public source snapshot; exact-main CI passes. Native Windows acceptance of selection, menu/keyboard copy, and a representative local paste remains UNRUN. Keep acceptance-pending; do not reimplement.",
-      "issue": 51,
+      "issue": 17,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
@@ -2120,7 +2120,7 @@
         "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-и-независимая-копия-фрагмента"
       ],
       "remaining": "Reuse implementation and core/UI regressions are present at the current public source snapshot; exact-main CI passes. Native Windows acceptance of reuse, IDs, placement, and save/reopen remains UNRUN. Keep acceptance-pending; do not reimplement.",
-      "issue": 51,
+      "issue": 17,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
@@ -2155,7 +2155,7 @@
         "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-и-независимая-копия-фрагмента"
       ],
       "remaining": "Clone implementation and core/UI regressions are present at the current public source snapshot; exact-main CI passes. Native Windows acceptance of remapped IDs, shared repeated concepts, and save/reopen remains UNRUN. Keep acceptance-pending; do not reimplement.",
-      "issue": 51,
+      "issue": 17,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
@@ -2191,7 +2191,7 @@
         "electron/test/clipboard-print.test.mjs"
       ],
       "remaining": "Cross-model capture, validation, preview, remapping, and failure-atomicity code/tests are present at the current public source snapshot; exact-main CI passes. Real Windows system-clipboard transfer between two model windows, preview/cancel, and reopen remain UNRUN. Keep acceptance-pending; do not reimplement.",
-      "issue": 51,
+      "issue": 17,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
@@ -2228,7 +2228,7 @@
         "electron/test/clipboard-print.test.mjs"
       ],
       "remaining": "Same-window atomic move and cross-window acknowledgement/recovery code/tests are present at the current public source snapshot; exact-main CI passes. Real Windows cut/paste across two open models, failure preservation, and Undo in both windows remain UNRUN. Keep acceptance-pending; do not reimplement.",
-      "issue": 51,
+      "issue": 17,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
@@ -2262,7 +2262,7 @@
         "electron/test/clipboard-print.test.mjs"
       ],
       "remaining": "View snapshot/rasterization, native clipboard write, stale-result guard, and regression code are present at the current public source snapshot; exact-main CI passes. Paste into a real Windows application and verify Unicode, transparency, and scaling remains UNRUN. Keep acceptance-pending; do not reimplement.",
-      "issue": 51,
+      "issue": 17,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
