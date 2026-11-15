@@ -97,6 +97,6 @@ test(`${mode} selected Canvas instructions render safely in the keyboard-accessi
   const instruction = h.$('context-hints-instruction');
   assert.equal(instruction.hidden, false); assert.equal(instruction.getAttribute('aria-live'), 'polite');
   assert.match(instruction.textContent, /Fill this card/); assert.ok(instruction.querySelector('strong'));
-  assert.equal(instruction.querySelector('script'), null); assert.match(instruction.textContent, /<script>/);
+  assert.equal(instruction.querySelector('script'), null); assert.ok(instruction.textContent.includes('<script>'));
   assert.deepEqual(history(h), historyBefore); assert.ok(Buffer.from(await h.download()).equals(Buffer.from(before)));
 });
