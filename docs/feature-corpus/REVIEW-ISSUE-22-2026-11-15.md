@@ -1,7 +1,7 @@
 # Issue #22: editor preferences and navigation source review
 
-Date: 2026-11-15  
-Public repository: `smart-tinker/arkita`  
+Date: 2026-11-15
+Public repository: `smart-tinker/arkita`
 Reviewed source: `main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`
 
 ## Result
@@ -30,6 +30,9 @@ of issue #22.
 Issue #22 remains open. All 35 records stay `acceptance-pending`,
 `closed_criteria` stays empty, and Windows acceptance stays `unrun`. No source
 code or tests were changed or rerun in this review.
+
+The top-level `issues.preferences` value remains `56` as the historical corpus
+group mapping; these 35 criterion records point to public issue `#22`.
 
 ## Criterion map
 

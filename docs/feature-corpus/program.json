@@ -7361,7 +7361,7 @@
         "schemka-model-ui/test/preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7394,7 +7394,7 @@
         "schemka-model-ui/test/preferences-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7427,7 +7427,7 @@
         "schemka-model-ui/test/preferences-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7479,7 +7479,7 @@
         "schemka-model-ui/test/theme.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7514,7 +7514,7 @@
         "schemka-model-ui/test/preferences-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7548,7 +7548,7 @@
         "schemka-model-ui/test/preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7581,7 +7581,7 @@
         "schemka-model-ui/test/preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -7618,7 +7618,7 @@
         "schemka-model-ui/test/element-captions-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8068,7 +8068,7 @@
         "schemka-model-ui/test/preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8101,7 +8101,7 @@
         "schemka-model-ui/test/palette-window.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8133,7 +8133,7 @@
         "schemka-model-ui/test/notation-palette-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8166,7 +8166,7 @@
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8201,7 +8201,7 @@
         "schemka-model-ui/test/notation-palette-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8234,7 +8234,7 @@
         "schemka-model-ui/test/editing-tools-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8270,7 +8270,7 @@
         "schemka-model-ui/test/notation-palette-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8304,7 +8304,7 @@
         "schemka-model-ui/test/preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8336,7 +8336,7 @@
         "schemka-model-ui/test/resize-preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8369,7 +8369,7 @@
         "schemka-model-ui/test/element-captions-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8403,7 +8403,7 @@
         "schemka-model-ui/test/resize-preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8438,7 +8438,7 @@
         "schemka-model-ui/test/preferences-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8473,7 +8473,7 @@
         "schemka-model-ui/test/visual-drawings.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8597,7 +8597,7 @@
         "schemka-model-ui/test/unused-tree-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8628,7 +8628,7 @@
         "schemka-model-ui/test/model-search-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8660,7 +8660,7 @@
         "schemka-model-ui/test/browser.mjs"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8692,7 +8692,7 @@
         "schemka-model-ui/test/catalog-folders.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8722,7 +8722,7 @@
         "schemka-model-ui/test/catalog-folders.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8755,7 +8755,7 @@
         "schemka-model-ui/test/where-used-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8788,7 +8788,7 @@
         "schemka-model-ui/test/catalog-folders.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8928,7 +8928,7 @@
         "schemka-model-ui/test/preferences-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -8961,7 +8961,7 @@
         "schemka-model-ui/test/model-analysis-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -9025,7 +9025,7 @@
         "schemka-model-ui/test/preferences.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -9210,7 +9210,7 @@
         "schemka-model-ui/test/gesture-tools.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -9452,7 +9452,7 @@
         "schemka-model-ui/test/preferences-effects-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -10029,7 +10029,7 @@
         "schemka-model-ui/test/team-profile-app.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
@@ -10063,7 +10063,7 @@
         "schemka-model-ui/test/element-captions.test.js"
       ],
       "remaining": "Current source/test routes and criterion-specific limits are in docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md. The relevant installed Windows acceptance is unrun; keep acceptance-pending until exact-version evidence is recorded.",
-      "issue": 56,
+      "issue": 22,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inventory only; no tests were rerun and installed Windows acceptance remains unrun. See the criterion map.",
