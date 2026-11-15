@@ -2076,22 +2076,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/FRAGMENT-COPY.md",
+        "schemka-model-core/src/fragment.js",
+        "schemka-model-ui/src/fragment-clipboard.js",
+        "schemka-model-core/test/fragment.test.js",
+        "schemka-model-ui/test/fragment-clipboard.test.js",
+        "schemka-model-ui/test/fragment-clipboard-app.test.js",
+        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-and-clone-fragment"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Implemented at the current public source snapshot; exact-main CI passes. Native Windows acceptance of selection, menu/keyboard copy, and a representative local paste remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
-      "implementation_prs": [
-        29,
-        30,
-        33,
-        34,
-        35,
-        36,
-        37
-      ],
+      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
+      "implementation_prs": [],
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2113,22 +2111,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/FRAGMENT-COPY.md",
+        "schemka-model-core/src/fragment.js",
+        "schemka-model-ui/src/fragment-clipboard.js",
+        "schemka-model-core/test/fragment.test.js",
+        "schemka-model-ui/test/fragment-clipboard.test.js",
+        "schemka-model-ui/test/fragment-clipboard-app.test.js",
+        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-and-clone-fragment"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Reuse implementation and core/UI regressions are present at the current public source snapshot; exact-main CI passes. Native Windows acceptance of reuse, IDs, placement, and save/reopen remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
-      "implementation_prs": [
-        29,
-        30,
-        33,
-        34,
-        35,
-        36,
-        37
-      ],
+      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
+      "implementation_prs": [],
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2150,22 +2146,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/FRAGMENT-COPY.md",
+        "schemka-model-core/src/fragment.js",
+        "schemka-model-ui/src/fragment-clipboard.js",
+        "schemka-model-core/test/fragment.test.js",
+        "schemka-model-ui/test/fragment-clipboard.test.js",
+        "schemka-model-ui/test/fragment-clipboard-app.test.js",
+        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-and-clone-fragment"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Clone implementation and core/UI regressions are present at the current public source snapshot; exact-main CI passes. Native Windows acceptance of remapped IDs, shared repeated concepts, and save/reopen remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
-      "implementation_prs": [
-        29,
-        30,
-        33,
-        34,
-        35,
-        36,
-        37
-      ],
+      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
+      "implementation_prs": [],
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2187,13 +2181,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/FRAGMENT-COPY.md",
+        "schemka-model-core/src/portable-fragment.js",
+        "schemka-model-io/src/fragment-file.js",
+        "schemka-model-ui/src/fragment-clipboard.js",
+        "electron/clipboard-service.mjs",
+        "schemka-model-core/test/portable-fragment.test.js",
+        "schemka-model-ui/test/fragment-clipboard.test.js",
+        "electron/test/clipboard-print.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Cross-model capture, validation, preview, remapping, and failure-atomicity code/tests are present at the current public source snapshot; exact-main CI passes. Real Windows system-clipboard transfer between two model windows, preview/cancel, and reopen remain UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2206,7 +2207,8 @@
         "remaining": "Нет clipboard-fragment commands и copy/cut/paste графа. addOccurrence и duplicateView являются отдельными существующими основаниями для будущей реализации.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard",
+      "implementation_prs": []
     },
     {
       "id": "A-EDITOR-074",
@@ -2215,13 +2217,21 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/FRAGMENT-COPY.md",
+        "schemka-model-core/src/fragment.js",
+        "schemka-model-core/src/portable-fragment.js",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/src/fragment-clipboard.js",
+        "electron/clipboard-service.mjs",
+        "schemka-model-core/test/portable-fragment.test.js",
+        "schemka-model-ui/test/fragment-clipboard.test.js",
+        "electron/test/clipboard-print.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Same-window atomic move and cross-window acknowledgement/recovery code/tests are present at the current public source snapshot; exact-main CI passes. Real Windows cut/paste across two open models, failure preservation, and Undo in both windows remain UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2234,7 +2244,8 @@
         "remaining": "Нет clipboard-fragment commands и copy/cut/paste графа. addOccurrence и duplicateView являются отдельными существующими основаниями для будущей реализации.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard",
+      "implementation_prs": []
     },
     {
       "id": "A-EDITOR-075",
@@ -2243,13 +2254,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/FRAGMENT-COPY.md",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/src/fragment-clipboard.js",
+        "electron/clipboard-service.mjs",
+        "schemka-model-ui/test/fragment-clipboard.test.js",
+        "electron/test/clipboard-print.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "View snapshot/rasterization, native clipboard write, stale-result guard, and regression code are present at the current public source snapshot; exact-main CI passes. Paste into a real Windows application and verify Unicode, transparency, and scaling remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2261,7 +2277,8 @@
         "remaining": "Доступны native project save и текстовый Mermaid export/copy. Ни raster/SVG/PDF export, ни изображение в системный clipboard не реализованы в Arkita file actions.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard",
+      "implementation_prs": []
     },
     {
       "id": "A-EDITOR-076",
