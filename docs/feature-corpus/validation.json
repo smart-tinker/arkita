@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "21eeca0184a2ba28cb126ceba49b22cf72c3961446bc3c5547421a9f8a02440f"
+    "docs/feature-corpus/program.json": "d712f43ccf79f9fcc8c5318f45cbe514139145cffe696edc9d32913052800d60"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -54,7 +54,16 @@
     },
     "windows_gui_acceptance": "NOT RUN",
     "queue_status": "All issues #23-27 merged in PRs #33-37; no new issues added to this acceptance set.",
-    "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
+    "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt.",
+    "issue_22_source_review": {
+      "updated_at": "2026-11-15",
+      "issue": 22,
+      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
+      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43646531019",
+      "result": "Current source and regression routes mapped for all 35 criteria. All remain acceptance-pending; no criteria closed and Windows acceptance unrun. Source/test review only; no tests rerun.",
+      "report": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
+    }
   },
   "program_update": {
     "updated_at": "2026-11-13",
