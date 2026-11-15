@@ -55,7 +55,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   replacement.append(node('p', 'Каждый общий объект переименовывается один раз, включая повторные изображения. При замене изменятся имена в других представлениях. Включение отношений и папок задаётся фильтром категорий.'));
   replacement.append(button('advanced-replace-all', 'Предпросмотр замены всех найденных имён', () => replace(false)), button('advanced-replace-selected', 'Предпросмотр замены выбранных имён', () => replace(true)));
 
-  const properties = node('details'); properties.append(node('summary', 'Менеджер пользовательских свойств'));
+  const properties = node('details', undefined, 'advanced-search-properties'); properties.append(node('summary', 'Менеджер пользовательских свойств'));
   const propertyScope = select(properties, 'property-scope', 'Изменяемые объекты', [['results', 'Все результаты поиска'], ['checked', 'Выбранные результаты'], ['selection', 'Выделение на полотне'], ['catalog', 'Зафиксированное выделение дерева']]);
   const common = node('div', undefined, 'advanced-property-common'); properties.append(common);
   const key = input(properties, 'property-key', 'Имя свойства'), value = input(properties, 'property-value', 'Значение');
@@ -81,7 +81,8 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   const close = button('advanced-search-close', 'Закрыть', () => dialog.close());
   dialog.append(heading, form, message, error, navigation, results, replacement, properties, preview, apply, discard, close); document.body.append(dialog);
   const opener = button('model-search-advanced', 'Поиск и замена…', () => open()); opener.hidden = true; document.body.append(opener);
-  let catalogOwners = null;
+  const propertiesOpener = button('user-properties-manager', 'Управление пользовательскими свойствами…', () => open({ propertiesOnly: true })); propertiesOpener.hidden = true; document.body.append(propertiesOpener);
+  let catalogOwners = null, advancedPropertyDraft = null;
   let generation = 0, source = null, found = [], chosen = new Set(), active = -1, plan = null, trigger = null, orderIndices = [], selection = null;
   const selected = id => [...controls[id].selectedOptions].map(option => option.value);
   const stamp = () => ({ store: model.store, revision: model.store.revision, viewId: model.viewId });
@@ -150,6 +151,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   }
   function targets() {
     const all = modelSearchRecords(model.store.snapshot);
+    if (dialog.dataset.mode === 'properties') return all;
     if (propertyScope.value === 'catalog') { const keys = new Set((catalogOwners || []).map(ownerKey)); return all.filter(row => keys.has(ownerKey(row.owner))); }
     if (propertyScope.value === 'selection') {
       const view = model.view, owners = (model.selections?.length ? model.selections : [model.selection]).filter(Boolean).map(ref => ref.kind === 'occurrence' ? view?.occurrences.find(item => item.id === ref.id)?.concept : ref.kind === 'connection' ? { kind: 'relationship', id: view?.connections.find(item => item.id === ref.id)?.relationshipId } : ['visualNode', 'visualConnector'].includes(ref.kind) ? { ...ref, viewId: model.viewId } : ref).filter(Boolean);
@@ -161,7 +163,11 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   function drawCommon() {
     selection = selectionKey();
     const records = targets(); common.replaceChildren(node('p', `Область изменений: ${records.length} объектов. Только эта область будет изменена.`));
-    for (const item of commonProperties(records)) common.append(node('p', `${item.key || '⟨пустое имя⟩'}: ${item.common ? 'общее имя' : 'есть не у всех'}; ${item.mixed ? 'значения различаются' : item.values.map(value => JSON.stringify(value)).join(', ')} · объектов ${item.owners}, записей ${item.count}`));
+    const entries = commonProperties(records);
+    if (!entries.length) common.append(node('p', 'Пользовательских свойств пока нет.'));
+    for (const [index, item] of entries.entries()) common.append(button(`advanced-property-key-${index}`, `${item.key || '⟨пустое имя⟩'}: ${item.common ? 'есть у всех' : 'есть не у всех'}; ${item.mixed ? 'значения различаются' : item.values.map(value => JSON.stringify(value)).join(', ')} · владельцев ${item.owners}, записей ${item.count}`, () => {
+      invalidate(); key.value = item.key; controls['property-new-key'].value = ''; vocabulary(); key.focus();
+    }));
     up.disabled = down.disabled = sort.disabled = records.length !== 1; order.disabled = records.length !== 1; order.replaceChildren();
     const rows = records.length === 1 ? propertyEntries(records[0].item.properties) : []; orderIndices = rows.map((_, index) => index);
     for (const [index, row] of rows.entries()) { const option = node('option', `${index + 1}. ${row.key} = ${row.value}`); option.value = String(index); order.append(option); }
@@ -208,23 +214,41 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     if (!pending?.changes.length || pending.collisions.length) return;
     if (!current(pending.captured)) { invalidate(); error.textContent = 'Модель изменилась после предпросмотра. Подготовьте изменения заново.'; return; }
     invalidate();
-    try { model.execute({ type: 'bulkUpdateMetadata', changes: pending.changes }, pending.captured.revision); render(); report('Изменения применены. Одно Undo вернёт их полностью.'); vocabulary(); search(); }
+    try {
+      model.execute({ type: 'bulkUpdateMetadata', changes: pending.changes }, pending.captured.revision); render(); report('Изменения применены. Одно Undo вернёт их полностью.'); vocabulary();
+      if (dialog.dataset.mode === 'properties') { close.textContent = 'Закрыть'; source = stamp(); drawCommon(); }
+      else search();
+    }
     catch (failure) { error.textContent = `Изменения не применены: ${failure.message}`; }
   }
-  function open({ owners } = {}) {
+  function open({ owners, propertiesOnly = false } = {}) {
     if (blocked()) return false;
+    dialog.dataset.mode = propertiesOnly ? 'properties' : 'search';
+    heading.textContent = propertiesOnly ? 'Управление пользовательскими свойствами' : 'Поиск, замена и свойства';
+    form.hidden = navigation.hidden = results.hidden = replacement.hidden = propertiesOnly;
+    properties.open = propertiesOnly;
+    propertyScope.closest('label').hidden = propertiesOnly;
+    controls['property-collision'].closest('label').hidden = propertiesOnly;
+    close.textContent = propertiesOnly ? 'Отмена' : 'Закрыть';
     if (owners !== undefined) {
       if (!Array.isArray(owners) || !owners.length || owners.length > 8192) throw Error('Выберите от 1 до 8192 владельцев метаданных.');
       const known = new Map(modelSearchRecords(model.store.snapshot).map(row => [ownerKey(row.owner), row.owner]));
       catalogOwners = [...new Map(owners.map(owner => { const found = known.get(ownerKey(owner)); if (!found) throw Error('Выделение дерева устарело.'); return [ownerKey(found), { ...found }]; })).values()];
-    } else catalogOwners = null;
+    } else if (!propertiesOnly) catalogOwners = null;
+    if (propertiesOnly) {
+      advancedPropertyDraft = { key: key.value, value: value.value, scope: propertyScope.value, newKey: controls['property-new-key'].value, collision: controls['property-collision'].value };
+      key.value = ''; value.value = ''; controls['property-new-key'].value = ''; controls['property-collision'].value = '';
+    }
     const catalogOption = [...propertyScope.options].find(option => option.value === 'catalog'); catalogOption.disabled = !catalogOwners;
     catalogOption.textContent = catalogOwners ? `Зафиксированное выделение дерева (${catalogOwners.length})` : 'Зафиксированное выделение дерева';
-    propertyScope.value = catalogOwners ? 'catalog' : 'results';
+    if (catalogOwners) propertyScope.value = 'catalog';
+    else if (propertiesOnly || propertyScope.value === 'catalog') propertyScope.value = 'results';
     trigger = document.activeElement;
     if (source?.store !== model.store) { query.value = ''; chosen.clear(); found = []; draftEntries = []; renderDraft(); }
-    vocabulary(); openDialog ? openDialog(dialog.id) : dialog.showModal(); query.focus();
-    if (catalogOwners) { invalidate(); source = stamp(); const keys = new Set(catalogOwners.map(ownerKey)); found = modelSearchRecords(model.store.snapshot).filter(row => keys.has(ownerKey(row.owner))); chosen = keys; drawResults(); report(`Зафиксировано владельцев метаданных из дерева: ${catalogOwners.length}. Поиск ограничен этим набором до закрытия диалога.`); } else search(); return true;
+    vocabulary(); openDialog ? openDialog(dialog.id) : dialog.showModal(); (propertiesOnly ? key : query).focus();
+    if (propertiesOnly) { invalidate(); source = stamp(); drawCommon(); report('Показаны пользовательские свойства всей модели.'); }
+    else if (catalogOwners) { invalidate(); source = stamp(); const keys = new Set(catalogOwners.map(ownerKey)); found = modelSearchRecords(model.store.snapshot).filter(row => keys.has(ownerKey(row.owner))); chosen = keys; drawResults(); report(`Зафиксировано владельцев метаданных из дерева: ${catalogOwners.length}. Поиск ограничен этим набором до закрытия диалога.`); }
+    else search(); return true;
   }
   form.addEventListener('submit', event => { event.preventDefault(); search(); });
   for (const kind of ['input', 'change']) dialog.addEventListener(kind, event => {
@@ -232,8 +256,17 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     invalidate(); if (form.contains(event.target)) { source = null; report('Параметры изменены. Нажмите «Найти / обновить».'); } if (event.target === key) vocabulary(); if (event.target === propertyScope) drawCommon();
   });
   dialog.addEventListener('cancel', event => { event.preventDefault(); dialog.close(); });
-  dialog.addEventListener('close', () => { invalidate(); if (!document.querySelector('dialog[open]') && trigger?.isConnected) trigger.focus(); });
+  dialog.addEventListener('close', () => {
+    invalidate();
+    if (dialog.dataset.mode === 'properties' && advancedPropertyDraft) {
+      key.value = advancedPropertyDraft.key; value.value = advancedPropertyDraft.value;
+      propertyScope.value = advancedPropertyDraft.scope;
+      controls['property-new-key'].value = advancedPropertyDraft.newKey; controls['property-collision'].value = advancedPropertyDraft.collision;
+      advancedPropertyDraft = null;
+    }
+    if (!document.querySelector('dialog[open]') && trigger?.isConnected) trigger.focus();
+  });
   invalidate();
   return { open, cancel() { if (dialog.open) dialog.close(); else invalidate(); }, get active() { return dialog.open; }, get generation() { return generation; },
-    refresh() { if (dialog.open && source && current(source) && propertyScope.value === 'selection' && selection !== selectionKey()) { invalidate(); drawCommon(); } if (dialog.open && source && !current(source)) { invalidate(); vocabulary(); found = []; drawResults(); source = null; report('Модель изменилась. Нажмите «Найти / обновить».'); } } };
+    refresh() { if (dialog.open && source && current(source) && propertyScope.value === 'selection' && selection !== selectionKey()) { invalidate(); drawCommon(); } if (dialog.open && source && !current(source)) { invalidate(); vocabulary(); found = []; if (dialog.dataset.mode === 'properties') { source = stamp(); drawCommon(); report('Модель изменилась. Список свойств обновлён.'); } else { drawResults(); source = null; report('Модель изменилась. Нажмите «Найти / обновить».'); } } } };
 }
