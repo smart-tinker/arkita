@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "fc4c64bcf8b0bdca531cd7f1955871067b595861b2c6d935bf2275d10dc4bac8"
+    "docs/feature-corpus/program.json": "e8f3b40cf14cdf2308662934e027fbc2a86e5bae116aae6968e152645c6db271"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -63,6 +63,15 @@
       "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43646531019",
       "result": "Current source and regression routes mapped for all 35 criteria. All remain acceptance-pending; no criteria closed and Windows acceptance unrun. Source/test review only; no tests rerun.",
       "report": "docs/feature-corpus/REVIEW-ISSUE-22-2026-11-15.md"
+    },
+    "issue_23_source_review": {
+      "updated_at": "2026-11-15",
+      "issue": 23,
+      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
+      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43646531019",
+      "result": "Current source and existing regression routes mapped for all 10 group-57 criteria. All remain acceptance-pending; no criteria closed and installed Windows acceptance unrun. Source review only; tests not rerun.",
+      "report": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     }
   },
   "program_update": {
