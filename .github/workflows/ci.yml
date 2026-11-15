@@ -94,6 +94,13 @@ jobs:
           if (-not (Test-Path $executable -PathType Leaf)) {
             throw "Installed Arkita executable was not found: $executable"
           }
+          $license = Join-Path $installDir 'resources\LICENSE'
+          if (-not (Test-Path $license -PathType Leaf)) {
+            throw "The installed package is missing the MIT license: $license"
+          }
+          if ((Get-Content -Raw $license) -notmatch 'MIT License') {
+            throw "The installed package does not contain the MIT license text: $license"
+          }
           $app = Start-Process -FilePath $executable -PassThru
           try {
             $deadline = (Get-Date).AddSeconds(45)
