@@ -330,6 +330,7 @@ $('view-tabs').addEventListener('keydown', event => {
 });
 function makeCatalogMemberRow(ref, item, { state, view, selected, records, catalogLabel }) {
   const { kind, id } = ref;
+  const viewpointHidden = Boolean(view?.view?.viewpointId && ['element', 'junction', 'relationship'].includes(kind) && !model.conceptVisible(ref));
   const row = node('div', undefined, 'catalog-member-row element-row');
   row.dataset.focusKey = `row-${kind}-${id}`;
   row.dataset.catalogKind = kind; row.dataset.catalogId = id;
@@ -356,6 +357,16 @@ function makeCatalogMemberRow(ref, item, { state, view, selected, records, catal
     const unused = !catalogUsedConcepts.has(`${kind}:${id}`); choose.dataset.unused = String(unused);
     if (unused) { const badge = node('span', '∅', 'unused-marker'); badge.title = 'Не используется ни в одном представлении'; badge.setAttribute('aria-hidden', 'true'); choose.append(badge); choose.setAttribute('aria-label', `${choose.getAttribute('aria-label')}. Не используется ни в одном представлении`); }
   }
+  if (viewpointHidden) {
+    const message = 'Скрыт текущим viewpoint; объект остаётся в модели.';
+    const badge = node('span', 'скрыт', 'viewpoint-hidden-marker');
+    badge.title = message;
+    badge.setAttribute('aria-hidden', 'true');
+    choose.dataset.viewpointHidden = 'true';
+    choose.title = `${choose.title} · ${message}`;
+    choose.setAttribute('aria-label', `${choose.getAttribute('aria-label')}. ${message}`);
+    choose.append(badge);
+  }
   row.append(choose);
   if (['element', 'junction'].includes(kind)) {
     const add = button('＋', () => {
@@ -364,9 +375,9 @@ function makeCatalogMemberRow(ref, item, { state, view, selected, records, catal
       if (result) { panel('canvas'); focusSelected(); }
     }, 'tree-add-element');
     add.dataset.focusKey = `add-${kind}-${id}`; add.dataset[kind === 'junction' ? 'addJunctionId' : 'addElementId'] = id;
-    add.disabled = !view || !model.conceptVisible(ref);
+    add.disabled = !view || viewpointHidden;
     add.setAttribute('aria-label', `Добавить экземпляр: ${label} · ${id.slice(-8)}`);
-    add.title = view ? `Добавить в «${displayName(view.view)}»` : 'Сначала создайте представление кнопкой ＋ над полотном'; row.append(add);
+    add.title = !view ? 'Сначала создайте представление кнопкой ＋ над полотном' : viewpointHidden ? 'Нельзя добавить: тип исключён viewpoint текущего представления.' : `Добавить в «${displayName(view.view)}»`; row.append(add);
   }
   return row;
 }

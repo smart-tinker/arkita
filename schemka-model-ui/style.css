@@ -1978,6 +1978,7 @@ body[data-palette-mode="compact"] .palette-tool > span:not(.palette-glyph) { pos
 .catalog-member-row { padding:0; }
 .catalog-member-row > button:first-child { overflow:hidden; }
 .catalog-member-row .unused-marker { flex:none; }
+.catalog-member-row .viewpoint-hidden-marker { flex:none; margin-inline-start:4px; padding:1px 4px; border:1px solid var(--tree-line); border-radius:4px; color:var(--tree-muted); font-size:9px; }
 .catalog-folder > summary:focus-visible { outline:2px solid var(--focus); }
 #catalog-folder-dialog, #diagram-tools-dialog, #gesture-settings-dialog { width: min(560px, calc(100vw - 48px)); }
 #catalog-folder-fields, #diagram-tools-form > div:not(.dialog-actions), #gesture-settings-form > div:not(.dialog-actions) { display: grid; gap: 10px; }
