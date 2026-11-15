@@ -2082,7 +2082,7 @@
         "schemka-model-core/test/fragment.test.js",
         "schemka-model-ui/test/fragment-clipboard.test.js",
         "schemka-model-ui/test/fragment-clipboard-app.test.js",
-        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-and-clone-fragment"
+        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-и-независимая-копия-фрагмента"
       ],
       "remaining": "Implemented at the current public source snapshot; exact-main CI passes. Native Windows acceptance of selection, menu/keyboard copy, and a representative local paste remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
@@ -2117,7 +2117,7 @@
         "schemka-model-core/test/fragment.test.js",
         "schemka-model-ui/test/fragment-clipboard.test.js",
         "schemka-model-ui/test/fragment-clipboard-app.test.js",
-        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-and-clone-fragment"
+        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-и-независимая-копия-фрагмента"
       ],
       "remaining": "Reuse implementation and core/UI regressions are present at the current public source snapshot; exact-main CI passes. Native Windows acceptance of reuse, IDs, placement, and save/reopen remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
@@ -2152,7 +2152,7 @@
         "schemka-model-core/test/fragment.test.js",
         "schemka-model-ui/test/fragment-clipboard.test.js",
         "schemka-model-ui/test/fragment-clipboard-app.test.js",
-        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-and-clone-fragment"
+        "docs/feature-corpus/WINDOWS-ACCEPTANCE.md#8-reuse-и-независимая-копия-фрагмента"
       ],
       "remaining": "Clone implementation and core/UI regressions are present at the current public source snapshot; exact-main CI passes. Native Windows acceptance of remapped IDs, shared repeated concepts, and save/reopen remains UNRUN. Keep acceptance-pending; do not reimplement.",
       "issue": 51,
