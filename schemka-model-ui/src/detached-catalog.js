@@ -9,7 +9,7 @@ const title = item => item?.name || item?.label || '(без названия)';
 /** The detached window is a read-only view; all model commands return to this owner. */
 export function installDetachedCatalog({ document, window, model, session, preferences, blocked, status, activate, panel, desktop = window.schemkaDesktop }) {
   const button = (label, id, action) => { const control = document.createElement('button'); control.type = 'button'; control.id = id; control.textContent = label; control.addEventListener('click', action); return control; };
-  let detached = false, busy = false, generation = 0, signature = '', publishing = false, publishAgain = false;
+  let detached = false, busy = false, generation = 0, signature = '', publishing = false, publishAgain = false, restoreCatalogOnDock = false;
   const trigger = button('Отделить дерево', 'catalog-detach', open);
   trigger.hidden = !desktop?.catalogOpen;
   document.querySelector('.section-heading')?.append(trigger);
@@ -76,7 +76,11 @@ export function installDetachedCatalog({ document, window, model, session, prefe
     return [session.documentToken, model.store.revision, model.viewId, selection ? key(selection) : '', document.documentElement.dataset.theme, preferences?.revision ?? 0].join(':');
   }
   function paint() { document.body.dataset.catalogDetached = String(detached); trigger.disabled = busy; dock.hidden = !detached; }
-  function docked() { detached = false; signature = ''; generation++; paint(); }
+  function docked() {
+    const restoreCatalog = restoreCatalogOnDock && document.body.dataset.mobilePanel === 'canvas';
+    restoreCatalogOnDock = false; detached = false; signature = ''; generation++; paint();
+    if (restoreCatalog) panel('catalog');
+  }
   async function open() {
     if (busy || blocked() || !desktop?.catalogOpen) return;
     busy = true; paint(); const ticket = ++generation;
@@ -85,7 +89,8 @@ export function installDetachedCatalog({ document, window, model, session, prefe
       if (ticket !== generation) return;
       if (result?.status !== 'detached') throw Error(result?.message || result?.reason || 'Окно недоступно.');
       detached = true; signature = ''; paint();
-      if (document.body.dataset.mobilePanel === 'catalog') panel('canvas');
+      restoreCatalogOnDock = document.body.dataset.mobilePanel === 'catalog';
+      if (restoreCatalogOnDock) panel('canvas');
       await refresh();
     } catch (error) { status(`Дерево не открыто: ${error.message}`); }
     finally { busy = false; paint(); }

@@ -59,12 +59,13 @@ test('detached tree navigation preserves an unfinished owner edit and works afte
   assert.equal(h.$(`tab-${other.id}`).getAttribute('aria-selected'), 'true');
 });
 
-test('detaching the active catalog returns a narrow owner window to the canvas', async t => {
+test('detaching the active catalog returns to canvas and docking restores it in a narrow owner window', async t => {
+  let docked;
   const h = await setup(t, {
     catalogOpen: async () => ({ status: 'detached' }),
     catalogPublish: async () => ({ status: 'ok' }),
     onCatalogAction: () => () => {},
-    onCatalogDocked: () => () => {},
+    onCatalogDocked: callback => { docked = callback; return () => {}; },
   });
   h.viewport.narrow = true;
   h.document.querySelector('[data-panel="catalog"]').click();
@@ -73,4 +74,7 @@ test('detaching the active catalog returns a narrow owner window to the canvas',
   for (let attempt = 0; attempt < 20 && h.document.body.dataset.catalogDetached !== 'true'; attempt++) await new Promise(resolve => setImmediate(resolve));
   assert.equal(h.document.body.dataset.catalogDetached, 'true');
   assert.equal(h.document.body.dataset.mobilePanel, 'canvas', 'the owner must show its canvas after detaching the selected catalog');
+  docked();
+  assert.equal(h.document.body.dataset.catalogDetached, 'false');
+  assert.equal(h.document.body.dataset.mobilePanel, 'catalog', 'docking must make the returned panel visible in the narrow owner window');
 });
