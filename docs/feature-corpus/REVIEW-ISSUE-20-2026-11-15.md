@@ -69,8 +69,12 @@ The implementation review is against public main `3a4a58afe154ab88cd8bcd4383d0d6
 the stacked branch starts at PR #76 head
 `560c6f8bac7088631d897a7dcb66ae0a5b344a09`. The focused test command was
 `node --test schemka-model-io/test/interchange.test.js` on Linux/Node v22.22.1.
-The PR test profile passed on both Ubuntu and Windows at exact PR head
-`6915b691c9a74d20a10c432f9d62730b9779f0e1`; Windows also passed NSIS build,
-package verification, installation and launch. These runner results do not
-verify native file dialogs or installed user acceptance. No application source,
-feature-corpus historical cards, or `coverage.json` changed.
+The source/test commit `6915b691c9a74d20a10c432f9d62730b9779f0e1` passed the
+PR test profile on Ubuntu and Windows; Windows also passed NSIS build, package
+verification, installation and launch. The earlier docs-only PR head
+`087ba7d9a484ad78ac6aa73588ecc23dc490a354` passed Ubuntu and Windows validation
+plus the CI gate in run
+[`43680792855`](https://github.com/smart-tinker/arkita/actions/runs/43680792855).
+These runner results do not verify native file dialogs or installed user
+acceptance. No application source, feature-corpus historical cards, or
+`coverage.json` changed.
