@@ -21,7 +21,7 @@ export function installDocumentationEditor({ document, model, session = null, op
     if (!pending) return false;
     if (!exact(pending)) { error.textContent = 'Модель, представление или выделение изменились. Закройте диалог и начните правку заново.'; return false; }
     if (reading && rawValue().length > LIMITS.string) { error.textContent = `Документация не должна превышать ${LIMITS.string} единиц UTF-16.`; return false; }
-    if (reading) preview.innerHTML = reportMarkdown(rawValue(), { externalLinks: true });
+    if (reading) preview.innerHTML = reportMarkdown(rawValue(), { externalLinks: true, fileLinks: true });
     preview.hidden = !reading; value.hidden = reading; edit.setAttribute('aria-pressed', String(!reading)); view.setAttribute('aria-pressed', String(reading));
     (reading ? preview : value).focus(); return true;
   }
@@ -31,15 +31,20 @@ export function installDocumentationEditor({ document, model, session = null, op
     const current = () => stamp === generation && exact(request);
     const notify = message => { if (current()) { if (pending) error.textContent = message; report(message); } };
     if (!exact(request)) { error.textContent = 'Модель изменилась. Откройте документацию заново.'; report(error.textContent); return false; }
-    let url;
-    try { url = new URL(input); if (typeof input !== 'string' || input.length > 2048 || /[\p{Cc}\p{Cf}\s]/u.test(input) || !['http:', 'https:'].includes(url.protocol) || !url.hostname || url.username || url.password) throw Error(); }
-    catch { notify('Открытие поддерживает только HTTP/HTTPS ссылки без учётных данных. Файловые и другие схемы не открываются.'); return false; }
+    let url, localFile = false;
+    try {
+      url = new URL(input); localFile = url.protocol === 'file:';
+      if (typeof input !== 'string' || input.length > 2048 || /[\p{Cc}\p{Cf}\s]/u.test(input)
+        || !(['http:', 'https:'].includes(url.protocol) || localFile) || (localFile && ((url.hostname && url.hostname !== 'localhost') || url.pathname.startsWith('//')))
+        || (localFile && (url.search || url.hash)) || (!localFile && !url.hostname) || url.username || url.password) throw Error();
+    } catch { notify('Открытие поддерживает HTTP/HTTPS и локальные file:// ссылки без параметров. Другие схемы не открываются.'); return false; }
     const desktop = document.defaultView?.schemkaDesktop;
-    if (!desktop?.openExternalLink || !session) { notify('Открытие внешних ссылок доступно в настольном приложении Arkita.'); return false; }
+    const action = localFile ? desktop?.openFileLink : desktop?.openExternalLink;
+    if (!action || !session) { notify('Открытие ссылок доступно в настольном приложении Arkita.'); return false; }
     linkBusy = true;
-    try { const result = await desktop.openExternalLink(url.href, request.token); if (!current()) return false;
-      if (result.status === 'error') throw Error(result.message || 'Системный браузер не открыл ссылку.');
-      notify(result.status === 'cancelled' ? 'Открытие ссылки отменено.' : 'Ссылка передана системному браузеру.'); return result.status === 'opened';
+    try { const result = await action.call(desktop, url.href, request.token); if (!current()) return false;
+      if (result.status === 'error') throw Error(result.message || (localFile ? 'Windows не открыл файл.' : 'Системный браузер не открыл ссылку.'));
+      notify(result.status === 'cancelled' ? 'Открытие ссылки отменено.' : localFile ? 'Файл передан обработчику Windows.' : 'Ссылка передана системному браузеру.'); return result.status === 'opened';
     } catch (failure) { notify(`Ссылка не открыта: ${failure.message}`); return false; }
     finally { linkBusy = false; }
   }

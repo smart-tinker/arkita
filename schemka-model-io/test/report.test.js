@@ -33,6 +33,15 @@ test('closed Markdown preserves tables/code/Unicode while escaping HTML and disa
   assert.match(reportMarkdown('[Link](https://example.test)', { externalLinks: true }), /rel="noopener noreferrer"/); assert.ok(!reportMarkdown('[X](javascript:bad)', { externalLinks: true }).includes('href='));
 });
 
+test('exported reports keep UNC file links inert when external links are enabled', () => {
+  const f = fixture();
+  f.run({ type: 'updateMetadata', owner: { kind: 'element', id: f.b.elementId }, documentation: '[Private](file://server/share/private.txt)\n\n[Site](https://example.test)' });
+  const dom = new JSDOM(generateHtmlReport(f.store.snapshot, { revision: f.store.revision, externalLinks: true }));
+  assert.equal(dom.window.document.querySelector('a[href^="file:"]'), null);
+  assert.equal(dom.window.document.querySelector('a[href^="https:"]').getAttribute('href'), 'https://example.test');
+  dom.window.close();
+});
+
 
 test('optional report logo uses only an existing validated asset and is embedded offline without model changes', t => {
   const f = fixture(), data = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="100"><rect width="400" height="100" fill="#123456"/></svg>').toString('base64');

@@ -178,7 +178,7 @@ export function installObjectProperties({ document, model, openDialog, render, s
     const head = node('thead'), body = node('tbody'); head.append(heading); table.append(head, body);
     for (const { key, value } of item.properties) {
       const row = node('tr'), name = node('th', key), cell = node('td', value); name.scope = 'row';
-      if (openLink && /^(?:https?|file):\/\/\S+$/iu.test(value)) cell.append(button(`object-property-link-${body.children.length}`, 'Открыть ссылку…', () => openLink(value)));
+      if (openLink && /^(?:https?|file):\/\/\S+$/iu.test(value)) cell.append(button(`object-property-link-${body.children.length}`, /^file:/iu.test(value) ? 'Открыть файл…' : 'Открыть ссылку…', () => openLink(value)));
       row.append(name, cell); body.append(row);
     }
     if (body.children.length) section.append(table); else section.append(node('p', 'Свойства пока не заданы', 'inspector-note'));

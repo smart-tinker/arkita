@@ -331,6 +331,7 @@ export function createFileService({ window, dialog, read = readProject, write = 
       return { ...saved, pages: result.pages, columns: result.columns, rows: result.rows };
     }),
     openExternalLink: (event, url, token) => run(event, async () => { adopt(token); if (!hostActions) fail('HOST_UNAVAILABLE', 'Внешние приложения недоступны.'); return hostActions.openExternal(window, url, () => adopt(token)); }),
+    openFileLink: (event, url, token) => run(event, async () => { adopt(token); if (!hostActions?.openFileLink) fail('HOST_UNAVAILABLE', 'Открытие файловых ссылок недоступно.'); return hostActions.openFileLink(window, url, () => adopt(token)); }),
     openCredentialManager: (event, token) => run(event, async () => { adopt(token); if (!hostActions) fail('HOST_UNAVAILABLE', 'Внешние приложения недоступны.'); return hostActions.credentialManager(); }),
     outlineText: (event, runs, token) => run(event, async () => { adopt(token); const result = await outlineTextRuns(runs); adopt(token); return result; }),
     validateExchangeXml: (event, bytes, token) => run(event, async () => { adopt(token); const result = await validateExchangeXml(bytes); adopt(token); return result; }),

@@ -111,6 +111,7 @@ handle('clipboard-write-image', (record, _event, bytes, token) => clipboardActio
 handle('print-view', (record, event, svg, options, token) => record.files.printView(event, svg, options, token));
 handle('save-pdf', (record, event, svg, title, options, token) => record.files.savePdf(event, svg, title, options, token));
 handle('open-external-link', (record, event, url, token) => record.files.openExternalLink(event, url, token));
+handle('open-file-link', (record, event, url, token) => record.files.openFileLink(event, url, token));
 handle('open-credential-manager', (record, event, token) => record.files.openCredentialManager(event, token));
 handle('outline-text', (record, event, runs, token) => record.files.outlineText(event, runs, token));
 handle('validate-exchange-xml', (record, event, bytes, token) => record.files.validateExchangeXml(event, bytes, token));

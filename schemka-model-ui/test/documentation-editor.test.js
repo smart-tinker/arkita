@@ -153,6 +153,19 @@ test('documentation editor: explicit link actions use native document token and 
   h.editor.cancel(); delete h.window.schemkaDesktop; await h.editor.openLink('https://example.test'); assert.match(h.reports.at(-1), /настольном/);
 });
 
+test('documentation editor: local file Markdown links use the dedicated native file action', async t => {
+  const h = setup(t, '[Guide](file:///tmp/Guide%20with%20spaces.pdf)'), calls = [], before = h.capture();
+  h.window.schemkaDesktop = { async openFileLink(url, token) { calls.push({ url, token }); return { status: 'opened' }; } };
+  h.open(); h.$('documentation-view').click();
+  const link = h.$('documentation-preview').querySelector('a[href^="file:"]');
+  assert.ok(link, 'supported file URLs remain explicit preview links');
+  assert.equal(h.event(link, 'click'), false); await Promise.resolve();
+  assert.deepEqual(calls, [{ url: 'file:///tmp/Guide%20with%20spaces.pdf', token: h.session.documentToken }]);
+  await h.editor.openLink('file:////server/share/guide.pdf');
+  assert.equal(calls.length, 1, 'UNC-style file URLs never cross the native boundary');
+  assert.deepEqual(h.capture(), before);
+});
+
 test('documentation editor: late external link result does not alter a new draft or canceled model', async t => {
   const h = setup(t, '[Go](https://example.test)'), before = h.capture(); let resolve;
   h.window.schemkaDesktop = {openExternalLink:()=>new Promise(done=>{resolve=done;})};
