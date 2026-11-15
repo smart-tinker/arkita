@@ -5,6 +5,7 @@ import { conceptProject } from '../../schemka-model-core/fixtures/concept-projec
 import { createProject } from '../../schemka-model-core/src/index.js';
 import { fixtureId } from '../../schemka-model-core/fixtures/relationship-project.js';
 import { profileId, profileDefinition } from '../../schemka-model-core/fixtures/customization-project.js';
+import { viewpointGraph } from '../../schemka-model-core/fixtures/viewpoint-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { CATALOG_SECTIONS } from '../src/catalog-tree.js';
 
@@ -86,6 +87,24 @@ test('catalog tree creation applies the selected compatible specialization to th
   assert.equal(created.type, 'ApplicationComponent');
   assert.deepEqual(created.profileApplications, [{ profileId, values: {} }]);
   assert.deepEqual(saved.views, []);
+});
+
+test('viewpoint-excluded model records stay in the catalog with an explicit hidden state', async t => {
+  const h = await setup(t), fixture = viewpointGraph(), bytes = serializeProjectFile(fixture.state);
+  await h.load(bytes); openTree(h);
+
+  const device = leaf(h, 'element', fixture.ids.X), association = leaf(h, 'relationship', fixture.ids.S);
+  for (const item of [device, association]) {
+    assert.ok(item, 'the excluded record remains reachable in the model catalog');
+    assert.equal(item.dataset.viewpointHidden, 'true');
+    assert.match(item.getAttribute('aria-label'), /Скрыт текущим viewpoint; объект остаётся в модели/i);
+    assert.match(item.title, /Скрыт текущим viewpoint; объект остаётся в модели/);
+    assert.equal(item.querySelector('.viewpoint-hidden-marker').textContent, 'скрыт');
+  }
+  const add = device.closest('.catalog-member-row').querySelector('.tree-add-element');
+  assert.equal(add.disabled, true);
+  assert.match(add.title, /Нельзя добавить.*viewpoint/);
+  assert.deepEqual(Buffer.from(await h.download()), Buffer.from(bytes), 'viewpoint feedback does not change saved model data');
 });
 
 test('one catalogue tree keeps every filed object reachable once with accurate section counts and full view scope', async t => {
