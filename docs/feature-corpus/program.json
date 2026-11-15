@@ -2542,7 +2542,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "PNG export has bounded dimensions and scale coverage; installed Windows output appearance and dimensions remain unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -2570,7 +2570,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Static SVG geometry and safe output have automated coverage; viewing across installed Windows applications and fonts remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -2607,7 +2607,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Single-view PDF and paginated print layout exist; installed Windows PDF output and physical printing remain unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -2635,7 +2635,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Text outlining and font readiness have automated coverage; cross-machine font and DPI behavior remain unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -4886,7 +4886,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "HTML preview has UI coverage; preview and output in an installed Windows session remain unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -5941,7 +5941,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "The report format is standalone HTML; saving and reopening the report offline in installed Windows remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -5973,7 +5973,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Report search resolves stable record IDs in automated checks; interaction with a saved report in installed Windows remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6005,7 +6005,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "HTML diagram zoom is implemented; saved-report behavior in installed Windows remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6037,7 +6037,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "The filter changes report navigation only; it does not remove the embedded data. Keep that privacy boundary explicit during acceptance.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6069,7 +6069,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Draft PR #82 adds saved-byte coverage for an excluded image-bearing drawing: retained image data stays in the report, excluded image data is absent, and source bytes stay unchanged. The PR is unmerged and not independently reviewed; installed Windows acceptance remains unrun.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. Draft PR #82 head 28e5931a095ac20e2ed422f552f3086eb2208259 adds a saved-byte regression; focused suite 11/11 PASS and exact-head Actions run 43731796719 passed Ubuntu, Windows, CI gate, CodeQL, Analyze and Dependency Review. PR #82 remains unmerged and lacks independent review. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6101,7 +6101,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Only bounded read-only contains queries by record kind and field are supported; accept that scope explicitly. No general SQL interface exists.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6133,7 +6133,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "A closed Markdown subset is implemented; full Markdown parity is not claimed, and installed Windows font/rendering behavior remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6165,7 +6165,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Template v1 covers title, section order, locale, footer and a validated logo; page-number and style controls are absent.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6197,7 +6197,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Report output is HTML; PDF is a single-view diagram export. Report PDF and office-document formats are absent, and output-format priority remains undecided.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6229,7 +6229,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "JSON report templates can be opened and saved; a template catalog is absent.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -6261,7 +6261,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "ru-RU and en-US labels, numbers and dates are supported; missing-translation fallback has no separate demonstrated case.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -8718,7 +8718,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Explicit PNG scale and bounded pixel dimensions have automated coverage; installed Windows output remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9304,7 +9304,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "SVG geometry and static-output safety have automated coverage; cross-application Windows font behavior remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9426,7 +9426,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Formatted documentation uses a closed Markdown subset; installed Windows rendering remains unverified.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9516,7 +9516,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Analysis navigation, history, zoom, filters and layout have source/test coverage; full ArchiMate 4 semantic coverage and installed Windows acceptance are not established here.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9732,7 +9732,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Per-drawing labelTemplate is partially implemented for documented direct fields and properties; authoring preview, diagnostics and type/profile-specific binding are absent.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9762,7 +9762,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "No context resolver for view, parent or relationship endpoints was identified; stable-ID references and ambiguity, cycle and inheritance rules remain a feature gap.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9823,7 +9823,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Template v1 supports basic report structure and presentation fields; a template catalog and page-number/style controls are absent.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
@@ -9855,7 +9855,7 @@
         "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
       "remaining": "Only bounded read-only contains queries are supported with stable-ID results and snapshot revision; no general SQL/query language exists.",
-      "issue": 52,
+      "issue": 18,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",

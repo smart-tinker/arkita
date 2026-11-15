@@ -6,7 +6,7 @@ This review is based on public `main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b4
 
 The CI run passed the PR test profile and syntax checks on Ubuntu and Windows, Ubuntu renderer smoke, and Windows NSIS build, install, and launch checks. It did not inspect exported reports in an installed Windows session, exercise physical printing, or verify rendering across machines and fonts. This review does not close any criterion.
 
-The corpus cards and `coverage.json` preserve the historical baseline. Their old “absent” labels are not current implementation status. This draft updates the 24 live ledger records with criterion-specific evidence and gaps, while preserving their status and not treating CI as native acceptance.
+The corpus cards and `coverage.json` preserve the historical baseline. Their old “absent” labels are not current implementation status. This draft updates the 24 live ledger records with criterion-specific evidence and gaps. Their record-level `issue` is the public tracker `18`; top-level `issues.output=52` remains the historical group map. Statuses are preserved, and CI is not treated as native acceptance.
 
 ## Current evidence and boundaries
 
