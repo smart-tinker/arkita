@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "a47198f4b4f5cd210baee188a5e45599b7c021eff4287dd74a498342dfe1d42f"
+    "docs/feature-corpus/program.json": "7a54fc32571bebade9857faac6d94d645d435f6efe902410c1ce728d15d8dca4"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -87,7 +87,7 @@
       "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
       "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
       "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43646531019",
-      "result": "Source/test routes found for 23 criteria; A-ADV-098 and A-ADV-100 are partial. All 25 remain acceptance-pending, with no closed criteria and Windows acceptance unrun.",
+      "result": "Source/test routes found for 23 criteria; A-ADV-098 and A-ADV-100 are partial. All 25 remain acceptance-pending, with no closed criteria and Windows acceptance unrun. Historical group map stays 55; record-level issue references point to public issue #21.",
       "report": "docs/feature-corpus/REVIEW-ISSUE-21-2026-11-15.md"
     }
   }

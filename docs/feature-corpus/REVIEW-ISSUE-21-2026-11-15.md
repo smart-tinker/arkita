@@ -1,7 +1,7 @@
 # Issue #21: templates, boards, and Canvas source review
 
-Date: 2026-11-15  
-Public repository: `smart-tinker/arkita`  
+Date: 2026-11-15
+Public repository: `smart-tinker/arkita`
 Reviewed source: `main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`
 
 ## Result
@@ -25,6 +25,10 @@ tests were changed or rerun. Exact-main CI and CodeQL succeeded in Actions run
 [43646530875](https://github.com/smart-tinker/arkita/actions/runs/43646530875)
 and [43646531019](https://github.com/smart-tinker/arkita/actions/runs/43646531019).
 Those checks do not prove installed Windows GUI acceptance.
+
+The top-level `issues.templates` value remains `55` as the historical corpus
+group mapping; the 25 applicable criterion records point to public issue `#21`.
+`A-ADV-086` remains assigned to issue `#42`, and `A-ADV-091` remains excluded.
 
 ## Criterion map
 
