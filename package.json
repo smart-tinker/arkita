@@ -69,6 +69,7 @@
       }
     ],
     "extraResources": [
+      "LICENSE",
       {
         "from": "release/git-runtime/windows-x64",
         "to": "git",
