@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "ed95d2fb586e44597ada208dc15ec0cc5e0e14dcba82e05cb73f93b161dace09"
+    "docs/feature-corpus/program.json": "c9f8cb2ac834e7decfb962aa6f46c4de1257949aac8126cd544b043c041b8b7f"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -74,13 +74,10 @@
     },
     "latest_evidence_review": {
       "updated_at": "2026-11-15",
-      "issue": 19,
+      "issue": 20,
       "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
-      "required_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034236",
-      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034182",
-      "dependency_review_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034195",
-      "result": "Eight criteria reviewed against current source and regression routes. A-EDITOR-090 has a confirmed gap addressed in draft PR #75; exact-head CI, CodeQL and Dependency Review passed. No other new source gap was confirmed; the normative relationship-field contract for A-EDITOR-095 remains unresolved. All eight criteria remain acceptance-pending; installed Windows/native acceptance is unrun.",
-      "ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
+      "result": "Reviewed all 25 current interoperability criteria against source and test routes; added focused CSV assertions, and the interchange test file passed 16/16 locally. Exact-head CI for the stacked issue #20 branch and native Windows acceptance are pending. All criteria remain acceptance-pending.",
+      "ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     }
   }
 }

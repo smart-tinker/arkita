@@ -20,7 +20,7 @@
     "clipboard": 51,
     "output": 52,
     "profiles": 19,
-    "interoperability": 54,
+    "interoperability": 20,
     "templates": 55,
     "preferences": 56,
     "extensions": 57,
@@ -5223,13 +5223,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Source covers model, element, junction, relationship, property, and profile tables with IDs and typed relationship references. Round-trip test exists; acceptance remains pending. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5246,7 +5247,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-045",
@@ -5255,13 +5256,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Delimiter/prefix and multi-file export paths exist, including collision refusal. Native picker and packaged write behavior remain unrun. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5278,7 +5280,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-046",
@@ -5287,13 +5289,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "UTF-8 decoding is fatal on invalid bytes; BOM is configurable; Unicode/BOM round-trip test exists. Legacy encodings are not silently substituted. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5310,7 +5313,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-047",
@@ -5319,13 +5322,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Canonical mode preserves newlines; the added assertion verifies CRLF/CR/LF flattening in the exported cell and confirms the source bytes do not change. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5342,7 +5346,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-048",
@@ -5351,13 +5355,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "The added CSV assertion checks formula-like and zero-prefixed text receives the documented apostrophe prefix and confirms source immutability. Spreadsheet CSV remains text-only; import is rejected. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5374,7 +5379,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-049",
@@ -5383,13 +5388,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "New-model and current-model routes validate the package before an apply/proposal. Native file-selection flow remains unrun. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5406,7 +5412,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-050",
@@ -5415,13 +5421,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Omitted records are retained; repeated IDs/type changes are rejected before apply; a one-action UI apply route exists. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5438,7 +5445,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-051",
@@ -5447,13 +5454,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Endpoint edits are checked against model/view consistency before the candidate can be applied. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5470,7 +5478,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-052",
@@ -5479,13 +5487,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Errors retain file, physical row, and field; malformed rows and unresolved references reject the package. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5502,7 +5511,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-053",
@@ -5511,13 +5520,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "The added assertion checks relationship type (`ReadAccess`), typed endpoints, source/target multiplicities including presence flags, and `junctionRole`. CSV also carries profile applications; the current core has no separate `accessType` field. This is the supported Arkita field map, not a claim of broader notation equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5534,7 +5544,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-054",
@@ -5560,13 +5570,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Native import preview is detached, validated, and atomic; this is not an arbitrary document-open replacement. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5585,7 +5596,7 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-056",
@@ -5594,13 +5605,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Update-existing, folder, model-metadata, and property controls are explicit in the preview/apply route. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5619,7 +5631,7 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-057",
@@ -5628,13 +5640,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Result summary and source-to-target IDs are available; UI tests cover the report after one apply. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5653,7 +5666,7 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-058",
@@ -5662,13 +5675,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Replace versus merge is explicit and follows Arkita's unique-key property contract. Duplicate external property keys are not represented as a new format contract. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5687,7 +5701,7 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-059",
@@ -5696,13 +5710,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "A separate Archi native XML 5.0.0 reader exists with per-record decisions, stable source mapping, and diagnostics. It is deliberately not a claim of arbitrary Archi version or full 3.2-to-4 equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5719,7 +5734,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-060",
@@ -5728,13 +5743,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Export is explicitly Exchange 3.1 Preliminary, requires explicit layer mapping where needed, and emits loss notices. It does not claim ArchiMate 3.2/4 equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5751,7 +5767,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-061",
@@ -5760,13 +5776,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Offline XSD validation and syntax/schema distinction exist; the optional schema files are returned as exact bytes. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5783,7 +5800,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-062",
@@ -5792,13 +5809,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Folder organization is exported when selected; disabling it reports the loss. The fixture round-trips two same-named folders with different IDs and owners. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5815,7 +5833,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-063",
@@ -5824,13 +5842,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Export language and import language selection exist; malformed tags fail, alternate language text is reported rather than silently substituted. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5847,7 +5866,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-064",
@@ -5856,13 +5875,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Dublin Core fields are allow-listed, escaped, and round-tripped as native properties where the model has no separate DC block. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5879,7 +5899,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-065",
@@ -5888,13 +5908,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Exchange import validates before creating a separate unsaved model; cancel and stale validation cannot apply to the current model. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5911,7 +5932,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-066",
@@ -5920,13 +5941,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Unknown/unrepresentable fields are refused or included in diagnostics/loss reports; the tests explicitly prevent a false exact-route claim. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5943,7 +5965,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-067",
@@ -9651,13 +9673,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Supported geometry/styles round-trip; unsupported profiles, routes, and fields are reported. This is bounded interoperability, not full cross-version equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9674,7 +9697,7 @@
         "remaining": "Open Exchange XML адаптера нет. Родные endpoints/routes/profiles существуют, но перевод в закреплённую внешнюю схему, таблица потерь и geometry/profile round trip не реализованы; соответствие 3.2↔4 не предполагается.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-EXT-020",
@@ -9683,13 +9706,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Duplicate IDs, conflicting references, physical row numbers, comments, and late-package failure have regression coverage. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9705,7 +9729,7 @@
         "remaining": "CSV импорт отсутствует, поэтому нет строки/поля/дубликата ID diagnostics или синтаксиса comments. Native JSON validation уже существует и должна использоваться для кандидата после будущего табличного разбора.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-EXT-021",
@@ -10109,13 +10133,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Six workbook sheets are generated from the CSV tables; values are inline strings and counts derive from table rows. XLSX import is explicitly out of scope. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10132,7 +10157,7 @@
         "remaining": "XLSX writer/зависимости и пользовательская команда экспорта workbook отсутствуют. Native/Mermaid не дают табличного контракта концептов/ссылок/свойств, защиты формул и проверки числа строк.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-EXT-035",
