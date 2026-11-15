@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-15",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -2538,13 +2538,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "PNG export has bounded dimensions and scale coverage; installed Windows output appearance and dimensions remain unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2556,7 +2557,7 @@
         "remaining": "Доступны native project save и текстовый Mermaid export/copy. Ни raster/SVG/PDF export, ни изображение в системный clipboard не реализованы в Arkita file actions.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EDITOR-086",
@@ -2565,13 +2566,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Static SVG geometry and safe output have automated coverage; viewing across installed Windows applications and fonts remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "implementation_prs": [
         29,
         30,
@@ -2592,7 +2594,7 @@
         "remaining": "First queue #20–27 provides implemented mechanisms; verify complete original card criteria and new visual/metadata/containment interactions before closing this record.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EDITOR-087",
@@ -2601,13 +2603,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Single-view PDF and paginated print layout exist; installed Windows PDF output and physical printing remain unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2619,7 +2622,7 @@
         "remaining": "Доступны native project save и текстовый Mermaid export/copy. Ни raster/SVG/PDF export, ни изображение в системный clipboard не реализованы в Arkita file actions.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EDITOR-088",
@@ -2628,13 +2631,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Text outlining and font readiness have automated coverage; cross-machine font and DPI behavior remain unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2646,7 +2650,7 @@
         "remaining": "Доступны native project save и текстовый Mermaid export/copy. Ни raster/SVG/PDF export, ни изображение в системный clipboard не реализованы в Arkita file actions.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EDITOR-089",
@@ -4878,13 +4882,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "HTML preview has UI coverage; preview and output in an installed Windows session remain unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4899,7 +4904,7 @@
         "remaining": "Файловый поток экспортирует native и Mermaid; команды генерации отчёта и локального HTML report preview, renderer/IPC для него и шаблонного движка в поставляемых модулях нет.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-036",
@@ -5932,13 +5937,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "The report format is standalone HTML; saving and reopening the report offline in installed Windows remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5954,7 +5960,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-069",
@@ -5963,13 +5969,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Report search resolves stable record IDs in automated checks; interaction with a saved report in installed Windows remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5985,7 +5992,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-070",
@@ -5994,13 +6001,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "HTML diagram zoom is implemented; saved-report behavior in installed Windows remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6016,7 +6024,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-071",
@@ -6025,13 +6033,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "The filter changes report navigation only; it does not remove the embedded data. Keep that privacy boundary explicit during acceptance.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6047,7 +6056,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-072",
@@ -6056,13 +6065,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Exclusion runs before rendering and automated checks verify excluded text and source immutability; saved-byte coverage for an excluded image-bearing drawing or attachment is still missing.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6078,7 +6088,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-073",
@@ -6087,13 +6097,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Only bounded read-only contains queries by record kind and field are supported; accept that scope explicitly. No general SQL interface exists.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6109,7 +6120,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-074",
@@ -6118,13 +6129,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "A closed Markdown subset is implemented; full Markdown parity is not claimed, and installed Windows font/rendering behavior remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6140,7 +6152,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-075",
@@ -6149,13 +6161,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Template v1 covers title, section order, locale, footer and a validated logo; page-number and style controls are absent.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6171,7 +6184,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-076",
@@ -6180,13 +6193,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Report output is HTML; PDF is a single-view diagram export. Report PDF and office-document formats are absent, and output-format priority remains undecided.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6202,7 +6216,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-077",
@@ -6211,13 +6225,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "JSON report templates can be opened and saved; a template catalog is absent.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6233,7 +6248,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-078",
@@ -6242,13 +6257,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "ru-RU and en-US labels, numbers and dates are supported; missing-translation fallback has no separate demonstrated case.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6264,7 +6280,7 @@
         "remaining": "В меню, IO exports и desktop IPC отсутствует подсистема публикации HTML/документных отчётов. Нет генератора страниц/поискового индекса, запросов, masking/exclusion, Markdown report renderer, шаблонов, локалей или соответствующих форматам writer. HTML текущего редактора и экспорт Mermaid не считаются отчётом.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-079",
@@ -8698,13 +8714,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Explicit PNG scale and bounded pixel dimensions have automated coverage; installed Windows output remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8720,7 +8737,7 @@
         "remaining": "Image export и image clipboard отсутствуют; файловый экспорт native/Mermaid не предоставляет пиксельных размеров/DPI. Настройка logical/native/image scale пока не существует.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-ADV-161",
@@ -9283,13 +9300,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "SVG geometry and static-output safety have automated coverage; cross-application Windows font behavior remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9306,7 +9324,7 @@
         "remaining": "Пользовательского SVG export нет ни в меню, ни в IO/IPC. Рабочий SVG canvas сам по себе не является экспортным файлом; расчёт экспортных bounds, исключение UI selection и независимый viewer round trip пока отсутствуют.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-009",
@@ -9404,13 +9422,14 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Formatted documentation uses a closed Markdown subset; installed Windows rendering remains unverified.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9425,7 +9444,7 @@
         "remaining": "Документация уже хранится как исходный plain text, редактируется guard-черновиком и проходит save/load без Markdown преобразования; вывод инертный. Явного формата Markdown, preview, общего report renderer и открывания ссылок через разрешённый desktop API нет.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-013",
@@ -9493,13 +9512,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Analysis navigation, history, zoom, filters and layout have source/test coverage; full ArchiMate 4 semantic coverage and installed Windows acceptance are not established here.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9515,7 +9535,7 @@
         "remaining": "Static view SVG exists, includes clipped labels, route/anchors and supported paint; PNG and system image clipboard still missing.",
         "verification": "reviewed shipped post-baseline implementation and corresponding merged feature tests; no Windows acceptance claim"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-016",
@@ -9708,13 +9728,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Per-drawing labelTemplate is partially implemented for documented direct fields and properties; authoring preview, diagnostics and type/profile-specific binding are absent.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9728,7 +9749,7 @@
         "remaining": "Подпись состоит из имени/закрытого обозначения типа и specializationLabel; пользовательской декларативной формулы, её хранения/preview/errors и ссылок на свойства нет.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-023",
@@ -9737,13 +9758,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "No context resolver for view, parent or relationship endpoints was identified; stable-ID references and ambiguity, cycle and inheritance rules remain a feature gap.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9756,7 +9778,7 @@
         "remaining": "Нет expression schema/parser/evaluator для модели, view, родителя или концов. Существующие ID resolvers — внутренние помощники, а не пользовательский язык выражений с правилами циклов и fallback.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-024",
@@ -9797,13 +9819,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Template v1 supports basic report structure and presentation fields; a template catalog and page-number/style controls are absent.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9819,7 +9842,7 @@
         "remaining": "Подсистемы отчётов и пользовательского template/data/resource контракта нет. Ни Jasper, ни альтернатива не поставляются; необходимость выходной функции не означает требование Java/JRXML.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-026",
@@ -9828,13 +9851,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Only bounded read-only contains queries are supported with stable-ID results and snapshot revision; no general SQL/query language exists.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test routes reviewed on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map. Main CI: https://github.com/smart-tinker/arkita/actions/runs/43646530875. The documentation update is PR #73 head c9ad788cb6b201f678cf24b87bc9a130911d1559, with exact-head CI https://github.com/smart-tinker/arkita/actions/runs/43666519340. Installed Windows acceptance remains unrun; no criterion is closed.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9850,7 +9874,7 @@
         "remaining": "Публикуемого отчёта со схемой данных и query/table/export flow нет. Внутренние selectors/resolvers не являются аналитическими запросами пользователя; добавление SQL engine не следует автоматически из этой карточки.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#output"
+      "implementation_ledger": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md#criterion-source-test-map"
     },
     {
       "id": "A-EXT-027",
