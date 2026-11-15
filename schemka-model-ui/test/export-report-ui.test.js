@@ -5,13 +5,16 @@ import { createProject, createStore } from '../../schemka-model-core/src/index.j
 import { createController } from '../src/controller.js';
 import { DEFAULT_REPORT_TEMPLATE } from '../../schemka-model-io/src/report.js';
 import { installExportReportUI } from '../src/export-report-ui.js';
-function fixture(t, native = {}) {
+import { renderVisualNode } from '../src/visual-drawings.js';
+import { exportViewSvg } from '../src/svg-export.js';
+function fixture(t, native = {}, makeSnapshotViewSvg) {
   const dom = new JSDOM('<body><details class="app-menu"><summary>Файл</summary><div class="menu-items"></div></details></body>', { url: 'https://arkita.test' }); t.after(() => dom.window.close()); const { window } = dom, { document } = window;
   window.HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); }; window.HTMLDialogElement.prototype.close = function () { this.removeAttribute('open'); this.dispatchEvent(new window.Event('close')); };
   const store = createStore(createProject('Report')), run = command => store.execute(command, store.revision).created, { viewId } = run({ type: 'createView', name: 'Main' }), { viewId: other } = run({ type: 'createView', name: 'Other' }), privateObject = run({ type: 'createElementInModel', elementType: 'Role', name: 'PrivateSecret', properties: [{ key: 'secret', value: 'PrivateValue' }] });
   const model = createController(createStore(store.snapshot)); model.switchView(viewId); const saved = [], rendered = [], statuses = [], session = { documentToken: 'document-one' };
   window.schemkaDesktop = { saveExternalFiles: async (...args) => { saved.push(args); return { status: 'saved' }; }, ...native };
-  const ui = installExportReportUI({ document, window, model, session, openDialog: id => document.getElementById(id).showModal(), blocked: () => false, status: x => statuses.push(x), snapshotViewSvg(state, id, options) { rendered.push({ state, id, options }); return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100"><title>${id}</title><text x="10" y="10">Test</text></svg>`; } });
+  const snapshotViewSvg = makeSnapshotViewSvg ? makeSnapshotViewSvg({ document, window, rendered }) : (state, id, options) => { rendered.push({ state, id, options }); return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100"><title>${id}</title><text x="10" y="10">Test</text></svg>`; };
+  const ui = installExportReportUI({ document, window, model, session, openDialog: id => document.getElementById(id).showModal(), blocked: () => false, status: x => statuses.push(x), snapshotViewSvg });
   const $ = id => document.getElementById(id), event = (id, type) => $(id).dispatchEvent(new window.Event(type, { bubbles: true, cancelable: true }));
   const settle = async () => { for (let i = 0; i < 10; i++) await new Promise(resolve => setTimeout(resolve, 2)); };
   return { $, event, settle, ui, model, session, saved, rendered, statuses, privateObject, other, document, window };
@@ -22,6 +25,32 @@ test('report preview and native output share one filtered revision; inert previe
   const option = [...h.$('export-report-exclude').options].find(item => item.value === h.privateObject.elementId); option.selected = true; h.event('export-report-exclude', 'change'); h.$('export-report-generate').click(); await h.settle();
   assert.equal(h.$('export-report-save').disabled, false, h.$('export-report-feedback').textContent); assert.equal(h.rendered.length, 2); assert.ok(h.rendered.every(call => !call.state.elements.some(item => item.id === h.privateObject.elementId))); assert.equal(h.$('export-report-preview').querySelector('script,iframe,object'), null);
   h.event('export-report-form', 'submit'); await h.settle(); const [kind, records, token] = h.saved[0]; assert.equal(kind, 'html'); assert.equal(token, h.session.documentToken); const html = new TextDecoder().decode(records[0].bytes); assert.ok(!html.includes('PrivateSecret')); assert.ok(!html.includes('PrivateValue')); assert.match(h.$('export-report-feedback').textContent, /файл сохранён/); assert.deepEqual(h.model.store.exportFiles(), before);
+});
+
+test('excluded image drawing is absent from the saved HTML while retained image data is rendered', async t => {
+  const renderedIds = [], h = fixture(t, {}, ({ document }) => (state, id) => {
+    const entry = state.views.find(item => item.view.id === id), canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    canvas.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); canvas.style.backgroundColor = '#fff'; document.body.append(canvas);
+    try { for (const item of entry.visualNodes) { renderedIds.push(item.id); canvas.append(renderVisualNode(document, item, state, entry)); }
+      return exportViewSvg({ canvas, bounds: { x: 0, y: 0, width: 900, height: 640 }, title: entry.view.name });
+    } finally { canvas.remove(); }
+  });
+  const visibleData = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jK1kAAAAASUVORK5CYII=';
+  const excludedData = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7L8AAAAASUVORK5CYII=';
+  const visibleAsset = h.model.execute({ type: 'createAsset', name: 'Visible image', mediaType: 'image/png', data: visibleData }).created.assetId;
+  const excludedAsset = h.model.execute({ type: 'createAsset', name: 'Excluded image', mediaType: 'image/png', data: excludedData }).created.assetId;
+  const viewId = h.model.store.snapshot.views[0].view.id;
+  const bounds = { x: 20, y: 20, width: 220, height: 140 };
+  const visibleNode = h.model.execute({ type: 'createVisualNode', viewId, kind: 'image', name: 'Visible drawing', bounds, assetId: visibleAsset }).created.visualNodeId;
+  const excludedNode = h.model.execute({ type: 'createVisualNode', viewId, kind: 'image', name: 'Excluded drawing', bounds, assetId: excludedAsset }).created.visualNodeId;
+  const before = h.model.store.exportFiles(); h.ui.open(); h.$('export-report-format').value = 'html'; h.event('export-report-format', 'change');
+  const option = [...h.$('export-report-exclude').options].find(item => item.value === excludedNode); assert.ok(option); option.selected = true; h.event('export-report-exclude', 'change');
+  h.$('export-report-generate').click(); await h.settle(); assert.equal(h.$('export-report-save').disabled, false, h.$('export-report-feedback').textContent);
+  h.event('export-report-form', 'submit'); await h.settle();
+  const html = new TextDecoder().decode(h.saved[0][1][0].bytes), dom = new JSDOM(html); t.after(() => dom.window.close());
+  const diagram = dom.window.document.querySelector(`#image-${viewId}`), svg = Buffer.from(diagram.getAttribute('src').split(',')[1], 'base64').toString('utf8');
+  assert.deepEqual(renderedIds, [visibleNode]); assert.ok(svg.includes(visibleData)); assert.ok(!svg.includes(excludedData));
+  assert.deepEqual(h.model.store.exportFiles(), before);
 });
 
 test('cancelled native output is not success; changing fields invalidates output and stale model closes preview', async t => {
