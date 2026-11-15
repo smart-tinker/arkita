@@ -60,7 +60,7 @@
     "updated_at": "2026-11-15",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
+    "scope": "Refresh issue #39 umbrella evidence against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; latest criterion-level reviews cover issues #19 and #20. The A-EDITOR-098/PR #48 note is historical. All eight issue #19 criteria and all 25 issue #20 criteria remain acceptance-pending; no native Windows acceptance or closed criteria are implied.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
