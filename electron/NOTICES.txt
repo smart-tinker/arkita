@@ -38,4 +38,4 @@ Creative Commons 4.0 Attribution license (https://creativecommons.org/licenses/b
 https://www.dublincore.org/schemas/xmls/simpledc20021212.xsd
 All schema notices are included in Exchange-LICENSE.txt and schema exports.
 
-Font outlines use Fontkit 2.0.4 and its locked runtime dependencies. Full license texts and upstream Brotli notices are in electron/licenses/font-outline-dependencies.txt inside app.asar. No system font files are distributed.
+Font outlines use Fontkit 3.0.0 and its locked runtime dependencies. Full license texts and upstream Brotli notices are in electron/licenses/font-outline-dependencies.txt inside app.asar. No system font files are distributed.
