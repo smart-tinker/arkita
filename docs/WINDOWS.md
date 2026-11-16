@@ -133,7 +133,7 @@ Mermaid-сборке «Схемка» и не создают и не прове�
 
 В `resources/app.asar` входят Electron main/preload, модельные модули и их UI,
 отдельная страница палитры, CLI, закреплённые Exchange XSD и notices/licenses.
-Production dependencies `fontkit` **2.0.4** и `libxml2-wasm` **0.7.2** вместе
+Production dependencies `fontkit` **3.0.0** и `libxml2-wasm` **0.7.2** вместе
 с их runtime dependencies поставляются для native контуров текста и offline
 XSD-проверки. `fontkit` использует доступные системные шрифты Windows из
 закрытого списка; дополнительный набор шрифтов не скачивается.
