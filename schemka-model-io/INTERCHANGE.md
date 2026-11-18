@@ -49,6 +49,13 @@ string remains different from an absent field. A supplied false clears the field
 Profile applications and full profile definitions are bounded JSON cells using
 the same strict parser as native records; unknown legacy attributes are rejected.
 
+Changing an existing relationship endpoint uses the shared explicit rebind path.
+The preview lists every affected view and connection; each drawing needs an exact
+target occurrence/anchor or an explicit new occurrence. No occurrence is selected
+automatically. The final CSV preview shows the chosen bindings before one atomic
+Apply/Undo. Missing, invalid, cancelled or stale bindings leave the model, file
+baseline and Undo history unchanged. The CSV schema does not include drawing data.
+
 Property rows use kind, ID, zero-based contiguous position, key and value. A
 single position `-1` with empty key/value explicitly represents an empty list.
 Repeated keys are ordinary data; repeated positions are an error. Project
