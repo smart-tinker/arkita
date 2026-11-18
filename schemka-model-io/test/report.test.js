@@ -13,9 +13,9 @@ test('real report exclusion precedes all data, follows folder/relationship/drawi
   assert.throws(() => prepareReportProject(f.store.snapshot, { excludeIds: [f.store.snapshot.project.id] }));
 });
 
-test('offline report print stylesheet numbers pages without mutating model data', () => {
+test('offline report print stylesheet numbers pages within safe margins without mutating model data', () => {
   const f = fixture(), before = f.store.exportFiles(), html = generateHtmlReport(f.store.snapshot, { revision: f.store.revision, generatedAt: '2026-01-01T00:00:00Z' });
-  assert.ok(html.includes('@page{margin:0 0 12mm;@bottom-center{content:counter(page)'), 'print CSS should reserve room for report page numbers');
+  assert.ok(html.includes('@page{margin:12mm;@bottom-center{content:counter(page)'), 'print CSS should keep safe paper margins and reserve the bottom margin for page numbers');
   assert.deepEqual(f.store.exportFiles(), before);
 });
 
