@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "21eeca0184a2ba28cb126ceba49b22cf72c3961446bc3c5547421a9f8a02440f"
+    "docs/feature-corpus/program.json": "74579d5abb40ec1d21a0109c75d6dc6fe4a65c8b2da08934e6b967b599b96da7"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -80,6 +80,20 @@
       "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43406746555",
       "result": "Required CI/security passed. Extended CI passed on Ubuntu and Windows; criteria remain acceptance-pending because installed Windows GUI acceptance and independent review are not recorded.",
       "ledger": "docs/feature-corpus/program.json"
+    },
+    "issue_21_source_review": {
+      "updated_at": "2026-11-18",
+      "issue": 21,
+      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
+      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43646531019",
+      "result": "18 Nov read-only Chromium evidence: A-EXT-027 clipboard and local-library scenarios passed within scope; A-ADV-098 failed unknown/malformed-field diagnostics and fallback; A-ADV-100 passed keyboard selection and benign text transfer but failed visible/accessibly exposed instructions. Author two-instance/remap evidence for A-ADV-083 on draft #98 is scoped; a later isolated ordinary-confirm repeat on the same head still reported SESSION_STALE, with cause/trigger unresolved and envelope bytes not independently hashable. All 25 issue #21 records remain acceptance-pending, closed_criteria stays empty, and Windows acceptance remains unrun. The A-ADV-098/A-ADV-100 candidate fixes are in draft #81; its exact-head CI and Extended CI passed, with independent verification pending.",
+      "report": "docs/feature-corpus/REVIEW-ISSUE-21-2026-11-15.md",
+      "follow_up_pr": "https://github.com/smart-tinker/arkita/pull/98",
+      "follow_up_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/44371223857",
+      "gap_follow_up_pr": "https://github.com/smart-tinker/arkita/pull/81",
+      "gap_follow_up_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43710464322",
+      "gap_follow_up_extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43712335068"
     }
   }
 }
