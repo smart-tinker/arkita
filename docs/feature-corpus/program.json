@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-18",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -41,7 +41,7 @@
         "electron/test/startup.test.mjs"
       ],
       "remaining": "Clean installed and portable launch, file association, and uninstall preservation still need Windows acceptance.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -66,7 +66,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Проверить на установленном Windows build при реальном размере окна. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -95,7 +95,7 @@
         "electron/window-bounds.mjs"
       ],
       "remaining": "General panes still lack detach/reattach; native second-monitor recovery requires Windows acceptance.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -123,7 +123,7 @@
         "schemka-model-ui/test/view-tabs.test.js"
       ],
       "remaining": "Native view switching and camera/selection continuity in the installed app remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -153,7 +153,7 @@
         "electron/main.mjs"
       ],
       "remaining": "Native edit/save/close isolation across two open model windows remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -182,7 +182,7 @@
         "schemka-model-ui/test/workbench.test.js"
       ],
       "remaining": "Windows focus and keyboard Undo/Redo behavior remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -212,7 +212,7 @@
         "schemka-model-ui/test/file-actions.test.js"
       ],
       "remaining": "Installed Windows visible dirty-state behavior remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -239,7 +239,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Содержание tutorial и завершённость сценария не сопоставлены с критерием; нужен отдельный readback.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -267,7 +267,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Полнота справочного материала с владельцем не сверялась; выбор backend — отдельный A-ADV-166. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -773,7 +773,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -1222,7 +1222,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Windows DPI и отсутствие обрезания не проверены на установленном приложении. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -1252,7 +1252,7 @@
         "electron/test/palette-service.test.mjs"
       ],
       "remaining": "Native detach/reattach and active-view context switching remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -2514,7 +2514,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Native Windows: выход поверх диалога, второй монитор, сохранение камеры/фокуса — UNRUN. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -2715,7 +2715,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Grouped inspector реализован для множественного выбора дерева; сводка показывает общие/различающиеся значения и число владельцев свойства, массовое редактирование ограничено зафиксированным набором. Тест покрывает смешанные значения, изменение element и relationship и точный Undo, но не утверждает содержимое компактной панели или свойство, имеющееся лишь у части выбора. Не проверена читаемость в настоящем Windows renderer; оставлять acceptance-pending до точечной приёмки, не считать отсутствием реализации.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -2743,7 +2743,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Отдельного поля purpose в модели нет: его роль выполняет project documentation. Обновление пути после native Save As не подтверждено. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -2800,7 +2800,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Нужна UI-регрессия специализации именно отношения с сохранением и повторным открытием. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -2857,7 +2857,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -2981,7 +2981,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3009,7 +3009,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Поддержанные file-ссылки отсутствуют: file:// намеренно отклоняется. Это конкретное ограничение безопасности/функциональности, не непроверенный тест. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3038,7 +3038,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельное criterion-level подтверждение и применимая native-приёмка не выполнены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3075,7 +3075,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Source/DOM тесты есть; нативный UI не проверен. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3605,7 +3605,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Core проверяет все восемь; app-level UI matrix отдельно не связывает folder, visualNode и visualConnector. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 40,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3770,7 +3770,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Это не отдельное окно Navigator; UX-эквивалентность ещё не подтверждена. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3801,7 +3801,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3832,7 +3832,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3863,7 +3863,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Это preview/create-view, а не Navigator drag; подтвердить эквивалентность UX. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3897,7 +3897,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3932,7 +3932,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Не заявлять производительность сверх установленного bounds. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -3967,7 +3967,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4002,7 +4002,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4037,7 +4037,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4072,7 +4072,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4107,7 +4107,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Windows renderer alignment не проверен. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4142,7 +4142,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4177,7 +4177,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Native save dialog на установленном Windows build не проверен. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4212,7 +4212,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Системный clipboard Windows не проверен на установленном пакете. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4247,7 +4247,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Native user acceptance не выполнялась. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4282,7 +4282,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4315,7 +4315,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4346,7 +4346,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4378,7 +4378,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4561,7 +4561,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4592,7 +4592,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4624,7 +4624,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Текущий registry ограничен; нормативная полнота ArchiMate 4 остаётся UNKNOWN. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4689,7 +4689,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4721,7 +4721,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Не является подтверждением нормативной полноты viewpoint. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4751,7 +4751,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4784,7 +4784,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4817,7 +4817,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4848,7 +4848,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -4913,7 +4913,7 @@
         "electron/file-service.mjs"
       ],
       "remaining": "Packaged Windows native-dialog and duplicate-file activation acceptance remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -4950,7 +4950,7 @@
         "electron/main.mjs"
       ],
       "remaining": "Renderer-harness regression tests pass locally; actual packaged Windows drag/drop, cancellation and invalid-file behavior remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -4987,7 +4987,7 @@
         "electron/test/startup.test.mjs"
       ],
       "remaining": "Installed Windows Shell association, second activation and uninstall behavior remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -5020,7 +5020,7 @@
         "electron/test/document-preferences.test.mjs"
       ],
       "remaining": "Installed Windows save, cancellation and external-conflict acceptance remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -5058,7 +5058,7 @@
         "electron/test/files.test.mjs"
       ],
       "remaining": "Installed Windows Save As and exact readback remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -5096,7 +5096,7 @@
         "schemka-model-ui/test/file-actions.test.js"
       ],
       "remaining": "Native close prompt, save/discard/cancel and reopen behavior remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -5128,7 +5128,7 @@
         "electron/main.mjs"
       ],
       "remaining": "Native cross-window switching and closing one dirty model while retaining another remain unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -5159,7 +5159,7 @@
         "electron/main.mjs"
       ],
       "remaining": "Real Windows printer output, DPI and page clipping remain unverified; service tests use a simulated Electron window.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -6492,7 +6492,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Не доказывает нормативную полноту ArchiMate. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -7326,7 +7326,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Windows DPI/мониторные свойства не проверены. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -8405,16 +8405,19 @@
       "title": "Открытие view при загрузке модели",
       "family": "documents",
       "historical_status": "partial",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "schemka-model-ui/src/view-tabs.js",
         "schemka-model-ui/test/view-tabs.test.js"
       ],
-      "remaining": "Representative large-model responsiveness and cancellation in installed Electron remain unverified.",
-      "issue": 45,
-      "closed_criteria": [],
+      "remaining": "Packaged/native Windows acceptance remains unrun; explicit bulk-open count/cancel is tracked separately under A-EXT-017 and remains pending.",
+      "issue": 11,
+      "closed_criteria": [
+        "Bounded auto-open with large-model responsiveness",
+        "Declining auto-open preserves view visibility; configured limit need not be 100"
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
+      "verification": "Independent QA accepted both A-ADV-150 card criteria in renderer scope on 2026-11-18 against exact public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see REVIEW-ISSUE-11-2026-11-10.md for the 12- and 100-view synthetic runs. On the 100-view fixture, page-clock observations were 504 ms for the full open flow and 385 ms for model commit/render. The renderer source snapshot commit bc4b413b052bf1fff43ed2d9c9022b67681eb3e7 is carried by merged PR #1 (merge commit 6b778bfe278ca8095494dbe4b45d875725d3a706). Packaged/native Windows acceptance remains UNRUN; explicit bulk-open count/cancel is a separate pending A-EXT-017 check.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8441,7 +8444,7 @@
         "electron/file-service.mjs"
       ],
       "remaining": "Installed Windows backup and recovery acceptance remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -8474,7 +8477,7 @@
         "electron/test/document-preferences.test.mjs"
       ],
       "remaining": "Native MRU menu reopening with Unicode paths remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -8870,7 +8873,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Выбора external/internal backend и сохранённой настройки нет. Это реальная функциональная недостача; нужен отдельный scope/priority decision. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 43,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -9137,7 +9140,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
@@ -9558,7 +9561,7 @@
         "schemka-model-ui/test/view-tabs.test.js"
       ],
       "remaining": "No measured installed-Electron threshold or large-view responsiveness evidence; this performance criterion remains unverified.",
-      "issue": 45,
+      "issue": 11,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
@@ -10044,7 +10047,7 @@
         "docs/feature-corpus/REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md"
       ],
       "remaining": "Автоматический результат на exact SHA записан в отчёте; отдельная привязка assertion к критерию остаётся открытой. Актуальная сверка кода и тестов приведена в связанном отчёте; приёмка остаётся открытой.",
-      "issue": 42,
+      "issue": 10,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Текущая карта исходников и тестов привязана к public main SHA a34b405408e5bc6fb5a501e770971aa441bc41bb. Exact-main Extended CI 42984488861: Ubuntu PASS; Windows 291 PASS, 0 assertion failures, 1 timeout максимального native inventory на 1,500,000 ms, 3 SKIP. Подробности и ограничения — в REVIEW-HISTORICAL-GROUPS-40-42-43-2026-11-10.md. Критерий остаётся acceptance-pending; closed_criteria пуст.",
