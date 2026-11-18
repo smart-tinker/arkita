@@ -29,6 +29,34 @@ test('CSV UI preview/cancel preserves document; explicit apply is one Undo and l
  h.ui.open();h.$('interchange-prepare').click();await tick();h.$('interchange-apply').click();await tick();assert.equal(h.store.snapshot.elements[0].name,'Imported');assert.equal(h.store.history.undo,1);assert.equal(h.session.dirty,true);h.model.undo();assert.deepEqual(h.store.exportFiles(),before.files);
 });
 
+test('native scope report names retained targets and skipped incoming records truthfully',async t=>{
+ const h=setup(t),targetFolderId=h.model.execute({type:'createFolder',name:'Local folder'}).created.folderId,elementId=h.model.execute({type:'createElementInModel',elementType:'Role',name:'Local element'}).created.elementId;
+ const before=h.capture(),sourceStore=createStore(h.store.snapshot);sourceStore.execute({type:'createFolder',name:'Incoming-only folder'},sourceStore.revision);const source=structuredClone(sourceStore.snapshot);source.project.name='Incoming model';source.elements.find(item=>item.id===elementId).name='Incoming element';source.folders.find(item=>item.id===targetFolderId).name='Incoming folder';
+ h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files:[{name:'incoming.arkita',bytes:serializeProjectFile(source)}]});h.change('interchange-action','native');h.change('interchange-update',false,true);h.change('interchange-folders',false,true);h.$('interchange-prepare').click();await tick();
+ const text=h.$('interchange-report').textContent;assert.match(text,/Сохранённые записи целевой модели/);assert.match(text,/Пропущенные входящие записи/);
+ for(const id of [h.initial.project.id,targetFolderId,elementId,source.folders[1].id,source.project.id])assert.ok(text.includes(id),`scope report includes ${id}`);
+ assert.match(text,/Local folder/);assert.match(text,/Incoming folder/);assert.match(text,/Incoming-only folder/);assert.equal(h.$('interchange-report').querySelectorAll('details').length,1);assert.deepEqual(h.capture(),before);
+ h.change('interchange-ids','remap');h.$('interchange-prepare').click();await tick();const folderRow=[...h.$('interchange-report').querySelectorAll('p')].find(item=>item.textContent.includes('Incoming-only folder'))?.textContent;
+ assert.ok(folderRow);assert.match(folderRow,new RegExp(`исходный ID: ${source.folders[1].id}`));assert.match(folderRow,/целевой записи нет/);assert.doesNotMatch(folderRow,/целевой ID:/);
+ const remappedId=folderRow.match(/новый ID по переназначению, не импортирован: (fld-[0-9a-f-]+)/)?.[1];assert.ok(remappedId);assert.notEqual(remappedId,source.folders[1].id);assert.match(h.$('interchange-report').textContent,/Local folder/);assert.deepEqual(h.capture(),before);
+});
+
+test('native scope report classifies nested records and uses their display labels',async t=>{
+ const h=setup(t),viewId=h.model.execute({type:'createView',name:'Local view'}).created.viewId;
+ const source=h.model.execute({type:'createElementAndOccurrence',viewId,elementType:'Service',name:'Source',bounds:{x:0,y:0,width:100,height:80}}).created.occurrenceId;
+ const target=h.model.execute({type:'createElementAndOccurrence',viewId,elementType:'Process',name:'Target',bounds:{x:300,y:0,width:100,height:80}}).created.occurrenceId;
+ h.model.execute({type:'createRelationshipAndConnection',viewId,relationshipType:'Flow',label:'Local relation label',source:{kind:'occurrence',id:source},target:{kind:'occurrence',id:target}});
+ h.model.execute({type:'createVisualNode',viewId,kind:'note',text:'Local drawing text',bounds:{x:100,y:180,width:180,height:80}});
+ h.model.execute({type:'createViewpoint',definition:{name:'Local viewpoint',documentation:'',stakeholders:['Architect'],concerns:['Overview'],purpose:['informing'],content:['overview'],selection:{elementTypes:[],junctionTypes:[],relationshipTypes:[]},representation:{kind:'diagram',notation:'archimate',labels:'name-and-type'}}});
+ h.model.execute({type:'createAsset',name:'Local asset',mediaType:'image/svg+xml',data:Buffer.from('<svg width="10" height="10"/>').toString('base64')});
+ const before=h.capture(),incoming=structuredClone(h.store.snapshot);
+ incoming.project.name='Incoming model';incoming.views[0].view.name='Incoming view';incoming.views[0].visualNodes[0].text='Incoming drawing text';incoming.viewpoints[0].name='Incoming viewpoint';incoming.assets[0].name='Incoming asset';incoming.relationships[0].label='Incoming relation label';
+ h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files:[{name:'incoming.arkita',bytes:serializeProjectFile(incoming)}]});h.change('interchange-action','native');h.change('interchange-update',false,true);h.$('interchange-prepare').click();await tick();
+ const report=h.$('interchange-report').textContent;
+ for(const text of ['Представление «Local view»','Представление «Incoming view»','Рисунок «Local drawing text»','Рисунок «Incoming drawing text»','Точка зрения «Local viewpoint»','Точка зрения «Incoming viewpoint»','Ресурс «Local asset»','Ресурс «Incoming asset»','Отношение «Local relation label»','Отношение «Incoming relation label»'])assert.ok(report.includes(text),`scope report includes ${text}`);
+ assert.deepEqual(h.capture(),before);
+});
+
 test('late and stale CSV replies cannot replace model or show a stale proposal',async t=>{
  let resolve;const h=setup(t,'interchange',{readExternalFiles:()=>new Promise(done=>{resolve=done;})});h.change('interchange-action','csv');h.$('interchange-prepare').click();h.$('interchange-close').click();resolve({status:'opened',files:exportCSV(createProject('Incoming')).files});await tick();assert.equal(h.$('interchange-apply').disabled,true);assert.equal(h.store.revision,0);
  h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files:exportCSV(createProject('Incoming')).files});h.ui.open();h.$('interchange-prepare').click();await tick();h.model.execute({type:'renameProject',name:'Later'});h.ui.refresh();assert.equal(h.$('interchange-apply').disabled,true);assert.equal(h.store.snapshot.project.name,'Later');

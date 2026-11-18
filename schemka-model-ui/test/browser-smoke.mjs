@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { deserializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { createProject, createStore } from '../../schemka-model-core/src/index.js';
+import { deserializeProjectFile, serializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { openFileDialog } from './browser-files.mjs';
 
 class BlockedError extends Error {}
@@ -40,11 +41,13 @@ async function run() {
     }
     const page = await browser.newPage({ acceptDownloads: true, viewport: { width: 1280, height: 800 } });
     page.setDefaultTimeout(10_000);
-    const pageErrors = [], failedRequests = [];
-    page.on('pageerror', error => pageErrors.push(error.message));
-    page.on('console', message => { if (message.type() === 'error') pageErrors.push(message.text()); });
-    page.on('requestfailed', request => failedRequests.push(request.url()));
-    page.on('response', response => { if (response.status() >= 400) failedRequests.push(`${response.status()} ${response.url()}`); });
+    const pageErrors = [], failedRequests = [], watch = target => {
+      target.on('pageerror', error => pageErrors.push(error.message));
+      target.on('console', message => { if (message.type() === 'error') pageErrors.push(message.text()); });
+      target.on('requestfailed', request => failedRequests.push(request.url()));
+      target.on('response', response => { if (response.status() >= 400) failedRequests.push(`${response.status()} ${response.url()}`); });
+    };
+    watch(page);
 
     const saveThroughBrowser = async () => {
       await openFileDialog(page);
@@ -108,9 +111,33 @@ async function run() {
 
     const reopenedBytes = await saveThroughBrowser();
     assert.deepEqual(reopenedBytes, savedBytes, 'browser save → open → save preserves exact model bytes');
+
+    const incoming = createStore(createProject('Incoming scope model'));
+    const sourceProjectId = incoming.snapshot.project.id;
+    const sourceFolderId = incoming.execute({ type: 'createFolder', name: 'Incoming-only folder' }, incoming.revision).created.folderId;
+    const scopeBytes = serializeProjectFile(incoming.snapshot), scopePage = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    scopePage.setDefaultTimeout(10_000); watch(scopePage);
+    await scopePage.addInitScript(bytes => { window.schemkaDesktop = { readExternalFiles: async () => ({ status: 'opened', files: [{ name: 'scope.arkita', bytes: Uint8Array.from(bytes) }] }) }; }, Array.from(scopeBytes));
+    await scopePage.goto(url); await scopePage.locator('#canvas .node').first().waitFor();
+    const scopeHistory = await scopePage.locator('#history-state').textContent();
+    await scopePage.locator('.app-menu summary').first().click(); await scopePage.locator('#interchange-button').click(); await scopePage.locator('#interchange-action').selectOption('native');
+    await scopePage.locator('#interchange-folders').uncheck(); await scopePage.locator('#interchange-prepare').click();
+    const scopeReport = scopePage.locator('#interchange-report'), scopeText = await scopeReport.textContent();
+    assert.match(scopeText, /Сохранённые записи целевой модели/); assert.match(scopeText, /Пропущенные входящие записи/);
+    assert.match(scopeText, /Incoming scope model/); assert.match(scopeText, /Incoming-only folder/);
+    assert.ok(scopeText.includes(sourceProjectId)); assert.ok(scopeText.includes(sourceFolderId)); assert.match(scopeText, /целевой записи нет/);
+    assert.equal(await scopePage.locator('#interchange-apply').isDisabled(), true, 'scope-only identical import stays a no-op');
+    const summary = scopeReport.locator('details > summary'); await summary.focus(); await scopePage.keyboard.press('Enter');
+    assert.equal(await scopeReport.locator('details').getAttribute('open'), '');
+    assert.equal(await scopePage.evaluate(() => document.activeElement?.tagName.toLowerCase()), 'summary', 'keyboard expansion keeps focus on the scope control');
+    const applyButton = scopePage.locator('#interchange-apply'); await applyButton.evaluate(element => element.scrollIntoView({ block: 'nearest' }));
+    const applyRect = await applyButton.evaluate(element => { const button = element.getBoundingClientRect(), dialog = document.querySelector('#interchange-dialog').getBoundingClientRect(); return { top: button.top, bottom: button.bottom, dialogTop: dialog.top, dialogBottom: dialog.bottom }; });
+    assert.ok(applyRect.top >= applyRect.dialogTop && applyRect.bottom <= applyRect.dialogBottom, 'preview scroll keeps dialog actions reachable');
+    await scopePage.keyboard.press('Escape'); await scopePage.locator('#interchange-dialog').waitFor({ state: 'hidden' });
+    assert.equal(await scopePage.locator('#history-state').textContent(), scopeHistory); assert.equal(await scopePage.locator('#file-state').getAttribute('data-dirty'), 'false');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · 2-view shared model, Cancel/focus, create, browser save/reopen`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared model, native scope details, keyboard/focus, save/reopen`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {

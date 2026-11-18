@@ -6,6 +6,16 @@ import { canonicalJSON, fail } from '../../schemka-model-core/src/json.js';
 import { createRegistry, CURRENT_PROFILE, assessRelationshipCreation } from '../../schemka-model-profiles/src/index.js';
 const registry = createRegistry([CURRENT_PROFILE]);
 const equal = (a, b) => canonicalJSON(a) === canonicalJSON(b);
+const recordLabel = item => item.name || item.label || item.text || item.id;
+const recordKind = path => {
+  const parts = path.split('/');
+  if (path === 'schemka.json') return 'project';
+  if (parts[0] === 'model') return ({ elements: 'element', junctions: 'junction', relationships: 'relationship', folders: 'folder', 'customization-profiles': 'customizationProfile' })[parts[1]] ?? 'record';
+  if (parts[0] === 'views') return parts.length === 3 ? 'view' : 'drawing';
+  if (parts[0] === 'viewpoints') return 'viewpoint';
+  if (parts[0] === 'assets') return 'asset';
+  return 'record';
+};
 
 export function transferChanges(before, after) {
   const left = new Map(exportFiles(before).map(file => [file.path, JSON.parse(file.content)]));
@@ -14,7 +24,7 @@ export function transferChanges(before, after) {
     const a = left.get(path), b = right.get(path);
     if (a && b && equal(a, b)) return [];
     const item = b ?? a;
-    return [{ path, id: item.id, label: item.name || item.label || item.text || item.id,
+    return [{ path, id: item.id, label: recordLabel(item),
       kind: !a ? 'added' : !b ? 'removed' : 'updated', before: a ?? null, after: b ?? null,
       affectedViews: after.views.filter(entry => entry.view.id === item.id || [...entry.occurrences, ...entry.connections, ...entry.visualNodes, ...entry.visualConnectors].some(drawing => drawing.id === item.id || drawing.concept?.id === item.id || drawing.relationshipId === item.id)).map(entry => ({ id: entry.view.id, name: entry.view.name })) }];
   });
@@ -31,17 +41,28 @@ export function previewNativeMerge(target, source, { ids = 'reuse', updateExisti
   validateProject(target); validateProject(source);
   if (!['reuse', 'remap'].includes(ids) || !['replace', 'merge'].includes(properties) || [updateExisting, folders, modelMetadata].some(value => typeof value !== 'boolean')) fail('IMPORT_OPTIONS', 'Выберите политику ID, области обновления и свойств.');
   const mapped = ids === 'remap' ? remapProject(source) : { snapshot: structuredClone(source), ids: {} };
-  const incoming = mapped.snapshot, result = new Map(exportFiles(target).map(file => [file.path, JSON.parse(file.content)])), kept = [], considered = new Set();
+  const incoming = mapped.snapshot, targetFiles = exportFiles(target), sourcePaths = new Map(exportFiles(source).map(file => [JSON.parse(file.content).id, file.path])), result = new Map(targetFiles.map(file => [file.path, JSON.parse(file.content)])), kept = [], skipped = [], considered = new Set();
+  const reverseIds = new Map(Object.entries(mapped.ids).map(([from, to]) => [to, from]));
   const targetIds = new Map([...result].map(([path, item]) => [item.id, path]));
+  const scopeRecord = (item, file, reason) => ({ id: item.id, targetId: item.id, kind: recordKind(file.path), label: recordLabel(item), reason });
+  const skipRecord = (item, file, reason, targetId = null) => {
+    const sourceId = reverseIds.get(item.id) ?? item.id;
+    skipped.push({ sourceId, mappedId: item.id === sourceId ? null : item.id, targetId, kind: recordKind(file.path), label: recordLabel(item), reason });
+  };
   for (const file of exportFiles(incoming)) {
     let next = JSON.parse(file.content), old = result.get(file.path);
     if (file.path === 'schemka.json') {
-      if (!modelMetadata) { kept.push({ id: target.project.id, reason: 'modelMetadata' }); continue; }
+      if (!modelMetadata) { kept.push(scopeRecord(target.project, file, 'modelMetadata')); skipRecord(next, file, 'modelMetadata', target.project.id); continue; }
       next = { ...next, id: target.project.id }; old = target.project;
     } else {
-      if (file.path.startsWith('model/folders/') && !folders) { kept.push({ id: next.id, reason: 'folders' }); continue; }
+      if (file.path.startsWith('model/folders/') && !folders) {
+        const sourceId = reverseIds.get(next.id) ?? next.id, targetFolder = ids === 'remap' ? result.get(sourcePaths.get(sourceId)) : old;
+        if (targetFolder) kept.push(scopeRecord(targetFolder, file, 'folders'));
+        skipRecord(next, file, 'folders', ids === 'reuse' ? old?.id ?? null : null);
+        continue;
+      }
       if (targetIds.has(next.id) && targetIds.get(next.id) !== file.path) fail('IMPORT_COLLISION', `ID ${next.id} принадлежит другой записи или представлению.`);
-      if (old && !updateExisting) { kept.push({ id: old.id, reason: 'updateExisting' }); continue; }
+      if (old && !updateExisting) { kept.push(scopeRecord(old, file, 'updateExisting')); skipRecord(next, file, 'updateExisting', old.id); continue; }
       if (old && (old.type !== next.type || old.kind !== next.kind)) fail('IMPORT_TYPE', `Импорт не меняет тип ${next.id}. Используйте явную команду изменения типа или новые ID.`);
     }
     if (old?.properties && next.properties && properties === 'merge') next.properties = mergePropertyRows(old.properties, next.properties);
@@ -50,11 +71,10 @@ export function previewNativeMerge(target, source, { ids = 'reuse', updateExisti
   // Replacing a folder's membership may otherwise assign one object twice. Require an explicit remap or consistent source instead.
   const snapshot = importFiles([...result].map(([path, value]) => ({ path, content: canonicalJSON(value) })));
   checkImportedRelationships(target, snapshot);
-  const reverseIds = new Map(Object.entries(mapped.ids).map(([from, to]) => [to, from]));
   const sourceIds = new Set(exportFiles(source).map(file => JSON.parse(file.content).id));
   const changes = transferChanges(target, snapshot).map(change => ({ ...change, sourceId: change.id === target.project.id ? source.project.id : reverseIds.get(change.id) ?? (sourceIds.has(change.id) ? change.id : null) }));
   const changed = new Set(changes.map(change => change.id)), unchangedRecords = [...considered].filter(id => !changed.has(id));
-  return { snapshot, changes, unchangedRecords, kept, ids: mapped.ids, losses: [], unchanged: changes.length === 0 };
+  return { snapshot, changes, unchangedRecords, kept, skipped, ids: mapped.ids, losses: [], unchanged: changes.length === 0 };
 }
 
 /** A board package includes referenced views so no view reference is silently dropped. */
