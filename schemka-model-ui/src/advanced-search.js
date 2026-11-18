@@ -87,7 +87,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   const selected = id => [...controls[id].selectedOptions].map(option => option.value);
   const stamp = () => ({ store: model.store, revision: model.store.revision, viewId: model.viewId });
   const selectionKey = () => JSON.stringify(model.selections?.length ? model.selections : model.selection);
-  const current = captured => captured && captured.store === model.store && captured.revision === model.store.revision && captured.viewId === model.viewId && (!captured.selection || captured.selection === selectionKey()) && dialog.open;
+  const current = captured => captured && captured.store === model.store && captured.revision === model.store.revision && (scope.value !== 'view' || captured.viewId === model.viewId) && (!captured.selection || captured.selection === selectionKey()) && dialog.open;
   function report(text) { message.textContent = text; }
   function invalidate() { generation++; task.cancel(); plan = null; preview.hidden = true; preview.replaceChildren(); apply.disabled = true; discard.hidden = true; cancelTask.disabled = true; error.textContent = ''; }
   function options() {
@@ -147,7 +147,8 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     active = (active + delta + found.length) % found.length;
     document.getElementById(`advanced-result-${active}`)?.focus();
     const row = found[active]; report(`${active + 1} / ${found.length}: ${row.name} · ${row.owner.id}`);
-    if (scope.value === 'view') { const drawing = row.drawings.find(item => item.viewId === model.viewId); if (drawing) revealDrawing(drawing); }
+    const drawing = row.drawings.find(item => item.viewId === model.viewId) || row.drawings[0];
+    if (drawing) revealDrawing(drawing);
   }
   function targets() {
     const all = modelSearchRecords(model.store.snapshot);
