@@ -6407,11 +6407,11 @@
         "schemka-model-io/test/interchange.test.js",
         "schemka-model-ui/test/interchange-templates.test.js"
       ],
-      "remaining": "Source and relevant regression routes are recorded in REVIEW-ISSUE-21-2026-11-15.md. Criterion-level review and applicable installed Windows acceptance remain unrun; keep acceptance-pending.",
+      "remaining": "The scoped two-instance/remap PASS on draft PR #98 does not resolve later SESSION_STALE refusals reported after ordinary confirmation on the same head; exact trigger and cause remain under investigation. The raw template envelope was unavailable for an independent byte-hash check. Keep acceptance-pending; installed Windows acceptance remains unrun.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inspection only; no local rerun or installed Windows acceptance. See the criterion map.",
+      "verification": "Author Chromium readback on draft PR #98 confirmed two independently remapped instances with disjoint IDs and isolated edits; exact-head CI 44371223857 passed. The editor later reported repeated SESSION_STALE in isolated contexts on the same head; cause/trigger are unresolved. Envelope equality is based on protocol/script, without a raw envelope for independent hashing. This is scoped evidence, not criterion acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6940,11 +6940,11 @@
         "schemka-model-ui/test/visuals-ui.test.js",
         "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Add or explicitly defer authoring diagnostics/fallback for invalid label-template syntax and unknown fields; installed Windows acceptance and criterion-level review remain unrun.",
+      "remaining": "Provide an authoring diagnostic and source-name fallback for unknown and malformed label-template fields, or record an explicitly accepted limit. Keep acceptance-pending; installed Windows acceptance remains unrun. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending. Keep acceptance-pending until independent verification.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inspection only; no local rerun or installed Windows acceptance. See the criterion map.",
+      "verification": "On exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b in Chromium, the known name field substituted; unknown and malformed fields remained literal with a success status and no diagnostic or source-name fallback. A JavaScript-looking field remained inert and the original connector name was preserved. Diagnostic/fallback behavior is FAIL. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7014,11 +7014,11 @@
         "schemka-model-ui/test/visuals-ui.test.js",
         "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Demonstrate keyboard-accessible selected-object instructions (including the declared safe formatting contract), or record an explicitly accepted limit; installed Windows acceptance and criterion-level review remain unrun.",
+      "remaining": "Demonstrate visible, keyboard-accessible selected-object instructions using the declared formatting contract. Screen-reader speech, adversarial Markdown sanitization and installed Windows acceptance remain unrun; keep acceptance-pending. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending. Keep acceptance-pending until independent verification.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inspection only; no local rerun or installed Windows acceptance. See the criterion map.",
+      "verification": "On exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b in Chromium, Tab focus/Enter selection, exercised benign Markdown rendering and exact instruction-text transfer through template save/reload passed. The instruction was not visible after selection and was absent from the accessible name; only the SVG title contained it. Instruction-display acceptance is FAIL; screen-reader speech and adversarial sanitization were not tested. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9998,11 +9998,11 @@
         "schemka-model-core/test/portable-fragment.test.js",
         "schemka-model-io/test/interchange.test.js"
       ],
-      "remaining": "Source and relevant regression routes are recorded in REVIEW-ISSUE-21-2026-11-15.md. Criterion-level review and applicable installed Windows acceptance remain unrun; keep acceptance-pending.",
+      "remaining": "The assigned clipboard and local pattern-library Chromium paths passed, but external-package import, physical file loading and installed Windows behavior remain unrun. Keep acceptance-pending.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Reviewed current main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact-main CI and CodeQL runs 43646530875/43646531019 passed. Source/test inspection only; no local rerun or installed Windows acceptance. See the criterion map.",
+      "verification": "Two scoped Chromium scenarios on exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b passed: clipboard fragment reuse/clone and local pattern-library reload/reuse/clone. Saved Blob readback and one-step Undo were checked; selected versus unselected records and the viewpoint-hidden entry remained within the tested scope. This does not establish external-package or installed Windows acceptance.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
