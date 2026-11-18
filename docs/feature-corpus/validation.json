@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "fa1f253f111bc14c44d1d7a6aa326d91a34495bb2cc13a4a07f21d3d4db7121e"
+    "docs/feature-corpus/program.json": "ea190b9ecca7bfec95b18047e427e04722bfb69573c188b87745de5551edfaa3"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,10 +57,10 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-11-14",
+    "updated_at": "2026-11-18",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh A-EDITOR-098 implementation evidence and A-EDITOR-014/015 criterion-level source/test evidence. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
+    "scope": "Record independent real-Chromium acceptance of A-EDITOR-012/013/098 on exact public main and the prior-head documentation evidence review for A-EDITOR-014/015. The latter criteria remain acceptance-pending; other issue #12 criteria remain open and packaged/native Windows acceptance is UNRUN.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -73,13 +73,14 @@
       "ledger": "docs/feature-corpus/program.json"
     },
     "latest_evidence_review": {
-      "updated_at": "2026-11-13",
+      "updated_at": "2026-11-18",
       "issue": 12,
-      "source_sha": "f1a406dce2ffa23bb4394d9197a2723f5cb59071",
-      "required_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43350873840",
-      "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43406746555",
-      "result": "Required CI/security passed. Extended CI passed on Ubuntu and Windows; criteria remain acceptance-pending because installed Windows GUI acceptance and independent review are not recorded.",
-      "ledger": "docs/feature-corpus/program.json"
+      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "required_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
+      "result": "Independent QA accepted A-EDITOR-012/013/098 in real Chromium on exact public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Exact-main CI, Extended CI and CodeQL passed. PR #33 and PR #48 are merged. Renderer acceptance is recorded for those three criteria; packaged/native Windows acceptance remains UNRUN, A-EDITOR-014/015 remain acceptance-pending, and issue #12 remains open.",
+      "ledger": "docs/feature-corpus/program.json",
+      "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43858177729",
+      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43871205954"
     }
   }
 }
