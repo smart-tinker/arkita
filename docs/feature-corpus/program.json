@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-15",
+  "updated_at": "2026-11-18",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -5287,16 +5287,21 @@
       "title": "Кодировка CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "UTF-8 decoding is fatal on invalid bytes; BOM is configurable; Unicode/BOM round-trip test exists. Legacy encodings are not silently substituted. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Legacy encodings remain an explicit, separately controlled option. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Кириллица, emoji и кавычки проходят экспорт и повторный импорт без повреждения.",
+        "Непредставимый символ не заменяется молча вопросительным знаком."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: CSV Cyrillic, BOM, and quoted fields passed. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5485,16 +5490,21 @@
       "title": "Диагностика ошибок CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Errors retain file, physical row, and field; malformed rows and unresolved references reject the package. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Сообщение указывает файл, строку и поле; повторные ID не перезаписываются случайным порядком.",
+        "Попытка сменить тип существующего концепта не обходит штатную команду и её ограничения."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: incompatible ID/type is rejected before model mutation; duplicate relationship-ID rejection leaves the model unchanged. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5568,16 +5578,21 @@
       "title": "Импорт другой модели в текущую",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Native import preview is detached, validated, and atomic; this is not an arbitrary document-open replacement. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "This evidence covers the native Arkita transfer route; it does not claim arbitrary document-open replacement or installed Windows/native file acceptance, which remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Сопоставление ID и типа явно задано; коллизии разных объектов обнаруживаются.",
+        "Валидация выполняется до применения; отсутствие объекта в источнике не означает скрытое удаление."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: incompatible ID/type is rejected before model mutation. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5673,16 +5688,21 @@
       "title": "Явная политика пользовательских свойств при merge",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Replace versus merge is explicit and follows Arkita's unique-key property contract. Duplicate external property keys are not represented as a new format contract. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "The old unique-key assumption is historical and no longer describes the V4 model. The proof is limited to the tested V4 replace/Undo path and does not claim broader external-format interoperability. Installed Windows acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "V4 repeated property keys survive replace without collapsing their values or order.",
+        "The selected property operation is deterministic and Undo restores the previous repeated-key state."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: V4 repeated keys passed replace/Undo. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5708,16 +5728,21 @@
       "title": "Конвертация файла Archi в Arkita4",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "A separate Archi native XML 5.0.0 reader exists with per-record decisions, stable source mapping, and diagnostics. It is deliberately not a claim of arbitrary Archi version or full 3.2-to-4 equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Support is bounded to the documented Archi native XML 5.0.0 route; no arbitrary Archi-version or full ArchiMate 3.2-to-4 equivalence is claimed. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Поддерживаемые типы, атрибуты, views и ресурсы имеют правило преобразования либо явный отказ/предупреждение.",
+        "Неизвестное не теряется молча; исходный файл не изменяется."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Criterion source/test route passed in Extended CI on the exact main SHA; the importer reports unsupported inputs and keeps source bytes unchanged. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5741,16 +5766,21 @@
       "title": "Экспорт в Open Group Exchange",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Export is explicitly Exchange 3.1 Preliminary, requires explicit layer mapping where needed, and emits loss notices. It does not claim ArchiMate 3.2/4 equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "The route is explicitly Exchange 3.1 Preliminary and does not claim ArchiMate 3.2/4 equivalence. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Заявляемая версия формата и поддержанные поля проверены на fixtures.",
+        "При отсутствии представимого соответствия экспорт даёт отчёт потерь или отказ, а не ложное заявление совместимости."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Criterion source/test route passed in Extended CI on the exact main SHA; Exchange export is fixture- and schema-checked with explicit loss reporting. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5774,16 +5804,21 @@
       "title": "Проверка XML и поставка схемы обмена",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Offline XSD validation and syntax/schema distinction exist; the optional schema files are returned as exact bytes. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Native installed-app/XML file-dialog acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Используется та же версия схемы, что объявлена экспортом; проверка воспроизводима без произвольной сети.",
+        "Ошибка XSD отделена от ошибки семантического преобразования."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Offline XSD validator and schema tests passed in Extended CI on the exact main SHA. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5807,16 +5842,21 @@
       "title": "Перенос организации папок",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Folder organization is exported when selected; disabling it reports the loss. The fixture round-trips two same-named folders with different IDs and owners. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Native installed-app file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Одинаковые имена папок не смешивают объекты и порядок.",
+        "Отключение организации не удаляет концепты и явно ограничивает round-trip."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Exchange fixture tests for same-name folders and disabled-folder loss reporting passed in Extended CI on the exact main SHA. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5843,13 +5883,14 @@
       "current_status": "acceptance-pending",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/90"
       ],
-      "remaining": "Export language and import language selection exist; malformed tags fail, alternate language text is reported rather than silently substituted. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Explicit diagnostics for a requested language missing from a present field are proposed in draft PR #90 (head bd38bd27e7acc3e9118a0db808084d9b7811bd4a), which remains unmerged and pending review. Keep this criterion acceptance-pending; installed Windows/native file acceptance is also UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Explicit requested-language fallback diagnostics are in draft PR #90 and are not part of main yet; see https://github.com/smart-tinker/arkita/pull/90. Keep pending until review and merge; installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5873,16 +5914,21 @@
       "title": "Описательные метаданные экспорта",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Dublin Core fields are allow-listed, escaped, and round-tripped as native properties where the model has no separate DC block. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "The current route is limited to its allow-listed Dublin Core fields. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Все заявленные Dublin Core поля имеют однозначный перенос и escaping.",
+        "Пустые метаданные не создают ложных значений; экспорт не меняет модель без отдельного сохранения."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: Dublin Core description escaping and empty-metadata omission passed. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9704,16 +9750,20 @@
       "title": "Диагностика CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
-        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Duplicate IDs, conflicting references, physical row numbers, comments, and late-package failure have regression coverage. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "CSV acceptance is limited to the documented package/comment contract. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "CSV import reports duplicate IDs and conflicting relationship definitions with row context, preserves explicit comment semantics, and rejects late package errors without partial model mutation."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: duplicate relationship-ID rejection leaves the model unchanged; the related CSV diagnostics route passed Extended CI on the exact main SHA. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
