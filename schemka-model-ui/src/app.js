@@ -828,6 +828,23 @@ $('about-button').addEventListener('click', async () => {
 });
 $('fit-button').addEventListener('click', () => { cancelGesture(); viewport?.reset(); fit = true; const bookmark = focusBookmark(); renderCanvas(); restoreFocus(bookmark); status('Все элементы вписаны в полотно'); });
 for (const item of document.querySelectorAll('[data-panel]')) item.addEventListener('click', () => { inline.cancel(false); cancelGesture(); panel(item.dataset.panel); });
+const historyActionNames = {
+  bulkUpdateMetadata: 'Массовое изменение метаданных', generateView: 'Создание представления по модели',
+  pastePortableFragment: 'Вставка фрагмента модели', removeFragment: 'Удаление фрагмента', moveFragment: 'Перенос фрагмента', pasteFragment: 'Вставка фрагмента',
+  applyProjectSnapshot: 'Применение изменений модели', createViewpoint: 'Создание viewpoint', updateViewpoint: 'Изменение viewpoint', setViewpoint: 'Назначение viewpoint', deleteViewpoint: 'Удаление viewpoint',
+  createCustomizationProfile: 'Создание профиля оформления', updateCustomizationProfile: 'Изменение профиля оформления', deleteCustomizationProfile: 'Удаление профиля оформления', setProfileApplication: 'Применение профиля оформления', removeProfileApplication: 'Снятие профиля оформления',
+  changeConceptTypes: 'Изменение типов концептов', changeConceptType: 'Изменение типа концепта', renameProject: 'Переименование модели', updateMetadata: 'Изменение метаданных',
+  renameView: 'Переименование представления', createView: 'Создание представления', deleteView: 'Удаление представления', duplicateView: 'Дублирование представления',
+  createElementAndOccurrence: 'Создание элемента и рисунка', addOccurrence: 'Добавление рисунка элемента', updateConceptDocumentation: 'Изменение документации элемента', renameElement: 'Переименование элемента', updateConceptProperties: 'Изменение свойств элемента',
+  renameRelationship: 'Переименование отношения', updateRelationshipMultiplicity: 'Изменение кратности отношения', alignDrawings: 'Выравнивание рисунков', moveDrawings: 'Перемещение выбранных рисунков', moveOccurrence: 'Перемещение рисунка', resizeOccurrence: 'Изменение размера рисунка',
+  createJunctionAndOccurrence: 'Создание junction и рисунка', renameJunction: 'Переименование junction', updateJunctionType: 'Изменение типа junction', updateRelationshipJunctionRole: 'Изменение роли junction в отношении',
+  createRelationshipAndConnection: 'Создание отношения и соединения', addConnection: 'Добавление соединения', updateConnectionLayout: 'Изменение маршрута соединения', resetConnectionLayout: 'Сброс маршрута соединения', insertConnectionAnchor: 'Добавление точки маршрута', moveConnectionAnchor: 'Перемещение точки маршрута', removeConnectionAnchor: 'Удаление точки маршрута', rebindConnectionEndpoint: 'Переподключение конца отношения',
+  removeDrawings: 'Удаление выбранных рисунков', removeVisualNode: 'Удаление визуального элемента', removeVisualConnector: 'Удаление визуальной связи', removeConnection: 'Удаление соединения', removeOccurrence: 'Удаление рисунка элемента',
+  deleteElementFromModel: 'Удаление элемента из модели', deleteJunctionFromModel: 'Удаление junction из модели', deleteRelationshipFromModel: 'Удаление отношения из модели', setDrawingLocked: 'Изменение блокировки рисунка', setViewPresentation: 'Изменение оформления представления',
+  createFolder: 'Создание папки модели', updateFolder: 'Изменение папки модели', moveFolderMembers: 'Перемещение объектов между папками', deleteFolder: 'Удаление папки модели', createElementInModel: 'Создание элемента в модели', createJunctionInModel: 'Создание junction в модели', duplicateConcept: 'Дублирование концепта',
+  setCustomizationProfileImage: 'Изменение изображения профиля', createAsset: 'Добавление ресурса', deleteAsset: 'Удаление ресурса', createVisualNode: 'Создание визуального элемента', updateVisualNode: 'Изменение визуального элемента', createVisualConnector: 'Создание визуальной связи', updateVisualConnector: 'Изменение визуальной связи',
+  updateDrawingStyle: 'Изменение оформления рисунка', resetDrawingStyle: 'Сброс оформления рисунка', reparentDrawing: 'Изменение вложенности рисунка', resizeDrawing: 'Изменение размера рисунка',
+};
 function history(action) {
   if (workspace?.active) return;
   whereUsed?.cancel();
@@ -840,7 +857,8 @@ function history(action) {
   if (!result) return;
   render();
   const names = model.store.snapshot.views.filter(entry => result.affectedViewIds.includes(entry.view.id)).map(entry => displayName(entry.view));
-  status(`${action === 'undo' ? 'Отменено' : 'Повторено'} · ${names.join(', ') || 'общая модель'}`);
+  const actionName = Object.hasOwn(historyActionNames, result.command) ? historyActionNames[result.command] : 'Изменение модели';
+  status(`${action === 'undo' ? 'Отменено' : 'Повторено'} · ${actionName} · ${names.join(', ') || 'общая модель'}`);
 }
 $('undo').addEventListener('click', () => history('undo'));
 $('redo').addEventListener('click', () => history('redo'));

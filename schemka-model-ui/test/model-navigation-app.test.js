@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createProject, createStore } from '../../schemka-model-core/src/index.js';
 import { setup, production } from './app-test-fixture.js';
 import { serializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { usageFixture } from './where-used-fixture.js';
@@ -33,6 +34,17 @@ function renameProject(h, name) {
   h.$('project-name').click(); const input = h.document.querySelector('.inline-editor input'); assert.ok(input);
   input.value = name; input.dispatchEvent(new h.window.Event('input', { bubbles: true })); press(h, input, 'Enter');
 }
+
+test(`${mode} Undo and Redo announce the action and affected view accessibly`, async t => {
+  const h = await setup(t), store = createStore(createProject('Before rename'));
+  store.execute({ type: 'createView', name: 'Main' }, store.revision);
+  await h.load(serializeProjectFile(store.snapshot)); renameProject(h, 'After rename');
+  h.$('undo').click();
+  assert.equal(h.$('status').textContent, 'Отменено · Переименование модели · Main');
+  h.$('redo').click();
+  assert.equal(h.$('status').textContent, 'Повторено · Переименование модели · Main');
+  assert.equal(h.$('status').getAttribute('role'), 'status'); assert.equal(h.$('status').getAttribute('aria-live'), 'polite');
+});
 
 test(`${mode} model navigation: search, properties and usages retain the query, precise drawing, focus and both histories`, async t => {
   const h = await setup(t), fixture = usageFixture(); await h.load(serializeProjectFile(fixture.state));
