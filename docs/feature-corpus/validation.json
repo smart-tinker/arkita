@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "147725960206dc08ab313b9ad00f15cf341a08b4d4ea16debe19483013e22e06"
+    "docs/feature-corpus/program.json": "4ac92f720ecf8026ae6f42f443b04770e5341197f47405e0d17c040b3c8eb15f"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -60,7 +60,7 @@
     "updated_at": "2026-11-18",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh issue #39 umbrella evidence against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. The latest issue #19 review has all eight criteria acceptance-pending with closed_criteria empty; A-EDITOR-090 is addressed by draft PR #75 and A-EDITOR-095 normative relationship-field mapping remains unresolved. For issue #20, exactly 13 criteria are accepted within the canonical Arkita CSV and supported pinned Exchange 3.1 subsets; 12 remain acceptance-pending, including A-ADV-053 because its current assertion is export-only and lacks full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report. A-ADV-063 remains pending review and merge of PR #90. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged.",
+    "scope": "Refresh issue #39 umbrella evidence against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b. The latest issue #19 review has all eight criteria acceptance-pending with closed_criteria empty; A-EDITOR-090 is addressed by draft PR #75 and A-EDITOR-095 normative relationship-field mapping remains unresolved. For issue #20, exactly 19 criteria are accepted within their documented contracts and 6 remain acceptance-pending: A-ADV-045, A-ADV-048, A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-053 still lacks full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report; A-ADV-063 awaits review and merge of PR #90. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -78,43 +78,43 @@
       "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
       "merged_bootstrap_pr": "https://github.com/smart-tinker/arkita/pull/1",
       "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43858177729",
-      "accepted_count": 13,
+      "accepted_count": 19,
       "accepted_criteria": [
         "A-ADV-044",
         "A-ADV-046",
+        "A-ADV-047",
+        "A-ADV-049",
+        "A-ADV-050",
         "A-ADV-052",
         "A-ADV-055",
+        "A-ADV-057",
         "A-ADV-058",
         "A-ADV-059",
         "A-ADV-060",
         "A-ADV-061",
         "A-ADV-062",
         "A-ADV-064",
+        "A-ADV-065",
         "A-ADV-066",
         "A-EXT-019",
-        "A-EXT-020"
+        "A-EXT-020",
+        "A-EXT-034"
       ],
-      "pending_count": 12,
+      "pending_count": 6,
       "pending_criteria": [
         "A-ADV-045",
-        "A-ADV-047",
         "A-ADV-048",
-        "A-ADV-049",
-        "A-ADV-050",
         "A-ADV-051",
         "A-ADV-053",
         "A-ADV-056",
-        "A-ADV-057",
-        "A-ADV-063",
-        "A-ADV-065",
-        "A-EXT-034"
+        "A-ADV-063"
       ],
-      "result": "Independent QA accepted A-ADV-044 only within the canonical Arkita CSV contract and A-ADV-066/A-EXT-019 only within the supported pinned Exchange 3.1 subset, based on the documented synthetic round-trips, explicit losses, and unknown-type handling. A-ADV-053 remains pending: the current branch assertion is export-only, full per-field round-trip fixtures are missing, and there is no explicit ArchiMate 3.2 compatibility report. Earlier QA checks passed for CSV Cyrillic/BOM/quoted fields, incompatible ID/type rejection before mutation, V4 repeated properties through replace/Undo, Dublin Core escaping and empty-metadata omission, and duplicate relationship-ID rejection without mutation. Extended CI on exact main SHA passed full-test and syntax jobs on Ubuntu and Windows. Native installed-app/file-dialog acceptance remains UNRUN.",
+      "result": "Independent QA accepted A-ADV-047, A-ADV-049, A-ADV-050, A-ADV-057, A-ADV-065, and A-EXT-034 against merged public main. Evidence covers canonical CSV CRLF/blank-line preservation and explicit flat export; validation before mutation, late-error rejection, skipped-record retention, one-new/one-updated/one-unchanged preview, one apply/Undo, and repeated-import no-history behavior; source/target IDs in the result report; Exchange invalid-reference rejection, loss reporting, separate-model opening, and unchanged source bytes; and formula-free XLSX content with IDs, endpoints, properties, profiles, Cyrillic, CRLF, and leading zeros. An existing-destination EEXIST preserved the prior 44-byte file with SHA-256 21b5277421a495b2c8fbd1304c0f0a19c28ae1093d5d6ce3df9d91b16406b0b4; the generated workbook was 14,289 bytes with SHA-256 663ee317c23344e044bcdaa10b05772235c29c76afba31c95955a84caeeeaa19. Earlier QA remains recorded for CSV Cyrillic/BOM/quoted fields, incompatible ID/type rejection, V4 repeated properties through replace/Undo, Dublin Core escaping/empty-metadata omission, and duplicate relationship-ID rejection. Extended CI on exact main SHA passed full-test and syntax jobs on Ubuntu and Windows. Installed Windows/native acceptance remains UNRUN. Six criteria remain pending: A-ADV-045, A-ADV-048, A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063; issue closure and release acceptance are not implied.",
       "ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     "current_status_counts": {
-      "accepted": 13,
-      "acceptance-pending": 316,
+      "accepted": 19,
+      "acceptance-pending": 310,
       "excluded": 9,
       "alias": 1
     }

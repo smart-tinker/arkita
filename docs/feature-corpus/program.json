@@ -5328,16 +5328,16 @@
       "title": "Сохранение или уплощение многострочных полей CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Canonical mode preserves newlines; the added assertion verifies CRLF/CR/LF flattening in the exported cell and confirms the source bytes do not change. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Canonical mode preserves CRLF and blank lines; flattening occurs only in the explicit flat export, and the source model remains unchanged. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5394,16 +5394,16 @@
       "title": "Создание концептов из CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "New-model and current-model routes validate the package before an apply/proposal. Native file-selection flow remains unrun. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "New-model and current-model routes validate the complete package before an apply/proposal; model and Chromium UI evidence is recorded in the review. Installed Windows/native file selection remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5427,16 +5427,16 @@
       "title": "Частичное обновление модели из CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Omitted records are retained; repeated IDs/type changes are rejected before apply; a one-action UI apply route exists. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Omitted records are retained; late validation failures reject without mutation; the preview, one-action apply/Undo, and repeated-import no-op are verified. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5656,16 +5656,16 @@
       "title": "Отчёт результата и влияния импорта",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Result summary and source-to-target IDs are available; UI tests cover the report after one apply. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "The saved result report retains source/target IDs after apply and matches the applied changes. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5955,16 +5955,16 @@
       "title": "Импорт Open Exchange в новую модель",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Exchange import validates before creating a separate unsaved model; cancel and stale validation cannot apply to the current model. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Exchange import validates before creating a separate unsaved model; invalid references are rejected before opening, losses are shown, and source bytes remain unchanged. Installed Windows/native acceptance remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10190,16 +10190,16 @@
       "title": "Экспорт модели в XLSX",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Six workbook sheets are generated from the CSV tables; values are inline strings and counts derive from table rows. XLSX import is explicitly out of scope. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Six workbook sheets, row/ID/end/property/profile content, and formula-free inline strings are verified; EEXIST preserves the existing destination bytes. XLSX import is out of scope. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; writer collision check preserved prior bytes with SHA-256 21b5277421a495b2c8fbd1304c0f0a19c28ae1093d5d6ce3df9d91b16406b0b4. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
