@@ -6,6 +6,16 @@ import { canonicalJSON, fail } from '../../schemka-model-core/src/json.js';
 import { createRegistry, CURRENT_PROFILE, assessRelationshipCreation } from '../../schemka-model-profiles/src/index.js';
 const registry = createRegistry([CURRENT_PROFILE]);
 const equal = (a, b) => canonicalJSON(a) === canonicalJSON(b);
+const recordLabel = item => item.name || item.label || item.text || item.id;
+const recordKind = path => {
+  const parts = path.split('/');
+  if (path === 'schemka.json') return 'project';
+  if (parts[0] === 'model') return ({ elements: 'element', junctions: 'junction', relationships: 'relationship', folders: 'folder', 'customization-profiles': 'customizationProfile' })[parts[1]] ?? 'record';
+  if (parts[0] === 'views') return parts.length === 3 ? 'view' : 'drawing';
+  if (parts[0] === 'viewpoints') return 'viewpoint';
+  if (parts[0] === 'assets') return 'asset';
+  return 'record';
+};
 
 export function transferChanges(before, after) {
   const left = new Map(exportFiles(before).map(file => [file.path, JSON.parse(file.content)]));
@@ -14,7 +24,7 @@ export function transferChanges(before, after) {
     const a = left.get(path), b = right.get(path);
     if (a && b && equal(a, b)) return [];
     const item = b ?? a;
-    return [{ path, id: item.id, label: item.name || item.label || item.text || item.id,
+    return [{ path, id: item.id, label: recordLabel(item),
       kind: !a ? 'added' : !b ? 'removed' : 'updated', before: a ?? null, after: b ?? null,
       affectedViews: after.views.filter(entry => entry.view.id === item.id || [...entry.occurrences, ...entry.connections, ...entry.visualNodes, ...entry.visualConnectors].some(drawing => drawing.id === item.id || drawing.concept?.id === item.id || drawing.relationshipId === item.id)).map(entry => ({ id: entry.view.id, name: entry.view.name })) }];
   });
@@ -34,10 +44,10 @@ export function previewNativeMerge(target, source, { ids = 'reuse', updateExisti
   const incoming = mapped.snapshot, targetFiles = exportFiles(target), sourcePaths = new Map(exportFiles(source).map(file => [JSON.parse(file.content).id, file.path])), result = new Map(targetFiles.map(file => [file.path, JSON.parse(file.content)])), kept = [], skipped = [], considered = new Set();
   const reverseIds = new Map(Object.entries(mapped.ids).map(([from, to]) => [to, from]));
   const targetIds = new Map([...result].map(([path, item]) => [item.id, path]));
-  const scopeRecord = (item, file, reason) => ({ id: item.id, targetId: item.id, kind: file.path === 'schemka.json' ? 'project' : file.path.split('/')[1].replace(/s$/, ''), label: item.name ?? item.id, reason });
+  const scopeRecord = (item, file, reason) => ({ id: item.id, targetId: item.id, kind: recordKind(file.path), label: recordLabel(item), reason });
   const skipRecord = (item, file, reason, targetId = null) => {
     const sourceId = reverseIds.get(item.id) ?? item.id;
-    skipped.push({ sourceId, mappedId: item.id === sourceId ? null : item.id, targetId, kind: file.path === 'schemka.json' ? 'project' : file.path.split('/')[1].replace(/s$/, ''), label: item.name ?? item.id, reason });
+    skipped.push({ sourceId, mappedId: item.id === sourceId ? null : item.id, targetId, kind: recordKind(file.path), label: recordLabel(item), reason });
   };
   for (const file of exportFiles(incoming)) {
     let next = JSON.parse(file.content), old = result.get(file.path);

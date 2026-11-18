@@ -74,7 +74,7 @@ export function installInterchangeUI({ document, window, model, session, files, 
       report.append(node('p', `Добавить: ${count('added')}; обновить: ${count('updated')}; удалить: ${count('removed')}; без изменений в выбранной области: ${plan.unchangedRecords?.length ?? 0}.`));
       if (!plan.changes.length) report.append(node('p', 'Совпадает с текущей моделью; Undo не изменится.'));
       if (plan.kept?.length || plan.skipped?.length) {
-        const details = node('details'), reasons = { modelMetadata: 'метаданные модели не импортируются', folders: 'импорт папок отключён', updateExisting: 'обновление существующих объектов отключено' }, types = { project: 'Модель', folder: 'Папка', element: 'Элемент', junction: 'Узел', relationship: 'Отношение', view: 'Представление', viewpoint: 'Точка зрения', asset: 'Ресурс', customizationProfile: 'Профиль' };
+        const details = node('details'), reasons = { modelMetadata: 'метаданные модели не импортируются', folders: 'импорт папок отключён', updateExisting: 'обновление существующих объектов отключено' }, types = { project: 'Модель', folder: 'Папка', element: 'Элемент', junction: 'Узел', relationship: 'Отношение', view: 'Представление', drawing: 'Рисунок', viewpoint: 'Точка зрения', asset: 'Ресурс', customizationProfile: 'Профиль' };
         details.append(node('summary', `Область импорта: сохранено в целевой модели — ${plan.kept?.length ?? 0}; пропущено из входящей — ${plan.skipped?.length ?? 0}.`));
         if (plan.kept?.length) {
           const retained = node('div'); retained.append(node('h3', `Сохранённые записи целевой модели: ${plan.kept.length}`));
