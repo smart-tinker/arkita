@@ -5221,16 +5221,19 @@
       "title": "CSV выгрузка элементов, отношений и свойств",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Source covers model, element, junction, relationship, property, and profile tables with IDs and typed relationship references. Round-trip test exists; acceptance remains pending. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Acceptance is limited to the canonical Arkita CSV tables and field contract; it does not establish compatibility with arbitrary source CSV or ArchiMate 3.2↔4. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Canonical Arkita CSV round-trip preserves stable IDs, Arkita4 types, names, documentation, relationship endpoints, specializations, profile applications, and ordered duplicate V4 properties in the supported tables.",
+        "Typed relationship references remain attached to their elements in the canonical Arkita CSV contract; no broad ArchiMate 3.2↔4 translation is claimed."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted by bounded independent QA on 2026-11-18 against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Synthetic CSV round-trip verified IDs, profiles/profileApplications, ordered duplicate V4 properties, AndJunction, directed/access/influence types, and typed relationship ends. This is canonical Arkita CSV evidence, not arbitrary CSV or cross-version interchange. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5533,11 +5536,11 @@
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "The added assertion checks relationship type (`ReadAccess`), typed endpoints, source/target multiplicities including presence flags, and `junctionRole`. CSV also carries profile applications; the current core has no separate `accessType` field. This is the supported Arkita field map, not a claim of broader notation equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "The current branch assertion is export-only: it checks relationship type (ReadAccess), typed endpoints, source/target multiplicities and presence flags, and junctionRole, but does not prove per-field round-trip. Full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report are missing. CSV also carries profile applications; the current core has no separate accessType field. Keep this criterion acceptance-pending. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA on 2026-11-18 kept this criterion acceptance-pending: the current branch assertion is export-only, full per-field round-trip fixtures are absent, and there is no explicit ArchiMate 3.2 compatibility report. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5985,16 +5988,19 @@
       "title": "Отчёт о расширениях и потерях обмена",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Unknown/unrepresentable fields are refused or included in diagnostics/loss reports; the tests explicitly prevent a false exact-route claim. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Acceptance is limited to the supported pinned Exchange 3.1 subset. It does not establish generic Exchange-dialect or ArchiMate 3.2↔4 equivalence. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "The supported pinned Exchange round-trip validates against its XSD and makes preserved and lost information explicit, including profile/profileApplication, asset, and router-specific losses.",
+        "Unknown foreign attributes are reported, and an unknown relationship type is rejected rather than treated as a valid relationship."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted by bounded independent QA on 2026-11-18 against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Synthetic Exchange round-trip passed pinned XSD validation and preserved IDs, relationship ends, route bends, and duplicate properties; profile/profileApplication, asset, and router-specific losses were explicit, unknown foreign attributes were reported, and UnknownRelation was rejected. No broad ArchiMate 3.2↔4 compatibility is claimed. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9717,16 +9723,19 @@
       "title": "Геометрия и профили при обмене",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Supported geometry/styles round-trip; unsupported profiles, routes, and fields are reported. This is bounded interoperability, not full cross-version equivalence. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Acceptance is limited to the supported pinned Exchange 3.1 subset. Unsupported profiles, assets, and router-specific data are explicit losses; this is not full ArchiMate 3.2↔4 equivalence. Installed Windows/native file acceptance remains UNRUN.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "The supported pinned Exchange round-trip preserves IDs, relationship ends, route bends, duplicate properties, and supported geometry.",
+        "Unsupported profiles/profileApplications, assets, router-specific data, and unknown fields are reported as explicit losses or diagnostics; no full ArchiMate 3.2↔4 equivalence is claimed."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Accepted by bounded independent QA on 2026-11-18 against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. The synthetic supported Exchange round-trip preserved IDs, relationship ends, route bends, and duplicate properties, and explicitly reported unsupported profiles/profileApplications, assets, and router-specific losses. This evidence is limited to the pinned supported subset, not cross-version equivalence. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
