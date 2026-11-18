@@ -29,8 +29,8 @@ export function createDocumentPreferences(root, io = fs) {
       if (parsed.version !== 1 || !Array.isArray(parsed.recent) || !Array.isArray(parsed.backups) || parsed.recent.length > 50 || parsed.backups.length > 1000) fail('DOCUMENT_STORAGE', 'Некорректный список документов.');
       for (const item of parsed.recent) if (typeof item.path !== 'string' || !path.isAbsolute(item.path) || item.path.length > 4096 || !['file', 'directory'].includes(item.kind)) fail('DOCUMENT_STORAGE', 'Некорректная запись недавнего файла.');
       for (const item of parsed.backups) if (!backupId(item.id) || typeof item.sourcePath !== 'string' || !path.isAbsolute(item.sourcePath) || item.sourcePath.length > 4096 || !Number.isSafeInteger(item.created)) fail('DOCUMENT_STORAGE', 'Некорректная запись резервной копии.');
-      state = { settings: documentSettings(parsed.settings), recent: parsed.recent, backups: parsed.backups, paletteBounds: parsed.paletteBounds || null, mainBounds: parsed.mainBounds || null };
-    } catch (error) { if (error.code !== 'ENOENT') throw error; state = { settings: { ...defaults }, recent: [], backups: [], paletteBounds: null, mainBounds: null }; }
+      state = { settings: documentSettings(parsed.settings), recent: parsed.recent, backups: parsed.backups, paletteBounds: parsed.paletteBounds || null, catalogBounds: parsed.catalogBounds || null, mainBounds: parsed.mainBounds || null };
+    } catch (error) { if (error.code !== 'ENOENT') throw error; state = { settings: { ...defaults }, recent: [], backups: [], paletteBounds: null, catalogBounds: null, mainBounds: null }; }
   }
   async function storageBoundary() {
     const parent = await directoryBoundary(path.dirname(root), io);
@@ -49,11 +49,11 @@ export function createDocumentPreferences(root, io = fs) {
     backups: state.backups.slice().sort((a, b) => b.created - a.created).map(item => ({ ...item, name: path.basename(item.sourcePath) })) });
   return {
     status: () => run(summary),
-    windowBounds: (kind = 'palette') => run(() => kind === 'main' ? state.mainBounds : state.paletteBounds),
+    windowBounds: (kind = 'palette') => run(() => kind === 'main' ? state.mainBounds : kind === 'catalog' ? state.catalogBounds : state.paletteBounds),
     setWindowBounds: (bounds, kind = 'palette') => run(async () => {
-      if (!['main', 'palette'].includes(kind)) fail('DOCUMENT_SETTINGS', 'Неизвестное окно.');
+      if (!['main', 'palette', 'catalog'].includes(kind)) fail('DOCUMENT_SETTINGS', 'Неизвестное окно.');
       if (!bounds || Object.keys(bounds).some(key => !['x', 'y', 'width', 'height'].includes(key)) || ['x', 'y', 'width', 'height'].some(key => !Number.isInteger(bounds[key]) || Math.abs(bounds[key]) > 100000) || bounds.width < 1 || bounds.height < 1) fail('DOCUMENT_SETTINGS', 'Некорректное положение палитры.');
-      state[kind === 'main' ? 'mainBounds' : 'paletteBounds'] = { ...bounds }; await persist();
+      state[kind === 'main' ? 'mainBounds' : kind === 'catalog' ? 'catalogBounds' : 'paletteBounds'] = { ...bounds }; await persist();
     }),
     set: settings => run(async () => { const previous = state; state = { ...state, settings: documentSettings(settings), recent: state.recent.slice(0, settings.recentLimit ?? defaults.recentLimit) }; try { await persist(); } catch (error) { state = previous; throw error; } return summary(); }),
     remember: (selected, kind = 'file') => run(async () => {

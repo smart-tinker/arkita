@@ -1911,6 +1911,7 @@ button { border-radius:5px; }
 /* Device preferences only; model styles are stored separately. */
 body[data-workspace-catalog="false"] .editor-shell > .catalog,
 body[data-workspace-palette="false"] .editor-shell > .toolbox,
+body[data-catalog-detached="true"] .editor-shell > .catalog,
 body[data-hide-elements] #tree-elements,
 body[data-hide-junctions] #tree-junctions,
 body[data-hide-relationships] #tree-relationships,
@@ -1920,6 +1921,10 @@ body[data-hide-views] #tree-views { display:none; }
   body[data-workspace-catalog="false"] .editor-shell { grid-template-columns:minmax(0,1fr) min(var(--workspace-palette-width,240px),30vw); }
   body[data-workspace-palette="false"] .editor-shell { grid-template-columns:min(var(--workspace-catalog-width,240px),30vw) minmax(0,1fr); }
   body[data-workspace-catalog="false"][data-workspace-palette="false"] .editor-shell { grid-template-columns:minmax(0,1fr); }
+  body[data-catalog-detached="true"][data-palette-detached="true"] .editor-shell { grid-template-columns:minmax(0,1fr); }
+  body[data-catalog-detached="true"]:not([data-palette-detached="true"]) .editor-shell { grid-template-columns:minmax(0,1fr) min(var(--workspace-palette-width,240px),30vw); }
+  body[data-catalog-detached="true"][data-workspace-palette="false"] .editor-shell { grid-template-columns:minmax(0,1fr); }
+  body[data-catalog-detached="true"][data-workspace-palette="false"][data-palette-detached="true"] .editor-shell { grid-template-columns:minmax(0,1fr); }
 }
 body[data-workspace-palette] .palette-tool strong { font-size:var(--workspace-palette-font,12px); }
 body[data-workspace-palette] .palette-tool > .palette-glyph { width:var(--workspace-palette-size,24px); height:var(--workspace-palette-size,24px); flex-shrink:0; }

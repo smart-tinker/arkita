@@ -77,13 +77,20 @@ test('native service reports cancellation, failed read/write and recovery withou
   assert.deepEqual(await service.saveProject(event, bytes), { status: 'error', code: 'ENOSPC', message: 'disk full' }); assert.equal(service.busy, false);
 });
 test('preload exposes only fixed promise methods and never the IPC event or raw APIs', async () => {
-  let exposed; const calls = [];
+  let exposed; const calls = [], listeners = new Map();
   vm.runInNewContext(await fs.readFile(new URL('../preload.cjs', import.meta.url), 'utf8'), { require: name => {
     assert.equal(name, 'electron'); return { contextBridge: { exposeInMainWorld: (name, value) => { assert.equal(name, 'schemkaDesktop'); exposed = value; } },
-      ipcRenderer: { invoke: async (...args) => { calls.push(args); return { status: 'cancelled' }; } } };
+      ipcRenderer: { invoke: async (...args) => { calls.push(args); return { status: 'cancelled' }; }, on: (name, callback) => listeners.set(name, callback), removeListener: name => listeners.delete(name) } };
   } });
-  assert.deepEqual(Object.keys(exposed), ['paletteOpen', 'palettePublish', 'paletteDock', 'paletteResolveDrop', 'onPaletteCommand', 'onPaletteDocked', 'clipboardWriteFragment', 'clipboardReadFragment', 'clipboardAcknowledgeCut', 'clipboardClaimCut', 'clipboardCompleteCut', 'clipboardWriteImage', 'onClipboardCutDelivered', 'printView', 'savePdf', 'openExternalLink', 'openCredentialManager', 'outlineText', 'validateExchangeXml', 'readExternalFiles', 'saveExternalFiles', 'documentPreferences', 'setDocumentPreferences', 'openRecent', 'recoverBackup', 'newDocument', 'documentReady', 'openDroppedFile', 'closeDocument', 'finishSaveClose', 'setDocumentTitle', 'onSaveAndClose', 'readTeamProfile', 'documentLocation', 'getAppInfo', 'openProject', 'saveProject', 'saveCurrentProject', 'openDirectory', 'saveDirectory', 'documentChanged', 'saveBoundDirectory', 'recoverDirectory', 'saveMermaid', 'saveSvg',
+  assert.deepEqual(Object.keys(exposed), ['catalogOpen', 'catalogPublish', 'catalogDock', 'onCatalogAction', 'onCatalogDocked', 'paletteOpen', 'palettePublish', 'paletteDock', 'paletteResolveDrop', 'onPaletteCommand', 'onPaletteDocked', 'clipboardWriteFragment', 'clipboardReadFragment', 'clipboardAcknowledgeCut', 'clipboardClaimCut', 'clipboardCompleteCut', 'clipboardWriteImage', 'onClipboardCutDelivered', 'printView', 'savePdf', 'openExternalLink', 'openCredentialManager', 'outlineText', 'validateExchangeXml', 'readExternalFiles', 'saveExternalFiles', 'documentPreferences', 'setDocumentPreferences', 'openRecent', 'recoverBackup', 'newDocument', 'documentReady', 'openDroppedFile', 'closeDocument', 'finishSaveClose', 'setDocumentTitle', 'onSaveAndClose', 'readTeamProfile', 'documentLocation', 'getAppInfo', 'openProject', 'saveProject', 'saveCurrentProject', 'openDirectory', 'saveDirectory', 'documentChanged', 'saveBoundDirectory', 'recoverDirectory', 'saveMermaid', 'saveSvg',
     'gitNetworkPolicy', 'gitSetNetworkPolicy', 'gitStatus', 'gitConnect', 'gitOpen', 'gitAdopt', 'gitCommit', 'gitPush', 'gitReceive', 'gitApply', 'gitInspect', 'gitRestore', 'gitCreateBranch', 'gitPrepareBranch', 'gitSwitchBranch', 'gitCreateMilestone', 'gitPublishMilestone', 'gitDeleteMilestone', 'gitDisconnect']); assert.equal(Object.isFrozen(exposed), true);
+  const snapshot = { documentToken: 'synthetic' }, delivered = [];
+  await exposed.catalogOpen(snapshot, 'ignored'); await exposed.catalogPublish(snapshot, 'ignored'); await exposed.catalogDock('ignored');
+  assert.deepEqual(calls, [['schemka:catalog-open', snapshot], ['schemka:catalog-publish', snapshot], ['schemka:catalog-dock']]); calls.length = 0;
+  assert.throws(() => exposed.onCatalogAction(null), /Expected callback/);
+  const unsubscribe = exposed.onCatalogAction((...args) => delivered.push(args));
+  listeners.get('schemka:catalog-command')({ privileged: true }, snapshot);
+  assert.deepEqual(delivered, [[snapshot]]); unsubscribe(); assert.equal(listeners.has('schemka:catalog-command'), false);
   await exposed.clipboardClaimCut('cut-id', 'document-token', 'ignored');
   assert.deepEqual(calls, [['schemka:clipboard-claim-cut', 'cut-id', 'document-token']]); calls.length = 0;
   await exposed.readTeamProfile('/caller/path');
