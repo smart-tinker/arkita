@@ -11,7 +11,7 @@ export function installDocumentationEditor({ document, model, session = null, op
   preview.id = 'documentation-preview'; preview.hidden = true; preview.tabIndex = 0; preview.setAttribute('role', 'region'); preview.setAttribute('aria-label', 'Предпросмотр документации');
   value.before(modes); value.after(preview);
   let pending = null, generation = 0, linkBusy = false;
-  const report = text => { try { status(text); } catch { /* Feedback cannot repeat a commit. */ } };
+  const report = (text, kind) => { try { status(text, kind); } catch { /* Feedback cannot repeat a commit. */ } };
   const selectionKey = () => JSON.stringify(model.selection);
   // Textareas normalize line endings; untouched/reverted text retains the original bytes.
   const rawValue = () => value.value === pending.initialDOMValue ? pending.initialRaw : value.value;
@@ -63,7 +63,7 @@ export function installDocumentationEditor({ document, model, session = null, op
     const store = model.store;
     let item;
     try { item = metadataRecord(store.snapshot, concept); }
-    catch { report('Владелец документации не найден'); return false; }
+    catch { report('Владелец документации не найден', 'blocking'); return false; }
     value.maxLength = LIMITS.string; value.value = item.documentation;
     const request = { concept: { ...concept }, store, revision: store.revision, viewId: model.viewId,
       selection: selectionKey(), token: session?.documentToken ?? null, initialRaw: item.documentation, initialDOMValue: value.value };

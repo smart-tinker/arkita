@@ -221,7 +221,7 @@ export function installGitActions({ document, window, model, session, files, ope
         if (session.documentToken === token && state === before && generation === operation) state = null;
       },
     });
-    if (!proposed) status('Модель из Git подготовлена, но окно открытия занято. Повторите открытие.');
+    if (!proposed) status('Модель из Git подготовлена, но окно открытия занято. Повторите открытие.', 'blocking');
   }));
   $('git-message').addEventListener('input', refresh);
   $('git-commit-form').addEventListener('submit', event => {
@@ -250,7 +250,7 @@ export function installGitActions({ document, window, model, session, files, ope
     const proposal = pending, choice = resolution();
     run(async ({ boundary, current }) => {
       const result = accepted(await desktop.gitApply(proposal.plan, choice, boundary.token), 'ready');
-      if (!current()) { status('Результат сохранён в Git, но редактор изменился. Откройте модель из Git, чтобы продолжить.'); return; }
+      if (!current()) { status('Результат сохранён в Git, но редактор изменился. Откройте модель из Git, чтобы продолжить.', 'blocking'); return; }
       try {
         const changed = !session.matchesProject(result.bytes);
         if (changed) {
@@ -310,7 +310,7 @@ export function installGitActions({ document, window, model, session, files, ope
     run(async ({ boundary, current }) => {
       const switching = selected.kind === 'branch';
       const result = accepted(await desktop[switching ? 'gitSwitchBranch' : 'gitRestore'](selected.inspection, snapshot(), boundary.token), 'ready');
-      if (!current()) { if (switching) status('Локальная ветвь переключена, но редактор изменился. Откройте модель из Git.'); return; }
+      if (!current()) { if (switching) status('Локальная ветвь переключена, но редактор изменился. Откройте модель из Git.', 'blocking'); return; }
       try {
         const changed = await applySnapshot(result, boundary, switching);
         feedback(switching ? 'Локальная ветвь переключена. Модель загружена; отправка не выполнялась.' : changed

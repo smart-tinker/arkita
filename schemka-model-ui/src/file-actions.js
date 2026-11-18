@@ -43,9 +43,9 @@ export function installFileActions({ document, window, model, session, inline, c
     if (!session.dirty && !directoryWarning()) return;
     event.preventDefault(); event.returnValue = true;
   };
-  function feedback(text) { $('file-feedback').textContent = text; status(text); }
+  function feedback(text, kind = 'info') { $('file-feedback').textContent = text; status(text, kind); }
   function committedFailure(error) {
-    feedback(`Модель уже загружена, история очищена, но привязка или интерфейс не обновлены полностью: ${error.message}. Не перезагружайте страницу без скачивания модели.`);
+    feedback(`Модель уже загружена, история очищена, но привязка или интерфейс не обновлены полностью: ${error.message}. Не перезагружайте страницу без скачивания модели.`, 'error');
   }
   function refresh() {
     const dirty = session.dirty,marker=readDirtyMarker()==='asterisk'?'asterisk':'circle',glyph=marker==='asterisk'?'*':'●';
@@ -155,18 +155,18 @@ export function installFileActions({ document, window, model, session, inline, c
       if (result.recovered) feedback(`Файл «${result.name}» восстановлен на диске. Подтвердите открытие, чтобы заменить текущую модель.${result.warning ? ` ${result.warning}` : ''}`);
     } catch (error) {
       if (pending !== request) return;
-      cancelLoad(); feedback(`Файл не открыт: ${error.message}. Модель и история сохранены.`);
+      cancelLoad(); feedback(`Файл не открыт: ${error.message}. Модель и история сохранены.`, 'error');
     } finally { refresh(); }
   });
   for (const [id, factory, sourceKind] of [['new-project', createBlankModel, 'new'], ['reset-example', createDemo, 'demo']]) {
     $(id).addEventListener('click', () => {
       if (pending?.busy || saving || blocked()) return;
-      if (id === 'new-project' && desktop?.newDocument) { desktop.newDocument().then(result => { if (result.status !== 'opened-window') throw Error(result.message || 'Не удалось открыть окно.'); feedback('Новая модель открыта в отдельном окне.'); }).catch(error => feedback(error.message)); return; }
+      if (id === 'new-project' && desktop?.newDocument) { desktop.newDocument().then(result => { if (result.status !== 'opened-window') throw Error(result.message || 'Не удалось открыть окно.'); feedback('Новая модель открыта в отдельном окне.'); }).catch(error => feedback(error.message, 'error')); return; }
       try {
         const state = factory().snapshot, file = new window.Blob([serializeProjectFile(state)], { type: 'application/json' });
         Object.defineProperty(file, 'name', { value: state.project.name });
         proposeReplacement(file, sourceKind);
-      } catch (error) { feedback(`Новая модель не подготовлена: ${error.message}`); }
+      } catch (error) { feedback(`Новая модель не подготовлена: ${error.message}`, 'error'); }
     });
   }
   $('cancel-load').addEventListener('click', () => {
@@ -217,14 +217,14 @@ export function installFileActions({ document, window, model, session, inline, c
       $('replace-project').hidden = true;
       refresh();
       if (!inline.active && dialog.open) $(desktop ? 'desktop-open-project' : 'project-file').focus();
-      feedback(`${request.recovered ? 'Файл восстановлен на диске, но не открыт' : 'Файл не открыт'}: ${error.message}. Текущая модель и история сохранены. Выберите файл заново.`);
+      feedback(`${request.recovered ? 'Файл восстановлен на диске, но не открыт' : 'Файл не открыт'}: ${error.message}. Текущая модель и история сохранены. Выберите файл заново.`, 'error');
     } finally { if (pending === request) request.busy = false; refresh(); }
   }
   $('load-project').addEventListener('click', commitLoad);
   async function save(method = session.requiresSaveAs ? 'saveProject' : desktop?.saveCurrentProject && fileBound() ? 'saveCurrentProject' : desktop?.saveBoundDirectory && bound() ? 'saveBoundDirectory' : 'saveProject') {
     if (pending?.busy || saving || blocked() || (method !== 'saveProject' && !desktop?.[method])) return;
-    if (!canSave()) { feedback('Завершите или отмените текущую правку перед сохранением.'); return; }
-    if (session.requiresSaveAs && !['saveProject', 'saveDirectory'].includes(method)) { feedback('Формат модели обновлён. Сохраните отдельную копию через «Сохранить как».'); return; }
+    if (!canSave()) { feedback('Завершите или отмените текущую правку перед сохранением.', 'blocking'); return; }
+    if (session.requiresSaveAs && !['saveProject', 'saveDirectory'].includes(method)) { feedback('Формат модели обновлён. Сохраните отдельную копию через «Сохранить как».', 'blocking'); return; }
     // Save As consumes the native candidate; a proposed open must not commit its stale ID.
     if (pending) { cancelLoad(); feedback('Выбор открываемой модели отменён перед сохранением. Выберите файл заново после записи.'); }
     const feedbackId = ++feedbackGeneration, generation = dialogGeneration;
@@ -251,7 +251,7 @@ export function installFileActions({ document, window, model, session, inline, c
         : 'Файл передан браузеру; проверьте загрузку. Запись на диск не подтверждается приложением.');
     } catch (error) {
       if (current()) feedback(written ? `Файл записан, но открытая модель уже изменилась: ${error.message}`
-        : `${desktop ? 'Сохранение' : 'Скачивание'} не выполнено: ${error.message}`);
+        : `${desktop ? 'Сохранение' : 'Скачивание'} не выполнено: ${error.message}`, 'error');
     } finally { saving = false; refresh(); }
   }
   for (const [id, method] of [['save-project', 'saveProject'], ['desktop-save-directory', 'saveDirectory'], ['desktop-save-bound-directory', 'saveBoundDirectory']]) $(id).addEventListener('click', () => save(method));
@@ -265,7 +265,7 @@ export function installFileActions({ document, window, model, session, inline, c
       if (result.status !== 'recovered') throw Error(result.message || 'Восстановление не подтверждено.');
       if (result.boundToken === session.documentToken && result.boundId === directory.binding?.id && result.boundBytes) directoryBaseline = result.boundBytes.slice();
       feedback(`Каталог «${result.name}» восстановлен. Открытая модель и история не изменены. ${result.warning || ''}`);
-    } catch (error) { feedback(`Восстановление остановлено: ${error.message}. Сохраните открытую модель в другой файл или новый каталог.`); }
+    } catch (error) { feedback(`Восстановление остановлено: ${error.message}. Сохраните открытую модель в другой файл или новый каталог.`, 'error'); }
     finally { saving = false; refresh(); }
   });
   function mermaidSnapshot() {
@@ -276,7 +276,7 @@ export function installFileActions({ document, window, model, session, inline, c
   }
   $('download-svg')?.addEventListener('click', async () => {
     if (saving || pending?.busy || blocked() || !svgSnapshot || !model.view?.view) return;
-    if (!canSave()) { feedback('Завершите или отмените текущую правку перед экспортом SVG.'); return; }
+    if (!canSave()) { feedback('Завершите или отмените текущую правку перед экспортом SVG.', 'blocking'); return; }
     const feedbackId = ++feedbackGeneration, generation = dialogGeneration;
     const store = model.store, revision = store.revision, viewId = model.viewId, documentToken = session.documentToken;
     const title = model.view.view.name;
@@ -295,7 +295,7 @@ export function installFileActions({ document, window, model, session, inline, c
         downloader.download(text, projectFileName(title).replace(/\.arkita$/, '.svg'), 'image/svg+xml;charset=utf-8');
         if (current()) feedback('SVG передан браузеру; проверьте загрузку. Модель этим действием не сохранена.');
       }
-    } catch (error) { if (current()) feedback(`SVG не выгружен: ${error.message}`); }
+    } catch (error) { if (current()) feedback(`SVG не выгружен: ${error.message}`, 'error'); }
     finally { saving = false; refresh(); }
   });
   $('download-mermaid').addEventListener('click', async () => {
@@ -314,7 +314,7 @@ export function installFileActions({ document, window, model, session, inline, c
         downloader.download(snapshot.text, snapshot.name, 'text/plain;charset=utf-8');
         feedback('Mermaid передан браузеру; проверьте загрузку. Это проекция вида, не сохранение модели.');
       }
-    } catch (error) { if (current()) feedback(`Mermaid не выгружен: ${error.message}`); }
+    } catch (error) { if (current()) feedback(`Mermaid не выгружен: ${error.message}`, 'error'); }
     finally { saving = false; refresh(); }
   });
   $('copy-mermaid').addEventListener('click', async () => {
@@ -330,14 +330,14 @@ export function installFileActions({ document, window, model, session, inline, c
       if (current()) feedback(snapshot.revision === model.store.revision && snapshot.viewId === model.viewId
         ? 'Mermaid текущего вида скопирован. Модель не сохранена этим действием.'
         : 'Скопирован снимок прежнего вида. Модель или выбранный вид уже изменились.');
-    } catch (error) { if (current()) feedback(`Не скопировано: ${error.message}`); }
+    } catch (error) { if (current()) feedback(`Не скопировано: ${error.message}`, 'error'); }
     finally { if (operation === copyGeneration) { copying = false; refresh(); } }
   });
   function proposeExternal({ bytes, name, source: externalSource = 'git', unsaved = false, afterCommit, onCancel }) {
     if (!['git', 'template', 'import'].includes(externalSource) || typeof unsaved !== 'boolean') throw Error('Неизвестный источник модели.');
     if (saving || pending?.busy) return false;
     if (desktop?.newDocument && externalSource !== 'git' && !afterCommit) {
-      desktop.newDocument({ bytes, name, source: externalSource }).then(result => { if (result.status !== 'opened-window') throw Error(result.message || 'Не удалось открыть модель.'); feedback('Модель создана в отдельном окне. Сохраните её отдельным файлом.'); }).catch(error => feedback(error.message)); return true;
+      desktop.newDocument({ bytes, name, source: externalSource }).then(result => { if (result.status !== 'opened-window') throw Error(result.message || 'Не удалось открыть модель.'); feedback('Модель создана в отдельном окне. Сохраните её отдельным файлом.'); }).catch(error => feedback(error.message, 'error')); return true;
     }
     dialogGeneration++; cancelLoad(); openDialog('file-dialog');
     const owned = bytes.slice();
@@ -361,7 +361,7 @@ export function installFileActions({ document, window, model, session, inline, c
       request.candidate = result.candidate; request.bytes = bytes; request.unsaved = result.status === 'external';
       proposeReplacement({ name: result.name || 'Новая модель', size: bytes.byteLength, arrayBuffer: async () => bytes.slice().buffer }, result.status === 'new' ? 'new' : result.status === 'external' ? result.source : 'load', request);
       await commitLoad();
-    } catch (error) { cancelLoad(); feedback(`Модель не открыта: ${error.message}`); }
+    } catch (error) { cancelLoad(); feedback(`Модель не открыта: ${error.message}`, 'error'); }
     finally { initializing = false; refresh(); }
   }
   $('desktop-close-document')?.addEventListener('click', () => { if (desktop?.closeDocument && !saving && !pending?.busy) desktop.closeDocument(); });
@@ -376,14 +376,14 @@ export function installFileActions({ document, window, model, session, inline, c
   document.addEventListener('drop', async event => {
     if (!desktop?.openDroppedFile || !event.dataTransfer?.files?.length) return;
     event.preventDefault(); event.stopPropagation();
-    if (saving || initializing || pending?.busy || blocked()) { feedback('Завершите текущую операцию перед открытием файла.'); return; }
+    if (saving || initializing || pending?.busy || blocked()) { feedback('Завершите текущую операцию перед открытием файла.', 'blocking'); return; }
     const dropped = [...event.dataTransfer.files];
-    if (dropped.length !== 1 || !dropped[0].name.toLowerCase().endsWith('.arkita')) { feedback('Перетащите один файл .arkita. Открытая модель не изменена.'); return; }
+    if (dropped.length !== 1 || !dropped[0].name.toLowerCase().endsWith('.arkita')) { feedback('Перетащите один файл .arkita. Открытая модель не изменена.', 'blocking'); return; }
     try {
       const result = await desktop.openDroppedFile(dropped[0]);
       if (!['opened-window', 'focused', 'cancelled'].includes(result.status)) throw Error(result.message || 'Файл не открыт.');
       feedback(result.status === 'cancelled' ? 'Открытие отменено.' : result.status === 'focused' ? 'Модель уже открыта: её окно активировано.' : 'Модель открыта в отдельном окне.');
-    } catch (error) { feedback(`Файл не открыт: ${error.message}. Текущая модель не изменена.`); }
+    } catch (error) { feedback(`Файл не открыт: ${error.message}. Текущая модель не изменена.`, 'error'); }
   }, true);
   installDocumentUI({ document, window, session, status, openDialog });
   // Capture the startup guard after the app has mounted its synchronous editor modules.

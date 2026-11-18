@@ -15,7 +15,7 @@ export function installObjectProperties({ document, model, openDialog, render, s
   const button = (id, text, action) => {
     const item = node('button', text); item.id = id; item.type = 'button'; item.addEventListener('click', action); return item;
   };
-  const report = text => { try { status(text); } catch { /* Feedback cannot repeat a commit. */ } };
+  const report = (text, kind) => { try { status(text, kind); } catch { /* Feedback cannot repeat a commit. */ } };
   const selectionKey = () => JSON.stringify(model.selection);
   function makeDialog(prefix, title) {
     const dialog = node('dialog'), form = node('form'), heading = node('h2', title), reference = node('p', '', 'inspector-note');
@@ -105,7 +105,7 @@ export function installObjectProperties({ document, model, openDialog, render, s
     if (pending || blocked()) return;
     let item;
     try { item = metadataRecord(model.store.snapshot, concept); }
-    catch { report('Объект для изменения свойств не найден'); return; }
+    catch { report('Объект для изменения свойств не найден', 'blocking'); return; }
     rows.length = 0; propertiesUI.fields.replaceChildren();
     for (const { key, value } of item.properties) addRow(key, value, true);
     propertiesUI.reference.textContent = `«${item.name || item.label || '(без названия)'}» · ${concept.kind === 'project' ? 'Свойства всей модели.' : concept.kind === 'view' ? 'Свойства этого представления.' : 'Свойства общие для всех представлений объекта.'}`;
@@ -114,7 +114,7 @@ export function installObjectProperties({ document, model, openDialog, render, s
   function openSize(concept, occurrenceId) {
     if (pending || blocked()) return;
     const occurrence = model.view?.occurrences.find(item => item.id === occurrenceId && sameConcept(item.concept, concept));
-    if (!occurrence) { report('Объект в текущем представлении не найден'); return; }
+    if (!occurrence) { report('Объект в текущем представлении не найден', 'blocking'); return; }
     for (const field of ['width', 'height']) sizes[field].value = occurrence.bounds[field];
     sizeUI.reference.textContent = 'Изменяется только выбранный рисунок. Размеры в других представлениях сохраняются.';
     if (open(sizeUI, { occurrenceId, initial: { width: occurrence.bounds.width, height: occurrence.bounds.height } })) sizes.width.focus();
