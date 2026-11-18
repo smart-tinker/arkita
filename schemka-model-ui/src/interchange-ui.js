@@ -73,7 +73,19 @@ export function installInterchangeUI({ document, window, model, session, files, 
       const count = kind => plan.changes.filter(item => item.kind === kind).length;
       report.append(node('p', `Добавить: ${count('added')}; обновить: ${count('updated')}; удалить: ${count('removed')}; без изменений в выбранной области: ${plan.unchangedRecords?.length ?? 0}.`));
       if (!plan.changes.length) report.append(node('p', 'Совпадает с текущей моделью; Undo не изменится.'));
-      if (plan.kept?.length) report.append(node('p', `Сохранено локальных записей вне выбранной области: ${plan.kept.length}.`));
+      if (plan.kept?.length || plan.skipped?.length) {
+        const details = node('details'), reasons = { modelMetadata: 'метаданные модели не импортируются', folders: 'импорт папок отключён', updateExisting: 'обновление существующих объектов отключено' }, types = { project: 'Модель', folder: 'Папка', element: 'Элемент', junction: 'Узел', relationship: 'Отношение', view: 'Представление', viewpoint: 'Точка зрения', asset: 'Ресурс', customizationProfile: 'Профиль' };
+        details.append(node('summary', `Область импорта: сохранено в целевой модели — ${plan.kept?.length ?? 0}; пропущено из входящей — ${plan.skipped?.length ?? 0}.`));
+        if (plan.kept?.length) {
+          const retained = node('div'); retained.append(node('h3', `Сохранённые записи целевой модели: ${plan.kept.length}`));
+          pagedRows(retained, plan.kept, item => node('p', `${types[item.kind] ?? 'Запись'} «${item.label}» · ID целевой записи: ${item.targetId} · ${reasons[item.reason] ?? item.reason}`)); details.append(retained);
+        }
+        if (plan.skipped?.length) {
+          const skipped = node('div'); skipped.append(node('h3', `Пропущенные входящие записи: ${plan.skipped.length}`));
+          pagedRows(skipped, plan.skipped, item => node('p', `${types[item.kind] ?? 'Запись'} «${item.label}» · исходный ID: ${item.sourceId} · ${item.targetId ? `целевой ID: ${item.targetId}` : 'целевой записи нет'} · ${reasons[item.reason] ?? item.reason}${item.mappedId ? ` · новый ID по переназначению, не импортирован: ${item.mappedId}` : ''}`)); details.append(skipped);
+        }
+        report.append(details);
+      }
       const list = node('ul');
       let shown = 0; const more = button('Показать ещё записи', undefined, appendChanges);
       function appendChanges() { for (const item of plan.changes.slice(shown, shown + 100)) {
