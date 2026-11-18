@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-18",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -8405,16 +8405,19 @@
       "title": "Открытие view при загрузке модели",
       "family": "documents",
       "historical_status": "partial",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "schemka-model-ui/src/view-tabs.js",
         "schemka-model-ui/test/view-tabs.test.js"
       ],
-      "remaining": "Representative large-model responsiveness and cancellation in installed Electron remain unverified.",
+      "remaining": "Packaged/native Windows acceptance remains unrun; explicit bulk-open count/cancel is tracked separately under A-EXT-017 and remains pending.",
       "issue": 11,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Bounded auto-open with large-model responsiveness",
+        "Declining auto-open preserves view visibility; configured limit need not be 100"
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Source/test review against public main f648a7570ea29fea4ea5a4166e0c741d68191886 on 2026-11-10; see current criterion report. Windows acceptance remains unrun where noted.",
+      "verification": "Independent QA accepted both A-ADV-150 card criteria in renderer scope on 2026-11-18 against exact public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see REVIEW-ISSUE-11-2026-11-10.md for the 12- and 100-view synthetic runs. On the 100-view fixture, page-clock observations were 504 ms for the full open flow and 385 ms for model commit/render. The renderer source snapshot commit bc4b413b052bf1fff43ed2d9c9022b67681eb3e7 is carried by merged PR #1 (merge commit 6b778bfe278ca8095494dbe4b45d875725d3a706). Packaged/native Windows acceptance remains UNRUN; explicit bulk-open count/cancel is a separate pending A-EXT-017 check.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
