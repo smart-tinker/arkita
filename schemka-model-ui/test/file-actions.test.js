@@ -764,6 +764,29 @@ test('template/import replacement stays unsaved and has an honest source label; 
     await h.$('save-project').event('click'); assert.equal(h.session.dirty, false);
   }
 });
+test('external replacement survives a delayed UI teardown generation change', async () => {
+  let h;
+  h = setup(undefined, { openDialog(id) { h.$(id).open = true; queueMicrotask(() => { h.interactionGeneration++; }); } });
+  const input = serializeProjectFile(createDemo().snapshot);
+  assert.equal(h.actions.proposeExternal({ bytes: input, name: 'From template', source: 'template', unsaved: true }), true);
+  await Promise.resolve();
+  assert.equal(h.interactionGeneration, 1);
+  await h.$('load-project').event('click');
+  assert.equal(h.afterLoads, 1, h.statuses.join('\n'));
+  assert.equal(h.session.dirty, true);
+  assert.match(h.statuses.at(-1), /Модель создана из шаблона/);
+});
+test('Git replacement still rejects a later interaction generation', async () => {
+  let h;
+  h = setup(undefined, { openDialog(id) { h.$(id).open = true; queueMicrotask(() => { h.interactionGeneration++; }); } });
+  const before = h.model.store.exportFiles();
+  assert.equal(h.actions.proposeExternal({ bytes: serializeProjectFile(createDemo().snapshot), name: 'From Git', source: 'git' }), true);
+  await Promise.resolve();
+  await h.$('load-project').event('click');
+  assert.equal(h.afterLoads, 0);
+  assert.deepEqual(h.model.store.exportFiles(), before);
+  assert.match(h.statuses.at(-1), /The project or editor changed while opening the file/);
+});
 test('a real revision after an external proposal still refuses replacement and preserves the newer model/history', async () => {
   const h = setup(), input = serializeProjectFile(createDemo().snapshot);
   assert.equal(h.actions.proposeExternal({ bytes: input, name: 'From template', source: 'template', unsaved: true }), true);

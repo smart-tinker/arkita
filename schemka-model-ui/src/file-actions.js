@@ -183,7 +183,8 @@ export function installFileActions({ document, window, model, session, inline, c
     const previousToken = session.documentToken;
     try {
       await session.loadFile(request.ticket, request.file, {
-        isCurrent: () => pending === request && dialog.open && inline.generation === request.draftGeneration && readInteractionGeneration() === request.interactionGeneration,
+        isCurrent: () => pending === request && dialog.open && inline.generation === request.draftGeneration &&
+          (request.interactionGeneration === undefined || readInteractionGeneration() === request.interactionGeneration),
       });
       loaded = true; committedToken = request.committedToken = session.documentToken;
       if (request.unsaved) session.clearSavedBaseline();
@@ -341,8 +342,9 @@ export function installFileActions({ document, window, model, session, inline, c
     }
     dialogGeneration++; cancelLoad(); openDialog('file-dialog');
     const owned = bytes.slice();
+    // Template/import dialog close events are queued after this modal opens; they are not editor changes.
     const request = { ticket: session.beginLoad(), draftGeneration: inline.generation,
-      interactionGeneration: readInteractionGeneration(), afterCommit, onCancel, unsaved };
+      interactionGeneration: externalSource === 'git' ? readInteractionGeneration() : undefined, afterCommit, onCancel, unsaved };
     proposeReplacement({ name, size: owned.byteLength, arrayBuffer: async () => owned.slice().buffer }, externalSource, request);
     return true;
   }
