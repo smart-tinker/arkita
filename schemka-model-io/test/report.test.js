@@ -13,6 +13,12 @@ test('real report exclusion precedes all data, follows folder/relationship/drawi
   assert.throws(() => prepareReportProject(f.store.snapshot, { excludeIds: [f.store.snapshot.project.id] }));
 });
 
+test('offline report print stylesheet numbers pages without mutating model data', () => {
+  const f = fixture(), before = f.store.exportFiles(), html = generateHtmlReport(f.store.snapshot, { revision: f.store.revision, generatedAt: '2026-01-01T00:00:00Z' });
+  assert.ok(html.includes('@page{margin:0 0 12mm;@bottom-center{content:counter(page)'), 'print CSS should reserve room for report page numbers');
+  assert.deepEqual(f.store.exportFiles(), before);
+});
+
 test('offline report scripts use only fixed code; model HTML is inert, search and query resolve exact IDs', async t => {
   const f = fixture(), html = generateHtmlReport(f.store.snapshot, { revision: 1 });
   const dom = new JSDOM(html, { runScripts: 'dangerously', url: 'file:///report.html' }); t.after(() => dom.window.close()); const { document, Event } = dom.window;
