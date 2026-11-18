@@ -9,7 +9,7 @@ export function visibleWindowBounds(bounds, displays, options = {}) {
 }
 export function watchWindowBounds(window, save, initial) {
   let last = initial, timer = null;
-  const flush = () => { timer = null; void save(last).catch(() => {}); };
+  const flush = () => { timer = null; void save(last).catch(error => console.error('Arkita: не удалось сохранить положение окна', error)); };
   const update = () => { if (window.isDestroyed()) return; last = window.getNormalBounds(); clearTimeout(timer); timer = setTimeout(flush, 250); };
   window.on('resize', update); window.on('move', update);
   window.once('closed', () => { clearTimeout(timer); flush(); });
