@@ -5,6 +5,7 @@ import { conceptProject } from '../../schemka-model-core/fixtures/concept-projec
 import { fixtureId } from '../../schemka-model-core/fixtures/relationship-project.js';
 import { previewNativeMerge, remapProject, extractViewProject } from '../src/model-transfer.js';
 import { exportCSV, parseCSV, previewCSVImport } from '../src/csv.js';
+import { CURRENT_PROFILE, createRegistry, assessProject } from '../../schemka-model-profiles/src/index.js';
 import { exportXLSX } from '../src/xlsx.js';
 import { createTemplate, readTemplate, serializeTemplate, instantiateTemplate, insertBoardTemplate, insertPatternTemplate, createTemplateLibrary, templatePreviewSVG } from '../src/templates.js';
 const enc = new TextEncoder(), dec = new TextDecoder();
@@ -49,7 +50,38 @@ test('CSV partial update never deletes absent data, rejects repeated IDs and cha
 test('CSV rejects drawing-inconsistent endpoint edits and invalid rows late in a package without mutations', () => {
  const source=graph(), before=exportFiles(source); const file=table('relationships',['id','sourceKind','sourceId'],[[source.relationships[0].id,'element',source.elements[1].id]]);
  assert.throws(()=>previewCSVImport(source,[file]), /рисунки/); assert.deepEqual(exportFiles(source),before);
+ const connection=source.views.flatMap(view=>view.connections).find(item=>item.relationshipId===source.relationships[0].id),wrong=source.views.flatMap(view=>view.occurrences).find(item=>item.concept.id!==source.elements[1].id),bindings=Object.fromEntries(source.views.flatMap(view=>view.connections.filter(item=>item.relationshipId===connection.relationshipId).map(item=>[item.id,{kind:'occurrence',id:wrong.id}])));
+ assert.throws(()=>previewCSVImport(source,[file],{relationshipBindings:{[connection.relationshipId]:{source:bindings}}}),/ссылаться на выбранный/);assert.deepEqual(exportFiles(source),before);
  const newFile=table('elements',['id','type','name'],[['','Service','Created'],['','NoSuchType','Bad']]); assert.throws(()=>previewCSVImport(source,[newFile]), /каталоге/); assert.deepEqual(exportFiles(source),before);
+});
+
+test('CSV validates a two-end relationship rebind atomically against the valid final pair', () => {
+ const store=createStore(createProject('Atomic CSV relationship rebind')),run=command=>store.execute(command,store.revision).created,viewId=run({type:'createView',name:'Main'}).viewId;
+ const concepts={}; for(const [key,type,x] of [['process','Process',0],['service','Service',250],['data','DataObject',500],['business','BusinessObject',750]]) concepts[key]=run({type:'createElementAndOccurrence',viewId,elementType:type,name:type,bounds:{x,y:0,width:120,height:60}});
+ const relation=run({type:'createRelationshipAndConnection',viewId,relationshipType:'Realization',source:{kind:'occurrence',id:concepts.process.occurrenceId},target:{kind:'occurrence',id:concepts.service.occurrenceId},label:'Realizes'}),state=store.snapshot,registry=createRegistry([CURRENT_PROFILE]),connection=state.views[0].connections.find(item=>item.id===relation.connectionId),before=exportFiles(state);
+ const status=snapshot=>assessProject(snapshot,registry).relationships.find(item=>item.relationshipId===relation.relationshipId).status;
+ assert.equal(status(state),'ALLOWED');
+ for(const [sourceId,targetId] of [[concepts.data.elementId,concepts.service.elementId],[concepts.process.elementId,concepts.business.elementId]]) {
+  const intermediate=structuredClone(state),item=intermediate.relationships.find(record=>record.id===relation.relationshipId),line=intermediate.views[0].connections.find(record=>record.id===connection.id),source=Object.values(concepts).find(value=>value.elementId===sourceId),target=Object.values(concepts).find(value=>value.elementId===targetId);
+  item.source.id=sourceId;item.target.id=targetId;line.source={kind:'occurrence',id:source.occurrenceId};line.target={kind:'occurrence',id:target.occurrenceId};
+  assert.equal(status(intermediate),'FORBIDDEN');
+ }
+ const file=table('relationships',['id','type','sourceKind','sourceId','targetKind','targetId'],[[relation.relationshipId,'Realization','element',concepts.data.elementId,'element',concepts.business.elementId]]);
+ const bindings={[relation.relationshipId]:{
+  source:{[connection.id]:{kind:'occurrence',id:concepts.data.occurrenceId}},
+  target:{[connection.id]:{kind:'occurrence',id:concepts.business.occurrenceId}},
+ }};
+ const preview=previewCSVImport(state,[file],{relationshipBindings:bindings});
+ assert.equal(status(preview.snapshot),'ALLOWED');
+ assert.deepEqual(preview.snapshot.relationships.find(item=>item.id===relation.relationshipId).source,{kind:'element',id:concepts.data.elementId});
+ assert.deepEqual(preview.snapshot.relationships.find(item=>item.id===relation.relationshipId).target,{kind:'element',id:concepts.business.elementId});
+ const rebound=preview.snapshot.views[0].connections.find(item=>item.id===connection.id);
+ assert.deepEqual(rebound.source,bindings[relation.relationshipId].source[connection.id]);
+ assert.deepEqual(rebound.target,bindings[relation.relationshipId].target[connection.id]);
+ assert.deepEqual(exportFiles(state),before);
+ const locked=createStore(state);locked.execute({type:'setDrawingLocked',viewId,drawing:{kind:'connection',id:connection.id},locked:true},locked.revision);const lockedBefore=locked.exportFiles();
+ assert.throws(()=>previewCSVImport(locked.snapshot,[file],{relationshipBindings:bindings}),/lock|заблок/i);
+ assert.deepEqual(locked.exportFiles(),lockedBefore);
 });
 
 test('CSV properties require exact positions and explicit replace versus merge', () => {
