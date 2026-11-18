@@ -67,7 +67,7 @@ export function installReportNavigation(root, data) {
   }
   root.addEventListener('click', event => {
     const anchor = event.target.closest('a[href^="#"]'); if (!anchor || !root.contains(anchor)) return;
-    const target = $(anchor.getAttribute('href').slice(1)); if (target) { event.preventDefault(); target.scrollIntoView?.({ block: 'start' }); }
+    const target = $(anchor.getAttribute('href').slice(1)); if (target) { event.preventDefault(); if (target.matches('article[data-owner]')) target.hidden = false; target.scrollIntoView?.({ block: 'start' }); }
   });
   search.addEventListener('input', refresh);
   $('report-reset').onclick = () => { search.value = ''; hidden.clear(); for (const input of root.querySelectorAll('[data-filter]')) input.checked = true; refresh(); };
