@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import { createProject, createStore } from '../../schemka-model-core/src/index.js';
-import { generateHtmlReport, prepareReportProject, readReportTemplate, DEFAULT_REPORT_TEMPLATE } from '../src/report.js';
+import { generateHtmlReport, prepareReportProject, readReportTemplate, DEFAULT_REPORT_TEMPLATE, resolveReportWord } from '../src/report.js';
 import { reportMarkdown } from '../src/report-markdown.js';
 const fixture = () => { const store = createStore(createProject('Отчёт <script>bad()</script>')), run = command => store.execute(command, store.revision).created, { viewId } = run({ type: 'createView', name: 'Диаграмма' }), folder = run({ type: 'createFolder', name: 'Private folder' }), a = run({ type: 'createElementInModel', elementType: 'Role', name: 'PrivateSecretEntity', folderId: folder.folderId }), b = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Role', name: 'Public', bounds: { x: 1, y: 2, width: 100, height: 80 }, documentation: 'Retain\r\n日本語', properties: [{ key: 'secret', value: 'PrivateSecretValue' }, { key: 'owner', value: 'Team' }, { key: 'owner', value: 'Other' }] }), c = run({ type: 'addOccurrence', viewId, concept: { kind: 'element', id: a.elementId }, bounds: { x: 200, y: 2, width: 100, height: 80 } }), r = run({ type: 'createRelationshipAndConnection', viewId, relationshipType: 'Association', source: { kind: 'occurrence', id: b.occurrenceId }, target: { kind: 'occurrence', id: c.occurrenceId }, label: 'PrivateSecretRelation' }); return { store, run, viewId, a, b, r, folder }; };
 
@@ -11,6 +11,24 @@ test('real report exclusion precedes all data, follows folder/relationship/drawi
   assert.equal(out.snapshot.elements.length, 1); assert.equal(out.snapshot.relationships.length, 0); assert.equal(out.snapshot.views[0].occurrences.length, 1); assert.equal(out.snapshot.elements[0].documentation, ''); assert.deepEqual(out.snapshot.elements[0].properties, [{ key: 'owner', value: 'Team' }, { key: 'owner', value: 'Other' }]);
   const html = generateHtmlReport(out.snapshot, { revision: f.store.revision, generatedAt: '2026-01-01T00:00:00Z' }); for (const privateText of ['PrivateSecretEntity', 'PrivateSecretValue', 'PrivateSecretRelation', f.a.elementId, f.folder.folderId]) assert.ok(!html.includes(privateText)); assert.deepEqual(f.store.exportFiles(), before);
   assert.throws(() => prepareReportProject(f.store.snapshot, { excludeIds: [f.store.snapshot.project.id] }));
+});
+
+test('report revision uses locale number formatting without changing model data', () => {
+  const f = fixture(), before = f.store.exportFiles(), revision = 1234, generatedAt = '2026-01-01T00:00:00Z';
+  for (const [locale, revisionLabel] of [['ru-RU', 'Ревизия'], ['en-US', 'Revision']]) {
+    const dom = new JSDOM(generateHtmlReport(f.store.snapshot, { revision, generatedAt, template: { ...DEFAULT_REPORT_TEMPLATE, locale } }));
+    const expectedDate = new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeStyle: 'short', timeZone: 'UTC' }).format(new Date(generatedAt));
+    assert.equal(dom.window.document.querySelector('header > p').textContent, `${revisionLabel} ${new Intl.NumberFormat(locale).format(revision)} · ${expectedDate} UTC`);
+    dom.window.close();
+  }
+  assert.deepEqual(f.store.exportFiles(), before);
+  assert.throws(() => readReportTemplate(JSON.stringify({ ...DEFAULT_REPORT_TEMPLATE, locale: 'fr-FR' })));
+});
+
+test('missing report translations fall back to the other supported locale or the key', () => {
+  assert.equal(resolveReportWord('ru-RU', 'views', { 'ru-RU': { summary: 'Модель' }, 'en-US': { summary: 'Model', views: 'Views' } }), 'Views');
+  assert.equal(resolveReportWord('en-US', 'views', { 'ru-RU': { views: 'Представления' }, 'en-US': {} }), 'Представления');
+  assert.equal(resolveReportWord('ru-RU', 'missingSection', { 'ru-RU': {}, 'en-US': {} }), 'missingSection');
 });
 
 test('offline report scripts use only fixed code; model HTML is inert, search and query resolve exact IDs', async t => {
