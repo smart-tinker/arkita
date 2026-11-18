@@ -764,6 +764,16 @@ test('template/import replacement stays unsaved and has an honest source label; 
     await h.$('save-project').event('click'); assert.equal(h.session.dirty, false);
   }
 });
+test('a real revision after an external proposal still refuses replacement and preserves the newer model/history', async () => {
+  const h = setup(), input = serializeProjectFile(createDemo().snapshot);
+  assert.equal(h.actions.proposeExternal({ bytes: input, name: 'From template', source: 'template', unsaved: true }), true);
+  h.rename('Newer model');
+  const current = { files: h.model.store.exportFiles(), history: h.model.store.history, revision: h.model.store.revision, dirty: h.session.dirty };
+  await h.$('load-project').event('click');
+  assert.equal(h.afterLoads, 0);
+  assert.deepEqual({ files: h.model.store.exportFiles(), history: h.model.store.history, revision: h.model.store.revision, dirty: h.session.dirty }, current);
+  assert.match(h.statuses.at(-1), /The project or editor changed while opening the file/);
+});
 test('native template/import requests a new window and leaves original dirty model, selection and history intact', async () => {
   let received; const h = setup({ newDocument: async options => { received = options; return { status: 'opened-window' }; } }); h.rename('Keep');
   const before = h.model.store.exportFiles(), history = h.model.store.history, token = h.session.documentToken, input = serializeProjectFile(createDemo().snapshot);
