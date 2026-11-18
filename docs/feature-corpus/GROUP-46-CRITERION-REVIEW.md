@@ -6,7 +6,7 @@ This is a source and evidence map, not a release acceptance. All 16 criteria rem
 
 ## Renderer and documentation follow-up — 18 Nov 2026
 
-Against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, independent QA accepted the renderer criteria for A-EDITOR-012, A-EDITOR-013 and A-EDITOR-098 in real Chromium.
+On 2026-11-18, independent QA accepted the renderer criteria for A-EDITOR-012, A-EDITOR-013 and A-EDITOR-098 in real Chromium against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b.
 
 - A-EDITOR-012: creation from the model tree saved the concept without a hidden view drawing. The implementation is in merged PR #33 (2b69d28). On the reviewed main SHA, CI run 43646530875, Extended CI run 43858177729 and CodeQL run 43871205954 passed.
 - A-EDITOR-013: tree and palette creation applied compatible specialization; menus updated after profile rename/deletion; an incompatible profile was rejected without changing history. The implementation is in merged PR #33; exact-main CI, Extended CI and CodeQL passed on the reviewed SHA.
