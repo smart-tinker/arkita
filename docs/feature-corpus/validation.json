@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "ea190b9ecca7bfec95b18047e427e04722bfb69573c188b87745de5551edfaa3"
+    "docs/feature-corpus/program.json": "03bb5100ffd22812e02dfe54bdc9c613e7e17614fdb658694d5000d3e5e53e12"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -60,7 +60,7 @@
     "updated_at": "2026-11-18",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Record independent real-Chromium acceptance of A-EDITOR-012/013/098 on exact public main and the prior-head documentation evidence review for A-EDITOR-014/015. The latter criteria remain acceptance-pending; other issue #12 criteria remain open and packaged/native Windows acceptance is UNRUN.",
+    "scope": "Record independent real-Chromium acceptance of A-EDITOR-012/013/014/015/098 on exact public main; other issue #12 criteria remain acceptance-pending and packaged/native Windows acceptance is UNRUN.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -77,10 +77,11 @@
       "issue": 12,
       "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
       "required_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
-      "result": "Independent QA accepted A-EDITOR-012/013/098 in real Chromium on exact public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Exact-main CI, Extended CI and CodeQL passed. PR #33 and PR #48 are merged. Renderer acceptance is recorded for those three criteria; packaged/native Windows acceptance remains UNRUN, A-EDITOR-014/015 remain acceptance-pending, and issue #12 remains open.",
+      "result": "Independent QA accepted A-EDITOR-012/013/014/015/098 in real Chromium on exact public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. For A-EDITOR-014/015, evidence JSON SHA-256 45d1e68c109966cc5b837b84c1c16a6c3676af5c82b1754e3b2e48106f781521 records folder rename/move, membership-only drag-and-drop, grouped insertion, exact cancellation/no-op/Undo bytes, and no UI errors or failed requests. Exact-main CI, Extended CI and CodeQL passed. Renderer acceptance is recorded for these five criteria; other issue #12 criteria remain open and packaged/native Windows acceptance remains UNRUN.",
       "ledger": "docs/feature-corpus/program.json",
       "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43858177729",
-      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43871205954"
+      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43871205954",
+      "qa_evidence_sha256": "45d1e68c109966cc5b837b84c1c16a6c3676af5c82b1754e3b2e48106f781521"
     }
   }
 }

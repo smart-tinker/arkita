@@ -425,7 +425,7 @@
       "title": "Пользовательские папки и вложенная организация",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-tree.js",
@@ -439,11 +439,14 @@
         "schemka-model-core/test/native-v4.test.js",
         "schemka-model-core/test/catalog-selection.test.js"
       ],
-      "remaining": "Остаются формальный независимый review и установленная Windows/native acceptance на точном пакете: создание, переименование и перенос вложенных папок; сохранение потомков, ссылок представлений, идентичности и порядка; явный отказ для циклов и несовместимых корневых категорий. Автоматические core/UI тесты это не заменяют.",
+      "remaining": "Installed Windows/native acceptance remains UNRUN; issue #12 remains open for the other catalog criteria.",
       "issue": 12,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Перенос и переименование папки сохраняют её потомков, ссылки из представлений и устойчивую сортировку.",
+        "Нельзя вложить папку в себя или потомка; ограничения корневых категорий проверяются явно через актуальный реестр."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Source routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Focused command `node --test schemka-model-ui/test/catalog-tree.test.js schemka-model-ui/test/catalog-folders.test.js schemka-model-core/test/catalog-selection.test.js schemka-model-core/test/native-v4.test.js` on that exact tree: 30 tests passed across catalog-tree (7/7), catalog-selection (3/3), and native-v4 (20/20). catalog-folders.test.js did not load because jsdom is not installed in this worktree; its 18 tests are UNVERIFIED. Automated core/UI evidence only; no formal independent review or installed Windows/native acceptance. No closed_criteria added.",
+      "verification": "Independent QA accepted both card criteria in Chrome 158.0.8127.18 against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Evidence JSON SHA-256: 45d1e68c109966cc5b837b84c1c16a6c3676af5c82b1754e3b2e48106f781521. Rename/move preserved folder ID, child parentage, descendant membership and view files; observed order was QA 2, QA 10, QA 100. Existing main tests cover cycle and incompatible-root rejection in catalog-tree.test.js, catalog-selection.test.js and catalog-folders.test.js. Installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -463,7 +466,7 @@
       "title": "Перемещение в дереве через drag-and-drop и вырезание",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-folders.js",
@@ -476,11 +479,14 @@
         "schemka-model-core/test/catalog-selection.test.js",
         "schemka-model-ui/src/catalog-tree.js"
       ],
-      "remaining": "Формальный независимый review и установленная Windows/native acceptance на точном пакете: групповое перемещение целиком; сохранение IDs и использований; отказ до изменения при цикле или несовместимом разделе; отмена и устаревшая вставка не меняют исходные данные. Core/UI тесты не заменяют native drag-and-drop и clipboard-поведение.",
+      "remaining": "Installed Windows/native drag-and-drop and clipboard acceptance remains UNRUN; issue #12 remains open for the other catalog criteria.",
       "issue": 12,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Перенос меняет организацию, но сохраняет IDs и все использования; групповое перемещение выполняется целиком.",
+        "Недопустимый адресат объясняется до изменения; отмена или неудачная вставка не удаляют исходные объекты."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Source routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. The focused command `node --test schemka-model-ui/test/catalog-tree.test.js schemka-model-ui/test/catalog-folders.test.js schemka-model-core/test/catalog-selection.test.js schemka-model-core/test/native-v4.test.js` on that exact tree passed 30 tests in the suites that loaded (catalog-tree 7/7, catalog-selection 3/3, native-v4 20/20). catalog-folders.test.js did not load because jsdom is not installed; its 18 UI tests and browser-context-drag.mjs remain UNVERIFIED. No installed Windows/native drag-and-drop or clipboard acceptance; no closed_criteria added.",
+      "verification": "Independent QA accepted both card criteria in Chrome 158.0.8127.18 against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Evidence JSON SHA-256: 45d1e68c109966cc5b837b84c1c16a6c3676af5c82b1754e3b2e48106f781521. Drag-and-drop changed only folder membership; views and relationships were unchanged. Grouped internal insertion was one history step; no-op and cancellation preserved bytes, and one Undo restored the serialized baseline exactly (SHA-256 a7b7c4ca4944ba2b4ad00a3780cd4f89023a5498dd36761be2aaa2d9babfbbc1). Installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
