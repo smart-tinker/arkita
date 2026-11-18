@@ -60,7 +60,7 @@
     "updated_at": "2026-11-15",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
+    "scope": "Refresh issue #39 umbrella evidence against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. The latest review is issue #19: all eight criteria remain acceptance-pending with closed_criteria empty. A-EDITOR-090 is addressed by draft PR #75; A-EDITOR-095 normative relationship-field mapping remains unresolved. Installed Windows/native acceptance is UNRUN; no issue closure or release acceptance is implied.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
