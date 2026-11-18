@@ -31,6 +31,21 @@ test('CSV canonical set roundtrips Unicode/newlines/duplicate keys/relationship 
  const original=exportFiles(source); exportCSV(source,{spreadsheet:true,flatten:true}); assert.deepEqual(exportFiles(source),original);
 });
 
+test('CSV flatten and spreadsheet modes transform output text without mutating the model', () => {
+ const source=portableGraph(); source.views=[]; source.elements[0].documentation='line one\r\nline two\rline three\nline four'; source.elements[0].name='=HYPERLINK("https://example.invalid")'; source.elements[1].name='0001'; const before=exportFiles(source);
+ const record=(file,id,prefix='')=>{const rows=parseCSV(file.bytes),header=rows[1].values,row=rows.find(item=>item.values[0]===`${prefix}${id}`).values;return Object.fromEntries(header.map((key,index)=>[key,row[index]]));};
+ const flattened=exportCSV(source,{flatten:true}),flatFile=flattened.files.find(file=>file.name==='arkita-elements.csv'); assert.equal(record(flatFile,source.elements[0].id).documentation,'line one line two line three line four');
+ const spreadsheet=exportCSV(source,{spreadsheet:true}),sheetFile=spreadsheet.files.find(file=>file.name==='arkita-elements.csv'); assert.equal(spreadsheet.mode,'spreadsheet-text'); assert.equal(record(sheetFile,source.elements[0].id,"'").name,'\'=HYPERLINK("https://example.invalid")'); assert.equal(record(sheetFile,source.elements[1].id,"'").name,"'0001");
+ assert.deepEqual(exportFiles(source),before);
+});
+
+test('CSV relationship table preserves its supported notation fields explicitly', () => {
+ const source=portableGraph(); source.views=[]; const relationship=source.relationships[0]; relationship.type='ReadAccess'; relationship.sourceMultiplicity='0..1'; relationship.targetMultiplicity='1'; relationship.junctionRole='container';
+ const before=exportFiles(source),file=exportCSV(source).files.find(item=>item.name==='arkita-relationships.csv'),rows=parseCSV(file.bytes),header=rows[1].values,values=rows.find(item=>item.values[0]===relationship.id).values,record=Object.fromEntries(header.map((key,index)=>[key,values[index]]));
+ assert.deepEqual({type:record.type,sourceKind:record.sourceKind,sourceId:record.sourceId,targetKind:record.targetKind,targetId:record.targetId,sourceMultiplicity:record.sourceMultiplicity,sourceMultiplicityPresent:record.sourceMultiplicityPresent,targetMultiplicity:record.targetMultiplicity,targetMultiplicityPresent:record.targetMultiplicityPresent,junctionRole:record.junctionRole},{type:'ReadAccess',sourceKind:relationship.source.kind,sourceId:relationship.source.id,targetKind:relationship.target.kind,targetId:relationship.target.id,sourceMultiplicity:'0..1',sourceMultiplicityPresent:'true',targetMultiplicity:'1',targetMultiplicityPresent:'true',junctionRole:'container'});
+ assert.deepEqual(exportFiles(source),before);
+});
+
 test('CSV parser preserves # values, handles explicit comments, bounds malformed input and physical row numbers', () => {
  assert.deepEqual(parseCSV('#arkita-comment ignored\r\n"#arkita-comment data",x\r\n#value,y\r\n"a\r\nb",c').map(x=>x.values), [['#arkita-comment data','x'],['#value','y'],['a\r\nb','c']]);
  assert.throws(()=>parseCSV('a,b\n"unterminated',{name:'bad.csv'}),error=>error.file==='bad.csv'&&error.row===2); assert.throws(()=>parseCSV('"a"suffix,b'),/кавычки/); assert.throws(()=>parseCSV(new Uint8Array([0xff])),/UTF-8/);
