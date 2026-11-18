@@ -104,7 +104,10 @@ export function installContextHints({ document, window, model, blocked, status, 
     if (!readEnabled()) { if (!panel.hidden) close(); return; }
     if (observedStore !== model.store) { pinned = null; following = { kind: 'selection' }; observedStore = model.store; observedSelection = ''; }
     const key = selectionKey();
-    if (selectionChanged || key !== observedSelection) { following = { kind: 'selection' }; observedSelection = key; }
+    if (selectionChanged || key !== observedSelection) {
+      following = { kind: 'selection' }; observedSelection = key;
+      if (panel.hidden && !pinned && describe().instruction) { panel.hidden = false; toggle.setAttribute('aria-expanded', 'true'); }
+    }
     if (panel.hidden) return;
     if (!pinned) paint(describe());
     pinStatus();

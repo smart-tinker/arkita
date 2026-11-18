@@ -6,6 +6,7 @@ import { conceptProject } from '../../schemka-model-core/fixtures/concept-projec
 import { customizationProject, profileId } from '../../schemka-model-core/fixtures/customization-project.js';
 import { viewpointGraph, viewpointId } from '../../schemka-model-core/fixtures/viewpoint-project.js';
 import { serializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { PREFERENCE_DEFAULTS, PREFERENCES_KEY, serializePreferences } from '../../schemka-model-io/src/preferences-profile.js';
 
 const mode = production ? 'production' : 'source';
 const key = (h, target, value) => target.dispatchEvent(new h.window.KeyboardEvent('keydown', { key: value, bubbles: true, cancelable: true }));
@@ -86,17 +87,32 @@ test(`${mode} hint controls preserve an unfinished inline draft and Escape close
   assert.equal(h.$('context-hints-toggle').getAttribute('aria-expanded'), 'false');
 });
 
-test(`${mode} selected Canvas instructions render safely in the keyboard-accessible follow-selection panel`, async t => {
+test(`${mode} selecting a Canvas instruction reveals the safe follow-selection panel without stealing focus`, async t => {
   const h = await setup(t), state = conceptProject(), store = createStore(state), viewId = state.views[0].view.id;
   const id = store.execute({ type: 'createVisualNode', viewId, kind: 'note', name: 'Canvas card', text: 'Draft', instruction: '**Fill this card**\n\n<script>globalThis.bad = true</script>', bounds: { x: 20, y: 20, width: 180, height: 100 } }, store.revision).created.visualNodeId;
   const before = serializeProjectFile(store.snapshot); await h.load(before); const historyBefore = history(h);
-  h.$('context-hints-toggle').click();
   const block = h.document.querySelector(`[data-kind="visualNode"][data-id="${id}"]`); block.focus();
   const selection = new h.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }); block.dispatchEvent(selection);
   assert.equal(selection.defaultPrevented, true); assert.equal(block.classList.contains('selected'), true);
+  assert.equal(h.$('context-hints-panel').hidden, false, 'selecting an instruction block reveals its hints');
+  assert.equal(h.$('context-hints-toggle').getAttribute('aria-expanded'), 'true');
+  assert.equal(h.document.activeElement, block, 'revealing hints keeps keyboard focus on the selected drawing');
   const instruction = h.$('context-hints-instruction');
   assert.equal(instruction.hidden, false); assert.equal(instruction.getAttribute('aria-live'), 'polite');
   assert.match(instruction.textContent, /Fill this card/); assert.ok(instruction.querySelector('strong'));
   assert.equal(instruction.querySelector('script'), null); assert.ok(instruction.textContent.includes('<script>'));
   assert.deepEqual(history(h), historyBefore); assert.ok(Buffer.from(await h.download()).equals(Buffer.from(before)));
+});
+
+test(`${mode} explicitly disabled hints stay hidden when an instruction block is selected`, async t => {
+  const h = await setup(t), state = conceptProject(), store = createStore(state), viewId = state.views[0].view.id;
+  const id = store.execute({ type: 'createVisualNode', viewId, kind: 'note', name: 'Canvas card', text: 'Draft', instruction: 'Fill this card', bounds: { x: 20, y: 20, width: 180, height: 100 } }, store.revision).created.visualNodeId;
+  await h.load(serializeProjectFile(store.snapshot));
+  const settings = structuredClone(PREFERENCE_DEFAULTS); settings.display.hints = false;
+  h.window.dispatchEvent(new h.window.StorageEvent('storage', { key: PREFERENCES_KEY, newValue: serializePreferences(settings) }));
+  assert.equal(h.document.body.dataset.preferenceHints, 'false');
+  const block = h.document.querySelector(`[data-kind="visualNode"][data-id="${id}"]`); block.focus(); key(h, block, 'Enter');
+  assert.equal(block.getAttribute('aria-pressed'), 'true');
+  assert.equal(h.$('context-hints-panel').hidden, true);
+  assert.equal(h.document.activeElement, block);
 });

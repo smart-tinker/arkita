@@ -155,13 +155,20 @@ async function run() {
     await page.locator('#undo').click();
     assert.equal(await line.locator('.relationship-label').textContent(), 'Source label · Team A');
 
-    await page.locator('.app-menu > summary').filter({ hasText: /^Справка$/ }).click();
-    await page.locator('[data-command="context-hints-toggle"]').click();
     const block = page.locator(`[data-kind="visualNode"][data-id="${canvas.block}"]`);
-    await block.focus();
+    await page.evaluate(() => document.activeElement?.blur());
+    let tabCount = 0;
+    for (; tabCount < 160; tabCount++) {
+      await page.keyboard.press('Tab');
+      if (await block.evaluate(item => item === document.activeElement)) break;
+    }
+    assert.ok(tabCount < 160, 'Tab traversal reaches the Canvas instruction block');
+    assert.equal(await page.locator('#context-hints-panel').isVisible(), false, 'hints start closed in the fresh browser profile');
     await page.keyboard.press('Enter');
+    assert.equal(await block.getAttribute('aria-pressed'), 'true');
     const instruction = page.locator('#context-hints-instruction');
     assert.equal(await instruction.isVisible(), true);
+    assert.equal(await block.evaluate(item => item === document.activeElement), true, 'showing the instruction preserves keyboard focus');
     assert.match(await instruction.textContent(), /Purpose/);
     assert.ok(await instruction.locator('strong').count());
     assert.equal(await instruction.locator('script').count(), 0);
