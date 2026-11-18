@@ -225,7 +225,7 @@ export function installModelAnalysis({ document, window, model, openDialog, rend
   for (const type of ['pointerdown', 'click']) document.addEventListener(type, event => {
     if (event.target.closest?.('#model-analysis-panel, #model-analysis-button, #analysis-generation-selection, [data-inspector-action="analysis"], [data-command="model-analysis-button"], [data-command="analysis-generation-selection"]') && blocked()) {
       event.preventDefault(); event.stopImmediatePropagation();
-      status('Завершите или отмените текущую правку перед исследованием модели.');
+      status('Завершите или отмените текущую правку перед исследованием модели.', 'blocking');
     }
   }, true);
   $('model-analysis-button').addEventListener('click', () => { if (dock.hidden) open(); else close(); });

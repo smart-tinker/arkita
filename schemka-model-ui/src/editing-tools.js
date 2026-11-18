@@ -40,7 +40,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     row.append(input); fields.append(row); value.controls[id] = input; return input;
   }
   function commit(value, snapshot, selected, message = 'Изменения сохранены · один шаг отмены.') {
-    if (request !== value || !current(value)) { cancel(); status('Контекст изменился. Начните действие заново.'); return false; }
+    if (request !== value || !current(value)) { cancel(); status('Контекст изменился. Начните действие заново.', 'blocking'); return false; }
     try {
       model.execute({ type: 'applyProjectSnapshot', files: exportFiles(snapshot) }, value.revision);
       const repeat = value.mode === 'quick' && value.controls.repeat.checked ? { ...value.read(), store: model.store, revision: model.store.revision, projectId: value.projectId, viewId: value.viewId } : null;
@@ -73,7 +73,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   }
   function geometry() {
     const refs = model.selections.filter(ref => ['occurrence', 'visualNode'].includes(ref.kind));
-    if (refs.length !== 1) { status('Для точного размера выберите одну фигуру.'); return false; }
+    if (refs.length !== 1) { status('Для точного размера выберите одну фигуру.', 'blocking'); return false; }
     const value = show('Положение и размер · Enter применить, Esc отменить', 'geometry'); if (!value) return false;
     value.ref = refs[0]; const original = drawingFor(model.view, value.ref); value.original = original;
     for (const [id, text] of [['x', 'X'], ['y', 'Y'], ['width', 'Ширина'], ['height', 'Высота']]) field(value, id, text, original.bounds[id], null, 'number');
@@ -98,7 +98,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   function reverse() {
     const state = model.store.snapshot, view = model.view, ids = [...new Set(model.selections.filter(ref => ref.kind === 'connection').map(ref => view.connections.find(item => item.id === ref.id).relationshipId))];
     if (!ids.length && model.selection?.kind === 'relationship') ids.push(model.selection.id);
-    if (!ids.length) { status('Выберите отношения или их соединения.'); return false; }
+    if (!ids.length) { status('Выберите отношения или их соединения.', 'blocking'); return false; }
     const value = show('Изменить направление во всей модели?', 'reverse'); if (!value) return false;
     try {
       value.out = reverseRelationships(state, ids); fields.append(node('p', `Отношений: ${ids.length}; представлений: ${value.out.affectedViewIds.length}. Источник и цель, концы кратности и маршруты поменяются вместе.`));
@@ -143,7 +143,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   function stateName(item) { const concept = model.store.snapshot[item.concept.kind === 'element' ? 'elements' : 'junctions'].find(value => value.id === item.concept.id); return concept.name || concept.type; }
   form.addEventListener('submit', event => {
     event.preventDefault(); const value = request; if (!value || apply.disabled || value.mode === 'tools') return;
-    if (!current(value)) { cancel(); status('Контекст изменился. Начните действие заново.'); return; }
+    if (!current(value)) { cancel(); status('Контекст изменился. Начните действие заново.', 'blocking'); return; }
     try {
       if (value.mode === 'geometry') { const stage = value.build(); if (!stage.changed) { cancel(); status('Геометрия не изменилась.'); } else commit(value, stage.snapshot); }
       else if(value.mode==='router'){const stage=value.build();if(!stage.changed){cancel();status('Маршрутизация уже выбрана.');}else commit(value,stage.snapshot,null,'Режим маршрутизации вида изменён · один шаг отмены.');}
@@ -169,7 +169,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
       if(blocked())return;const point=canvasDropPoint(canvas,event.clientX,event.clientY,window);if(!point)return;event.preventDefault();event.stopImmediatePropagation();quickAdd(false,point);return;
     }
     if (!repeated || event.button !== 0 || !event.isPrimary) return; event.preventDefault(); event.stopImmediatePropagation();
-    if (!current(repeated)) { cancel(); status('Контекст изменился, повторение завершено.'); return; }
+    if (!current(repeated)) { cancel(); status('Контекст изменился, повторение завершено.', 'blocking'); return; }
     const point = canvasDropPoint(canvas, event.clientX, event.clientY, window); if (!point) return;
     try { const out = create(model.store.snapshot, { ...repeated, bounds: { ...repeated.bounds, x: Math.round(point.x * 10) / 10, y: Math.round(point.y * 10) / 10 } }); model.execute({ type: 'applyProjectSnapshot', files: out.files }, repeated.revision); repeated.revision = model.store.revision; model.select({ kind: 'occurrence', id: out.created.occurrenceId }); render(); status('Создан следующий объект. Esc завершает повторение.'); } catch (failure) { status(failure.message); }
   }, true);

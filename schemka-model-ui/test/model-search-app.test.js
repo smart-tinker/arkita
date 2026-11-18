@@ -51,3 +51,28 @@ test(`${production ? 'production' : 'source'} keys on a search result never rena
   assert.equal(h.$('model-search').value, ''); assert.equal(h.document.activeElement, h.$('model-search'));
   assert.equal(previous.getAttribute('aria-pressed'), 'true'); assert.deepEqual(await h.download(), original);
 });
+
+test(`${production ? 'production' : 'source'} blocked search navigation announces the reason outside a hidden status bar`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture(), original = Buffer.from(serializeProjectFile(fixture.state));
+  await h.load(original);
+  h.$('preferences-button').click(); h.$('preferences-display-statusBar').checked = false;
+  h.$('preferences-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal(h.document.body.dataset.preferenceStatus, 'false');
+
+  const target = fixture.state.elements[0];
+  h.$('model-search').value = target.id;
+  h.$('model-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+  const result = [...h.$('model-search-results').querySelectorAll('button')].find(button => button.dataset.searchId === target.id);
+  assert.ok(result, 'the target is available in search results');
+  h.$('project-name').click(); assert.ok(h.document.querySelector('.inline-editor'));
+  result.click();
+
+  const external = h.$('external-feedback');
+  assert.equal(external.hidden, false);
+  assert.equal(external.dataset.kind, 'blocking');
+  assert.equal(external.getAttribute('role'), 'alert');
+  assert.equal(external.getAttribute('aria-live'), 'assertive');
+  assert.match(external.textContent, /Завершите или отмените текущую правку перед поиском/);
+  assert.ok(h.document.querySelector('.inline-editor'));
+  assert.deepEqual(await h.download(), original);
+});

@@ -29,7 +29,7 @@ export function installFragmentClipboard({ document, model, session, blocked, pe
   function refresh() {
     const buffer = currentClipboard();
     defaultPaste.disabled=!model.view||!(buffer||portableBuffer||desktop?.clipboardReadFragment);defaultPaste.textContent=readPasteMode()==='clone'?'Вставить: независимые концепты':'Вставить: общие концепты';defaultPaste.title='Выбранная семантика вставки. Изменяется в настройках; явные команды общих и независимых копий остаются доступны.';
-    if (pending && !current(pending)) { cancel(); status('Модель или представление изменились. Вставка отменена.'); }
+    if (pending && !current(pending)) { cancel(); status('Модель или представление изменились. Вставка отменена.', 'blocking'); }
     if ($('fragment-copy')) $('fragment-copy').disabled = !model.selections.length;
     if ($('fragment-cut')) $('fragment-cut').disabled = !model.selections.length;
     if ($('fragment-paste-reuse')) $('fragment-paste-reuse').disabled = !buffer || !model.view;
@@ -71,7 +71,7 @@ export function installFragmentClipboard({ document, model, session, blocked, pe
     } catch (failure) { status(committed ? `Вставка сохранена, но интерфейс не обновлён полностью: ${failure.message}. Не повторяйте вставку; используйте Undo при необходимости.` : `Не выполнено: ${failure.message}`); }
   }
   function showPortable(buffer,request) {
-    if (!current(request) || blocked()) { status('Модель изменилась во время чтения. Вставка отменена.'); return; }
+    if (!current(request) || blocked()) { status('Модель изменилась во время чтения. Вставка отменена.', 'blocking'); return; }
     const info = portableFragmentInfo(buffer.fragment), { source:main } = readPortableFragment(buffer.fragment);
     const stage = createStore(model.store.snapshot), result = stage.execute({ type:'pastePortableFragment',viewId:model.viewId,fragment:buffer.fragment,...placementFor(main) },stage.revision);
     summary.textContent = `Модель «${info.projectName}»: объектов ${info.concepts}, отношений ${info.relationships}, аннотаций ${info.drawings.visualNodes}, ресурсов ${info.assets}, профилей ${info.profiles.length}, связанных представлений ${info.referencedViews.length}. Все концепты и ресурсы получат новые ID; совпадения имён не объединяются.`;
@@ -96,7 +96,7 @@ export function installFragmentClipboard({ document, model, session, blocked, pe
     finally { if (request.generation === generation) busy = false; }
   }
   async function pasteConfirmed() {
-    const request = pending; if (!current(request) || !dialog.open) { cancel(); status('Модель или представление изменились. Вставка отменена.'); return; }
+    const request = pending; if (!current(request) || !dialog.open) { cancel(); status('Модель или представление изменились. Вставка отменена.', 'blocking'); return; }
     let committed = false, acknowledgementStarted = false;
     try {
       const result = perform({ type:'applyProjectSnapshot',files:request.files },'Вставлена переносимая копия фрагмента'); if (!result) return;
@@ -124,7 +124,7 @@ export function installFragmentClipboard({ document, model, session, blocked, pe
   }
   function run(action) {
     if(action==='paste')action=readPasteMode();
-    if (blocked() || pending || busy) { status('Завершите или отмените текущую правку перед копированием или вставкой.'); return; }
+    if (blocked() || pending || busy) { status('Завершите или отмените текущую правку перед копированием или вставкой.', 'blocking'); return; }
     try {
       if (action === 'copy' || action === 'cut') { copy(action === 'cut').catch(failure => status(`Не выполнено: ${failure.message}`)); return; }
       if (action === 'image') { copyImage().catch(failure => status(`Не выполнено: ${failure.message}`)); return; }
@@ -150,7 +150,7 @@ export function installFragmentClipboard({ document, model, session, blocked, pe
   for (const type of ['pointerdown','click']) document.addEventListener(type,event => {
     const button = event.target.closest?.('[data-command],button');
     if (!button || !Object.hasOwn(controls,button.dataset.command || button.id) || !blocked()) return;
-    event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед копированием или вставкой.');
+    event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед копированием или вставкой.', 'blocking');
   },true);
   document.addEventListener('keydown',event => {
     if (event.defaultPrevented || event.isComposing || event.altKey || !(event.ctrlKey || event.metaKey) || !event.target.closest?.('#canvas') || event.target.closest('input,textarea,select,[contenteditable="true"]')) return;

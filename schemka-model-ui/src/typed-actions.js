@@ -29,7 +29,7 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     const kind = CURRENT_CATALOG.junctionTypes.includes(elementType) ? 'junction' : 'element';
     if (!model.view || model.typeVisible?.(kind, elementType) === false || !creationTypes(model.store.snapshot.project.metamodel, kind).includes(elementType)) return;
     const specialization = profileId && model.store.snapshot.customizationProfiles?.find(item => item.id === profileId);
-    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, kind, elementType))) { status('Специализация недоступна для выбранного типа.'); return; }
+    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, kind, elementType))) { status('Специализация недоступна для выбранного типа.', 'blocking'); return; }
     pendingElement = { kind, elementType, profileId, bounds: bounds && { ...bounds }, viewId: model.viewId, revision: model.store.revision };
     $('edit-title').textContent = `Новый ${elementType}${specialization ? ` · ${specialization.name}` : ''}`;
     $('edit-description').textContent = `Создаст ${elementType} в общей модели и его экземпляр в текущем представлении. Нормативная оценка: UNKNOWN.`;
@@ -159,7 +159,7 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     if (!model.view || (relationshipId && model.conceptVisible?.({ kind: 'relationship', id: relationshipId }) === false) || (relationshipType !== null && model.typeVisible?.('relationship', relationshipType) === false) || (relationshipType !== null && !creationTypes(model.store.snapshot.project.metamodel, 'relationship').includes(relationshipType))) return;
     const state = model.store.snapshot;
     const specialization = profileId && state.customizationProfiles?.find(item => item.id === profileId);
-    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !relationshipType || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.'); return; }
+    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !relationshipType || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.', 'blocking'); return; }
     fixedEndpoints = Boolean(smart && fixedEndpoints && sourceEndpoint?.kind === 'occurrence' && targetEndpoint?.kind === 'occurrence');
     pendingLink = { relationshipType, profileId, sourceEndpoint: structuredClone(sourceEndpoint), targetEndpoint: structuredClone(targetEndpoint), smart, fixedEndpoints, viewId: model.viewId, revision: model.store.revision };
     $('smart-link-field').hidden = !smart;
@@ -215,9 +215,9 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     if (!view || model.typeVisible?.('relationship', relationshipType) === false || !creationTypes(state.project.metamodel, 'relationship').includes(relationshipType)) return;
     if (sourceEndpoint?.kind !== 'occurrence' || targetEndpoint?.kind !== 'occurrence') return;
     const specialization = profileId && state.customizationProfiles?.find(item => item.id === profileId);
-    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.'); return; }
+    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.', 'blocking'); return; }
     const source = choiceConcept(view, sourceEndpoint), target = choiceConcept(view, targetEndpoint);
-    if (!source || !target) { status('Выбранные объекты недоступны. Начните создание связи заново.'); return; }
+    if (!source || !target) { status('Выбранные объекты недоступны. Начните создание связи заново.', 'blocking'); return; }
     const assessment = relationshipAssessment(state, { type: relationshipType, source, target });
     if (diagnosticPresentation(assessment).status === 'FORBIDDEN') { status(`Связь не создана: ${assessmentMessage(assessment)}`); return; }
     executeCreation({ type: 'createRelationshipAndConnection', relationshipType, viewId: model.viewId, source: structuredClone(sourceEndpoint), target: structuredClone(targetEndpoint), label: '', ...(profileId ? { profileId } : {}) },
