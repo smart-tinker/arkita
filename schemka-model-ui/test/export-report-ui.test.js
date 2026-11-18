@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import { createProject, createStore } from '../../schemka-model-core/src/index.js';
 import { createController } from '../src/controller.js';
-import { DEFAULT_REPORT_TEMPLATE } from '../../schemka-model-io/src/report.js';
+import { DEFAULT_REPORT_TEMPLATE, prepareReportProject } from '../../schemka-model-io/src/report.js';
 import { installExportReportUI } from '../src/export-report-ui.js';
 import { renderVisualNode } from '../src/visual-drawings.js';
 import { exportViewSvg } from '../src/svg-export.js';
@@ -51,6 +51,53 @@ test('excluded image drawing is absent from the saved HTML while retained image 
   const diagram = dom.window.document.querySelector(`#image-${viewId}`), svg = Buffer.from(diagram.getAttribute('src').split(',')[1], 'base64').toString('utf8');
   assert.deepEqual(renderedIds, [visibleNode]); assert.ok(svg.includes(visibleData)); assert.ok(!svg.includes(excludedData));
   assert.deepEqual(h.model.store.exportFiles(), before);
+});
+
+test('excluded view references warn in preview while excluded view data stays out of saved HTML and SVG', async t => {
+  const renderedIds = [], h = fixture(t, {}, ({ document }) => (state, id) => {
+    const entry = state.views.find(item => item.view.id === id), canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    canvas.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); canvas.style.backgroundColor = '#fff'; document.body.append(canvas);
+    try { for (const item of entry.visualNodes) { renderedIds.push(item.id); canvas.append(renderVisualNode(document, item, state, entry)); }
+      return exportViewSvg({ canvas, bounds: { x: 0, y: 0, width: 900, height: 640 }, title: entry.view.name });
+    } finally { canvas.remove(); }
+  });
+  const excludedViewId = h.other, mainViewId = h.model.store.snapshot.views[0].view.id;
+  const excludedName = 'ExcludedViewNameSentinel', excludedViewText = 'ExcludedViewTextSentinel', excludedNoteText = 'ExcludedNoteTextSentinel';
+  const excludedData = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7L8AAAAASUVORK5CYII=';
+  h.model.execute({ type: 'renameView', viewId: excludedViewId, name: excludedName });
+  h.model.execute({ type: 'updateMetadata', owner: { kind: 'view', id: excludedViewId }, documentation: excludedViewText });
+  const { assetId } = h.model.execute({ type: 'createAsset', name: 'ExcludedResourceNameSentinel', mediaType: 'image/png', data: excludedData }).created;
+  const imageId = h.model.execute({ type: 'createVisualNode', viewId: excludedViewId, kind: 'image', name: 'ExcludedImageNameSentinel', assetId, bounds: { x: 20, y: 20, width: 220, height: 140 } }).created.visualNodeId;
+  const noteId = h.model.execute({ type: 'createVisualNode', viewId: excludedViewId, kind: 'note', name: 'ExcludedNoteNameSentinel', text: excludedNoteText, documentation: 'ExcludedNoteDocumentationSentinel', bounds: { x: 260, y: 20, width: 220, height: 140 } }).created.visualNodeId;
+  const retainedId = h.model.execute({ type: 'createVisualNode', viewId: mainViewId, kind: 'note', name: 'RetainedMainNote', text: 'RetainedMainText', bounds: { x: 260, y: 20, width: 220, height: 140 } }).created.visualNodeId;
+  const referenceId = h.model.execute({ type: 'createVisualNode', viewId: mainViewId, kind: 'viewReference', targetViewId: excludedViewId, name: 'ExcludedReferenceNameSentinel', documentation: 'ExcludedReferenceDocumentationSentinel', bounds: { x: 20, y: 20, width: 220, height: 140 } }).created.visualNodeId;
+  const secondReferenceId = h.model.execute({ type: 'createVisualNode', viewId: mainViewId, kind: 'viewReference', targetViewId: excludedViewId, name: 'SecondExcludedReferenceNameSentinel', bounds: { x: 20, y: 200, width: 220, height: 140 } }).created.visualNodeId;
+  const referenceIds = [referenceId, secondReferenceId];
+  const before = h.model.store.exportFiles(), revision = h.model.store.revision, undoCount = h.model.store.history.undo;
+  const expectedWarnings = referenceIds.map(id => `Ссылка ${id} удалена из сохранённого представления «Main» (${mainViewId}), так как целевое представление исключено`);
+  const prepared = prepareReportProject(h.model.store.snapshot, { excludeIds: [excludedViewId] });
+  assert.deepEqual(prepared.warnings, expectedWarnings);
+  assert.equal(prepared.snapshot.views.some(entry => entry.view.id === excludedViewId), false);
+  assert.equal(prepared.snapshot.views[0].visualNodes.some(item => referenceIds.includes(item.id)), false);
+
+  h.ui.open(); h.$('export-report-format').value = 'html'; h.event('export-report-format', 'change');
+  const option = [...h.$('export-report-exclude').options].find(item => item.value === excludedViewId); assert.ok(option); option.selected = true; h.event('export-report-exclude', 'change');
+  h.$('export-report-generate').click(); await h.settle();
+  const feedback = h.$('export-report-feedback').textContent;
+  for (const warning of expectedWarnings) assert.ok(feedback.includes(warning), `missing preview warning: ${warning}`);
+  assert.equal(h.$('export-report-save').disabled, false, feedback);
+  for (const value of [excludedViewId, assetId, imageId, noteId, excludedName, excludedViewText, excludedNoteText, excludedData, 'ExcludedResourceNameSentinel', 'ExcludedImageNameSentinel', 'ExcludedNoteDocumentationSentinel', 'ExcludedReferenceDocumentationSentinel', 'SecondExcludedReferenceNameSentinel']) assert.ok(!feedback.includes(value), `warning leaked ${value}`);
+  assert.deepEqual(renderedIds, [retainedId]);
+  assert.deepEqual(h.model.store.exportFiles(), before); assert.equal(h.model.store.revision, revision); assert.equal(h.model.store.history.undo, undoCount);
+
+  h.event('export-report-form', 'submit'); await h.settle();
+  const html = new TextDecoder().decode(h.saved[0][1][0].bytes), dom = new JSDOM(html); t.after(() => dom.window.close());
+  const dataText = dom.window.document.getElementById('report-data').textContent;
+  const diagram = dom.window.document.querySelector(`#image-${mainViewId}`), svg = Buffer.from(diagram.getAttribute('src').split(',')[1], 'base64').toString('utf8');
+  assert.ok(svg.includes('RetainedMainText'));
+  for (const surface of [html, dataText, svg]) for (const value of [excludedViewId, assetId, imageId, noteId, ...referenceIds, excludedName, excludedViewText, excludedNoteText, excludedData, 'ExcludedResourceNameSentinel', 'ExcludedImageNameSentinel', 'ExcludedNoteDocumentationSentinel', 'ExcludedReferenceDocumentationSentinel', 'SecondExcludedReferenceNameSentinel']) assert.ok(!surface.includes(value), `report output leaked ${value}`);
+  assert.match(h.$('export-report-feedback').textContent, /файл сохранён/);
+  assert.deepEqual(h.model.store.exportFiles(), before); assert.equal(h.model.store.revision, revision); assert.equal(h.model.store.history.undo, undoCount);
 });
 
 test('cancelled native output is not success; changing fields invalidates output and stale model closes preview', async t => {
