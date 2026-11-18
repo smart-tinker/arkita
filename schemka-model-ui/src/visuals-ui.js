@@ -6,6 +6,7 @@ import { createStore, exportFiles, DRAWING_COLLECTIONS, LIMITS, ASSET_LIMITS, as
 import { newId } from '../../schemka-model-core/src/format.js';
 import { creationTypes, relationshipAssessment } from './profile-ui.js';
 import { canvasDropPoint } from './drag-drop.js';
+import { captionTemplateResult } from './visual-drawings.js';
 
 const names = { note: 'Заметка', group: 'Группа', legend: 'Легенда', viewReference: 'Ссылка на представление', image: 'Изображение' };
 const lineKind = kind => ['connection', 'visualConnector'].includes(kind);
@@ -133,7 +134,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
   function removeSelected() { const ref = selection(); if (!ref || !['visualNode', 'visualConnector'].includes(ref.kind) || blocked()) return false; confirmDelete(ref); return Boolean(pending); }
   function editSelected() { const ref = selection(), item = ref && drawing(model.store.snapshot, ref); if (!item) return false; return ref.kind === 'visualNode' ? nodeEditor(item.kind, ref) : ref.kind === 'visualConnector' ? connectorEditor(ref) : false; }
   function styleSelected() {
-    const ref = selection(), item = ref && drawing(model.store.snapshot, ref), request = show('style', 'Оформление рисунка'); if (!request || !item) { if (request) cancel(); return false; }
+    const ref = selection(), state = model.store.snapshot, item = ref && drawing(state, ref), request = show('style', 'Оформление рисунка'); if (!request || !item) { if (request) cancel(); return false; }
     request.ref = ref; request.original = structuredClone(item); const style = item.style, line = lineKind(ref.kind);
     reference.textContent = 'Изменения относятся к этому рисунку'+(model.selections.length>1?' — только к опорному, а не всему выделению':'')+'. Пустое поле сбрасывает только своё значение к умолчанию.';
     const color = (key, title) => { const input = field(key, title, style[key] ?? ''); input.placeholder = '#AABBCC или none'; input.maxLength = 11; };
@@ -163,6 +164,15 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     field('fontWeight', 'Начертание', style.fontWeight ?? '', 'text', [['', 'По умолчанию'], ['normal', 'Обычное'], ['bold', 'Полужирное']]); color('textColor', 'Цвет текста');
     field('textAlign', 'Выравнивание текста', style.textAlign ?? '', 'text', [['', 'По умолчанию'], ['left', 'Слева'], ['center', 'По центру'], ['right', 'Справа']]);
     field('labelTemplate', 'Шаблон подписи', style.labelTemplate ?? '', 'textarea'); request.initialTemplate = controls.labelTemplate.value; controls.labelTemplate.placeholder = '${name} · ${property:owner}';
+    if (ref.kind === 'visualConnector') {
+      const diagnostic = node('p', '', 'inspector-note'); diagnostic.id = 'visual-label-template-diagnostic'; diagnostic.setAttribute('role', 'alert'); diagnostic.hidden = true; fields.append(diagnostic);
+      const updateDiagnostic = () => {
+        const result = captionTemplateResult(controls.labelTemplate.value, item, state);
+        diagnostic.hidden = !result.diagnostic;
+        diagnostic.textContent = result.diagnostic ? `${result.diagnostic} На полотне будет показано исходное имя «${item.name ?? ''}».` : '';
+      };
+      controls.labelTemplate.addEventListener('input', updateDiagnostic); updateDiagnostic();
+    }
     field('labelVisible', 'Подпись', style.labelVisible === undefined ? '' : String(style.labelVisible), 'text', [['', 'По умолчанию'], ['true', 'Показывать'], ['false', 'Скрыть']]);
     if (line) { color('labelBackground', 'Фон подписи'); field('label-x', 'Смещение подписи X', style.labelOffset?.x ?? '', 'number'); field('label-y', 'Смещение подписи Y', style.labelOffset?.y ?? '', 'number'); }
     const extra = node('div', undefined, 'visual-inline-actions'); extra.append(button('visual-style-reset', 'Сбросить оформление', () => commit(request, run => run({ type: 'resetDrawingStyle', viewId: request.viewId, drawing: ref }), 'Оформление сброшено · можно отменить.')),
