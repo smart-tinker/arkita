@@ -1,55 +1,30 @@
-# Issue #23 current source and evidence review — 2026-11-15
+# Issue #23 current source and evidence review — 2026-11-19
 
 ## Scope and result
 
-Public issue [#23](https://github.com/smart-tinker/arkita/issues/23) represents
-historical corpus group 57 and lists ten criteria. The baseline reviewed here is
-public `main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`.
+This follow-up verifies the ten source criteria assigned to public issue [#23](https://github.com/smart-tinker/arkita/issues/23), using runtime `main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`. The records remain attached to historical corpus group 57 as required by the corpus mapping.
 
-Several entries still point to the `0.6.0` snapshot and call current work absent.
-Current source already contains offline, inert hints; an explicit host policy for
-Git proxy, authorization and external links; a bounded installed-app CLI; and a
-declarative automation package manager with read/query and atomic model commands.
-This is source/test-route evidence, not criterion acceptance. All ten records
-remain `acceptance-pending`; no criterion is closed and installed Windows
-acceptance remains `unrun`.
+All ten criteria pass within the source, existing-test and synthetic-check boundaries below. This is not installed-app acceptance: every record remains `acceptance-pending`, no `closed_criteria` was added, and Windows acceptance remains `unrun`.
 
-## Criterion map
+## Criterion results
 
-| Criterion | Current source and existing regression route | Review result and remaining proof |
+| Criterion | Verified source/test result | Remaining acceptance |
 | --- | --- | --- |
-| `A-ADV-162` | `context-hints-ui.js`, `workspace-ui.js`, `window-guards.mjs`; `context-hints-app.test.js`, `workspace-ui.test.js`, `notation-app.test.js`. | Hints and help are local text rendered as text; active HTML/JavaScript hints and privileged web content are unsupported. Verify offline help, keyboard flow and model documentation on the installed Windows app. |
-| `A-ADV-163` | `workspace-ui.js`, `documentation-editor.js`, `host-actions.mjs`, `file-service.mjs`; `documentation-markdown-app.test.js`, `documentation-editor.test.js`, `host-policy.test.mjs`. | Local help is available offline. External HTTP(S) links require an explicit action and native confirmation, then open in the system browser. Verify the packaged Windows confirmation/browser path and that unavailable sites do not affect the inspector. |
-| `A-ADV-169` | `git-network-policy.mjs`, `git-repository.mjs`, `git-service.mjs`, `host-policy-ui.js`; `host-policy.test.mjs`, `host-policy-app.test.js`. | Per-connection `system`, `direct` and credential-free `manual` HTTPS proxy policies are implemented; SSH keeps system configuration and network authorization can be disabled without affecting local work. Real Windows direct/proxy/auth-failure/offline behavior remains unaccepted. |
-| `A-ADV-170` | `host-actions.mjs`, `git-network-policy.mjs`, `git-repository.mjs`, `host-policy-ui.js`; `host-policy.test.mjs`, `host-policy-app.test.js`. | Arkita delegates credential deletion to the Windows Credential Manager UI and does not read or return secrets. Tests check the fixed native launcher and that disabling authorization preserves local model/history. Verify the native Windows Credential Manager flow; do not add a second password store. |
-| `A-ADV-171` | `documentation-editor.js`, `host-actions.mjs`, `file-service.mjs`, `preload.cjs`, `main.mjs`, `window-guards.mjs`; `documentation-editor.test.js`, `host-policy.test.mjs`. | Supported HTTP(S) links open only through a separate confirmed native action; unsupported schemes and privileged embedded browsing are rejected. Verify the installed Windows prompt, default-browser handoff and failure message. |
-| `A-ADV-172` | `automation-ui.js`, `schemka-model-core/src/automation.js`, `schemka-model-io/src/automation.js`; `automation-ui.test.js`, `automation-app.test.js`, `automation.test.js`. | The current extension surface is a local declarative package library: version, engine and requested capabilities are shown before install; install/update/remove are explicit; invalid or failed writes preserve the prior library and model. It intentionally has no arbitrary JavaScript/Node plugin loader. Verify the packaged install/remove flow and model preservation. |
-| `A-EXT-024` | `electron/entry.mjs`, `scripts/arkita-cli.mjs`; `automation-cli.test.mjs`, `cli-entry-harness.mjs`. | Installed-app `--cli` supports documented `validate` and `export-csv` with JSON output, exit codes, Unicode paths and no-overwrite behavior. Verify stdout/exit codes and output-directory behavior from the exact Windows executable. |
-| `A-EXT-030` | `schemka-model-core/src/automation.js` (`queryModel`); `automation.test.js`, `automation-ui.test.js`. | A bounded, read-only query API uses stable IDs and returns detached records/properties; it cannot execute package code or mutate a model. Verify representative query parity in the packaged workflow. |
-| `A-EXT-031` | `schemka-model-core/src/automation.js`, `schemka-model-ui/src/automation-ui.js`; `automation.test.js`, `automation-ui.test.js`, `automation-app.test.js`. | Declarative rename/property/closed-command batches use normal validation, preview exact changes and commit as one Undo; cancel, error and stale revision do not partially apply. Verify one package through the installed UI and save/reopen. |
-| `A-EXT-032` | `automation-ui.js`, `schemka-model-core/src/automation.js`, `schemka-model-io/src/automation.js`; `automation-ui.test.js`, `automation-app.test.js`. | Local packages require explicit install/enable/run consent, show bounded results/errors and can be cancelled or removed. File/network access is not granted to packages; save and Git remain separate. Verify manual run, cancel and error feedback in the installed Windows UI. |
+| `A-ADV-162` | PASS: offline help and keyboard routes are local; synthetic source/JSDOM confirms model markup remains literal text, creates no active nodes, executes no script and makes no fetch. | Installed Windows offline-help, keyboard/focus and inert-render acceptance remains unrun. |
+| `A-ADV-163` | PASS: Markdown preview does not open or fetch a link before explicit action. A synthetic unavailable response shows an error while the inspector stays open and model bytes remain unchanged. | Installed Windows native confirmation, default-browser handoff and unavailable-site behavior remain unrun. |
+| `A-ADV-169` | PASS: system/direct/manual policies and credential-free proxy validation are covered by source/tests. Disabling authorization blocks remote operations; a synthetic policy save preserved the exact model bytes. | Real Windows system/direct/manual proxy, authentication-failure and offline/local-work acceptance remains unrun. |
+| `A-ADV-170` | PASS: the launcher uses the fixed Windows Credential Manager command with `shell: false`; Arkita delegates manual selection to Windows and does not read or save password contents. | Native Windows Credential Manager UI remains unrun; no app-managed password store is in scope. |
+| `A-ADV-171` | PASS: unsupported schemes are rejected; confirmation defaults to cancel; only a confirmed action reaches the system-shell adapter. A stubbed failure produces a clear message, and the external page is not given the model or Arkita API. | Installed Windows confirmation, default-browser handoff and real system-browser failure feedback remain unrun. |
+| `A-ADV-172` | PASS: synthetic package lifecycle checks show metadata before consent, explicit install/update/remove, rejection of unsupported engine/capability and unchanged model bytes. | Packaged/installed install-update-remove and restart/reopen behavior remains unrun; arbitrary JavaScript/Node plug-ins are not in scope. |
+| `A-EXT-024` | PASS: source CLI checks cover JSON status/exit codes, Unicode paths, six CSV outputs, invalid-input refusal and overwrite preservation. Exact-main CI passed on Ubuntu, Windows and the CI gate. | Exact installed Windows executable CLI output/exit codes and output-directory behavior remain unrun. |
+| `A-EXT-030` | PASS: source/JSDOM queries return the exact stable-ID record, match the normal UI projection, and leave bytes/history unchanged on invalid input; model text/import does not auto-run a package. | Packaged/installed read-query parity remains unrun. |
+| `A-EXT-031` | PASS: synthetic multi-step preview leaves bytes/history unchanged; explicit apply creates one Undo; a stale revision disables apply and preserves the concurrent model. | Installed Windows batch preview/apply/Undo and save/reopen remain unrun. |
+| `A-EXT-032` | PASS: synthetic package selection and manual run show the input/result, report step/line errors, retain focus and reject `fs.read`/network capability requests. | Installed Windows manual-run, cancellation, error-feedback and focus behavior remains unrun. |
 
 ## Verification boundary
 
-The inspected test files are existing routes; none were run for this review. The
-exact-main GitHub Actions run [43646530875](https://github.com/smart-tinker/arkita/actions/runs/43646530875)
-and CodeQL run [43646531019](https://github.com/smart-tinker/arkita/actions/runs/43646531019)
-passed. They do not prove installed native behavior for this issue.
+The relevant host-policy, documentation and renderer source tests reported **54 passed, 0 failed**. The source automation test set reported **10 passed, 0 failed**. Focused synthetic JSDOM and Node checks covered the criterion-specific cases above; they used synthetic data and local adapters. The checkout runtime sources match the exact `main` SHA listed above.
 
-No source code, tests, workflows or release state changed. Do not add arbitrary
-executable plug-ins or expand `0.7.1-rc.1`; user chose that patch RC for fixes and
-CI, with Windows test/CI fixes included. Keep the open feature criteria and
-their acceptance evidence on the later feature line. No Actions artifacts,
-release or issue closure is claimed.
+The exact-main [GitHub Actions CI](https://github.com/smart-tinker/arkita/actions/runs/43646530875) passed Ubuntu, Windows and the CI gate. The corresponding [CodeQL run](https://github.com/smart-tinker/arkita/actions/runs/43646531019) passed. These checks and synthetic results do not establish installed Windows/native acceptance. The current documentation update is in draft [PR #80](https://github.com/smart-tinker/arkita/pull/80); its exact-head CI is tracked by the PR, separately from runtime-main evidence.
 
-The top-level `issues.extensions` value remains `57` as the historical corpus
-group mapping; the ten applicable criterion records point to public issue `#23`.
-
-## Next work
-
-1. Keep the ten criteria pending until their evidence is tied to exact source
-   and, where applicable, the packaged Windows UI.
-2. Reuse the bounded automation and host-policy contracts already in `main`;
-   implement only a gap demonstrated by the criterion-specific acceptance.
-3. For patch RC `0.7.1-rc.1`, continue its separate exact-package and userVM
-   gates. This source review does not close migration issue #2 or parent #9.
+No source, test, workflow, release or user setting was changed for this review. No criterion was accepted or closed, no private data or local evidence paths are included, and no installed Windows/userVM check is claimed.
