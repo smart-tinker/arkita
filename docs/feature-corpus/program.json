@@ -2191,7 +2191,7 @@
       "title": "Вставка между моделями",
       "family": "clipboard",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/FRAGMENT-COPY.md",
         "schemka-model-core/src/portable-fragment.js",
@@ -2202,11 +2202,13 @@
         "schemka-model-ui/test/fragment-clipboard.test.js",
         "electron/test/clipboard-print.test.mjs"
       ],
-      "remaining": "Cross-model capture, validation, preview, remapping, and failure-atomicity code/tests are present at the current public source snapshot; exact-main CI passes. Real Windows system-clipboard transfer between two model windows, preview/cancel, and reopen remain UNRUN. Keep acceptance-pending; do not reimplement.",
+      "remaining": "Independent renderer/core acceptance covers synthetic cross-model copy and rejection of a future metamodel version. Installed native Windows/system clipboard, cross-window transfer, physical save/reopen, unsupported notation identifiers, and userVM remain UNRUN.",
       "issue": 17,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "A-EDITOR-073"
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
+      "verification": "Independent headless Chromium 157 renderer QA on exact public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; no runtime files differed from main. A synthetic cross-model copy preview identified the source model, profile, and resource; Cancel preserved exact destination bytes. Apply remapped typed IDs and references for concepts, drawings, relationships, connections, resource, and profile while preserving opaque string values, resource bytes, the existing destination, and source bytes; Undo restored the exact destination baseline. A synthetic future project.metamodel.version=3 (supported version 2) was rejected with VERSION before preview/apply while target bytes and Undo state remained unchanged. Accepted only for renderer/core behavior; native Windows/system clipboard, cross-window, physical save/reopen, unsupported notation identifiers, and userVM were not exercised.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2220,14 +2222,16 @@
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
       "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard",
-      "implementation_prs": []
+      "implementation_prs": [
+        1
+      ]
     },
     {
       "id": "A-EDITOR-074",
       "title": "Вырезание и перенос фрагмента без потери",
       "family": "clipboard",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/FRAGMENT-COPY.md",
         "schemka-model-core/src/fragment.js",
@@ -2239,11 +2243,13 @@
         "schemka-model-ui/test/fragment-clipboard.test.js",
         "electron/test/clipboard-print.test.mjs"
       ],
-      "remaining": "Same-window atomic move and cross-window acknowledgement/recovery code/tests are present at the current public source snapshot; exact-main CI passes. Real Windows cut/paste across two open models, failure preservation, and Undo in both windows remain UNRUN. Keep acceptance-pending; do not reimplement.",
+      "remaining": "Independent acceptance covers same-window renderer Move, cancellation, invalid-target refusal, repeat-as-copy, and Undo. Cross-window acknowledgement/recovery, native/system clipboard, installed Windows UI, physical save/reopen, and userVM remain UNRUN.",
       "issue": 17,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "A-EDITOR-074"
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Current public source snapshot: main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, containing the imported implementation at bc4b413. Current-main GitHub CI run 43646530875 passed. The old repository PR numbers were reused by unrelated PRs after public-repository creation, so they are not retained as current-repository implementation links. Source/CI evidence does not replace native Windows acceptance; no criteria are closed here.",
+      "verification": "Independent headless Chromium 157 renderer QA on exact public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; no runtime files differed from main. Cut preparation, Escape cancellation, and rejection by a filtered target preserved exact source bytes and history. Successful Move removed source drawings, preserved concept/relationship records, created fresh drawing IDs, and placed the occurrences and connection in the target; repeating paste was a copy. Undo first removed the repeated copy, then restored the exact original bytes. Accepted only for same-window renderer behavior; cross-window/native Windows, physical save/reopen, and userVM were not exercised.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2257,7 +2263,9 @@
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
       "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#clipboard",
-      "implementation_prs": []
+      "implementation_prs": [
+        1
+      ]
     },
     {
       "id": "A-EDITOR-075",
