@@ -768,9 +768,14 @@ test('external replacement survives a delayed UI teardown generation change', as
   let h;
   h = setup(undefined, { openDialog(id) { h.$(id).open = true; queueMicrotask(() => { h.interactionGeneration++; }); } });
   const input = serializeProjectFile(createDemo().snapshot);
+  const before = { token: h.session.documentToken, revision: h.model.store.revision, files: h.model.store.exportFiles(), history: h.model.store.history };
   assert.equal(h.actions.proposeExternal({ bytes: input, name: 'From template', source: 'template', unsaved: true }), true);
   await Promise.resolve();
   assert.equal(h.interactionGeneration, 1);
+  assert.equal(h.session.documentToken, before.token);
+  assert.equal(h.model.store.revision, before.revision);
+  assert.deepEqual(h.model.store.exportFiles(), before.files);
+  assert.deepEqual(h.model.store.history, before.history);
   await h.$('load-project').event('click');
   assert.equal(h.afterLoads, 1, h.statuses.join('\n'));
   assert.equal(h.session.dirty, true);
