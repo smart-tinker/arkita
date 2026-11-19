@@ -8861,13 +8861,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-ui/src/context-hints-ui.js",
+        "schemka-model-ui/src/workspace-ui.js",
+        "electron/window-guards.mjs",
+        "schemka-model-ui/test/context-hints-app.test.js",
+        "schemka-model-ui/test/workspace-ui.test.js",
+        "schemka-model-ui/test/notation-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Installed Windows offline-help, keyboard/focus and inert-render acceptance remains unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8882,7 +8889,7 @@
         "remaining": "Текст модели выводится инертно, renderer ограничивает сеть/навигацию и не предоставляет произвольный privileged API. Но локальной hints-подсистемы с активным/внешним содержимым, настройкой разрешений и offline fallback нет. Существующие ограничения сохранять; отсутствие активной справки не является дефектом безопасности.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-ADV-163",
@@ -8891,13 +8898,24 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-ui/src/workspace-ui.js",
+        "schemka-model-ui/src/documentation-editor.js",
+        "electron/host-actions.mjs",
+        "electron/file-service.mjs",
+        "electron/preload.cjs",
+        "electron/main.mjs",
+        "electron/window-guards.mjs",
+        "schemka-model-ui/test/documentation-markdown-app.test.js",
+        "schemka-model-ui/test/documentation-editor.test.js",
+        "electron/test/host-policy.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Installed Windows native confirmation, default-browser handoff and unavailable-site behavior remain unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -8912,7 +8930,7 @@
         "remaining": "Текст модели выводится инертно, renderer ограничивает сеть/навигацию и не предоставляет произвольный privileged API. Но локальной hints-подсистемы с активным/внешним содержимым, настройкой разрешений и offline fallback нет. Существующие ограничения сохранять; отсутствие активной справки не является дефектом безопасности.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-ADV-164",
@@ -9068,13 +9086,20 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "electron/git-network-policy.mjs",
+        "electron/git-repository.mjs",
+        "electron/git-service.mjs",
+        "schemka-model-ui/src/host-policy-ui.js",
+        "electron/test/host-policy.test.mjs",
+        "schemka-model-ui/test/host-policy-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Real Windows system/direct/manual proxy, authentication-failure and offline/local-work acceptance remains unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9088,7 +9113,7 @@
         "remaining": "Сеть в продукте нужна Git; запускаемый Git использует обычную конфигурацию/окружение, поэтому внешний git proxy является базой. В UI/IPC нет отдельного выбора системного/manual proxy. Direct/proxy/auth failure на реальной Windows сети в этой проверке не выполнялись.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-ADV-170",
@@ -9097,13 +9122,20 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "electron/host-actions.mjs",
+        "electron/git-network-policy.mjs",
+        "electron/git-repository.mjs",
+        "schemka-model-ui/src/host-policy-ui.js",
+        "electron/test/host-policy.test.mjs",
+        "schemka-model-ui/test/host-policy-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Native Windows Credential Manager UI remains unrun; no app-managed password store is in scope.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9117,7 +9149,7 @@
         "remaining": "Существующий Git предлагает SSH/Git Credential Manager и использует credential.interactive; авторские name/email не являются секретами. Собственного password store в модели нет. UI удаления сохранённой авторизации/управления OS credentials и проверка фактического helper на Windows отсутствуют; не нужна параллельная система хранения паролей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-ADV-171",
@@ -9126,13 +9158,22 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-ui/src/documentation-editor.js",
+        "electron/host-actions.mjs",
+        "electron/file-service.mjs",
+        "electron/preload.cjs",
+        "electron/main.mjs",
+        "electron/window-guards.mjs",
+        "schemka-model-ui/test/documentation-editor.test.js",
+        "electron/test/host-policy.test.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Installed Windows confirmation, default-browser handoff and real system-browser failure feedback remain unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9146,7 +9187,7 @@
         "remaining": "В preload нет openExternal/browser API; renderer навигация/popups ограничены. Пользовательского выбора системного/встроенного браузера и маршрута открытия ссылок/отчётов нет; текст ссылки на источник не доказывает реализацию внешнего открытия.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-ADV-172",
@@ -9155,13 +9196,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-ui/src/automation-ui.js",
+        "schemka-model-core/src/automation.js",
+        "schemka-model-io/src/automation.js",
+        "schemka-model-core/test/automation.test.js",
+        "schemka-model-ui/test/automation-ui.test.js",
+        "schemka-model-ui/test/automation-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Packaged/installed install-update-remove and restart/reopen behavior remains unrun; arbitrary JavaScript/Node plug-ins are not in scope.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9177,7 +9225,7 @@
         "remaining": "Поставляемый app имеет закрытые IPC и built-in registry. Нет списка расширений, manifest/version/capability контрактов, установки/удаления и загрузчика пользовательских модулей. Dev dependencies и bundled Git не являются plugin manager.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-ADV-173",
@@ -9899,13 +9947,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "electron/entry.mjs",
+        "scripts/arkita-cli.mjs",
+        "electron/test/automation-cli.test.mjs",
+        "electron/test/helpers/cli-entry-harness.mjs"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Exact installed Windows executable CLI output/exit codes and output-directory behavior remain unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9922,7 +9975,7 @@
         "remaining": "В package есть build/test/dev scripts, в main фиксированный GUI запуск без modelling argv dispatcher. Headless пользовательского validation/export CLI с exit codes и отчётом нет. Текущие pure IO/core функции — возможная база, а не готовый CLI.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-EXT-025",
@@ -10089,13 +10142,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-core/src/automation.js",
+        "schemka-model-ui/src/automation-ui.js",
+        "schemka-model-core/test/automation.test.js",
+        "schemka-model-ui/test/automation-ui.test.js",
+        "schemka-model-ui/test/automation-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Packaged/installed read-query parity remains unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10112,7 +10171,7 @@
         "remaining": "Core предоставляет pure ESM resolvers и immutable snapshot для приложения. Пользовательского документированного scripting/query API, среды выбора/выполнения и capability границы нет; внутренние exports не считаются готовой автоматизацией.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-EXT-031",
@@ -10121,13 +10180,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-core/src/automation.js",
+        "schemka-model-ui/src/automation-ui.js",
+        "schemka-model-core/test/automation.test.js",
+        "schemka-model-ui/test/automation-ui.test.js",
+        "schemka-model-ui/test/automation-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Installed Windows batch preview/apply/Undo and save/reopen remain unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10143,7 +10208,7 @@
         "remaining": "Store уже валидирует отдельные команды и applyProjectSnapshot с Undo. Публичного сценарного API пакетных команд, dry-run/preview и исполнения целого script transaction нет; существующий snapshot primitive не заменяет контракт автоматизации.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-EXT-032",
@@ -10152,13 +10217,20 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+        "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md",
+        "docs/AUTOMATION-AND-HOST.md",
+        "schemka-model-ui/src/automation-ui.js",
+        "schemka-model-core/src/automation.js",
+        "schemka-model-io/src/automation.js",
+        "schemka-model-core/test/automation.test.js",
+        "schemka-model-ui/test/automation-ui.test.js",
+        "schemka-model-ui/test/automation-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 57,
+      "remaining": "Installed Windows manual-run, cancellation, error-feedback and focus behavior remain unrun.",
+      "issue": 23,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and cited test/synthetic results reviewed at exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; see the issue #23 evidence report. This is not installed Windows acceptance.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10174,7 +10246,7 @@
         "remaining": "Нет script editor/runner, выбора локальной автоматизации, диагностик со строкой или scoped доступа к файлам/сети. Preload содержит только фиксированные команды приложения; модель не запускает скрипты.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#extensions"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-23-2026-11-15.md"
     },
     {
       "id": "A-EXT-033",
