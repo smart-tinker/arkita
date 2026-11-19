@@ -12,6 +12,36 @@ function setup(t,initial=createProject('Test'),behavior={},defaults={}){const do
 const run=(h,cmd)=>h.model.execute(cmd);
 function parent(h){return run(h,{type:'createElementAndOccurrence',viewId:h.model.viewId,elementType:'Service',name:'Container',bounds:{x:0,y:0,width:500,height:400}}).created;}
 const child=h=>({type:'createElementAndOccurrence',viewId:h.model.viewId,elementType:'Process',name:'Child',bounds:{x:20,y:40,width:140,height:80}});
+test('semantic rebind lists and updates usages across views with cancel and one-step undo',t=>{
+ const h=setup(t,conceptProject()),base=h.store.snapshot,relationship=base.relationships[0],newConcept=base.elements[1];
+ const secondView=h.model.execute({type:'createView',name:'Second view'}).created.viewId;
+ const secondSource=h.model.execute({type:'addOccurrence',viewId:secondView,concept:{kind:'element',id:base.elements[0].id},bounds:{x:0,y:0,width:120,height:60}}).created.occurrenceId;
+ const secondTarget=h.model.execute({type:'addOccurrence',viewId:secondView,concept:{kind:'element',id:newConcept.id},bounds:{x:240,y:0,width:120,height:60}}).created.occurrenceId;
+ const secondConnection=h.model.execute({type:'addConnection',viewId:secondView,relationshipId:relationship.id,source:{kind:'occurrence',id:secondSource},target:{kind:'occurrence',id:secondTarget}}).created.connectionId;
+ const beforeState=h.store.snapshot,before=h.store.exportFiles(),undoBefore=h.store.history.undo,open=()=>{h.model.select({kind:'relationship',id:relationship.id});h.ui.rebindSelected();h.change('rebind-concept',`element:${newConcept.id}`);};
+ open();
+ assert.match(h.$('rebind-usages').textContent,/Представлений: 2/);
+ assert.match(h.$('rebind-usages').textContent,/Рисунков отношения: 3/);
+ assert.match(h.$('rebind-usages').textContent,/All concepts/);
+ assert.match(h.$('rebind-usages').textContent,/Second view/);
+ assert.equal(h.$('rebind-usages').querySelectorAll('select').length,3);
+ h.ui.cancel(); assert.deepEqual(h.store.exportFiles(),before);
+
+ open();
+ const inputs=[...h.$('rebind-usages').querySelectorAll('select')];
+ for(const input of inputs)h.change(input.id,input.id===`rebind-${secondConnection}`?secondTarget:base.views[0].occurrences[1].id);
+ h.$('semantic-editing-preview').click();
+ assert.match(h.$('semantic-editing-error').textContent,/^Проверено\./);
+ h.change('rebind-consent',true,true);h.$('semantic-editing-apply').click();
+ const after=h.store.snapshot;
+ assert.equal(after.relationships.find(item=>item.id===relationship.id).source.id,newConcept.id);
+ for(const view of after.views)for(const line of view.connections.filter(item=>item.relationshipId===relationship.id)){
+  const old=beforeState.views.find(item=>item.view.id===view.view.id).connections.find(item=>item.id===line.id);
+  assert.deepEqual(line.source,{kind:'occurrence',id:view.view.id===secondView?secondTarget:base.views[0].occurrences[1].id});
+  assert.deepEqual(line.routePoints,old.routePoints);assert.deepEqual(line.labelPosition,old.labelPosition);
+ }
+ assert.equal(h.store.history.undo,undoBefore+1);h.model.undo();assert.deepEqual(h.store.exportFiles(),before);
+});
 test('creation proposal cancels without records, explicit ALLOWED choice commits one Undo and remains file dirty',t=>{const h=setup(t);parent(h);const before=h.store.exportFiles(),undo=h.store.history.undo;assert.equal(run(h,child(h)).deferred,true);assert.deepEqual(h.store.exportFiles(),before);assert.equal(h.document.activeElement.id,'nesting-relation-0');h.$('semantic-editing-cancel').click();assert.deepEqual(h.store.exportFiles(),before);run(h,child(h));const choice=[...h.$('nesting-relation-0').options].find(item=>item.value==='parent-child:Serving');assert.ok(choice);h.change('nesting-relation-0',choice.value);h.change('nesting-hide-0',true,true);h.$('semantic-editing-apply').click();assert.equal(h.store.history.undo,undo+1);assert.equal(h.store.snapshot.relationships.length,1);assert.equal(h.session.dirty,true);assert.equal(h.store.snapshot.views[0].connections[0].style.hideWhenNested,true);h.model.undo();assert.deepEqual(h.store.exportFiles(),before);});
 test('stale revision fences proposals; preferences off commit geometry only; preview is disposable',t=>{const h=setup(t);parent(h);run(h,child(h));run(h,{type:'renameProject',name:'Later'});const changed=h.store.exportFiles();h.$('semantic-editing-apply').click();assert.deepEqual(h.store.exportFiles(),changed);assert.match(h.$('semantic-editing-error').textContent,/изменились/);h.ui.cancel();h.behavior.proposeNestingCreate=false;const created=run(h,child(h));assert.ok(created.created.occurrenceId);assert.equal(h.store.snapshot.relationships.length,0);assert.equal(h.store.snapshot.views[0].occurrences.find(item=>item.id===created.created.occurrenceId).parent.id,h.store.snapshot.views[0].occurrences.find(item=>item.id!==created.created.occurrenceId).id);h.ui.previewPlacement({x:40,y:40,width:100,height:50});assert.ok(h.document.querySelector('[data-nesting-preview]'));h.ui.clearPreview();assert.equal(h.document.querySelector('[data-nesting-preview]'),null);});
 test('reuse and move have independent proposal switches, move preview cancellation preserves geometry',t=>{const h=setup(t);const p=parent(h),outside=run(h,{...child(h),bounds:{x:700,y:0,width:120,height:60}}).created;h.model.select({kind:'occurrence',id:outside.occurrenceId});h.model.beginDrag(outside.occurrenceId);h.model.previewDrag(-600,50);const before=h.store.exportFiles();assert.equal(h.model.commitDrag().deferred,true);assert.deepEqual(h.store.exportFiles(),before);h.ui.cancel();assert.deepEqual(h.store.exportFiles(),before);h.behavior.proposeNestingReuse=false;const reused=run(h,{type:'addOccurrence',viewId:h.model.viewId,concept:{kind:'element',id:outside.elementId},bounds:{x:100,y:100,width:120,height:60}});assert.ok(reused.created.occurrenceId);assert.equal(h.store.snapshot.relationships.length,0);});

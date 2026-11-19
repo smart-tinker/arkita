@@ -29,7 +29,7 @@
   "scope": "Historical corpus integrity and immutable source-to-baseline mapping only; checked_at and the baseline checks retain the 2026-10-18 result. SHA256 covers the current listed corpus documents and excludes this report itself. The documentation_update record describes the later queue-status and Windows-plan refresh without changing cards, coverage, source records or baseline counts. No app runtime, browser, Windows acceptance or final-main aggregate is implied by corpus PASS.",
   "sha256": {
     "docs/feature-corpus/README.md": "1662e6f9c8f7030315108809c43754a8e091634bbc12053ac5794cda50108c7c",
-    "docs/feature-corpus/ROADMAP.md": "ed7fb3f8d681ba19509dce9b2a575c205a708e7c4eddf3055e31aa69d0391f9c",
+    "docs/feature-corpus/ROADMAP.md": "32450f74353099e26e4648e803eebc9da33d79250a265960260ea0015c28e485",
     "docs/feature-corpus/WINDOWS-ACCEPTANCE.md": "ce4c15096301e3808abf459961cc97edf47069ce24fd20af970e1dc774e0761b",
     "docs/feature-corpus/advanced.md": "212cd4b915b81d6c35a15175dd93adfd474f245b1040d28ae3f97b111beee9ff",
     "docs/feature-corpus/coverage.json": "b685ecd17a0e087f1954fd1b6c4620555aad42ede65afc7ab70ba2a475800227",
@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "21eeca0184a2ba28cb126ceba49b22cf72c3961446bc3c5547421a9f8a02440f"
+    "docs/feature-corpus/program.json": "7dd1241cee8009d8469ad94d6779b0478976016c13dbb4fd95f59048e33fab82"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,10 +57,10 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-11-13",
+    "updated_at": "2026-11-15",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
+    "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 and current issue #16 source/test evidence, including A-ADV-132 relationship rebinding and A-EXT-014 route-relative labels. Issue #16 criteria remain acceptance-pending; group-46 criteria remain unchanged. No native Windows acceptance or closed criteria are implied.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
