@@ -31,8 +31,16 @@ const refKey = ref => `${ref.kind}:${ref.id}`;
 const emptyImpact = () => ({ elementIds: [], junctionIds: [], relationshipIds: [], occurrenceIds: [], connectionIds: [], anchorIds: [], viewIds: [] });
 const finishImpact = impact => freezeJSON(Object.fromEntries(Object.entries(impact).map(([key, items]) => [key, sorted(new Set(items))])));
 
-function drawingClosure(entry, occurrenceIds, connectionIds, visualNodeIds = [], visualConnectorIds = []) {
+function drawingClosure(entry, occurrenceIds, connectionIds, visualNodeIds = [], visualConnectorIds = [], includeDescendants = false) {
   const removed = new Set([...occurrenceIds.map(id => `occurrence:${id}`), ...connectionIds.map(id => `connection:${id}`), ...visualNodeIds.map(id => `visualNode:${id}`), ...visualConnectorIds.map(id => `visualConnector:${id}`)]);
+  if (includeDescendants) {
+    const children = new Map();
+    for (const [kind, items] of [['occurrence', entry.occurrences], ['visualNode', entry.visualNodes]]) for (const item of items) if (item.parent) {
+      const parent = refKey(item.parent); if (!children.has(parent)) children.set(parent, []); children.get(parent).push(`${kind}:${item.id}`);
+    }
+    const nested = [...removed];
+    for (let at = 0; at < nested.length; at++) for (const child of children.get(nested[at]) ?? []) if (!removed.has(child)) { removed.add(child); nested.push(child); }
+  }
   const lines = [...entry.connections.map(item => ({ kind: 'connection', item })), ...entry.visualConnectors.map(item => ({ kind: 'visualConnector', item }))];
   const dependents = new Map();
   for (const { kind, item } of lines) for (const endpoint of [item.source, item.target]) {
@@ -53,8 +61,8 @@ function drawingClosure(entry, occurrenceIds, connectionIds, visualNodeIds = [],
   if (connectors.length) result.visualConnectorIds = connectors;
   return result;
 }
-function appendDrawingImpact(impact, entry, occurrenceIds, connectionIds, visualNodeIds = [], visualConnectorIds = []) {
-  const local = drawingClosure(entry, occurrenceIds, connectionIds, visualNodeIds, visualConnectorIds);
+function appendDrawingImpact(impact, entry, occurrenceIds, connectionIds, visualNodeIds = [], visualConnectorIds = [], includeDescendants = false) {
+  const local = drawingClosure(entry, occurrenceIds, connectionIds, visualNodeIds, visualConnectorIds, includeDescendants);
   for (const [key, ids] of Object.entries(local)) (impact[key] ??= []).push(...ids);
   if (Object.values(local).some(ids => ids.length)) impact.viewIds.push(entry.view.id);
 }
@@ -84,11 +92,15 @@ export function deletionImpact(state, target) {
 }
 export function drawingDeletionImpact(state, target) {
   assertJSON(target); record(target, ['viewId', 'kind', 'id']);
-  return drawingSelectionDeletionImpact(state, { viewId: target.viewId, drawings: [{ kind: target.kind, id: target.id }] });
+  return selectionDeletionImpact(state, { viewId: target.viewId, drawings: [{ kind: target.kind, id: target.id }] }, false);
 }
 
 /** One union closure handles overlapping selections and cyclic connector dependents. */
 export function drawingSelectionDeletionImpact(state, target) {
+  return selectionDeletionImpact(state, target, true);
+}
+
+function selectionDeletionImpact(state, target, includeDescendants) {
   validateProject(state); assertJSON(target); record(target, ['viewId', 'drawings']);
   if (!Array.isArray(target.drawings) || !target.drawings.length) fail('COMMAND', 'Select at least one drawing');
   const entry = findView(state, target.viewId), collections = { occurrence: 'occurrences', connection: 'connections', visualNode: 'visualNodes', visualConnector: 'visualConnectors' };
@@ -103,7 +115,7 @@ export function drawingSelectionDeletionImpact(state, target) {
     seen.add(key); selected[drawing.kind].push(drawing.id);
   }
   const impact = emptyImpact();
-  appendDrawingImpact(impact, entry, selected.occurrence, selected.connection, selected.visualNode, selected.visualConnector);
+  appendDrawingImpact(impact, entry, selected.occurrence, selected.connection, selected.visualNode, selected.visualConnector, includeDescendants);
   return finishImpact(impact);
 }
 

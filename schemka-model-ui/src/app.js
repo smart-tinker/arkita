@@ -761,43 +761,39 @@ function perform(command, message, selectCreated) {
 }
 function openDialog(id) { if (id !== 'catalog-selection-dialog') catalogSelection?.cancel(); if (id !== 'semantic-editing-dialog') semanticEditing?.cancel(); if (id !== 'host-policy-dialog') hostPolicyUI?.cancel(); if (id !== 'automation-dialog') automationUI?.cancel(); if (id !== 'related-drawings-dialog') relatedDrawingsUI?.cancel(); if (id !== 'model-gallery-dialog') modelGallery?.cancel(); if (id !== 'relationship-reference-dialog') relationshipReference?.cancel(); if (id !== 'preferences-dialog') preferencesUI?.cancel(); if (id !== 'interchange-dialog') interchangeUI?.cancel(); if (id !== 'templates-dialog') templatesUI?.cancel(); if (id !== 'export-report-dialog') exportReportUI?.cancel(); if (id !== 'fragment-dialog') fragmentClipboard?.cancel(); if (id !== 'gesture-settings-dialog') gestureTools?.cancel(); if (id !== 'diagram-tools-dialog') editingTools?.cancel(); if (id !== 'visual-dialog') visualsUI?.cancel(); if (id !== 'catalog-folder-dialog') catalogFolders?.cancel(); if (id !== 'alignment-dialog') alignmentUI?.cancel(); if (id !== 'where-used-dialog') whereUsed?.cancel(); if (id !== 'inspector-panel') closeInspector(); if (!['object-properties-dialog', 'occurrence-size-dialog'].includes(id)) objectProperties?.cancel(); if (id !== 'documentation-dialog') documentationEditor?.cancel(); if (id !== 'viewpoint-dialog') viewpointUI?.cancel(); if (id !== 'customization-dialog') customizationUI?.cancel(); if (id !== 'multiplicity-dialog') multiplicityEditor?.cancel(); inline.cancel(false); viewport?.cancel(); gestureTools?.stop(); cancelEditingGestures(); $(id).showModal(); }
 function askDelete(kind, id) {
+  if (!['element', 'junction', 'relationship'].includes(kind)) { askDeleteSelection([{ kind, id }]); return; }
   cancelGesture();
-  const global = ['element', 'junction', 'relationship'].includes(kind);
-  let lines, command;
-  if (global) {
-    const impact = model.impact({ kind, id });
-    const views = model.store.snapshot.views.filter(entry => impact.viewIds.includes(entry.view.id)).map(entry => displayName(entry.view));
-    lines = [`Элементов: ${impact.elementIds.length}`, `Junctions: ${impact.junctionIds.length}`, `Отношений: ${impact.relationshipIds.length}`, `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`, `Затронутые виды: ${views.join(', ') || 'нет'}`];
-    command = kind === 'junction' ? { type: 'deleteJunctionFromModel', junctionId: id } : kind === 'element' ? { type: 'deleteElementFromModel', elementId: id } : { type: 'deleteRelationshipFromModel', relationshipId: id };
-    $('delete-title').textContent = kind === 'junction' ? 'Удалить junction из всей модели?' : kind === 'element' ? 'Удалить элемент из всей модели?' : 'Удалить отношение из всей модели?';
-    $('delete-description').textContent = 'Будут удалены объект и все перечисленные зависимости во всех представлениях.';
-  } else {
-    const impact = model.drawingImpact({ kind, id });
-    lines = [`Представление: ${displayName(model.view.view)}`, `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`, 'Общие элементы, junctions и отношения останутся в модели'];
-    command = kind === 'occurrence' ? { type: 'removeOccurrence', viewId: model.viewId, occurrenceId: id } : { type: 'removeConnection', viewId: model.viewId, connectionId: id };
-    $('delete-title').textContent = kind === 'occurrence' ? 'Убрать экземпляр из вида?' : 'Убрать соединение из вида?';
-    $('delete-description').textContent = 'Изменится только текущее представление. Остальные виды сохранятся.';
-  }
-  if (global && !preferenceState.behavior.deleteWarning) { perform(command, 'Удалено из модели · можно восстановить через «Отменить»'); return; }
+  const command = kind === 'junction' ? { type: 'deleteJunctionFromModel', junctionId: id } : kind === 'element' ? { type: 'deleteElementFromModel', elementId: id } : { type: 'deleteRelationshipFromModel', relationshipId: id };
+  const impact = model.impact({ kind, id });
+  const views = model.store.snapshot.views.filter(entry => impact.viewIds.includes(entry.view.id)).map(entry => displayName(entry.view));
+  const lines = [`Элементов: ${impact.elementIds.length}`, `Junctions: ${impact.junctionIds.length}`, `Отношений: ${impact.relationshipIds.length}`, `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`, `Затронутые виды: ${views.join(', ') || 'нет'}`];
+  $('delete-title').textContent = kind === 'junction' ? 'Удалить junction из всей модели?' : kind === 'element' ? 'Удалить элемент из всей модели?' : 'Удалить отношение из всей модели?';
+  $('delete-description').textContent = 'Будут удалены объект и все перечисленные зависимости во всех представлениях.';
+  if (!preferenceState.behavior.deleteWarning) { perform(command, 'Удалено из модели · можно восстановить через «Отменить»'); return; }
   pendingDelete = { command, revision: model.store.revision, store: model.store, documentToken: projectSession.documentToken };
   $('delete-impact').replaceChildren(...lines.map(text => node('li', text)));
-  $('delete-confirm').textContent = global ? 'Удалить из модели' : 'Убрать из вида';
+  $('delete-confirm').textContent = 'Удалить из модели';
   openDialog('delete-dialog');
 }
-function askDeleteSelection() {
+function askDeleteSelection(drawings = model.selections.map(({ kind, id }) => ({ kind, id }))) {
   cancelGesture();
-  const drawings = model.selections.map(({ kind, id }) => ({ kind, id }));
-  const impact = drawingSelectionDeletionImpact(model.store.snapshot, { viewId: model.viewId, drawings });
+  const state = model.store.snapshot, entry = state.views.find(item => item.view.id === model.viewId);
+  const impact = drawingSelectionDeletionImpact(state, { viewId: model.viewId, drawings }), selected = new Set(drawings.map(item => `${item.kind}:${item.id}`));
+  const occurrenceIds = new Set(impact.occurrenceIds), connectionIds = new Set(impact.connectionIds), visualNodeIds = new Set(impact.visualNodeIds ?? []), visualConnectorIds = new Set(impact.visualConnectorIds ?? []);
+  const concepts = new Map([...state.elements.map(item => [`element:${item.id}`, item]), ...state.junctions.map(item => [`junction:${item.id}`, item])]);
+  const relationships = new Map(state.relationships.map(item => [item.id, item]));
+  const visualName = item => item.name || item.text?.split(/\r?\n/, 1)[0] || ({ note: 'Заметка', group: 'Группа', legend: 'Легенда', viewReference: 'Ссылка на представление', image: 'Изображение' }[item.kind] ?? 'Рисунок');
+  const lines = [`Представление: ${displayName(entry.view)}`, `Выбрано: ${drawings.length}`, `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`, `Визуальных объектов: ${visualNodeIds.size}`, `Визуальных линий: ${visualConnectorIds.size}`];
+  for (const item of entry.occurrences) if (occurrenceIds.has(item.id)) lines.push(`${selected.has(`occurrence:${item.id}`) ? 'Выбрано' : 'Вложенное изображение'}: «${displayName(concepts.get(`${item.concept.kind}:${item.concept.id}`))}»`);
+  for (const item of entry.visualNodes) if (visualNodeIds.has(item.id)) lines.push(`${selected.has(`visualNode:${item.id}`) ? 'Выбранный рисунок' : 'Вложенный рисунок'}: «${visualName(item)}»`);
+  for (const item of entry.connections) if (connectionIds.has(item.id)) lines.push(`${selected.has(`connection:${item.id}`) ? 'Выбранное соединение' : 'Зависимое соединение'}: «${displayName(relationships.get(item.relationshipId))}»`);
+  for (const item of entry.visualConnectors) if (visualConnectorIds.has(item.id)) lines.push(`${selected.has(`visualConnector:${item.id}`) ? 'Выбранная визуальная линия' : 'Зависимая визуальная линия'}: «${item.name || 'Визуальный соединитель'}»`);
+  lines.push('Концепты, отношения и остальные представления сохранятся');
   pendingDelete = { command: { type: 'removeDrawings', viewId: model.viewId, drawings }, revision: model.store.revision, store: model.store, documentToken: projectSession.documentToken };
-  $('delete-title').textContent = 'Убрать выбранные рисунки из вида?';
-  $('delete-description').textContent = 'Зависимые линии также будут убраны. Дочерние рисунки сохранят положение. Изменение можно отменить одним действием.';
-  $('delete-impact').replaceChildren(...[
-    `Представление: ${displayName(model.view.view)}`, `Выбрано: ${drawings.length}`,
-    `Экземпляров: ${impact.occurrenceIds.length}`, `Соединений: ${impact.connectionIds.length}`,
-    `Визуальных объектов: ${(impact.visualNodeIds ?? []).length}`, `Визуальных линий: ${(impact.visualConnectorIds ?? []).length}`,
-    'Общие концепты и остальные виды сохранятся',
-  ].map(text => node('li', text)));
-  $('delete-confirm').textContent = 'Убрать из вида';
+  $('delete-title').textContent = 'Удалить рисунки из текущего вида?';
+  $('delete-description').textContent = 'Удалятся выбранные рисунки, все вложенные рисунки и зависящие от них линии только в этом представлении. Чтобы оставить детей контейнера, используйте «Убрать группу, сохранив детей». Изменение можно отменить одним действием.';
+  $('delete-impact').replaceChildren(...lines.map(text => node('li', text)));
+  $('delete-confirm').textContent = 'Удалить из вида';
   openDialog('delete-dialog');
 }
 $('delete-confirm').addEventListener('click', () => {
@@ -1001,7 +997,7 @@ document.addEventListener('keydown', event => {
     if (anchor && renameFrom(anchor)) { event.preventDefault(); return; }
   }
   if (event.key === 'Delete') {
-    if (['visualNode', 'visualConnector'].includes(model.selection?.kind) && model.selections.length === 1) { event.preventDefault(); visualsUI.removeSelected(); return; }
+    if (['visualNode', 'visualConnector'].includes(model.selection?.kind) && model.selections.length === 1) { event.preventDefault(); safe(askDeleteSelection); return; }
     if (model.selections.length > 1) { event.preventDefault(); safe(askDeleteSelection); return; }
     if (occurrence || connection) { event.preventDefault(); askDelete(occurrence ? 'occurrence' : 'connection', (occurrence || connection).id); }
   }

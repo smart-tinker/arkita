@@ -76,7 +76,7 @@ export function contextActions(context, model, actions) {
     const visual = entry?.[context.kind === 'visualNode' ? 'visualNodes' : 'visualConnectors'].find(item => item.id === context.id);
     if (!visual) return [];
     properties();
-    add('remove-visual', 'Убрать из вида…', () => actions.removeVisual({ kind: context.kind, id: visual.id }), typeof actions.removeVisual !== 'function');
+    add('remove-visual', visual.kind === 'group' ? 'Убрать группу, сохранив детей…' : 'Убрать из вида…', () => actions.removeVisual({ kind: context.kind, id: visual.id }), typeof actions.removeVisual !== 'function');
   } else if (context.kind === 'project' && context.id === state.project.id) {
     properties();
     add('rename', 'Переименовать', () => actions.rename('project', state.project.id, context));

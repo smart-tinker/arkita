@@ -140,22 +140,23 @@ test('app view navigation cancels a pending group preview and clears selection b
 });
 
 
-test('mixed drawing Delete previews dependencies, cancellation keeps bytes and confirm uses one Undo across the whole selection', async t => {
+test('view Delete previews and removes nested descendants and dependent lines, with exact cancel and Undo', async t => {
   const { createStore } = await import('../../schemka-model-core/src/index.js');
   const data = richLifecycleFixture(), store = createStore(data.state), viewId = data.viewId;
-  const visualNodeId = store.execute({ type: 'createVisualNode', viewId, kind: 'group', name: 'Selected group', bounds: { x: 600, y: 300, width: 300, height: 200 } }, store.revision).created.visualNodeId;
+  const visualNodeId = store.execute({ type: 'createVisualNode', viewId, kind: 'group', name: 'Selected group', parent: { kind: 'occurrence', id: data.a.occurrenceId }, bounds: { x: 600, y: 300, width: 300, height: 200 } }, store.revision).created.visualNodeId;
   const childId = store.execute({ type: 'createVisualNode', viewId, kind: 'note', parent: { kind: 'visualNode', id: visualNodeId }, text: 'Retained note', bounds: { x: 630, y: 330, width: 100, height: 60 } }, store.revision).created.visualNodeId;
-  store.execute({ type: 'createVisualConnector', viewId, source: { kind: 'visualNode', id: visualNodeId }, target: { kind: 'visualNode', id: childId }, routePoints: [], labelPosition: null }, store.revision);
+  const connectorId = store.execute({ type: 'createVisualConnector', viewId, name: 'Nested visual line', source: { kind: 'visualNode', id: visualNodeId }, target: { kind: 'visualNode', id: childId }, routePoints: [], labelPosition: null }, store.revision).created.visualConnectorId;
   const h = await setup(t); await h.load(serializeProjectFile(store.snapshot)); h.$('views').querySelector(`[data-view-id="${viewId}"]`).click();
   const c = controls(h), bytes = await h.download(), before = deserializeProjectFile(bytes);
   c.key(c.group(data.a.occurrenceId), 'Enter');
-  c.key(c.canvas.querySelector(`[data-kind="visualNode"][data-id="${visualNodeId}"]`), 'Enter', { shiftKey: true });
-  assert.equal(c.selected().length, 2); c.key(c.canvas, 'Delete'); assert.equal(h.$('delete-dialog').open, true); assert.match(h.$('delete-impact').textContent, /Визуальных линий: 1/);
-  h.$('delete-dialog').close(); assert.deepEqual(await h.download(), bytes); assert.equal(h.$('undo').disabled, true);
+  assert.equal(c.selected().length, 1); c.key(c.canvas, 'Delete'); assert.equal(h.$('delete-dialog').open, true);
+  const preview = h.$('delete-impact').textContent; assert.match(preview, /Selected group/); assert.match(preview, /Retained note/); assert.match(preview, /Shared flow/); assert.match(preview, /Nested visual line/);
+  h.$('delete-dialog').querySelector('[data-close]').click(); assert.deepEqual(await h.download(), bytes); assert.equal(h.$('undo').disabled, true);
   c.key(c.canvas, 'Delete'); h.$('delete-confirm').click(); assert.equal(h.$('delete-dialog').open, false, h.$('status').textContent); assert.match(h.$('history-state').textContent, /1 действий/);
   const afterBytes = await h.download(), after = deserializeProjectFile(afterBytes), entry = after.views.find(item => item.view.id === viewId);
-  assert.equal(entry.occurrences.some(item => item.id === data.a.occurrenceId), false); assert.equal(entry.visualNodes.some(item => item.id === visualNodeId), false);
-  assert.equal(entry.visualConnectors.length, 0); assert.deepEqual(entry.visualNodes.find(item => item.id === childId).bounds, { x: 630, y: 330, width: 100, height: 60 }); assert.equal(entry.visualNodes.find(item => item.id === childId).parent, null);
+  assert.equal(entry.occurrences.some(item => item.id === data.a.occurrenceId), false); assert.equal(entry.occurrences.some(item => item.id === data.b.occurrenceId), true);
+  assert.equal(entry.visualNodes.some(item => item.id === visualNodeId || item.id === childId), false); assert.equal(entry.visualConnectors.some(item => item.id === connectorId), false);
+  assert.equal(entry.connections.some(item => item.id === data.relation.connectionId), false);
   for (const collection of ['elements', 'junctions', 'relationships']) assert.deepEqual(after[collection], before[collection]); assert.deepEqual(after.views.filter(item => item.view.id !== viewId), before.views.filter(item => item.view.id !== viewId));
   h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await h.download(), afterBytes);
 });

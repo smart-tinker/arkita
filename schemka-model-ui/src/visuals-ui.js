@@ -2,7 +2,7 @@ import {imageDimensions,proportionateBounds} from './image-dimensions.js';
 import { legendColorFields } from './legend-color-fields.js';
 import { legendLabelFields } from './legend-label-fields.js';
 import {prepareDrawingBounds} from './resize-preferences.js';
-import { createStore, exportFiles, DRAWING_COLLECTIONS, LIMITS, ASSET_LIMITS, assetUsages } from '../../schemka-model-core/src/index.js';
+import { createStore, exportFiles, DRAWING_COLLECTIONS, LIMITS, ASSET_LIMITS, assetUsages, drawingSelectionDeletionImpact } from '../../schemka-model-core/src/index.js';
 import { newId } from '../../schemka-model-core/src/format.js';
 import { creationTypes, relationshipAssessment } from './profile-ui.js';
 import { canvasDropPoint } from './drag-drop.js';
@@ -115,7 +115,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     if (original) {
       const actions = node('div', undefined, 'visual-inline-actions');
       actions.append(button('visual-metadata', 'Документация и свойства…', () => { if (!usable(request)) return; const owner = { kind: 'visualNode', viewId: request.viewId, id: ref.id }; cancel(); openMetadata(owner); }),
-        button('visual-delete', 'Удалить…', () => { if (!usable(request)) return; cancel(); confirmDelete(ref); })); fields.append(actions);
+        button('visual-delete', original.kind === 'group' ? 'Убрать группу, сохранив детей…' : 'Убрать из вида…', () => { if (!usable(request)) return; cancel(); confirmDelete(ref); })); fields.append(actions);
     }
     request.initial = { name: controls.name.value, text: controls.text?.value,instruction:controls.instruction?.value };
     controls.name.focus(); return true;
@@ -126,9 +126,30 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     fields.append(button('visual-metadata', 'Документация и свойства…', () => { if (!usable(request)) return; cancel(); openMetadata({ kind: 'visualConnector', viewId: request.viewId, id: ref.id }); }), button('visual-delete', 'Удалить…', () => { if (!usable(request)) return; cancel(); confirmDelete(ref); })); return true;
   }
   function confirmDelete(ref) {
-    const impact = model.drawingImpact(ref), request = show('delete', 'Удалить рисунок?'); if (!request) return;
-    request.ref = ref; reference.textContent = 'Дочерние рисунки контейнера останутся на прежних местах. Связи с удаляемыми концами будут удалены.';
-    fields.append(node('p', `Зависимых линий: ${(impact.connectionIds?.length ?? 0) + (impact.visualConnectorIds?.length ?? 0)}.`)); apply.textContent = 'Удалить';
+    const state = model.store.snapshot, entry = state.views.find(item => item.view.id === model.viewId), item = drawing(state, ref), isGroup = ref.kind === 'visualNode' && item?.kind === 'group';
+    const impact = model.drawingImpact(ref), request = show('delete', isGroup ? 'Убрать группу, сохранив детей?' : 'Убрать рисунок из вида?'); if (!request) return;
+    request.ref = ref;
+    const lineCount = (impact.connectionIds?.length ?? 0) + (impact.visualConnectorIds?.length ?? 0);
+    const lines = node('ul');
+    for (const connection of entry.connections) if (impact.connectionIds?.includes(connection.id)) {
+      const relationship = state.relationships.find(value => value.id === connection.relationshipId); lines.append(node('li', `Удалится соединение: «${relationship?.label || relationship?.name || 'Отношение'}»`));
+    }
+    for (const connector of entry.visualConnectors) if (impact.visualConnectorIds?.includes(connector.id)) lines.append(node('li', `Удалится визуальная линия: «${connector.name || 'Визуальный соединитель'}»`));
+    if (isGroup) {
+      const nested = drawingSelectionDeletionImpact(state, { viewId: model.viewId, drawings: [ref] });
+      const destination = item.parent?.kind === 'visualNode' ? entry.visualNodes.find(value => value.id === item.parent.id)?.name || 'контейнер' : item.parent?.kind === 'occurrence' ? (() => { const occurrence = entry.occurrences.find(value => value.id === item.parent.id), concept = occurrence && state[occurrence.concept.kind === 'junction' ? 'junctions' : 'elements'].find(value => value.id === occurrence.concept.id); return concept?.name || concept?.type || 'экземпляр'; })() : 'верхний уровень';
+      reference.textContent = `Вложенные рисунки сохранятся без перемещения и перейдут к непосредственному родителю группы: «${destination}». Модель и остальные виды сохранятся.`;
+      fields.append(node('p', 'Останутся на прежнем месте:'), node('ul', undefined, 'visual-delete-children'));
+      const childList = fields.querySelector('.visual-delete-children'), occurrences = new Set(nested.occurrenceIds), visualNodes = new Set(nested.visualNodeIds ?? []);
+      const label = (kind, drawing) => kind === 'occurrence'
+        ? (() => { const concept = state[drawing.concept.kind === 'junction' ? 'junctions' : 'elements'].find(value => value.id === drawing.concept.id); return concept?.name || concept?.type || 'Экземпляр'; })()
+        : drawing.name || drawing.text?.split(/\r?\n/, 1)[0] || names[drawing.kind] || 'Рисунок';
+      for (const child of entry.occurrences) if (occurrences.has(child.id) && child.id !== ref.id) childList.append(node('li', label('occurrence', child)));
+      for (const child of entry.visualNodes) if (visualNodes.has(child.id) && child.id !== ref.id) childList.append(node('li', label('visualNode', child)));
+      if (!childList.children.length) childList.append(node('li', 'Нет вложенных рисунков'));
+    } else reference.textContent = 'Будут удалены только этот рисунок и линии с его концами. Концепты, отношения и остальные виды сохранятся.';
+    fields.append(node('p', `Зависимых линий: ${lineCount}.`), lines);
+    apply.textContent = isGroup ? 'Убрать группу, сохранив детей' : 'Убрать из вида';
   }
   function removeSelected() { const ref = selection(); if (!ref || !['visualNode', 'visualConnector'].includes(ref.kind) || blocked()) return false; confirmDelete(ref); return Boolean(pending); }
   function editSelected() { const ref = selection(), item = ref && drawing(model.store.snapshot, ref); if (!item) return false; return ref.kind === 'visualNode' ? nodeEditor(item.kind, ref) : ref.kind === 'visualConnector' ? connectorEditor(ref) : false; }
@@ -296,7 +317,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
         }, 'Контейнер и явно выбранная связь сохранены · одна отмена.', request.ref);
       }
       else if (request.mode === 'style') { const style = readStyle(); if (controls.labelTemplate.value === request.initialTemplate && Object.hasOwn(request.original.style, 'labelTemplate')) style.labelTemplate = request.original.style.labelTemplate; commit(request, run => run({ type: 'updateDrawingStyle', viewId: request.viewId, drawing: request.ref, style }), 'Оформление сохранено · можно отменить.', request.ref); }
-      else if (request.mode === 'delete') commit(request, run => run({ type: request.ref.kind === 'visualNode' ? 'removeVisualNode' : 'removeVisualConnector', viewId: request.viewId, [request.ref.kind === 'visualNode' ? 'nodeId' : 'connectorId']: request.ref.id }), 'Рисунок удалён. Дети контейнера сохранены · можно отменить.');
+      else if (request.mode === 'delete') commit(request, run => run({ type: request.ref.kind === 'visualNode' ? 'removeVisualNode' : 'removeVisualConnector', viewId: request.viewId, [request.ref.kind === 'visualNode' ? 'nodeId' : 'connectorId']: request.ref.id }), request.ref.kind === 'visualNode' ? 'Группа убрана из вида; дети сохранены без перемещения · можно отменить.' : 'Рисунок убран из вида · можно отменить.');
       else if (request.mode === 'brush') commit(request, run => { for (const ref of request.refs) { const item = drawing(model.store.snapshot, ref); const style={...brush.style};if(ref.kind==='connection')for(const key of ['strokeDash','sourceEnding','targetEnding']){delete style[key];if(Object.hasOwn(item.style,key))style[key]=item.style[key];}if (JSON.stringify(item.style) !== JSON.stringify(style)) run({ type: 'updateDrawingStyle', viewId: request.viewId, drawing: ref, style }); } }, 'Оформление применено · можно отменить.');
     } catch (failure) { error.textContent = `Не сохранено: ${failure.message}`; }
   }
