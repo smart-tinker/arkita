@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-21",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -297,7 +297,7 @@
         "schemka-model-ui/test/file-actions.test.js"
       ],
       "remaining": "Проверить оба исходных сценария на точном reviewed-кандидате и записать результат отдельно; имеющиеся тесты не являются Windows package acceptance.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -329,7 +329,7 @@
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
       "remaining": "Записать criterion-level результат для полноты каталога и группировки current registry; renderer/package acceptance не зафиксирована.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -352,7 +352,7 @@
       "title": "Создание элемента прямо в каталоге",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-folders.js",
@@ -361,11 +361,14 @@
         "schemka-model-ui/test/context-actions.test.js",
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "PR #33 открыт и не слит на code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071 поверх main a8a145cbe903ba80d74afd20ab6e1cd8a590105b. Required CI, CodeQL, Dependency Review и Extended CI прошли. Независимое review и installed-user acceptance на Windows не записаны; criterion remains pending.",
-      "issue": 46,
-      "closed_criteria": [],
+      "remaining": "Packaged/native Windows acceptance remains UNRUN; issue #12 remains open for its other catalogue criteria.",
+      "issue": 12,
+      "closed_criteria": [
+        "Команда создаёт объект выбранного поддерживаемого типа без скрытого изображения на текущем view; новый объект доступен для именования.",
+        "Предлагаемые типы и размещение в каталоге согласованы с реестром Arkita; отмена не оставляет безымянный остаток."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "PR #33 code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071 over main a8a145cbe903ba80d74afd20ab6e1cd8a590105b passed required CI run 43350873840 (Ubuntu/Windows validation and gate), CodeQL run 43350873897, and Dependency Review run 43350873899. Extended CI run 43406746555 passed on the exact head: Windows 292/295 PASS, 0 FAIL, 3 SKIP; Ubuntu 287/295 PASS, 0 FAIL, 8 SKIP. Syntax check passed on both runners (469 JavaScript files). No independent review or installed-user Windows acceptance is recorded; closed_criteria remains empty.",
+      "verification": "Independent QA accepted both card criteria in real Chromium against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: creating from the tree saved the concept without a hidden view drawing. Implementation is merged in PR #33 as 2b69d28a45c5d8edf9e6e86f1bc410b593e47f81. Exact-main CI run 43646530875, Extended CI run 43858177729, and CodeQL run 43871205954 passed on the reviewed SHA. Packaged/native Windows acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -384,7 +387,7 @@
       "title": "Создание специализированных концептов из дерева и палитры",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/specialization-tools.js",
@@ -396,11 +399,14 @@
         "schemka-model-ui/test/typed-actions.test.js",
         "schemka-model-ui/test/profile-ui.test.js"
       ],
-      "remaining": "Провести criterion-specific rendered/native acceptance: совместимость выбранного профиля, модельное создание без view occurrence, корректную ссылку на профиль и обновление доступных специализаций при изменении модели.",
-      "issue": 46,
-      "closed_criteria": [],
+      "remaining": "Packaged/native Windows acceptance remains UNRUN; issue #12 remains open for its other catalogue criteria.",
+      "issue": 12,
+      "closed_criteria": [
+        "Пункт показывает базовый тип и специализацию и создаёт корректную ссылку на профиль, а не новый нормативный тип.",
+        "После изменения или удаления профиля меню обновляется; несовместимый или неизвестный профиль не применяется молча."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Tree-originated specialization creation is implemented and covered by core and DOM integration regressions in PR #33 at code-head f1a406dce2ffa23bb4394d9197a2723f5cb59071. Required CI run 43350873840, CodeQL run 43350873897, Dependency Review run 43350873899, and Extended CI run 43406746555 passed on the exact head; Extended results were Windows 292/295 PASS with 3 SKIP and Ubuntu 287/295 PASS with 8 SKIP. Criterion remains acceptance-pending; closed_criteria is empty and installed-user Windows acceptance is unrun.",
+      "verification": "Independent QA accepted both card criteria in real Chromium against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: tree and palette created compatible specializations, menus refreshed after profile rename and deletion, and an incompatible profile was rejected without a history change. Implementation is merged in PR #33 as 2b69d28a45c5d8edf9e6e86f1bc410b593e47f81. Exact-main CI run 43646530875, Extended CI run 43858177729, and CodeQL run 43871205954 passed on the reviewed SHA. Packaged/native Windows acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -419,19 +425,28 @@
       "title": "Пользовательские папки и вложенная организация",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-tree.js",
         "schemka-model-ui/src/catalog-folders.js",
         "schemka-model-ui/test/catalog-tree.test.js",
-        "schemka-model-ui/test/catalog-folders.test.js"
+        "schemka-model-ui/test/catalog-folders.test.js",
+        "docs/feature-corpus/RELEASE-0.6.0.md#catalog",
+        "schemka-model-core/src/format.js",
+        "schemka-model-core/src/native-v4-commands.js",
+        "schemka-model-core/src/catalog-selection.js",
+        "schemka-model-core/test/native-v4.test.js",
+        "schemka-model-core/test/catalog-selection.test.js"
       ],
-      "remaining": "Записать criterion-level результат для вложения/перемещения папок и сохранности потомков/ID; package UI acceptance не зафиксирована.",
-      "issue": 46,
-      "closed_criteria": [],
+      "remaining": "Installed Windows/native acceptance remains UNRUN; issue #12 remains open for the other catalog criteria.",
+      "issue": 12,
+      "closed_criteria": [
+        "Перенос и переименование папки сохраняют её потомков, ссылки из представлений и устойчивую сортировку.",
+        "Нельзя вложить папку в себя или потомка; ограничения корневых категорий проверяются явно через актуальный реестр."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
+      "verification": "Independent QA accepted both card criteria in Chrome 158.0.8127.18 against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Evidence JSON SHA-256: 45d1e68c109966cc5b837b84c1c16a6c3676af5c82b1754e3b2e48106f781521. Rename/move preserved folder ID, child parentage, descendant membership and view files; observed order was QA 2, QA 10, QA 100. Existing main tests cover cycle and incompatible-root rejection in catalog-tree.test.js, catalog-selection.test.js and catalog-folders.test.js. Installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -451,20 +466,27 @@
       "title": "Перемещение в дереве через drag-and-drop и вырезание",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-folders.js",
         "schemka-model-ui/src/catalog-selection.js",
         "schemka-model-ui/test/catalog-folders.test.js",
         "schemka-model-ui/test/catalog-selection-app.test.js",
-        "schemka-model-ui/test/browser-context-drag.mjs"
+        "schemka-model-ui/test/browser-context-drag.mjs",
+        "docs/feature-corpus/RELEASE-0.6.0.md#catalog",
+        "schemka-model-core/src/catalog-selection.js",
+        "schemka-model-core/test/catalog-selection.test.js",
+        "schemka-model-ui/src/catalog-tree.js"
       ],
-      "remaining": "Зафиксировать фактическую Windows renderer проверку drag/cut/paste и отказа недопустимого drop; DOM/automation маршруты не заменяют package acceptance.",
-      "issue": 46,
-      "closed_criteria": [],
+      "remaining": "Installed Windows/native drag-and-drop and clipboard acceptance remains UNRUN; issue #12 remains open for the other catalog criteria.",
+      "issue": 12,
+      "closed_criteria": [
+        "Перенос меняет организацию, но сохраняет IDs и все использования; групповое перемещение выполняется целиком.",
+        "Недопустимый адресат объясняется до изменения; отмена или неудачная вставка не удаляют исходные объекты."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
+      "verification": "Independent QA accepted both card criteria in Chrome 158.0.8127.18 against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Evidence JSON SHA-256: 45d1e68c109966cc5b837b84c1c16a6c3676af5c82b1754e3b2e48106f781521. Drag-and-drop changed only folder membership; views and relationships were unchanged. Grouped internal insertion was one history step; no-op and cancellation preserved bytes, and one Undo restored the serialized baseline exactly (SHA-256 a7b7c4ca4944ba2b4ad00a3780cd4f89023a5498dd36761be2aaa2d9babfbbc1). Installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -495,7 +517,7 @@
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
       "remaining": "Записать result для preview затронутого графа, удаления связей/изображений и полного Undo на reviewed-кандидате; реальная UI-проверка не зафиксирована.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -529,7 +551,7 @@
         "schemka-model-ui/test/catalog-folders.test.js"
       ],
       "remaining": "Зафиксировать end-to-end результат для имени/ID, одинаковых имён, Unicode, пустого имени и отмены на reviewed-кандидате.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -560,7 +582,7 @@
         "schemka-model-ui/test/catalog-folders.test.js"
       ],
       "remaining": "Проверить criterion bullets о независимом ID, метаданных и том, что прежние отношения/изображения не перепривязываются; отдельный результат не записан.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -591,7 +613,7 @@
         "schemka-model-ui/test/duplicate-order-app.test.js"
       ],
       "remaining": "Записать полный criterion-level результат для независимости раскладки, общих концептов, удаления копии и порядка/геометрии.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -622,7 +644,7 @@
         "schemka-model-ui/test/catalog-folders.test.js"
       ],
       "remaining": "Criterion-level acceptance всего затронутого графа, включая UNKNOWN и явные исправления, не записана.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -654,7 +676,7 @@
         "schemka-model-ui/test/context-properties-app.test.js"
       ],
       "remaining": "Записать реальный сценарий областей свойств tree versus drawing и перехода между объектами без применения старого ввода.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -684,7 +706,7 @@
         "schemka-model-ui/test/unused-tree-app.test.js"
       ],
       "remaining": "Записать проверку обновления индикатора для всех views, нескольких изображений, добавления/удаления и Undo на reviewed-кандидате.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -714,7 +736,7 @@
         "schemka-model-ui/test/catalog-selection-app.test.js"
       ],
       "remaining": "Записать renderer результат для включения/выключения связанного выбора, множественного выбора и нескольких изображений без цикла обновлений.",
-      "issue": 46,
+      "issue": 12,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
@@ -736,18 +758,21 @@
       "title": "Переход внутрь папки с историей навигации",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-folders.js",
         "schemka-model-ui/test/catalog-folders.test.js",
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Записать criterion-level сценарий навигации Back/Home и восстановления контекста после удаления или перемещения текущей папки.",
-      "issue": 46,
-      "closed_criteria": [],
+      "remaining": "Installed Windows/native acceptance remains UNRUN; issue #12 remains open for its other catalogue criteria.",
+      "issue": 12,
+      "closed_criteria": [
+        "Путь виден, Back и Home возвращают ожидаемую область, а выбор не смешивается с другой моделью.",
+        "Удаление или перенос текущей папки приводит к ближайшему существующему контексту без сбоя и скрытых правок."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
+      "verification": "Two saved Chromium renderer receipts cover both card criteria on exact public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b (tree 04d0cc509e93c19471182f00c4ec30553008e07f). Selection/move/delete receipt SHA-256 b33fb31cae36f45be88270111845e7e947b10594fd34508f84cd6b4ad7e1de69 (Chromium 158.0.8127.18) confirms only the target view is pressed after switching models (the source marker ID is absent), then the target marker and active view are pressed after selecting that marker; moving/deleting the current folder falls back to the nearest valid parent/section root without renderer errors. Navigation receipt SHA-256 8ab3b1e9e8184714e724e2a242b9236ed42330d884702ce6d1e1484c3965ea08 (Chrome 157.0.8103.38) confirms the A Parent / A Child breadcrumb, Back/Home, reset on loading Folder B, and unchanged export/history (1,769 bytes; SHA-256 2039ffaf7ad94879b836cd6f68575ff6329a6bb450426557caf4083a79bb97ba). The earlier source-review PARTIAL concerned an older screenshot without its fixture JSON; these direct receipts record their fixtures and observed browser steps. Exact-main CI run 43646530875 passed. Installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2909,7 +2934,7 @@
       "title": "Документация папки и подписи её содержимого",
       "family": "catalog",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-core/src/format.js",
@@ -2923,11 +2948,14 @@
         "schemka-model-ui/test/catalog-folders.test.js",
         "schemka-model-ui/test/catalog-tree-app.test.js"
       ],
-      "remaining": "Провести установленную Windows acceptance для документации папки и child-label template на выбранном exact package; не считать CI или DOM-тесты native acceptance.",
-      "issue": 46,
-      "closed_criteria": [],
+      "remaining": "Installed Windows/native acceptance of folder documentation and child-label templates remains UNRUN; issue #12 remains open for its other catalogue criteria.",
+      "issue": 12,
+      "closed_criteria": [
+        "Документация и свойства принадлежат папке; шаблон подписи не меняет реальные имена детей.",
+        "Область действия шаблона и наследование явно заданы; перенос ребёнка между папками обновляет отображение без изменения его ID и метаданных."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "PR #48 merged in main as 62aa1639752be2d4d345c97f4610e3673f0e5767. Exact PR-head Ubuntu/Windows CI, CodeQL and Dependency Review passed. Installed Windows GUI acceptance is UNRUN; no criterion is closed by CI alone.",
+      "verification": "Independent QA accepted both card criteria in real Chromium against public main SHA 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: moving a child between folders updated its displayed label, and reopening preserved the child ID, name, documentation and property. Implementation is merged in PR #48 as 62aa1639752be2d4d345c97f4610e3673f0e5767. Exact-main CI run 43646530875, Extended CI run 43858177729, and CodeQL run 43871205954 passed on the reviewed SHA; exact PR-head validation and security checks also passed before merge. Installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
