@@ -26,6 +26,16 @@ On 2026-11-18, independent QA accepted A-EDITOR-014/015 in Chrome 158.0.8127.18 
 
 These decisions record renderer acceptance only. Installed Windows/native acceptance remains `UNRUN`.
 
+### Additional renderer QA — A-EDITOR-024 — 21 Nov 2026
+
+Two saved Chromium passes cover both A-EDITOR-024 card bullets on exact public `main` SHA `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`, tree `04d0cc509e93c19471182f00c4ec30553008e07f`.
+
+- The selection/move/delete receipt at `/srv/repos/arkita-qa-evidence/a-editor-024-followup-20261121/result.json` has SHA-256 `b33fb31cae36f45be88270111845e7e947b10594fd34508f84cd6b4ad7e1de69` (Chromium 158.0.8127.18). After switching models, only the target `Overview` view (`view-a9e523fb-b95d-4397-8988-88114f54a1bb`) was pressed; the source marker ID was absent. After clicking the target marker (`el-a811dce7-a229-461c-9b09-56b7840f73c3`), both it and the active view were pressed. Same-section move and Undo worked; redoing while the child folder was current fell back to its existing parent. Deleting the current parent returned to the section root and preserved the moved child. No page, console, failed-request or off-origin errors were recorded.
+- The navigation receipt at `/srv/repos/arkita-qa-evidence/a-editor-024-navigation-20261121-terminal-load/browser-result.json` has SHA-256 `8ab3b1e9e8184714e724e2a242b9236ed42330d884702ce6d1e1484c3965ea08` (Chrome 157.0.8103.38). It records `A Parent / A Child`, Back to `A Parent`, Home to the root and route reset after loading Folder B. Exported bytes remained equal before/after navigation (1,769 bytes, SHA-256 `2039ffaf7ad94879b836cd6f68575ff6329a6bb450426557caf4083a79bb97ba`); history stayed unchanged and the browser exited cleanly.
+- The earlier source-review `PARTIAL` noted missing fixture JSON for an older screenshot. These direct receipts contain their own fixture and browser-step evidence, so that provenance note does not override these observed results.
+
+A-EDITOR-024 is accepted in renderer scope. Installed Windows/native acceptance remains `UNRUN`; issue #12 remains open for its other criteria.
+
 | Criterion | Current route and retained checks | Assessment / remaining work |
 | --- | --- | --- |
 | A-EDITOR-010 | `schemka-model-ui/src/demo.js`, `file-actions.js`; `test/file-actions.test.js` | Blank model with a first view and guarded replacement have implementation and regression coverage. Record the criterion-specific acceptance result against the reviewed candidate. |
@@ -42,12 +52,12 @@ These decisions record renderer acceptance only. Installed Windows/native accept
 | A-EDITOR-021 | `schemka-model-ui/src/object-properties.js`, `metadata-ui.js`, `app.js`; `test/object-properties-app.test.js`, `test/context-properties-app.test.js` | Tree/context inspector routes and explicit owner scope have tests. Criterion-level acceptance is not recorded. |
 | A-EDITOR-022 | `schemka-model-ui/src/catalog-folders.js`; `test/unused-tree-app.test.js` | The unused marker is derived from stored drawings and has add/undo coverage. Criterion-level acceptance is not recorded. |
 | A-EDITOR-023 | `schemka-model-ui/src/catalog-selection.js`, `catalog-folders.js`; `test/catalog-selection.test.js`, `test/catalog-selection-app.test.js` | Linked tree/view selection routes have tests. Criterion-level acceptance is not recorded. |
-| A-EDITOR-024 | `schemka-model-ui/src/catalog-folders.js`; `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | Drill-down, breadcrumbs, Back/Home, and moved/deleted-folder recovery have tests. Criterion-level acceptance is not recorded. |
+| A-EDITOR-024 | `schemka-model-ui/src/catalog-folders.js`; `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | Renderer criteria accepted in Chromium on exact main: model selection stays ID-scoped; Back/Home and model switch preserve the expected route; moving or deleting the current folder falls back to the nearest existing context. Installed Windows/native acceptance remains UNRUN. |
 | A-EDITOR-098 | `schemka-model-core/src/format.js`, `native-v4-commands.js`; `schemka-model-ui/src/metadata-ui.js`, `documentation-editor.js`, `visual-drawings.js`, `catalog-folders.js`; `test/context-properties-app.test.js`, `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | Renderer criteria accepted on exact public main in Chromium: folder move updates the child label, and reopen preserves child ID, name, documentation and property. Installed Windows/native acceptance remains UNRUN. |
 
 ## Result
 
-Renderer acceptance is recorded for A-EDITOR-012/013/014/015/098 on exact public main. The other group-46 criteria remain acceptance-pending, issue #12 stays open, and installed Windows/native acceptance remains UNRUN. This report does not approve a release or change the 0.7.1 RC scope.
+Renderer acceptance is recorded for A-EDITOR-012/013/014/015/024/098 on exact public main. The other group-46 criteria remain acceptance-pending, issue #12 stays open, and installed Windows/native acceptance remains UNRUN. This report does not approve a release or change the 0.7.1 RC scope.
 
 ## Exact-source refresh — 13 Nov 2026, 10:43 UTC
 
