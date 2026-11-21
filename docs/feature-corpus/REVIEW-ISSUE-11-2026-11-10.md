@@ -30,7 +30,7 @@ maximum native-inventory Extended CI case remains `UNVERIFIED` after its
 | A-ADV-042 | The document registry creates independent windows and rejects a second writer for the same identity; its tests cover equal-name/ID isolation and duplicate opens. | Separate model windows are implemented. Native cross-window switching and closing one dirty model while retaining another remain `UNRUN`. |
 | A-ADV-043 | `electron/print-service.mjs` creates a validated static print document; `electron/test/clipboard-print.test.mjs` covers native print/PDF options, tiling, cancellation and disposal. | Service and simulated Electron tests present. Actual Windows printer output, DPI and page clipping remain `UNRUN`. |
 | A-ADV-150 | `schemka-model-ui/src/view-tabs.js`; `schemka-model-ui/test/view-tabs.test.js` covers no-auto-open, bounded opening, cancel and deduplication. | Independent QA accepted both card criteria with the synthetic renderer evidence below against exact `main` SHA `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`. Packaged/native Windows acceptance remains `UNRUN`; explicit bulk-open is separate A-EXT-017. |
-| A-ADV-151 | `electron/document-preferences.mjs`; `electron/test/document-preferences.test.mjs` covers previous readable version, rotation, opt-out persistence, restore, backup failure and external conflict. | Source tests cover simulated backup/restore/conflict paths; real filesystem backup, restore, and conflict behavior remains unverified. This check is filesystem-dependent, not inherently Windows-only. |
+| A-ADV-151 | `electron/document-preferences.mjs`; `electron/test/document-preferences.test.mjs` covers previous readable version, rotation, opt-out persistence, restore, backup failure and external conflict using Node's real `fs` in per-test directories under `os.tmpdir()`. | Source tests cover previous bytes, rotation, restore-to-new-file, backup failure and external conflict. Installed GUI/profile integration remains unverified. |
 | A-ADV-152 | `electron/document-preferences.mjs` and preload/main recent-file route; preference tests cover canonical distinct paths, configurable limit, disabled state and restart persistence. | Source/tests present. Native recent-menu reopening with Unicode paths remains `UNRUN`. |
 | A-EXT-017 | `view-tabs.js` and `view-tabs.test.js` provide bounded, cancellable opening and avoid duplicate tabs. | The 100-view run covered load-time limited auto-open and manual open/switch/select only. It did not test explicit bulk-open count/cancel or establish a measured interaction threshold; this criterion remains pending. |
 
@@ -80,10 +80,10 @@ The following checks remain pending: A-EDITOR-004 camera/selection continuity
 across switching and reorder; A-EDITOR-006 focus/text Undo and model isolation;
 A-EDITOR-007 visible dirty and failed-write behavior; A-ADV-037 OS-originated
 drop/cancel and malformed-file handling through the real file-open path;
-A-ADV-151 real filesystem backup/restore/conflict; and A-EXT-017 explicit
+A-ADV-151 installed GUI/profile integration; and A-EXT-017 explicit
 bulk-open count/cancel plus
-measured interaction. These gaps span renderer interaction, OS integration, and
-filesystem behavior; they are not all Windows-only. Separate packaged/installed
+measured interaction. These gaps span renderer interaction, OS integration,
+and installed GUI/profile integration; they are not all Windows-only. Separate packaged/installed
 Windows checks remain pending where the table identifies them.
 
 ## Outcome
@@ -95,8 +95,8 @@ under A-EDITOR-003. Independent QA accepted both A-ADV-150 card criteria in
 static-renderer scope against `main` SHA `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`;
 its packaged/native Windows acceptance remains `UNRUN`. The other 18 issue #11
 records remain `acceptance-pending`. Renderer interaction gaps, OS integration,
-filesystem behavior, and native Windows checks remain distinct pending
-evidence.
+installed GUI/profile integration, and native Windows checks remain distinct
+pending evidence.
 
 The new A-ADV-037 tests are focused renderer-harness coverage only; they do not
 claim native drag/drop acceptance. They pass locally (57/57). The full local
