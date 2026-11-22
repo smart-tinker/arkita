@@ -273,7 +273,7 @@ function select(selection, announce = true, mode = 'replace') {
   else if (mode === 'anchor') model.selectMany(model.selections, selection);
   else model.select(selection);
   paintSelection();
-  renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh();
+  renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh(); visualsUI?.refresh();
   modelAnalysis?.refresh();
   contextHints?.refresh({ selectionChanged: true });
   if (announce) status(model.selections.length > 1 ? `Выбрано рисунков: ${model.selections.length}. Опора: ${model.selection.id.slice(-8)}` : model.selection ? 'Объект выбран' : 'Выделение снято');
