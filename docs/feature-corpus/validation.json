@@ -38,8 +38,8 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "283f833752c6dc2d46b9394936870127547175660a236ff35918565930a91e9a",
-    "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md": "c8435f838d4c5a0d095f9a1d7408faa38b67a8be55e29d929199d385d976dc8d"
+    "docs/feature-corpus/program.json": "7a7029d6ec9a68006aef68564a60ef48f8eb271b5b215294e23b623be6d098dd",
+    "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md": "d8e112d1f15e392da76fb0498ec13144c84908da62ba560276fae6cea5de9174"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -86,10 +86,10 @@
   "issue14_criterion_review_update": {
     "updated_at": "2026-11-25",
     "issue": 14,
-    "review_base": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
+    "review_base": "789f29f797bb13585e8e1227245617d3c704efb6",
     "ledger": "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md",
     "criteria": 40,
     "result": "All 40 mapped; all remain acceptance-pending, closed_criteria empty, Windows acceptance unrun.",
-    "scope": "Documentation-only evidence map and manifest pointer. No application tests, runtime, package or native Windows acceptance were run. Historical checked_at/result remain unchanged; this update changed only the ledger hash, with program.json hash verified unchanged."
+    "scope": "GitHub-only documentation sync from map base fe1245a3 to current main 789f29f797bb13585e8e1227245617d3c704efb6. The current-main addendum on source snapshot f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9 supplies scoped evidence for A-EDITOR-039, A-EDITOR-066, A-EDITOR-078 and A-EXT-004. All 339 IDs/order/statuses, 9 exclusions and alias A-EDITOR-126 of A-ADV-020 are preserved. No application tests, runtime, package, browser or native Windows/userVM acceptance were run. Historical checked_at/result and baseline checks remain unchanged; only the program.json and issue-14 map hashes were refreshed."
   }
 }

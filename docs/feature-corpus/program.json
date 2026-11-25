@@ -3,11 +3,11 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-25",
   "issue14_criterion_review": {
     "updated_at": "2026-11-25",
     "issue": 14,
-    "review_base": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
+    "review_base": "789f29f797bb13585e8e1227245617d3c704efb6",
     "ledger": "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md",
     "criteria": 40,
     "acceptance_pending": 40,
@@ -662,13 +662,14 @@
         "schemka-model-ui/src/metadata-ui.js",
         "schemka-model-ui/src/app.js",
         "schemka-model-ui/test/object-properties-app.test.js",
-        "schemka-model-ui/test/context-properties-app.test.js"
+        "schemka-model-ui/test/context-properties-app.test.js",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-021"
       ],
-      "remaining": "Записать реальный сценарий областей свойств tree versus drawing и перехода между объектами без применения старого ввода.",
+      "remaining": "Only read-only type/stable-ID explanations are verified. Tree-versus-drawing property scope and stale-input transitions remain unverified. Current-head Chromium and installed Windows/native acceptance are UNRUN.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
+      "verification": "Reviewed at exact public main SHA f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9; merged source PR #109 exact head d2ca54d2174f44d97b8a00e6e0d3a549ec64962f; exact-head CI 45664090682 SUCCESS and source review PASS. Independent Chromium PASS applies only to prior head 41208afcd70d441e67e4ced4a72794c5e5dea0b5; current-head Chromium is UNRUN. Criterion remains acceptance-pending; Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-021.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1201,13 +1202,16 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
+        "docs/feature-corpus/RELEASE-0.6.0.md#diagram",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/visual-selection-palette-app.test.js",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-039"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "The visualNode and visualConnector selected-item palette edit path is verified, including Cancel preserving state. Other current tool/types and viewpoint/profile combinations remain unverified; installed Windows/native acceptance is UNRUN.",
       "issue": 48,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9; merged PR #107 exact head b3c686cfdd66d4e90cd21d1c77ad1b6f6e076271; CI 44970061886 SUCCESS on Ubuntu and Windows. Production Chromium PASS on that exact PR head for visualNode/visualConnector palette edit and Cancel. Criterion remains acceptance-pending; Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-039.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1977,13 +1981,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
+        "docs/feature-corpus/RELEASE-0.6.0.md#diagram",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-066"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "This review records only an adjacent contour-routing change. Manual/orthogonal router modes, stored bendpoints, and their Undo behavior are not covered; criterion-specific validation and Windows acceptance remain UNRUN.",
       "issue": 48,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Adjacent source change only: PR #116 exact head 51c36dd2f93cfd0ed60000d7801285be391adf0a, CI 45626944995 SUCCESS. The contour test does not validate A-EDITOR-066 router modes or stored bendpoints; do not count it as criterion evidence. Status remains acceptance-pending and Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-066.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2335,13 +2340,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
+        "docs/feature-corpus/RELEASE-0.6.0.md#diagram",
+        "schemka-model-ui/src/editing-tools.js",
+        "schemka-model-ui/test/editing-tools-app.test.js",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-078"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "The deferred-close inversion path and one Undo restoring serialized bytes are verified. Broader relationship editing and installed Windows/native acceptance remain UNRUN.",
       "issue": 48,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9; merged PR #102 exact head cc243bcfa124e2c32c75dc7d0f2aaa2fac9a2974; CI 44998007472 SUCCESS on Ubuntu and Windows. Chromium PASS on that exact PR head: Apply inverted the relation and one Undo restored the original serialized bytes. Criterion remains acceptance-pending; Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-078.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3306,13 +3314,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#visual"
+        "docs/feature-corpus/RELEASE-0.6.0.md#visual",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/notation-geometry-app.test.js",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-111"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Automated synthetic tests cover ellipse, rectangle, rounded and default occurrence contours, including path parity and unchanged saved bytes. Choosing alternate shapes through the UI and installed Windows/native acceptance remain unverified.",
       "issue": 49,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9; merged PR #116 exact head 51c36dd2f93cfd0ed60000d7801285be391adf0a; CI 45626944995 SUCCESS on Ubuntu and Windows. Chromium PASS applies only to prior candidate 03a435512d573e8978ce7390acf45016f68cfd08 based on fe1245a3; Chromium on the PR head/current main is UNRUN. Criterion remains acceptance-pending; Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-editor-111.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9177,13 +9188,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#diagram"
+        "docs/feature-corpus/RELEASE-0.6.0.md#diagram",
+        "schemka-model-ui/src/editing-tools.js",
+        "schemka-model-ui/test/editing-tools-app.test.js",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-ext-004"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "The deferred-close inversion path and one Undo restoring serialized bytes are verified. Broader relationship editing and installed Windows/native acceptance remain UNRUN.",
       "issue": 48,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9; merged PR #102 exact head cc243bcfa124e2c32c75dc7d0f2aaa2fac9a2974; CI 44998007472 SUCCESS on Ubuntu and Windows. Chromium PASS on that exact PR head: Apply inverted the relation and one Undo restored the original serialized bytes. Criterion remains acceptance-pending; Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-ext-004.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9294,13 +9308,16 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#output"
+        "docs/feature-corpus/RELEASE-0.6.0.md#output",
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/notation-geometry-app.test.js",
+        "docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-ext-008"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Automated synthetic evidence verifies the ellipse connection path in downloaded SVG matches the canvas path. Broader portability across viewers/fonts and installed Windows/native acceptance remain UNRUN.",
       "issue": 52,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed at exact public main SHA f2d7fcaef38a9ac781873c6e4ff6c471fd3282e9; merged PR #116 exact head 51c36dd2f93cfd0ed60000d7801285be391adf0a; CI 45626944995 SUCCESS on Ubuntu and Windows. Chromium PASS applies only to prior candidate 03a435512d573e8978ce7390acf45016f68cfd08 based on fe1245a3; current PR-head/current-main Chromium is UNRUN. Criterion remains acceptance-pending; Windows acceptance unrun. See docs/feature-corpus/ISSUE-9-CURRENT-MAIN-EVIDENCE-2026-11-25.md#a-ext-008.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
