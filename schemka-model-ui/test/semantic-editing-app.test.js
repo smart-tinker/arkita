@@ -2,7 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { setup } from './app-test-fixture.js';
 import { createProject, createStore } from '../../schemka-model-core/src/index.js';
+import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/index.js';
+
+test('selecting and deselecting a relationship drawing updates the rebind action', async t => {
+ const h=await setup(t),state=conceptProject(),relationship=state.relationships[0],line=state.views[0].connections.find(item=>item.relationshipId===relationship.id);
+ await h.load(serializeProjectFile(state));const before=await h.download(),rebind=h.$('semantic-rebind'),drawing=h.document.querySelector(`[data-kind="connection"][data-id="${line.id}"]`);
+ assert.equal(rebind.disabled,true);
+ drawing.focus();const selected=new h.window.KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true});drawing.dispatchEvent(selected);
+ assert.equal(selected.defaultPrevented,true);assert.equal(drawing.getAttribute('aria-pressed'),'true');assert.equal(rebind.disabled,false);
+ const deselected=new h.window.KeyboardEvent('keydown',{key:'Enter',shiftKey:true,bubbles:true,cancelable:true});drawing.dispatchEvent(deselected);
+ assert.equal(deselected.defaultPrevented,true);assert.equal(drawing.getAttribute('aria-pressed'),'false');assert.equal(rebind.disabled,true);
+ assert.deepEqual(await h.download(),before);
+});
+
 test('palette placement highlights a container, cancels without creating data and applies an explicit ALLOWED nesting relation with exact Undo',async t=>{
  const h=await setup(t),store=createStore(createProject('ARM integration')),run=command=>store.execute(command,store.revision).created,{viewId}=run({type:'createView',name:'Main'}),parent=run({type:'createElementAndOccurrence',viewId,elementType:'Service',name:'Parent',bounds:{x:0,y:0,width:500,height:400}});
  await h.load(serializeProjectFile(store.snapshot));const before=await h.download();
