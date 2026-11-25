@@ -215,6 +215,7 @@ async function main() {
     } catch (error) { await reportFixtureFailure(error); }
     const active = await cdp.evaluate(`document.querySelector('#view-tabs [role="tab"][aria-selected="true"]')?.dataset.viewId`);
     assert.equal(active, manifest.initialView);
+    await cdp.evaluate(`document.querySelector('#open-all-views')?.scrollIntoView({ block: 'center', inline: 'center' })`);
     const openAllButtonProbe = await cdp.evaluate(`(() => {
       const button = document.querySelector('#open-all-views');
       if (!button) return null;
@@ -237,8 +238,9 @@ async function main() {
         if (state.errors.length < 8) state.errors.push({ type: 'unhandledrejection', reason: String(event.reason?.stack || event.reason || '').slice(0, 1500) });
       }, true);
     })()`);
-    await clickSelector(cdp, `document.querySelector('#open-all-views')`);
     try {
+      assert.ok(openAllButtonProbe?.hitIsButton, `Open all views button is not the hit-test target: ${JSON.stringify(openAllButtonProbe)}`);
+      await clickSelector(cdp, `document.querySelector('#open-all-views')`);
       await waitFor(() => cdp.evaluate(`document.querySelector('#open-views-dialog')?.open === true`), 'Open all views dialog did not open');
     } catch (error) {
       const state = await cdp.evaluate(`(() => ({
