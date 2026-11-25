@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-11",
+  "updated_at": "2026-11-25",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -2653,15 +2653,23 @@
       "title": "Выбор и смена viewpoint существующего представления",
       "family": "profiles",
       "historical_status": "partial",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-core/src/viewpoints.js",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/src/viewpoint-ui.js",
+        "schemka-model-core/test/viewpoints.test.js",
+        "schemka-model-ui/test/viewpoint-ui.test.js",
+        "schemka-model-ui/test/notation-viewpoints-app.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
-      "closed_criteria": [],
+      "remaining": "The two numbered criteria are accepted on the merged source. Physical disk save and installed Windows acceptance remain unrun; this does not claim a normative Archi 3.2 viewpoint catalog.",
+      "issue": 19,
+      "closed_criteria": [
+        "Используется проверяемый реестр viewpoints Arkita; «без ограничения» и неизвестный viewpoint различимы.",
+        "Смена viewpoint сохраняет все концепты, изображения и геометрию; Undo возвращает прежние настройки, список 3.2 не считается нормативным каталогом 4."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted for both numbered criterion bullets against Chromium receipt source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b (receipt SHA-256 9c2ebc05cfc107b51ceb6ed91ac2e12c9f5b402e047bed0466a04c973e3bc25d; synthetic fixture SHA-256 88d0ff7749ab0af993da70489f576817e82fffbbd840894b86183062cb5ea070, 7,568 bytes). An unknown viewpoint was rejected without changing selection, dirty state or Undo; the manual no-viewpoint option was distinct. Unbinding changed only view.viewpointId, retained three occurrences, two connections and one image node, and Blob export plus Undo restored the exact fixture state and bytes. The implementation is in merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1), commit bc4b413b052bf1fff43ed2d9c9022b67681eb3e7. Current-main Extended CI [run 45178717375](https://github.com/smart-tinker/arkita/actions/runs/45178717375) completed successfully: full tests passed on Ubuntu and Windows on fe1245a3d61612b15b78270e9f49fe9dc6467988. Relevant source/test files are unchanged from the scenario source. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. Physical disk save and installed Windows acceptance remain unrun.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2674,7 +2682,7 @@
         "remaining": "Viewpoint CRUD/binding и projection сохраняют полную модель. Имеются ограниченные user-defined subsets; соответствие полному набору normative viewpoints не утверждается.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-090",
@@ -2683,13 +2691,16 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-ui/src/app.js",
+        "schemka-model-ui/test/catalog-tree-app.test.js",
+        "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-090",
+        "https://github.com/smart-tinker/arkita/pull/75"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "Draft PR #75 adds the missing hidden marker and disabled-action explanation. Exact-head Windows CI is still running and installed Windows/viewpoint acceptance remains unrun; do not close this criterion yet.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-090. All criteria remain acceptance-pending.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2702,7 +2713,7 @@
         "remaining": "Projection и checkScope ограничивают canvas/creation, palette и некоторые действия; полная cross-panel navigation/ghost/hidden feedback требует расширения.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-091",
@@ -2768,13 +2779,20 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-ui/src/rename.js",
+        "schemka-model-ui/src/documentation-editor.js",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/src/customization-ui.js",
+        "schemka-model-ui/test/documentation-editor.test.js",
+        "schemka-model-core/test/documentation.test.js",
+        "schemka-model-ui/test/customization-ui.test.js",
+        "schemka-model-core/test/customization.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "Name, documentation and compatible profile operations have shared concept-ID routes and source regressions for multi-view propagation, exact text, Undo and profile compatibility. Installed Windows acceptance of the combined user workflow remains unrun; no confirmed code gap was found.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-093. All criteria remain acceptance-pending.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2787,7 +2805,7 @@
         "remaining": "Plain-text документация element/junction реализована с guards; профильные applications существуют отдельно. Специализации Archi и текущие customization profiles не объявлены полной эквивалентностью.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-094",
@@ -2825,13 +2843,18 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-core/src/current-catalog.js",
+        "schemka-model-core/src/format.js",
+        "schemka-model-ui/src/relationship-reference.js",
+        "schemka-model-ui/src/multiplicity-editor.js",
+        "schemka-model-core/test/current-catalog.test.js",
+        "schemka-model-core/test/multiplicity.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "The current format supports relationship type/label/properties, optional raw endpoint multiplicities and container junction role. The normative ArchiMate 4 mapping of per-type semantic attributes is not verified here; legacy accessType/directed/strength are rejected. Resolve against an authoritative contract before changing the model format or claiming conformance.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-095. All criteria remain acceptance-pending.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -2844,7 +2867,7 @@
         "remaining": "Реализованы типы current registry, source/targetMultiplicity и junctionRole; эти поля нельзя считать буквальным покрытием directed/access/strength Archi 3.2 без отдельного mapping.",
         "verification": "Historical inspection retained; prior issue/PR deltas must be verified against every original criterion before closure."
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-EDITOR-096",
@@ -4436,13 +4459,17 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-ui/src/customization-ui.js",
+        "schemka-model-core/src/customization.js",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/test/customization-ui.test.js",
+        "schemka-model-core/test/customization.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "Current source counts uses by concept ID and requires explicit separate-ID confirmation for same-name specializations with overlapping targets; disjoint target scopes may retain the same name. Installed Windows acceptance of creation, rename and counts remains unrun.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Existing coordinator handoff summarizes independent Chromium QA on source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: same-name specializations with overlapping targets require an explicit separate-ID choice, and usage counts are by concept ID. Raw scenario receipt was unavailable to this update; the scenario was not rerun. Relevant source/test files are unchanged on current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Renderer evidence and boundaries: docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. All criteria remain acceptance-pending; installed Windows acceptance remains unrun.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4456,7 +4483,7 @@
         "remaining": "Manager уже создаёт и редактирует model-owned профили с purpose specialization, конкретными targets и числом применений по концептам. Типы и ID валидируются. Имена проверяются на непустоту, но отдельной политики одноимённых специализаций нет; уточнение области уникальности не должно вводить правило Archi автоматически.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-022",
@@ -4465,13 +4492,18 @@
       "historical_status": "implemented-in-code",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-ui/src/customization-ui.js",
+        "schemka-model-core/src/customization.js",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/test/customization-ui.test.js",
+        "schemka-model-core/test/customization.test.js",
+        "schemka-model-core/test/native-v4.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "Compatible profile application, persistence, shared use and Undo have source/test routes. Installed Windows acceptance remains unrun; keep the Arkita profile contract distinct from unverified Archi equivalence.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Existing coordinator handoff summarizes independent Chromium QA on source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: a compatible profile with explicit false appeared in both views, while an incompatible profile could not be applied. Raw scenario receipt was unavailable to this update; the scenario was not rerun. Relevant source/test files are unchanged on current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Renderer evidence and boundaries: docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. All criteria remain acceptance-pending; installed Windows acceptance remains unrun, and no Archi equivalence is claimed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4486,7 +4518,7 @@
         "remaining": "Инспектор выбирает только подходящие не назначенные профили; store повторно проверяет concrete target, типы значений и существование определения. Применение и снятие изменяют общий концепт, обновляют его использования, сериализуются и входят в Undo. Это существующий контракт Arkita 4; одно определение нельзя назначить дважды, но запрет нескольких разных специализаций из Archi не переносится.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-023",
@@ -4495,13 +4527,16 @@
       "historical_status": "partial",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-ui/src/customization-ui.js",
+        "schemka-model-core/src/store.js",
+        "schemka-model-ui/test/customization-ui.test.js",
+        "schemka-model-core/test/customization.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "Ordinary Delete remains blocked while a profile has applications; the separate detach-all-and-delete confirmation lists affected concept IDs, removes application overrides, preserves base concepts and relationships, and commits one Undo. Native Windows confirmation/cancel/Undo acceptance remains unrun.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Existing coordinator handoff summarizes independent Chromium QA on source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: preview listed the affected concept, Cancel preserved bytes, bulk deletion preserved base concepts and relationships, and one Undo restored definition/applications and matching saved bytes. Raw scenario receipt was unavailable to this update; the scenario was not rerun. Relevant source/test files are unchanged on current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Renderer evidence and boundaries: docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. All criteria remain acceptance-pending; native Windows confirmation/cancel/Undo remains unrun.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4515,7 +4550,7 @@
         "remaining": "Уже есть безопасная политика: используемый профиль удалять нельзя; UI перечисляет concept ID и требует явно снять применения в инспекторе. Неиспользуемое определение удаляется после подтверждения через Undo-команду. Единого preview/пакета снятия всех применений вместе с удалением нет; существующий запрет не является ошибкой и не требует автоматического каскадного удаления.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-024",
@@ -4524,13 +4559,18 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+        "schemka-model-ui/src/customization-ui.js",
+        "schemka-model-core/src/customization.js",
+        "schemka-model-core/src/format.js",
+        "schemka-model-ui/src/visual-drawings.js",
+        "schemka-model-ui/test/customization-ui.test.js",
+        "schemka-model-ui/test/visual-drawings.test.js"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 53,
+      "remaining": "Specialization image assets, inherited occurrence icons, local image override, persistence and used-asset protection have source/test routes. Native Windows rendering and save/reopen acceptance remain unrun.",
+      "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-024. All criteria remain acceptance-pending.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4548,7 +4588,7 @@
         "remaining": "Профили содержат name/purpose/targets/attributes, но не изображение; применение меняет подпись специализации. В нативном формате и UI нет ресурса иконки, наследования изображений или индивидуального image override.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#profiles"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
     },
     {
       "id": "A-ADV-025",
