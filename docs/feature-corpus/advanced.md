@@ -2844,9 +2844,13 @@
 
 **Зависимости:** A-ADV-039.
 
-**Факт по коду:** Есть проверяемая запись и journal/recovery для прерванного directory update. Это не сохраняемая предыдущая успешная версия: нет настройки backup, ротации и пользовательского восстановления истории файлов. Git commits — отдельный существующий механизм версий.
+**Факт по коду:** Настройка backup хранится отдельно от модели; для новых настроек `backupEnabled` включён по умолчанию, а сохранённый opt-out соблюдается. Перед заменой существующего файла Arkita проверяет исходные байты, записывает и перечитывает их резервную копию; лимит ротации задаётся для каждого исходного файла (по умолчанию пять, диапазон 1–20). Внешнее изменение блокирует запись до вызова backup; ошибка копирования или ротации также оставляет исходный файл без перезаписи. Восстановление проверенной копии сохраняет её в новый файл `.arkita`; исходник, открытая модель и её история не заменяются. Это копия предыдущей успешной версии, а не восстановление несохранённых правок. Отметка `Покрытие: absent` сохраняет исходную классификацию корпуса.
 
-**Доказательства:** [schemka-model-ui/src/file-actions.js](https://github.com/smart-tinker/arkita/blob/main/schemka-model-ui/src/file-actions.js), [electron/file-service.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/file-service.mjs), [electron/project-files.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/project-files.mjs), [electron/directory-update.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/directory-update.mjs), [schemka-model-ui/index.html](https://github.com/smart-tinker/arkita/blob/main/schemka-model-ui/index.html).
+**Проверки кода:** `electron/test/document-preferences.test.mjs` проверяет прежние читаемые байты, ротацию, отсутствие записи при внешнем конфликте или ошибке backup, а также восстановление в новый файл с защитой исходника и открытых документов. `schemka-model-ui/test/document-ui.test.js` проверяет экран списка копий, настройку backup и восстановление без изменения dirty-модели.
+
+**Приёмка:** Текущая запись ledger остаётся `acceptance-pending`, закрытых критериев нет; установленная Windows GUI-приёмка — **UNRUN**.
+
+**Доказательства:** [electron/document-preferences.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/document-preferences.mjs), [electron/main.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/main.mjs), [electron/file-service.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/file-service.mjs), [electron/project-files.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/project-files.mjs), [schemka-model-ui/src/document-ui.js](https://github.com/smart-tinker/arkita/blob/main/schemka-model-ui/src/document-ui.js), [electron/test/document-preferences.test.mjs](https://github.com/smart-tinker/arkita/blob/main/electron/test/document-preferences.test.mjs), [schemka-model-ui/test/document-ui.test.js](https://github.com/smart-tinker/arkita/blob/main/schemka-model-ui/test/document-ui.test.js).
 
 #### A-ADV-152 — Недавние файлы и размер списка
 
