@@ -3,6 +3,7 @@ import { production, setup, richLifecycleFixture, setStoredGeometry } from './ap
 import { importedRelationship } from './imported-relationship.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { createProject, createStore } from '../../schemka-model-core/src/index.js';
 import { serializeProjectFile, deserializeProjectFile, exportMermaid } from '../../schemka-model-io/src/index.js';
 import { notationElement } from '../src/notation.js';
@@ -79,8 +80,13 @@ test(`${production ? 'production' : 'source'} app: imported rounded corners and 
 
 const pathNumbers = path => path.match(/-?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?/gi).map(Number);
 
+function loadStyle(h) {
+  const style = h.document.createElement('style'); style.textContent = readFileSync(new URL('../style.css', import.meta.url), 'utf8'); h.document.head.append(style);
+}
+
 test(`${production ? 'production' : 'source'} app: occurrence shape overrides clip connections to the painted contour without changing saved IDs or bytes`, async t => {
   const h = await setup(t), store = createStore(createProject('Synthetic occurrence contours'));
+  loadStyle(h);
   const run = command => store.execute(command, store.revision).created;
   const { viewId } = run({ type: 'createView', name: 'Occurrence contours' });
   const sourceId = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Source', bounds: { x: 80, y: 80, width: 160, height: 100 } }).occurrenceId;
