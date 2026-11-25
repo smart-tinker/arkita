@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "74579d5abb40ec1d21a0109c75d6dc6fe4a65c8b2da08934e6b967b599b96da7"
+    "docs/feature-corpus/program.json": "cf2c323c9eca7a58841078b8c903abe2a848aecbf06f940673c00fb57a025428"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -82,18 +82,17 @@
       "ledger": "docs/feature-corpus/program.json"
     },
     "issue_21_source_review": {
-      "updated_at": "2026-11-18",
+      "updated_at": "2026-11-25",
       "issue": 21,
       "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
       "ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
       "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43646531019",
-      "result": "18 Nov read-only Chromium evidence: A-EXT-027 clipboard and local-library scenarios passed within scope; A-ADV-098 failed unknown/malformed-field diagnostics and fallback; A-ADV-100 passed keyboard selection and benign text transfer but failed visible/accessibly exposed instructions. Author two-instance/remap evidence for A-ADV-083 on draft #98 is scoped; a later isolated ordinary-confirm repeat on the same head still reported SESSION_STALE, with cause/trigger unresolved and envelope bytes not independently hashable. All 25 issue #21 records remain acceptance-pending, closed_criteria stays empty, and Windows acceptance remains unrun. The A-ADV-098/A-ADV-100 candidate fixes are in draft #81; its exact-head CI and Extended CI passed, with independent verification pending.",
+      "result": "The source review is a historical snapshot of main at 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; its CI 43646530875 and CodeQL 43646531019 are historical. A-ADV-083 SESSION_STALE was reproduced on historical base 7079608c after unrelated model-gallery teardown advanced the app-wide interaction generation with ticket/revision unchanged. Independent Chromium PASS is tied to runtime 4cd65abe85d7a9fd354055ff1145f86cbf04f38d; latest PR #98 head a190dd67bb23ac2dcadc99a36ee860e9bf068f60 is test-only and exact-head CI 44430983565 passed. The original author-save envelope was not independently byte-hashed/read back. A-EXT-027 assigned clipboard/local-library Chromium scenarios passed on historical 3a; only public source/test links are included. A-ADV-098/100 failed on historical 3a; independent Chromium on draft PR #81 head e4924c37a68a72166e4b6a5be3acf1376af2031e passed the exercised fixes and exact-head CI 44424180162 passed. PR #81 remains draft/unmerged. All 25 issue #21 records remain acceptance-pending, closed_criteria stays empty, and Windows acceptance remains unrun.",
       "report": "docs/feature-corpus/REVIEW-ISSUE-21-2026-11-15.md",
       "follow_up_pr": "https://github.com/smart-tinker/arkita/pull/98",
-      "follow_up_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/44371223857",
+      "follow_up_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/44430983565",
       "gap_follow_up_pr": "https://github.com/smart-tinker/arkita/pull/81",
-      "gap_follow_up_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43710464322",
-      "gap_follow_up_extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43712335068"
+      "gap_follow_up_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/44424180162"
     }
   }
 }

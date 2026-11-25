@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-15",
+  "updated_at": "2026-11-25",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -6405,13 +6405,17 @@
         "schemka-model-io/src/templates.js",
         "schemka-model-ui/src/templates-ui.js",
         "schemka-model-io/test/interchange.test.js",
-        "schemka-model-ui/test/interchange-templates.test.js"
+        "schemka-model-ui/test/interchange-templates.test.js",
+        "https://github.com/smart-tinker/arkita/pull/98",
+        "https://github.com/smart-tinker/arkita/commit/4cd65abe85d7a9fd354055ff1145f86cbf04f38d",
+        "https://github.com/smart-tinker/arkita/commit/a190dd67bb23ac2dcadc99a36ee860e9bf068f60",
+        "https://github.com/smart-tinker/arkita/actions/runs/44430983565"
       ],
-      "remaining": "The scoped two-instance/remap PASS on draft PR #98 does not resolve later SESSION_STALE refusals reported after ordinary confirmation on the same head; exact trigger and cause remain under investigation. The raw template envelope was unavailable for an independent byte-hash check. Keep acceptance-pending; installed Windows acceptance remains unrun.",
+      "remaining": "The SESSION_STALE refusal was reproduced only on historical base 7079608c after a queued model-gallery close advanced an unrelated app-wide interaction generation; the active ticket and model revision were unchanged. Independent Chromium on runtime 4cd65abe85d7a9fd354055ff1145f86cbf04f38d passed two independent instances with disjoint IDs, resolved relationship drawings, preserved image payload/source bytes, and an unchanged local template library. Latest draft PR #98 head a190dd67bb23ac2dcadc99a36ee860e9bf068f60 is test-only; exact-head CI 44430983565 passed. The original author-save envelope was not independently byte-hashed/read back. Keep acceptance-pending; installed Windows acceptance remains unrun.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Author Chromium readback on draft PR #98 confirmed two independently remapped instances with disjoint IDs and isolated edits; exact-head CI 44371223857 passed. The editor later reported repeated SESSION_STALE in isolated contexts on the same head; cause/trigger are unresolved. Envelope equality is based on protocol/script, without a raw envelope for independent hashing. This is scoped evidence, not criterion acceptance.",
+      "verification": "Historical RED on 7079608c reproduced SESSION_STALE after deferred model-gallery teardown changed only the unrelated app-wide interaction generation; ticket and revision stayed unchanged. The guard was narrowed for template/import while ticket/status/epoch, store revision, inline-draft protections, and Git interaction checks remain. Independent Chromium PASS is tied to runtime 4cd65abe85d7a9fd354055ff1145f86cbf04f38d: two instances had disjoint IDs, relationship drawings resolved, image payload and source bytes were preserved, and local template storage remained unchanged through instantiation. Latest PR #98 head a190dd67bb23ac2dcadc99a36ee860e9bf068f60 adds only focused tests; exact-head CI 44430983565 passed. Original author-save envelope bytes were not independently read back/hashed; no criterion acceptance is claimed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -6938,13 +6942,16 @@
         "schemka-model-ui/src/visuals-ui.js",
         "schemka-model-ui/src/visual-drawings.js",
         "schemka-model-ui/test/visuals-ui.test.js",
-        "schemka-model-ui/test/visual-drawings.test.js"
+        "schemka-model-ui/test/visual-drawings.test.js",
+        "https://github.com/smart-tinker/arkita/pull/81",
+        "https://github.com/smart-tinker/arkita/commit/e4924c37a68a72166e4b6a5be3acf1376af2031e",
+        "https://github.com/smart-tinker/arkita/actions/runs/44424180162"
       ],
-      "remaining": "Provide an authoring diagnostic and source-name fallback for unknown and malformed label-template fields, or record an explicitly accepted limit. Keep acceptance-pending; installed Windows acceptance remains unrun. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending. Keep acceptance-pending until independent verification.",
+      "remaining": "The historical main 3a4a58 Chromium failure remains the source baseline. Independent Chromium on draft PR #81 head e4924c37a68a72166e4b6a5be3acf1376af2031e passed exercised unknown, unterminated, and JavaScript-like fields with alert diagnostics and source-name fallback; the script-shaped value stayed inert and Undo restored the original label. Exact-head CI 44424180162 passed. PR #81 remains draft/unmerged; broader field cases and installed Windows remain unrun. Keep acceptance-pending.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "On exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b in Chromium, the known name field substituted; unknown and malformed fields remained literal with a success status and no diagnostic or source-name fallback. A JavaScript-looking field remained inert and the original connector name was preserved. Diagnostic/fallback behavior is FAIL. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending.",
+      "verification": "Historical main snapshot 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b failed the exercised unknown/malformed-field diagnostics and source-name fallback: fields stayed literal with success and no diagnostic/fallback; a JavaScript-like field remained inert and the source name was preserved. Independent Chromium on draft PR #81 exact head e4924c37a68a72166e4b6a5be3acf1376af2031e passed the exercised unknown, unterminated, and JavaScript-like cases with alert diagnostics and source-name fallback; no script executed and Undo restored the original label. Exact-head CI 44424180162 passed. PR #81 remains draft/unmerged; broader field cases and installed Windows are unrun. Acceptance remains pending.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -7012,13 +7019,16 @@
         "schemka-model-ui/src/visuals-ui.js",
         "schemka-model-ui/src/visual-drawings.js",
         "schemka-model-ui/test/visuals-ui.test.js",
-        "schemka-model-ui/test/visual-drawings.test.js"
+        "schemka-model-ui/test/visual-drawings.test.js",
+        "https://github.com/smart-tinker/arkita/pull/81",
+        "https://github.com/smart-tinker/arkita/commit/e4924c37a68a72166e4b6a5be3acf1376af2031e",
+        "https://github.com/smart-tinker/arkita/actions/runs/44424180162"
       ],
-      "remaining": "Demonstrate visible, keyboard-accessible selected-object instructions using the declared formatting contract. Screen-reader speech, adversarial Markdown sanitization and installed Windows acceptance remain unrun; keep acceptance-pending. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending. Keep acceptance-pending until independent verification.",
+      "remaining": "The historical main 3a4a58 Chromium failure remains the source baseline. Independent Chromium on draft PR #81 head e4924c37a68a72166e4b6a5be3acf1376af2031e passed the exercised visible instruction panel, Tab/Enter selection, focus/ARIA state, and inert script-shaped Markdown. Screen-reader speech, broader adversarial Markdown behavior, and installed Windows remain unrun. PR #81 remains draft/unmerged; keep acceptance-pending.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "On exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b in Chromium, Tab focus/Enter selection, exercised benign Markdown rendering and exact instruction-text transfer through template save/reload passed. The instruction was not visible after selection and was absent from the accessible name; only the SVG title contained it. Instruction-display acceptance is FAIL; screen-reader speech and adversarial sanitization were not tested. Draft PR #81 at 9d2a127994942e47434a021c00a30ea3d286b668 contains the candidate fix; CI 43710464322 and Extended CI 43712335068 passed, but independent verification of that exact head remains pending.",
+      "verification": "Historical main snapshot 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b passed Tab/Enter selection and benign Markdown rendering but failed visible/accessibly named instructions after selection; only SVG title text was observed. Independent Chromium on draft PR #81 exact head e4924c37a68a72166e4b6a5be3acf1376af2031e passed the exercised visible panel, aria-pressed/expanded state, retained focus, Tab/Enter selection, and escaped/inert script-shaped Markdown with no script elements or event attributes. The save Blob matched the synthetic fixture bytes. Exact-head CI 44424180162 passed. PR #81 remains draft/unmerged; screen-reader speech, broader adversarial Markdown, and installed Windows remain unrun. Acceptance remains pending.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9996,13 +10006,16 @@
         "schemka-model-core/src/portable-fragment.js",
         "schemka-model-io/src/templates.js",
         "schemka-model-core/test/portable-fragment.test.js",
-        "schemka-model-io/test/interchange.test.js"
+        "schemka-model-io/test/interchange.test.js",
+        "schemka-model-ui/src/templates-ui.js",
+        "schemka-model-ui/test/fragment-clipboard-app.test.js",
+        "schemka-model-ui/test/fragment-clipboard.test.js"
       ],
-      "remaining": "The assigned clipboard and local pattern-library Chromium paths passed, but external-package import, physical file loading and installed Windows behavior remain unrun. Keep acceptance-pending.",
+      "remaining": "The assigned clipboard and local pattern-library Chromium scenarios passed on historical main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b, including saved readback and one-step Undo. External-package import, physical file loading, and installed Windows behavior remain unrun. Keep acceptance-pending.",
       "issue": 21,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Two scoped Chromium scenarios on exact main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b passed: clipboard fragment reuse/clone and local pattern-library reload/reuse/clone. Saved Blob readback and one-step Undo were checked; selected versus unselected records and the viewpoint-hidden entry remained within the tested scope. This does not establish external-package or installed Windows acceptance.",
+      "verification": "Two scoped Chromium scenarios on historical main snapshot 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b passed: clipboard fragment reuse/clone and local pattern-library reload/reuse/clone. Saved readback and one-step Undo were checked; selected versus unselected records and the viewpoint-hidden entry stayed within the tested scope. Public source/test paths are listed in evidence; local Chromium receipts are not published. This does not establish external-package, physical-file, or installed Windows acceptance.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
