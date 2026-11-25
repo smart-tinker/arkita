@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: windows-rc-package
-  cancel-in-progress: false
+  queue: max
 
 jobs:
   package:
