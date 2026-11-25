@@ -10112,7 +10112,7 @@
         "electron/test/git-service.test.mjs"
       ],
       "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
-      "issue": 58,
+      "issue": 24,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-actions.test.js covers native-file dirty state after Git commit; git-service.test.mjs covers local versions, push/adoption and server failure retaining history. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
@@ -10149,7 +10149,7 @@
         "electron/test/git-service.test.mjs"
       ],
       "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
-      "issue": 58,
+      "issue": 24,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-service.test.mjs covers read-only revision inspection and explicit restore; git-actions.test.js covers metadata/geometry preview and one-step Undo. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
@@ -10185,7 +10185,7 @@
         "electron/test/git-service.test.mjs"
       ],
       "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
-      "issue": 58,
+      "issue": 24,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-service.test.mjs covers guarded branch preview/switch; git-actions.test.js covers local creation, dirty preview, cancel and explicit replacement. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
@@ -10220,7 +10220,7 @@
         "schemka-model-ui/test/git-actions.test.js"
       ],
       "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
-      "issue": 58,
+      "issue": 24,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-service.test.mjs covers base/local/remote context, affected relationships/views and validation; git-actions.test.js covers explicit record or whole-model choices and apply/cancel. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
@@ -10257,7 +10257,7 @@
         "schemka-model-ui/test/git-actions.test.js"
       ],
       "remaining": "Installed Windows Git GUI acceptance using one disposable synthetic model and local bare repository is UNRUN. Keep acceptance-pending until visible Save/Commit/Push/Receive, revision inspection/restore, dirty branch switching, conflict apply, milestone actions and reopen integrity are confirmed against one exact package.",
-      "issue": 58,
+      "issue": 24,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
       "verification": "Reviewed at exact public main SHA a9c3fdb9e5b47f6cc53d7b0efa6543295fcb559d. git-repository.test.mjs, git-service.test.mjs and git-actions.test.js cover create, inspect, publish and local delete as separate actions. Exact-main CI run 43121393082 passed; installed Windows Git GUI acceptance remains UNRUN.",
