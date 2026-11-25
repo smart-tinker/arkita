@@ -296,13 +296,14 @@ async function main() {
     assert.ok(painted.clipboardFormats.some(value => /PNG|Bitmap|Image/i.test(value)), `Windows clipboard exposed no image format: ${painted.clipboardFormats.join(', ')}`);
     assert.ok(painted.clipboard.width >= manifest.expectedFullSize.widthMin && painted.clipboard.width <= manifest.expectedFullSize.widthMax, `Unexpected full-view width: ${painted.clipboard.width}`);
     assert.ok(painted.clipboard.height >= manifest.expectedFullSize.heightMin && painted.clipboard.height <= manifest.expectedFullSize.heightMax, `Unexpected full-view height: ${painted.clipboard.height}`);
-    assert.deepEqual(painted.clipboard.background.rgb, [29, 53, 87]);
+    assert.deepEqual([painted.clipboard.background.r, painted.clipboard.background.g, painted.clipboard.background.b], [29, 53, 87]);
     assert.equal(painted.clipboard.background.a, 255);
-    assert.deepEqual(painted.paint.background.rgb, [29, 53, 87]);
+    assert.deepEqual([painted.paint.background.r, painted.paint.background.g, painted.paint.background.b], [29, 53, 87]);
     assert.equal(painted.paint.background.a, 255);
     for (const sample of manifest.samples) {
       for (const source of ['clipboard', 'paint']) {
-        const actual = painted[source].samples[sample.name].rgb;
+        const { r, g, b } = painted[source].samples[sample.name];
+        const actual = [r, g, b];
         assert.ok(actual.every((channel, index) => Math.abs(channel - sample.rgb[index]) <= 4), `${source} ${sample.name} style pixel mismatch: expected ${sample.rgb}, got ${actual}`);
       }
     }
