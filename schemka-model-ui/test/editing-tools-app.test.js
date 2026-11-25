@@ -5,6 +5,15 @@ import { setup, richLifecycleFixture } from './app-test-fixture.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
 const dispatch = (h, id, type) => h.$(id).dispatchEvent(new h.window.Event(type, { bubbles: true, cancelable: true }));
 const state = async h => deserializeProjectFile(await h.download());
+const nextTask = window => new Promise(resolve => window.setTimeout(resolve, 0));
+
+function deferToolsDialogClose(h) {
+  const close = h.window.HTMLDialogElement.prototype.close;
+  h.window.HTMLDialogElement.prototype.close = function () {
+    if (this.id !== 'diagram-tools-dialog') return close.call(this);
+    this.removeAttribute('open'); h.window.setTimeout(() => this.dispatchEvent(new h.window.Event('close')), 0);
+  };
+}
 
 test('quick linked creation uses one undo, filtered types and cancellation cannot leave partial records', async t => {
   const h = await setup(t), f = richLifecycleFixture(), bytes = Buffer.from(serializeProjectFile(f.state)); await h.load(bytes); h.document.querySelector(`[data-view-id="${f.viewId}"]`).click();
@@ -63,4 +72,37 @@ test('standard size is reachable, uses local defaults in preview and commits onc
   open(); dispatch(h, 'diagram-tools-form', 'submit'); assert.equal(h.$('diagram-tools-dialog').open, false, h.$('diagram-tools-error').textContent); assert.match(h.$('history-state').textContent, /1 действий/);
   const after = await state(h), occurrence = after.views.find(entry => entry.view.id === f.viewId).occurrences.find(item => item.id === f.a.occurrenceId); assert.deepEqual(occurrence.bounds, { ...f.state.views.find(entry => entry.view.id === f.viewId).occurrences.find(item => item.id === f.a.occurrenceId).bounds, width: 300, height: 140 });
   h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await state(h), after);
+});
+
+test('inversion survives a deferred close event and one Undo restores all bytes', async t => {
+  const h = await setup(t), f = richLifecycleFixture();
+  for (const view of f.state.views) {
+    const connection = view.connections.find(item => item.relationshipId === f.relation.relationshipId);
+    if (connection) connection.style = { ...connection.style, labelOffset: { x: 24, y: -12 } };
+  }
+  const bytes = Buffer.from(serializeProjectFile(f.state)); await h.load(bytes); h.document.querySelector(`[data-view-id="${f.viewId}"]`).click();
+  const selector = `#canvas g[data-kind="connection"][data-id="${f.relation.connectionId}"]:not([data-anchor-id])`;
+  h.$('canvas').querySelector(selector).dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+  assert.equal(h.$('canvas').querySelector(selector).getAttribute('aria-pressed'), 'true');
+  deferToolsDialogClose(h);
+  h.$('diagram-tools-button').click(); h.$('diagram-reverse').click(); await nextTask(h.window);
+  assert.equal(h.$('diagram-tools-title').textContent, 'Изменить направление во всей модели?');
+  assert.equal(h.$('diagram-tools-apply').disabled, false);
+  h.$('diagram-tools-apply').click();
+  assert.equal(h.$('diagram-tools-dialog').open, false, h.$('diagram-tools-error').textContent);
+  assert.match(h.$('history-state').textContent, /1 действий/);
+  const after = await state(h), relationship = after.relationships.find(item => item.id === f.relation.relationshipId);
+  const beforeRelationship = f.state.relationships.find(item => item.id === f.relation.relationshipId);
+  assert.deepEqual(relationship.source, beforeRelationship.target); assert.deepEqual(relationship.target, beforeRelationship.source);
+  assert.equal(relationship.label, beforeRelationship.label); assert.deepEqual(relationship.properties, beforeRelationship.properties);
+  for (const beforeView of f.state.views) {
+    const before = beforeView.connections.find(item => item.relationshipId === f.relation.relationshipId); if (!before) continue;
+    const current = after.views.find(item => item.view.id === beforeView.view.id).connections.find(item => item.id === before.id);
+    assert.deepEqual(current.source, before.target); assert.deepEqual(current.target, before.source);
+    assert.deepEqual(current.routePoints, [...before.routePoints].reverse()); assert.deepEqual(current.style.labelOffset, { x: 24, y: -12 });
+    assert.deepEqual(current.labelPosition, before.labelPosition);
+  }
+  h.$('undo').click(); assert.deepEqual(await h.download(), bytes);
+  h.$('diagram-tools-button').click(); h.$('diagram-tools-cancel').click(); await nextTask(h.window);
+  assert.deepEqual(await h.download(), bytes);
 });
