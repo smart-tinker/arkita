@@ -38,7 +38,8 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "21eeca0184a2ba28cb126ceba49b22cf72c3961446bc3c5547421a9f8a02440f"
+    "docs/feature-corpus/program.json": "a211f18dbfe1c38094019de4d49f4e5bb7be4c75c6a56cf175cb9b52b71f4a3d",
+    "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md": "ddf8ac95636b07887f43ef315ca5651c2cb3f5c62c90b9462bda475886818f72"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,7 +58,7 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-11-13",
+    "updated_at": "2026-11-15",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
     "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
@@ -80,6 +81,19 @@
       "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43406746555",
       "result": "Required CI/security passed. Extended CI passed on Ubuntu and Windows; criteria remain acceptance-pending because installed Windows GUI acceptance and independent review are not recorded.",
       "ledger": "docs/feature-corpus/program.json"
+    },
+    "issue_18_output_review": {
+      "updated_at": "2026-11-15",
+      "issue": 18,
+      "criteria": 24,
+      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "source_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43646530875",
+      "documentation_pr": 73,
+      "documentation_head": "c9ad788cb6b201f678cf24b87bc9a130911d1559",
+      "documentation_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43666519340",
+      "result": "Criterion-level source/test routes and explicit remaining gaps recorded. All 24 criteria stay acceptance-pending; installed Windows acceptance is unrun; no closed criteria added.",
+      "ledger": "docs/feature-corpus/program.json",
+      "report": "docs/feature-corpus/ISSUE-18-REPORT-EXPORT-20261115.md"
     }
   }
 }
