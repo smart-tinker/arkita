@@ -47,6 +47,7 @@ function fixture() {
   return {
     bytes: serializeProjectFile(state),
     manifest: {
+      initialView: state.views.map(entry => entry.view.id).sort()[0],
       fullView,
       alphaView,
       largeView,
@@ -180,7 +181,9 @@ async function main() {
     await cdp.send('Page.enable'); await cdp.send('Runtime.enable'); await cdp.send('Page.bringToFront');
     await waitFor(() => cdp.evaluate(`Boolean(document.querySelector('#canvas') && document.querySelector('#view-tabs [role="tab"][aria-selected="true"]') && document.querySelector('#status'))`), 'Synthetic diagram did not load in Arkita');
     const active = await cdp.evaluate(`document.querySelector('#view-tabs [role="tab"][aria-selected="true"]')?.dataset.viewId`);
-    assert.equal(active, manifest.fullView);
+    assert.equal(active, manifest.initialView);
+    await clickSelector(cdp, `document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')`);
+    await waitFor(() => cdp.evaluate(`document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')?.getAttribute('aria-selected') === 'true'`), 'Full fixture view was not activated');
     const renderedLabels = await cdp.evaluate(`(() => [...document.querySelectorAll('#canvas text')].map(item => item.textContent.trim()).filter(Boolean))()`);
     for (const label of manifest.labels) assert.ok(renderedLabels.includes(label), `Canvas is missing Cyrillic label: ${label}`);
 
