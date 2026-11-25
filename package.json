@@ -39,6 +39,7 @@
     },
     "files": [
       "package.json",
+      "LICENSE",
       "electron/*.mjs",
       "electron/preload.cjs",
       "electron/preload-catalog.cjs",

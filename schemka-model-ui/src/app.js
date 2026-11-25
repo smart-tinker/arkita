@@ -276,7 +276,7 @@ function select(selection, announce = true, mode = 'replace') {
   else if (mode === 'anchor') model.selectMany(model.selections, selection);
   else model.select(selection);
   paintSelection();
-  renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh();
+  renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh(); visualsUI?.refresh();
   modelAnalysis?.refresh();
   contextHints?.refresh({ selectionChanged: true });
   if (announce) status(model.selections.length > 1 ? `Выбрано рисунков: ${model.selections.length}. Опора: ${model.selection.id.slice(-8)}` : model.selection ? 'Объект выбран' : 'Выделение снято');
@@ -429,8 +429,10 @@ function renderInspector() {
   title.dataset.focusKey = `inspector-title-${object.id}`; title.dataset.renameKind = element ? concept.kind : 'relationship'; title.dataset.renameId = object.id;
   title.title = 'Нажмите имя, Enter или F2, чтобы изменить';
   title.setAttribute('aria-label', `Изменить имя: ${title.textContent}`);
-  container.append(node('span', `${object.type} · общая модель`, 'object-kind'), node('h3', 'Имя'), title);
-  const identity = node('details', undefined, 'object-identity'); identity.append(node('summary', 'Идентификатор'), node('p', object.id, 'object-id')); container.append(identity);
+  container.append(node('span', `${object.type} · общая модель`, 'object-kind'),
+    node('p', 'Тип только для чтения здесь. Используйте «Изменить тип…» в контекстном меню объекта в дереве модели; команда проверяет связанные отношения.', 'inspector-note object-kind-explanation'),
+    node('h3', 'Имя'), title);
+  const identity = node('details', undefined, 'object-identity'); identity.append(node('summary', 'Идентификатор'), node('p', object.id, 'object-id'), node('p', 'Идентификатор закреплён за объектом: на него ссылаются отношения и рисунки. При смене типа он сохраняется.', 'inspector-note object-identity-explanation')); container.append(identity);
   objectProperties?.appendInspector(container, { concept: concept || { kind: 'relationship', id: relationship.id }, occurrence });
   const usages = button('Где используется…', () => whereUsed.open(concept || { kind: 'relationship', id: relationship.id }));
   usages.dataset.inspectorAction = 'where-used'; container.append(usages);
@@ -500,7 +502,7 @@ function renderInspector() {
   advanced.open = advancedOpen;
   advanced.append(node('summary', 'Дополнительно'));
   for (const child of [...container.children]) {
-    if (child.matches('.object-identity,.inspector-note:not(.relationship-assessment),.inspector-actions,.customization-inspector,.layout-editor-controls,.assessment-evidence,.details,.graph-issue,.multiplicity-summary')) advanced.append(child);
+    if (child.matches('.object-identity,.inspector-note:not(.relationship-assessment):not(.object-kind-explanation),.inspector-actions,.customization-inspector,.layout-editor-controls,.assessment-evidence,.details,.graph-issue,.multiplicity-summary')) advanced.append(child);
   }
   container.append(advanced); restoreFocus(bookmark);
 }
@@ -512,7 +514,14 @@ function occurrenceContourFor(state) {
     const appearance = notationElement(state.project.metamodel, element.type);
     return [element.id, ['box3d', 'octagon', 'ellipse', 'folder', 'cloud', 'wavy'].includes(appearance.contour) ? appearance.contour : appearance.radius];
   }));
-  contourCache = { revision, read: occurrence => occurrence.concept.kind === 'junction' ? 'circle' : contours.get(occurrence.concept.id) ?? 0 };
+  contourCache = { revision, read: occurrence => {
+    if (occurrence.concept.kind === 'junction') return 'circle';
+    if (occurrence.style?.shape === 'rectangle') return 0;
+    if (occurrence.style?.shape === 'ellipse') return 'ellipse';
+    if (occurrence.style?.shape === 'rounded') return Math.min(10, occurrence.bounds.width / 4, occurrence.bounds.height / 4);
+    // shortcut: folded overrides keep notation clipping; add their polygon contour if exact endpoint routing is needed.
+    return contours.get(occurrence.concept.id) ?? 0;
+  } };
   return contourCache.read;
 }
 function relationshipsFor(state) {
