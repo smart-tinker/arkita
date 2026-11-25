@@ -4,6 +4,17 @@
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
   "updated_at": "2026-11-11",
+  "issue14_criterion_review": {
+    "updated_at": "2026-11-25",
+    "issue": 14,
+    "review_base": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
+    "ledger": "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md",
+    "criteria": 40,
+    "acceptance_pending": 40,
+    "closed_criteria": 0,
+    "windows_acceptance_unrun": 40,
+    "record_count": 339
+  },
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
