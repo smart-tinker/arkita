@@ -23,7 +23,8 @@ if (!fixtureOnly) {
 }
 
 function fixture() {
-  const store = createStore(createProject('A-EDITOR-075 — синтетическая диаграмма'));
+  const projectName = 'A-EDITOR-075 — синтетическая диаграмма';
+  const store = createStore(createProject(projectName));
   const run = command => store.execute(command, store.revision).created;
   const fullView = run({ type: 'createView', name: 'Полные границы и оформление' }).viewId;
   const leftTop = run({ type: 'createElementAndOccurrence', viewId: fullView, elementType: 'ApplicationComponent', name: 'Левый верхний', bounds: { x: -500, y: -350, width: 220, height: 150 }, style: { fill: '#F18F01', stroke: '#102A43', strokeWidth: 4, textColor: '#FFFFFF', fontSize: 20, fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle', shape: 'rounded' } });
@@ -47,6 +48,7 @@ function fixture() {
   return {
     bytes: serializeProjectFile(state),
     manifest: {
+      projectName,
       initialView: state.views.map(entry => entry.view.id).sort()[0],
       fullView,
       alphaView,
@@ -64,6 +66,10 @@ function fixture() {
 }
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+function readTail(filename) {
+  try { return fs.readFileSync(filename, 'utf8').slice(-4000); }
+  catch (error) { return `[unavailable: ${error.message}]`; }
+}
 const temp = process.env.RUNNER_TEMP || os.tmpdir();
 const fixturePath = path.join(temp, 'a-editor-075-cyrillic.arkita');
 const appExe = path.resolve('release/windows/win-unpacked/Arkita.exe');
@@ -169,7 +175,8 @@ async function main() {
   const profile = path.join(temp, 'a-editor-075-app-profile');
   const stdoutPath = path.join(temp, 'a-editor-075-app.stdout.log');
   const stderrPath = path.join(temp, 'a-editor-075-app.stderr.log');
-  const appProcess = spawn(appExe, [`--remote-debugging-port=${cdpPort}`, `--user-data-dir=${profile}`, fixturePath], { cwd: path.dirname(appExe), windowsHide: false, stdio: ['ignore', fs.openSync(stdoutPath, 'w'), fs.openSync(stderrPath, 'w')] });
+  const appArgs = [`--remote-debugging-port=${cdpPort}`, `--user-data-dir=${profile}`, fixturePath];
+  const appProcess = spawn(appExe, appArgs, { cwd: path.dirname(appExe), windowsHide: false, stdio: ['ignore', fs.openSync(stdoutPath, 'w'), fs.openSync(stderrPath, 'w')] });
   let cdp;
   try {
     const targets = await waitFor(async () => {
@@ -179,11 +186,31 @@ async function main() {
     }, 'Packaged Arkita did not expose its renderer');
     cdp = await DevTools.connect(targets.webSocketDebuggerUrl);
     await cdp.send('Page.enable'); await cdp.send('Runtime.enable'); await cdp.send('Page.bringToFront');
-    await waitFor(() => cdp.evaluate(`(() => {
-      const ids = ${JSON.stringify([manifest.fullView, manifest.alphaView, manifest.largeView])};
-      const tabs = new Set([...document.querySelectorAll('#view-tabs [role="tab"]')].map(tab => tab.dataset.viewId));
-      return ids.every(id => tabs.has(id));
-    })()`), 'Synthetic fixture views did not load in Arkita');
+    try {
+      await waitFor(() => cdp.evaluate(`(() => {
+        const ids = ${JSON.stringify([manifest.fullView, manifest.alphaView, manifest.largeView])};
+        const tabs = new Set([...document.querySelectorAll('#view-tabs [role="tab"]')].map(tab => tab.dataset.viewId));
+        return ids.every(id => tabs.has(id));
+      })()`), 'Synthetic fixture views did not load in Arkita');
+    } catch (error) {
+      const renderer = await cdp.evaluate(`(() => ({
+        title: document.title,
+        projectName: document.querySelector('#project-name')?.textContent.trim() || '',
+        fileState: document.querySelector('#file-state')?.textContent.trim() || '',
+        status: document.querySelector('#status')?.textContent.trim() || '',
+        activeViewId: document.querySelector('#view-tabs [role="tab"][aria-selected="true"]')?.dataset.viewId || null,
+        viewIds: [...document.querySelectorAll('#view-tabs [role="tab"]')].map(tab => tab.dataset.viewId),
+      }))()`).catch(readError => ({ error: readError.message }));
+      console.error(`A_EDITOR_075_FIXTURE_LOAD_DIAGNOSTIC ${JSON.stringify({
+        fixture: { path: fixturePath, sha256: fixtureSha256, bytes: bytes.byteLength, projectName: manifest.projectName,
+          expectedViewIds: [manifest.fullView, manifest.alphaView, manifest.largeView], initialViewId: manifest.initialView },
+        launch: { route: 'packaged CLI startup .arkita argument', executable: appExe, argv: appArgs,
+          processId: appProcess.pid, exitCode: appProcess.exitCode, signalCode: appProcess.signalCode },
+        fileOpenObservation: { projectNameMatched: renderer.projectName === manifest.projectName, renderer },
+        stdoutTail: readTail(stdoutPath), stderrTail: readTail(stderrPath),
+      })}`);
+      throw error;
+    }
     const active = await cdp.evaluate(`document.querySelector('#view-tabs [role="tab"][aria-selected="true"]')?.dataset.viewId`);
     assert.equal(active, manifest.initialView);
     await clickSelector(cdp, `document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')`);
