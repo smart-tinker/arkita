@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "4ac92f720ecf8026ae6f42f443b04770e5341197f47405e0d17c040b3c8eb15f"
+    "docs/feature-corpus/program.json": "483c000b312ac2e246b726ab7cf331f4041230a972ba5cf3bbc6b9b349e92044"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,10 +57,10 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-11-18",
+    "updated_at": "2026-11-25",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh issue #39 umbrella evidence against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b. The latest issue #19 review has all eight criteria acceptance-pending with closed_criteria empty; A-EDITOR-090 is addressed by draft PR #75 and A-EDITOR-095 normative relationship-field mapping remains unresolved. For issue #20, exactly 19 criteria are accepted within their documented contracts and 6 remain acceptance-pending: A-ADV-045, A-ADV-048, A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-053 still lacks full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report; A-ADV-063 awaits review and merge of PR #90. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged.",
+    "scope": "Refresh issue #39 umbrella evidence against public main fe1245a3d61612b15b78270e9f49fe9dc6467988. For issue #20, exactly 21 of 25 criteria are accepted within documented contracts and four remain acceptance-pending: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-045 is accepted on source/test and independent synthetic evidence using a substituted directory chooser; native picker and installed packaged write remain UNRUN. A-ADV-048 is accepted from Gnumeric 1.12.57 spreadsheet-text readback; its embedded CRLF normalized to LF in one cell. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -73,16 +73,18 @@
       "ledger": "docs/feature-corpus/program.json"
     },
     "latest_evidence_review": {
-      "updated_at": "2026-11-18",
+      "updated_at": "2026-11-25",
       "issue": 20,
-      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "source_sha": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
       "merged_bootstrap_pr": "https://github.com/smart-tinker/arkita/pull/1",
-      "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43858177729",
-      "accepted_count": 19,
+      "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/45178717375",
+      "accepted_count": 21,
       "accepted_criteria": [
         "A-ADV-044",
+        "A-ADV-045",
         "A-ADV-046",
         "A-ADV-047",
+        "A-ADV-048",
         "A-ADV-049",
         "A-ADV-050",
         "A-ADV-052",
@@ -100,21 +102,19 @@
         "A-EXT-020",
         "A-EXT-034"
       ],
-      "pending_count": 6,
+      "pending_count": 4,
       "pending_criteria": [
-        "A-ADV-045",
-        "A-ADV-048",
         "A-ADV-051",
         "A-ADV-053",
         "A-ADV-056",
         "A-ADV-063"
       ],
-      "result": "Independent QA accepted A-ADV-047, A-ADV-049, A-ADV-050, A-ADV-057, A-ADV-065, and A-EXT-034 against merged public main. Evidence covers canonical CSV CRLF/blank-line preservation and explicit flat export; validation before mutation, late-error rejection, skipped-record retention, one-new/one-updated/one-unchanged preview, one apply/Undo, and repeated-import no-history behavior; source/target IDs in the result report; Exchange invalid-reference rejection, loss reporting, separate-model opening, and unchanged source bytes; and formula-free XLSX content with IDs, endpoints, properties, profiles, Cyrillic, CRLF, and leading zeros. An existing-destination EEXIST preserved the prior 44-byte file with SHA-256 21b5277421a495b2c8fbd1304c0f0a19c28ae1093d5d6ce3df9d91b16406b0b4; the generated workbook was 14,289 bytes with SHA-256 663ee317c23344e044bcdaa10b05772235c29c76afba31c95955a84caeeeaa19. Earlier QA remains recorded for CSV Cyrillic/BOM/quoted fields, incompatible ID/type rejection, V4 repeated properties through replace/Undo, Dublin Core escaping/empty-metadata omission, and duplicate relationship-ID rejection. Extended CI on exact main SHA passed full-test and syntax jobs on Ubuntu and Windows. Installed Windows/native acceptance remains UNRUN. Six criteria remain pending: A-ADV-045, A-ADV-048, A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063; issue closure and release acceptance are not implied.",
+      "result": "Independent QA accepted A-ADV-045 on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: all six CSV tables received consistent names across comma, semicolon, and tab delimiters; values were escaped; simulated ENOSPC on file two did not return saved and previously written files retained bytes. The directory chooser was substituted; native picker and installed packaged write remain UNRUN. The Model and Data chat performed the A-ADV-048 Gnumeric readback on exact current main fe1245a3d61612b15b78270e9f49fe9dc6467988, and the coordinator separately read back the saved workbook: Gnumeric 1.12.57 showed all seven synthetic values as strings without formulas; embedded CRLF remained in one cell and normalized to LF; canonical and spreadsheet-text remained separate and model export bytes were unchanged. Local receipt SHA-256 674e1c51468f32a3f2e4598d44bd5e896df9cc39979e05c19a2b26079d53f4d3. Earlier independent QA accepted A-ADV-047, A-ADV-049, A-ADV-050, A-ADV-057, A-ADV-065, and A-EXT-034. Prior CSV/XML/XLSX evidence remains recorded above. Exact-main Extended CI 45178717375 passed full tests and syntax on Ubuntu and Windows. Four criteria remain pending: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied.",
       "ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     "current_status_counts": {
-      "accepted": 19,
-      "acceptance-pending": 310,
+      "accepted": 21,
+      "acceptance-pending": 308,
       "excluded": 9,
       "alias": 1
     }

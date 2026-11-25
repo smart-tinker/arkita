@@ -1,16 +1,20 @@
 # Issue #20: CSV, XML, XLSX and model interoperability source review
 
-Date: 2026-11-18
+Date: 2026-11-25
 
 Public repository: `smart-tinker/arkita`
 
-Reviewed implementation: `origin/main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`; documentation parent: `docs/issue-19-current-evidence` at `7711ad569a7e691c3d6b2324faaf2679cd4d3794`
+This refresh checks A-ADV-045 and A-ADV-048 against public `main` at `fe1245a3d61612b15b78270e9f49fe9dc6467988`; the previous 19 accepted decisions remain tied to the earlier review at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`. Documentation parent: `docs/issue-19-current-evidence` at `7711ad569a7e691c3d6b2324faaf2679cd4d3794`.
 
 ## Result
 
-The source review is against public `main` at `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`. This update accepts exactly nineteen issue #20 criteria: A-ADV-044, A-ADV-046, A-ADV-047, A-ADV-049, A-ADV-050, A-ADV-052, A-ADV-055, A-ADV-057, A-ADV-058, A-ADV-059, A-ADV-060, A-ADV-061, A-ADV-062, A-ADV-064, A-ADV-065, A-ADV-066, A-EXT-019, A-EXT-020, and A-EXT-034. Six remain `acceptance-pending`: A-ADV-045, A-ADV-048, A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-044 is accepted only for the canonical Arkita CSV contract; A-ADV-066 and A-EXT-019 are accepted only for the supported pinned Exchange 3.1 subset. No broad ArchiMate 3.2↔4 compatibility is claimed. A-ADV-053 remains pending because the current branch assertion is export-only, lacks full per-field round-trip fixtures, and has no explicit ArchiMate 3.2 compatibility report. A-ADV-063 remains pending while draft [PR #90](https://github.com/smart-tinker/arkita/pull/90) is unmerged. The 339-record inventory and nine original exclusions are unchanged.
+The earlier review accepted nineteen issue #20 criteria. This refresh accepts A-ADV-045 and A-ADV-048, resulting in 21/25 accepted; four remain `acceptance-pending`: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-044 remains limited to the canonical Arkita CSV contract; A-ADV-066 and A-EXT-019 remain limited to the supported pinned Exchange 3.1 subset. No broad ArchiMate 3.2↔4 compatibility is claimed. A-ADV-053 still lacks full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report. A-ADV-063 remains pending while draft [PR #90](https://github.com/smart-tinker/arkita/pull/90) is unmerged. The 339-record inventory and nine original exclusions are unchanged.
 
-Merged [bootstrap PR #1](https://github.com/smart-tinker/arkita/pull/1) and [Extended CI run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) provide public-repository provenance and exact-main automated evidence; the run passed full tests and syntax checks on Ubuntu and Windows and uploaded no Actions artifacts. Independent QA accepted the additional six criteria against the same merged main: A-ADV-047 preserves CRLF and blank lines in canonical CSV and confines flattening to explicit flat export; A-ADV-049/A-ADV-050 cover package validation before mutation, late-error rejection without mutation, retained skipped records, preview counts of one new/one updated/one unchanged, one apply/Undo, and repeated-import no-history behavior; A-ADV-057 preserves source/target IDs in the applied result report; A-ADV-065 rejects invalid Exchange references before opening, reports losses, opens a separate model for valid input, and leaves source bytes unchanged; A-EXT-034 verifies workbook sheets, rows, IDs, endpoints, properties, profiles, Cyrillic, CRLF, leading zeros, and formula-free values. An existing-output `EEXIST` preserved the prior 44-byte destination (SHA-256 `21b5277421a495b2c8fbd1304c0f0a19c28ae1093d5d6ce3df9d91b16406b0b4`); the generated workbook was 14,289 bytes (SHA-256 `663ee317c23344e044bcdaa10b05772235c29c76afba31c95955a84caeeeaa19`). The earlier independent QA checks remain recorded below, including CSV Cyrillic/BOM/quoted fields, incompatible ID/type rejection before mutation, V4 repeated keys through replace/Undo, Dublin Core escaping and empty-metadata omission, and duplicate relationship-ID rejection without mutation.
+Merged [bootstrap PR #1](https://github.com/smart-tinker/arkita/pull/1) remains the source provenance. The current-main [Extended CI run 45178717375](https://github.com/smart-tinker/arkita/actions/runs/45178717375) on exact SHA `fe1245a3d61612b15b78270e9f49fe9dc6467988` passed full tests and syntax checks on Ubuntu and Windows. The earlier independent QA accepted six further criteria on main `3a4a58af`: A-ADV-047 preserves CRLF and blank lines in canonical CSV and confines flattening to explicit flat export; A-ADV-049/A-ADV-050 cover package validation before mutation, late-error rejection without mutation, retained skipped records, preview counts of one new/one updated/one unchanged, one apply/Undo, and repeated-import no-history behavior; A-ADV-057 preserves source/target IDs in the applied result report; A-ADV-065 rejects invalid Exchange references before opening, reports losses, opens a separate model for valid input, and leaves source bytes unchanged; A-EXT-034 verifies workbook sheets, rows, IDs, endpoints, properties, profiles, Cyrillic, CRLF, leading zeros, and formula-free values. An existing-output `EEXIST` preserved the prior 44-byte destination (SHA-256 `21b5277421a495b2c8fbd1304c0f0a19c28ae1093d5d6ce3df9d91b16406b0b4`); the generated workbook was 14,289 bytes (SHA-256 `663ee317c23344e044bcdaa10b05772235c29c76afba31c95955a84caeeeaa19`). Earlier independent QA remains recorded below, including CSV Cyrillic/BOM/quoted fields, incompatible ID/type rejection before mutation, V4 repeated keys through replace/Undo, Dublin Core escaping and empty-metadata omission, and duplicate relationship-ID rejection without mutation.
+
+For A-ADV-048, the Model and Data chat generated a synthetic spreadsheet-text export from exact main `fe1245a3` and opened it in Gnumeric 1.12.57; the coordinator separately read back the saved workbook. The seven values with leading space/zero, `0`, `=`, `+`, `-`, `@`, and an embedded line break were strings in the saved workbook; formula count was zero. The line break remained in one cell, with Gnumeric normalizing CRLF to LF. Canonical and spreadsheet-text are distinct export modes, and the model export bytes remained unchanged. The retained local receipt SHA-256 is `674e1c51468f32a3f2e4598d44bd5e896df9cc39979e05c19a2b26079d53f4d3`. This does not assert Excel/LibreOffice behavior or installed Arkita Windows acceptance.
+
+For A-ADV-045, saved independent QA on main `3a4a58af` verified six consistently named CSV tables, comma/semicolon/tab delimiters, escaped values, and a simulated ENOSPC on the second file: export did not return `saved` and previously written files retained their bytes. The directory chooser was substituted. This accepts the two source criteria without claiming the native picker or installed packaged write path; installed Windows/native acceptance remains `UNRUN`.
 
 These criterion decisions do not close issue #20 or imply release acceptance. Installed Windows/native file-dialog acceptance remains `UNRUN` for the group.
 
@@ -19,10 +23,10 @@ These criterion decisions do not close issue #20 or imply release acceptance. In
 | Criterion | Current source and retained test route | Review result / remaining proof |
 | --- | --- | --- |
 | A-ADV-044 | `schemka-model-io/src/csv.js`; `schemka-model-io/test/interchange.test.js` canonical set round-trip | **Accepted (canonical Arkita CSV only).** Synthetic round-trip verified IDs, profiles/profileApplications, ordered duplicate V4 properties, AndJunction, directed/access/influence types, and typed relationship ends. This does not claim arbitrary CSV or ArchiMate 3.2↔4 compatibility. |
-| A-ADV-045 | `schemka-model-io/src/csv.js`; `electron/test/automation-cli.test.mjs`; `electron/test/document-preferences.test.mjs` | Delimiter/prefix and multi-file export paths exist, including collision refusal. Native picker and packaged write behavior remain unrun. |
+| A-ADV-045 | [CSV UI](https://github.com/smart-tinker/arkita/blob/fe1245a3d61612b15b78270e9f49fe9dc6467988/schemka-model-ui/src/interchange-ui.js); [CSV generator](https://github.com/smart-tinker/arkita/blob/fe1245a3d61612b15b78270e9f49fe9dc6467988/schemka-model-io/src/csv.js); [external file writer](https://github.com/smart-tinker/arkita/blob/fe1245a3d61612b15b78270e9f49fe9dc6467988/electron/external-files.mjs); `schemka-model-io/test/interchange.test.js`; `electron/test/automation-cli.test.mjs`; independent QA on main `3a4a58af` | **Accepted (source scenario; chooser substituted).** Six table files used consistent names across comma, semicolon, and tab modes; values were escaped. Simulated ENOSPC on file two did not return success, and existing files retained bytes. Native directory picker and installed packaged write remain `UNRUN`. |
 | A-ADV-046 | [CSV source](https://github.com/smart-tinker/arkita/blob/3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b/schemka-model-io/src/csv.js); [interchange tests](https://github.com/smart-tinker/arkita/blob/3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b/schemka-model-io/test/interchange.test.js) | **Accepted.** UTF-8/BOM and Unicode routes are covered; independent QA passed Cyrillic, BOM, and quoted-field synthetic checks. Legacy encodings remain explicit and are not silently substituted. |
 | A-ADV-047 | `schemka-model-io/src/csv.js`; `schemka-model-io/test/interchange.test.js` flatten assertion | **Accepted.** Canonical mode preserves CRLF and blank lines; flattening occurs only in explicit flat CSV export, and the source model bytes remain unchanged. Installed Windows/native file acceptance remains `UNRUN`. |
-| A-ADV-048 | `schemka-model-io/src/csv.js`; `schemka-model-io/test/interchange.test.js`; XLSX inline-string regression | The added CSV assertion checks formula-like and zero-prefixed text receives the documented apostrophe prefix and confirms source immutability. Spreadsheet CSV remains text-only; import is rejected. |
+| A-ADV-048 | [CSV generator](https://github.com/smart-tinker/arkita/blob/fe1245a3d61612b15b78270e9f49fe9dc6467988/schemka-model-io/src/csv.js); `schemka-model-io/test/interchange.test.js`; Gnumeric 1.12.57 readback (receipt SHA-256 `674e1c51468f32a3f2e4598d44bd5e896df9cc39979e05c19a2b26079d53f4d3`) | **Accepted.** The real spreadsheet app loaded all seven synthetic values as literal strings; no formulas were created. The embedded CRLF remained in the same cell but normalized to LF. Spreadsheet-text remains distinct from canonical export, and model bytes were unchanged. This does not claim Excel/LibreOffice or installed Windows acceptance; Arkita's reverse import of spreadsheet-text remains intentionally rejected. |
 | A-ADV-049 | `schemka-model-io/src/csv.js`; `schemka-model-ui/src/interchange-ui.js`; `schemka-model-ui/test/interchange-templates.test.js` | **Accepted.** Package validation precedes new/current-model actions; a late validation error rejects without mutation. The Chromium preview showed one new, one updated, and one unchanged record, followed by one apply/Undo; native file selection remains `UNRUN`. |
 | A-ADV-050 | `schemka-model-io/src/csv.js`; `schemka-model-io/test/interchange.test.js`; `schemka-model-ui/test/interchange-templates.test.js` | **Accepted.** Skipped records remain; the preview reports one new, one updated, and one unchanged record; one apply is undone as one action, and repeating the import adds no history. Installed Windows/native file acceptance remains `UNRUN`. |
 | A-ADV-051 | `schemka-model-io/src/csv.js`; `schemka-model-io/test/interchange.test.js` | Endpoint edits are checked against model/view consistency before the candidate can be applied. |
@@ -47,25 +51,30 @@ These criterion decisions do not close issue #20 or imply release acceptance. In
 ## Next minimal work
 
 1. Keep installed Windows/native file-dialog acceptance `UNRUN` until the exact
-   package is exercised on Windows. The synthetic checks and Extended CI do not replace it.
-2. Keep the other six criteria acceptance-pending, including A-ADV-053 until full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report exist, and A-ADV-063 until PR #90 is reviewed and merged. Do not close issue #20 or claim release acceptance from this partial set.
+   package is exercised on Windows. The substituted chooser, synthetic checks,
+   and Extended CI do not replace it.
+2. Keep A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063 pending; A-ADV-053 still
+   needs full per-field round-trip fixtures and an explicit ArchiMate 3.2
+   compatibility report, and A-ADV-063 awaits review and merge of PR #90. Do
+   not close issue #20 or claim release acceptance from this partial set.
 
 ## Verification boundary
 
-The criterion review is against public main `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`;
-the stacked branch starts at PR #76 head
-`560c6f8bac7088631d897a7dcb66ae0a5b344a09`. The focused Linux test command was
+The original 19-criterion review is against public main `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`; this refresh rechecked A-ADV-045 and A-ADV-048 against `fe1245a3d61612b15b78270e9f49fe9dc6467988`. Their relevant CSV generator, UI, writer and test files are unchanged between those source SHAs. The stacked docs branch is based on PR #76 head `7711ad569a7e691c3d6b2324faaf2679cd4d3794`. The focused Linux test command recorded by the previous review was
 `node --test schemka-model-io/test/interchange.test.js` on Node v22.22.1.
 The source/test commit `6915b691c9a74d20a10c432f9d62730b9779f0e1` passed the
 PR test profile on Ubuntu and Windows; Windows also passed NSIS build, package
 verification, installation and launch. The merged public bootstrap is
-[PR #1](https://github.com/smart-tinker/arkita/pull/1). Extended CI
-[run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729)
-ran against exact main SHA `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`; Ubuntu and
-Windows full-test and syntax jobs passed, with zero Actions artifacts. The
+[PR #1](https://github.com/smart-tinker/arkita/pull/1). The current-main Extended CI
+[run 45178717375](https://github.com/smart-tinker/arkita/actions/runs/45178717375)
+ran against exact SHA `fe1245a3d61612b15b78270e9f49fe9dc6467988`; Ubuntu and
+Windows full-test and syntax jobs passed. The earlier source-main run
+[43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729)
+also passed on `3a4a58af`. The
 earlier docs-only PR head `087ba7d9a484ad78ac6aa73588ecc23dc490a354` passed
 Ubuntu and Windows validation plus the CI gate in run
 [43680792855](https://github.com/smart-tinker/arkita/actions/runs/43680792855).
 These runner and synthetic results do not verify native file dialogs or an
-installed user package. `windows_acceptance` therefore remains `unrun`.
+installed user package. Gnumeric readback does not verify Excel or LibreOffice.
+`windows_acceptance` therefore remains `unrun`.
 No application source, historical criterion cards, `sources.md`, or `coverage.json` changed.

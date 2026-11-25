@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-18",
+  "updated_at": "2026-11-25",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -5257,16 +5257,19 @@
       "title": "Настройки файлов и разделителя CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Delimiter/prefix and multi-file export paths exist, including collision refusal. Native picker and packaged write behavior remain unrun. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "The directory chooser used in QA was substituted. The native directory picker and installed packaged write path remain UNRUN; this record does not claim installed Windows/native acceptance.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "All six CSV tables received consistent names for one selected prefix; comma, semicolon, and tab delimiters were tested with escaped values.",
+        "A file collision and simulated ENOSPC on the second file did not return saved; previously written files retained their bytes."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "Independent QA on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b confirmed both criteria: six consistent filenames across comma/semicolon/tab, escaped values, simulated ENOSPC on file two without a saved result, and unchanged bytes for prior files. The directory chooser was substituted. The CSV generator, UI, external writer and relevant tests are unchanged on exact current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Current-main Extended CI https://github.com/smart-tinker/arkita/actions/runs/45178717375 passed full tests and syntax on Ubuntu and Windows. Native picker and installed packaged write remain UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5361,16 +5364,19 @@
       "title": "CSV для открытия в таблицах",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
         "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "The added CSV assertion checks formula-like and zero-prefixed text receives the documented apostrophe prefix and confirms source immutability. Spreadsheet CSV remains text-only; import is rejected. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "remaining": "Gnumeric 1.12.57 normalized the embedded CRLF to LF while keeping the line break in the same text cell. Excel/LibreOffice and installed Arkita Windows/native acceptance remain UNRUN; Arkita reverse import of spreadsheet-text remains intentionally rejected.",
       "issue": 20,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Gnumeric 1.12.57 opened synthetic values with leading whitespace/zeros, 0, =, +, -, @, and an embedded newline as literal string cells; no formulas were created. The newline remained in one cell and CRLF normalized to LF.",
+        "Spreadsheet-text is separate from canonical CSV export, and producing both exports left the model export bytes unchanged."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
+      "verification": "The Model and Data chat generated the synthetic exports using schemka-model-io/src/csv.js from exact main fe1245a3d61612b15b78270e9f49fe9dc6467988 and opened spreadsheet-text CSV in Gnumeric 1.12.57; the coordinator separately read back the saved workbook. Seven target cells were strings (Gnumeric ValueType 60), formula count was zero; six text values matched codepoints exactly and the embedded CRLF was normalized to LF in one cell. The model export bytes were unchanged. Retained receipt SHA-256: 674e1c51468f32a3f2e4598d44bd5e896df9cc39979e05c19a2b26079d53f4d3. Current-main Extended CI https://github.com/smart-tinker/arkita/actions/runs/45178717375 passed full tests and syntax on Ubuntu and Windows. This does not establish Excel/LibreOffice or installed Windows/native acceptance. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
