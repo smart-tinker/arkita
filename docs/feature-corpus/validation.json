@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "0d6a174ddd651da60e1cfd5ab605848ff9a666dad43eee947bc55d4b298ec11a"
+    "docs/feature-corpus/program.json": "c51c8aeb7fd6a543dc94f40d8672caec9ecb200860ed894bf9dd3a0fae15f2e9"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,10 +57,10 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-11-15",
+    "updated_at": "2026-11-25",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh issue #39 umbrella evidence against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. The latest review is issue #19: all eight criteria remain acceptance-pending with closed_criteria empty. A-EDITOR-090 is addressed by draft PR #75; A-EDITOR-095 normative relationship-field mapping remains unresolved. Installed Windows/native acceptance is UNRUN; no issue closure or release acceptance is implied.",
+    "scope": "Refresh issue #39 umbrella evidence against public main fe1245a3d61612b15b78270e9f49fe9dc6467988. For issue #20, exactly 21 of 25 criteria are accepted within documented contracts and four remain acceptance-pending: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-045 is accepted on source/test and independent synthetic evidence using a substituted directory chooser; native picker and installed packaged write remain UNRUN. A-ADV-048 is accepted from Gnumeric 1.12.57 spreadsheet-text readback; its embedded CRLF normalized to LF in one cell. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged. The merged issue #19 renderer-evidence refresh accepts A-EDITOR-089 for its two numbered criteria; the other seven issue #19 records remain acceptance-pending, installed Windows/native acceptance remains unrun, and issue #19 stays open.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -73,14 +73,50 @@
       "ledger": "docs/feature-corpus/program.json"
     },
     "latest_evidence_review": {
-      "updated_at": "2026-11-15",
-      "issue": 19,
-      "source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
-      "required_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034236",
-      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034182",
-      "dependency_review_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034195",
-      "result": "Eight criteria reviewed against current source and regression routes. A-EDITOR-090 has a confirmed gap addressed in draft PR #75; exact-head CI, CodeQL and Dependency Review passed. No other new source gap was confirmed; the normative relationship-field contract for A-EDITOR-095 remains unresolved. All eight criteria remain acceptance-pending; installed Windows/native acceptance is unrun.",
-      "ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
+      "updated_at": "2026-11-25",
+      "issue": 20,
+      "source_sha": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
+      "merged_bootstrap_pr": "https://github.com/smart-tinker/arkita/pull/1",
+      "extended_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/45178717375",
+      "accepted_count": 21,
+      "accepted_criteria": [
+        "A-ADV-044",
+        "A-ADV-045",
+        "A-ADV-046",
+        "A-ADV-047",
+        "A-ADV-048",
+        "A-ADV-049",
+        "A-ADV-050",
+        "A-ADV-052",
+        "A-ADV-055",
+        "A-ADV-057",
+        "A-ADV-058",
+        "A-ADV-059",
+        "A-ADV-060",
+        "A-ADV-061",
+        "A-ADV-062",
+        "A-ADV-064",
+        "A-ADV-065",
+        "A-ADV-066",
+        "A-EXT-019",
+        "A-EXT-020",
+        "A-EXT-034"
+      ],
+      "pending_count": 4,
+      "pending_criteria": [
+        "A-ADV-051",
+        "A-ADV-053",
+        "A-ADV-056",
+        "A-ADV-063"
+      ],
+      "result": "Independent QA accepted A-ADV-045 on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: all six CSV tables received consistent names across comma, semicolon, and tab delimiters; values were escaped; simulated ENOSPC on file two did not return saved and previously written files retained bytes. The directory chooser was substituted; native picker and installed packaged write remain UNRUN. The Model and Data chat performed the A-ADV-048 Gnumeric readback on exact current main fe1245a3d61612b15b78270e9f49fe9dc6467988, and the coordinator separately read back the saved workbook: Gnumeric 1.12.57 showed all seven synthetic values as strings without formulas; embedded CRLF remained in one cell and normalized to LF; canonical and spreadsheet-text remained separate and model export bytes were unchanged. Local receipt SHA-256 674e1c51468f32a3f2e4598d44bd5e896df9cc39979e05c19a2b26079d53f4d3. Earlier independent QA accepted A-ADV-047, A-ADV-049, A-ADV-050, A-ADV-057, A-ADV-065, and A-EXT-034. Prior CSV/XML/XLSX evidence remains recorded above. Exact-main Extended CI 45178717375 passed full tests and syntax on Ubuntu and Windows. Four criteria remain pending: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied.",
+      "ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
+    },
+    "current_status_counts": {
+      "accepted": 22,
+      "acceptance-pending": 307,
+      "excluded": 9,
+      "alias": 1
     },
     "renderer_evidence_refresh": {
       "updated_at": "2026-11-25",

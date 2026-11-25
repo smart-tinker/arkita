@@ -5224,15 +5224,19 @@
       "title": "CSV выгрузка элементов, отношений и свойств",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Acceptance is limited to the canonical Arkita CSV tables and field contract; it does not establish compatibility with arbitrary source CSV or ArchiMate 3.2↔4. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Canonical Arkita CSV round-trip preserves stable IDs, Arkita4 types, names, documentation, relationship endpoints, specializations, profile applications, and ordered duplicate V4 properties in the supported tables.",
+        "Typed relationship references remain attached to their elements in the canonical Arkita CSV contract; no broad ArchiMate 3.2↔4 translation is claimed."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted by bounded independent QA on 2026-11-18 against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Synthetic CSV round-trip verified IDs, profiles/profileApplications, ordered duplicate V4 properties, AndJunction, directed/access/influence types, and typed relationship ends. This is canonical Arkita CSV evidence, not arbitrary CSV or cross-version interchange. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5249,22 +5253,26 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-045",
       "title": "Настройки файлов и разделителя CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "The directory chooser used in QA was substituted. The native directory picker and installed packaged write path remain UNRUN; this record does not claim installed Windows/native acceptance.",
+      "issue": 20,
+      "closed_criteria": [
+        "All six CSV tables received consistent names for one selected prefix; comma, semicolon, and tab delimiters were tested with escaped values.",
+        "A file collision and simulated ENOSPC on the second file did not return saved; previously written files retained their bytes."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA on public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b confirmed both criteria: six consistent filenames across comma/semicolon/tab, escaped values, simulated ENOSPC on file two without a saved result, and unchanged bytes for prior files. The directory chooser was substituted. The CSV generator, UI, external writer and relevant tests are unchanged on exact current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Current-main Extended CI https://github.com/smart-tinker/arkita/actions/runs/45178717375 passed full tests and syntax on Ubuntu and Windows. Native picker and installed packaged write remain UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5281,22 +5289,28 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-046",
       "title": "Кодировка CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Legacy encodings remain an explicit, separately controlled option. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Кириллица, emoji и кавычки проходят экспорт и повторный импорт без повреждения.",
+        "Непредставимый символ не заменяется молча вопросительным знаком."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: CSV Cyrillic, BOM, and quoted fields passed. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5313,22 +5327,23 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-047",
       "title": "Сохранение или уплощение многострочных полей CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Canonical mode preserves CRLF and blank lines; flattening occurs only in the explicit flat export, and the source model remains unchanged. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5345,22 +5360,26 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-048",
       "title": "CSV для открытия в таблицах",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Gnumeric 1.12.57 normalized the embedded CRLF to LF while keeping the line break in the same text cell. Excel/LibreOffice and installed Arkita Windows/native acceptance remain UNRUN; Arkita reverse import of spreadsheet-text remains intentionally rejected.",
+      "issue": 20,
+      "closed_criteria": [
+        "Gnumeric 1.12.57 opened synthetic values with leading whitespace/zeros, 0, =, +, -, @, and an embedded newline as literal string cells; no formulas were created. The newline remained in one cell and CRLF normalized to LF.",
+        "Spreadsheet-text is separate from canonical CSV export, and producing both exports left the model export bytes unchanged."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "The Model and Data chat generated the synthetic exports using schemka-model-io/src/csv.js from exact main fe1245a3d61612b15b78270e9f49fe9dc6467988 and opened spreadsheet-text CSV in Gnumeric 1.12.57; the coordinator separately read back the saved workbook. Seven target cells were strings (Gnumeric ValueType 60), formula count was zero; six text values matched codepoints exactly and the embedded CRLF was normalized to LF in one cell. The model export bytes were unchanged. Retained receipt SHA-256: 674e1c51468f32a3f2e4598d44bd5e896df9cc39979e05c19a2b26079d53f4d3. Current-main Extended CI https://github.com/smart-tinker/arkita/actions/runs/45178717375 passed full tests and syntax on Ubuntu and Windows. This does not establish Excel/LibreOffice or installed Windows/native acceptance. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5377,22 +5396,23 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-049",
       "title": "Создание концептов из CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "New-model and current-model routes validate the complete package before an apply/proposal; model and Chromium UI evidence is recorded in the review. Installed Windows/native file selection remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5409,22 +5429,23 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-050",
       "title": "Частичное обновление модели из CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Omitted records are retained; late validation failures reject without mutation; the preview, one-action apply/Undo, and repeated-import no-op are verified. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5441,7 +5462,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-051",
@@ -5450,13 +5471,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Endpoint edits are checked against model/view consistency before the candidate can be applied. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5473,22 +5495,28 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-052",
       "title": "Диагностика ошибок CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Сообщение указывает файл, строку и поле; повторные ID не перезаписываются случайным порядком.",
+        "Попытка сменить тип существующего концепта не обходит штатную команду и её ограничения."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: incompatible ID/type is rejected before model mutation; duplicate relationship-ID rejection leaves the model unchanged. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5505,7 +5533,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-053",
@@ -5514,13 +5542,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "The current branch assertion is export-only: it checks relationship type (ReadAccess), typed endpoints, source/target multiplicities and presence flags, and junctionRole, but does not prove per-field round-trip. Full per-field round-trip fixtures and an explicit ArchiMate 3.2 compatibility report are missing. CSV also carries profile applications; the current core has no separate accessType field. Keep this criterion acceptance-pending. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA on 2026-11-18 kept this criterion acceptance-pending: the current branch assertion is export-only, full per-field round-trip fixtures are absent, and there is no explicit ArchiMate 3.2 compatibility report. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5537,7 +5566,7 @@
         "remaining": "Нативный IO экспортирует/читает формат Arkita и экспортирует Mermaid. Во всех поставляемых модулях отсутствует CSV parser/writer и пользовательский поток табличного импорта/экспорта. Поэтому параметры файлов/разделителя/кодировки/переносов, защита spreadsheet, пакетное обновление ID/концов и диагностика CSV пока не реализованы. Для типов действует отдельная карта в Arkita 4; current properties — уникальные ключи.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-054",
@@ -5561,15 +5590,21 @@
       "title": "Импорт другой модели в текущую",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "This evidence covers the native Arkita transfer route; it does not claim arbitrary document-open replacement or installed Windows/native file acceptance, which remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Сопоставление ID и типа явно задано; коллизии разных объектов обнаруживаются.",
+        "Валидация выполняется до применения; отсутствие объекта в источнике не означает скрытое удаление."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: incompatible ID/type is rejected before model mutation. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5588,7 +5623,7 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-056",
@@ -5597,13 +5632,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Update-existing, folder, model-metadata, and property controls are explicit in the preview/apply route. Installed Windows/native file acceptance remains unrun; keep this criterion acceptance-pending.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Criterion-level source/test routes reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15. The focused Linux Node v22.22.1 run of schemka-model-io/test/interchange.test.js passed 16/16; this does not mean every linked route ran or native Windows acceptance passed. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5622,22 +5658,23 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-057",
       "title": "Отчёт результата и влияния импорта",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "The saved result report retains source/target IDs after apply and matches the applied changes. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5656,22 +5693,28 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-058",
       "title": "Явная политика пользовательских свойств при merge",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "The old unique-key assumption is historical and no longer describes the V4 model. The proof is limited to the tested V4 replace/Undo path and does not claim broader external-format interoperability. Installed Windows acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "V4 repeated property keys survive replace without collapsing their values or order.",
+        "The selected property operation is deterministic and Undo restores the previous repeated-key state."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: V4 repeated keys passed replace/Undo. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5690,22 +5733,28 @@
         "remaining": "Импорт другой произвольной native-модели в открытую с выбором области/свойств и отчётом отсутствует: обычный open заменяет документ. Существуют Git receive и трёхсторонний merge base/local/remote с preview конфликтов — это отдельный уже работающий поток, который следует переиспользовать где уместно, а не повторно строить Git. Правило «отсутствие в импортируемом файле не удаляет» не меняет намеренную передачу удалений в Git merge.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-059",
       "title": "Конвертация файла Archi в Arkita4",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Support is bounded to the documented Archi native XML 5.0.0 route; no arbitrary Archi-version or full ArchiMate 3.2-to-4 equivalence is claimed. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Поддерживаемые типы, атрибуты, views и ресурсы имеют правило преобразования либо явный отказ/предупреждение.",
+        "Неизвестное не теряется молча; исходный файл не изменяется."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Criterion source/test route passed in Extended CI on the exact main SHA; the importer reports unsupported inputs and keeps source bytes unchanged. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5722,22 +5771,28 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-060",
       "title": "Экспорт в Open Group Exchange",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "The route is explicitly Exchange 3.1 Preliminary and does not claim ArchiMate 3.2/4 equivalence. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Заявляемая версия формата и поддержанные поля проверены на fixtures.",
+        "При отсутствии представимого соответствия экспорт даёт отчёт потерь или отказ, а не ложное заявление совместимости."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Criterion source/test route passed in Extended CI on the exact main SHA; Exchange export is fixture- and schema-checked with explicit loss reporting. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5754,22 +5809,28 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-061",
       "title": "Проверка XML и поставка схемы обмена",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Native installed-app/XML file-dialog acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Используется та же версия схемы, что объявлена экспортом; проверка воспроизводима без произвольной сети.",
+        "Ошибка XSD отделена от ошибки семантического преобразования."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Offline XSD validator and schema tests passed in Extended CI on the exact main SHA. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5786,22 +5847,28 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-062",
       "title": "Перенос организации папок",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Native installed-app file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Одинаковые имена папок не смешивают объекты и порядок.",
+        "Отключение организации не удаляет концепты и явно ограничивает round-trip."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Exchange fixture tests for same-name folders and disabled-folder loss reporting passed in Extended CI on the exact main SHA. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5818,7 +5885,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-063",
@@ -5827,13 +5894,15 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/90"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Explicit diagnostics for a requested language missing from a present field are proposed in draft PR #90 (head bd38bd27e7acc3e9118a0db808084d9b7811bd4a), which remains unmerged and pending review. Keep this criterion acceptance-pending; installed Windows/native file acceptance is also UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Reviewed against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Explicit requested-language fallback diagnostics are in draft PR #90 and are not part of main yet; see https://github.com/smart-tinker/arkita/pull/90. Keep pending until review and merge; installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5850,22 +5919,28 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-064",
       "title": "Описательные метаданные экспорта",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "The current route is limited to its allow-listed Dublin Core fields. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "Все заявленные Dublin Core поля имеют однозначный перенос и escaping.",
+        "Пустые метаданные не создают ложных значений; экспорт не меняет модель без отдельного сохранения."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: Dublin Core description escaping and empty-metadata omission passed. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5882,22 +5957,23 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-065",
       "title": "Импорт Open Exchange в новую модель",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Exchange import validates before creating a separate unsaved model; invalid references are rejected before opening, losses are shown, and source bytes remain unchanged. Installed Windows/native acceptance remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; see docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5914,22 +5990,26 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-066",
       "title": "Отчёт о расширениях и потерях обмена",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Acceptance is limited to the supported pinned Exchange 3.1 subset. It does not establish generic Exchange-dialect or ArchiMate 3.2↔4 equivalence. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "The supported pinned Exchange round-trip validates against its XSD and makes preserved and lost information explicit, including profile/profileApplication, asset, and router-specific losses.",
+        "Unknown foreign attributes are reported, and an unknown relationship type is rejected rather than treated as a valid relationship."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted by bounded independent QA on 2026-11-18 against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. Synthetic Exchange round-trip passed pinned XSD validation and preserved IDs, relationship ends, route bends, and duplicate properties; profile/profileApplication, asset, and router-specific losses were explicit, unknown foreign attributes were reported, and UnknownRelation was rejected. No broad ArchiMate 3.2↔4 compatibility is claimed. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -5946,7 +6026,7 @@
         "remaining": "Ни .archimate reader, ни XML/Open Exchange importer/exporter, XSD набор или metadata/language/vendor-extension adapter не поставляются. Меню и API ограничены native/Mermaid, закрытая native-схема не является Exchange schema. Совместимость 3.2→4 не подразумевается: перед реализацией нужна закреплённая версия и карта переносимых/непереносимых полей.",
         "verification": "baseline contract reconfirmed against current shipped menu/command/format boundaries; not new runtime acceptance"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-ADV-067",
@@ -9652,15 +9732,19 @@
       "title": "Геометрия и профили при обмене",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "Acceptance is limited to the supported pinned Exchange 3.1 subset. Unsupported profiles, assets, and router-specific data are explicit losses; this is not full ArchiMate 3.2↔4 equivalence. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "The supported pinned Exchange round-trip preserves IDs, relationship ends, route bends, duplicate properties, and supported geometry.",
+        "Unsupported profiles/profileApplications, assets, router-specific data, and unknown fields are reported as explicit losses or diagnostics; no full ArchiMate 3.2↔4 equivalence is claimed."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted by bounded independent QA on 2026-11-18 against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b. The synthetic supported Exchange round-trip preserved IDs, relationship ends, route bends, and duplicate properties, and explicitly reported unsupported profiles/profileApplications, assets, and router-specific losses. This evidence is limited to the pinned supported subset, not cross-version equivalence. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9677,22 +9761,27 @@
         "remaining": "Open Exchange XML адаптера нет. Родные endpoints/routes/profiles существуют, но перевод в закреплённую внешнюю схему, таблица потерь и geometry/profile round trip не реализованы; соответствие 3.2↔4 не предполагается.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-EXT-020",
       "title": "Диагностика CSV",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md",
+        "https://github.com/smart-tinker/arkita/pull/1",
+        "https://github.com/smart-tinker/arkita/actions/runs/43858177729"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
-      "closed_criteria": [],
+      "remaining": "CSV acceptance is limited to the documented package/comment contract. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
+      "closed_criteria": [
+        "CSV import reports duplicate IDs and conflicting relationship definitions with row context, preserves explicit comment semantics, and rejects late package errors without partial model mutation."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Accepted against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1); Extended CI [run 43858177729](https://github.com/smart-tinker/arkita/actions/runs/43858177729) passed on Ubuntu and Windows. Independent QA synthetic proof: duplicate relationship-ID rejection leaves the model unchanged; the related CSV diagnostics route passed Extended CI on the exact main SHA. Installed Windows/native file acceptance remains UNRUN. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -9708,7 +9797,7 @@
         "remaining": "CSV импорт отсутствует, поэтому нет строки/поля/дубликата ID diagnostics или синтаксиса comments. Native JSON validation уже существует и должна использоваться для кандидата после будущего табличного разбора.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-EXT-021",
@@ -10110,15 +10199,16 @@
       "title": "Экспорт модели в XLSX",
       "family": "interoperability",
       "historical_status": "absent",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+        "docs/feature-corpus/RELEASE-0.6.0.md#interoperability",
+        "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
-      "issue": 54,
+      "remaining": "Six workbook sheets, row/ID/end/property/profile content, and formula-free inline strings are verified; EEXIST preserves the existing destination bytes. XLSX import is out of scope. Installed Windows/native file acceptance remains UNRUN.",
+      "issue": 20,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Independent QA accepted this criterion against merged public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-18; writer collision check preserved prior bytes with SHA-256 21b5277421a495b2c8fbd1304c0f0a19c28ae1093d5d6ce3df9d91b16406b0b4. See docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md. Installed Windows/native file acceptance remains UNRUN.",
       "source": "docs/feature-corpus/extensions.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -10135,7 +10225,7 @@
         "remaining": "XLSX writer/зависимости и пользовательская команда экспорта workbook отсутствуют. Native/Mermaid не дают табличного контракта концептов/ссылок/свойств, защиты формул и проверки числа строк.",
         "verification": "current shipped Git/model/editor boundaries reviewed; runtime acceptance remains separate"
       },
-      "implementation_ledger": "docs/feature-corpus/RELEASE-0.6.0.md#interoperability"
+      "implementation_ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     {
       "id": "A-EXT-035",
