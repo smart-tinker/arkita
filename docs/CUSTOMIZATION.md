@@ -28,9 +28,23 @@ predefined profile catalog. The separate [Chapter 13 viewpoint implementation](V
 
 Use **Профили модели…** in the left model panel. Create or edit a name, purpose,
 concrete target checkboxes and an attribute-definition JSON object. The dialog
-includes syntax examples. Names may be duplicated; choices show targets and the
-full immutable profile ID. The manager blocks deletion of a used definition and
-lists its usages. An unused definition is deleted only after a named confirmation.
+includes syntax examples. Names may be duplicated for disjoint concrete targets;
+choices show targets and the full immutable profile ID. Same-name specializations
+with overlapping concrete targets require explicit confirmation to keep a
+separate ID; definitions are never merged. Usage counts are by concept ID, not
+by drawing occurrence.
+
+Ordinary **Удалить…** is blocked while a definition has applications; the manager
+lists the affected concept IDs and directs the user to remove applications in
+the inspector. An unused definition is deleted only after a named confirmation.
+For a used definition, **Снять у всех и удалить…** opens a confirmation listing
+affected concept IDs and explaining that each application's own override values
+will be removed across views. Defaults and the icon link are removed with the
+definition; the underlying asset remains. Base concepts and relationships
+remain. If a legend uses the profile's color, the confirmation names that legend
+and deletion clears the color. Confirming removes the applications and
+definition as one Undoable change; one Undo restores the definition and
+applications. Cancel leaves the model unchanged.
 
 Select an element, either kind of junction, or a relationship. Its **Профили
 концепта** inspector lists eligible definitions, current applications and each

@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "483c000b312ac2e246b726ab7cf331f4041230a972ba5cf3bbc6b9b349e92044"
+    "docs/feature-corpus/program.json": "c51c8aeb7fd6a543dc94f40d8672caec9ecb200860ed894bf9dd3a0fae15f2e9"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -60,7 +60,7 @@
     "updated_at": "2026-11-25",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh issue #39 umbrella evidence against public main fe1245a3d61612b15b78270e9f49fe9dc6467988. For issue #20, exactly 21 of 25 criteria are accepted within documented contracts and four remain acceptance-pending: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-045 is accepted on source/test and independent synthetic evidence using a substituted directory chooser; native picker and installed packaged write remain UNRUN. A-ADV-048 is accepted from Gnumeric 1.12.57 spreadsheet-text readback; its embedded CRLF normalized to LF in one cell. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged.",
+    "scope": "Refresh issue #39 umbrella evidence against public main fe1245a3d61612b15b78270e9f49fe9dc6467988. For issue #20, exactly 21 of 25 criteria are accepted within documented contracts and four remain acceptance-pending: A-ADV-051, A-ADV-053, A-ADV-056, and A-ADV-063. A-ADV-045 is accepted on source/test and independent synthetic evidence using a substituted directory chooser; native picker and installed packaged write remain UNRUN. A-ADV-048 is accepted from Gnumeric 1.12.57 spreadsheet-text readback; its embedded CRLF normalized to LF in one cell. Installed Windows/native acceptance remains UNRUN; issue closure and release acceptance are not implied. Historical criterion cards, sources.md, coverage.json, original exclusions, and the 339-record inventory remain unchanged. The merged issue #19 renderer-evidence refresh accepts A-EDITOR-089 for its two numbered criteria; the other seven issue #19 records remain acceptance-pending, installed Windows/native acceptance remains unrun, and issue #19 stays open.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -113,10 +113,27 @@
       "ledger": "docs/feature-corpus/REVIEW-ISSUE-20-2026-11-15.md"
     },
     "current_status_counts": {
-      "accepted": 21,
-      "acceptance-pending": 308,
+      "accepted": 22,
+      "acceptance-pending": 307,
       "excluded": 9,
       "alias": 1
+    },
+    "renderer_evidence_refresh": {
+      "updated_at": "2026-11-25",
+      "issue": 19,
+      "scenario_date": "2026-11-18",
+      "scenario_source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "compared_current_main_sha": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
+      "merged_implementation_pr": "https://github.com/smart-tinker/arkita/pull/1",
+      "merged_implementation_commit": "bc4b413b052bf1fff43ed2d9c9022b67681eb3e7",
+      "current_main_extended_ci": "https://github.com/smart-tinker/arkita/actions/runs/45178717375",
+      "accepted_record": "A-EDITOR-089; both numbered criterion bullets; Windows acceptance remains unrun.",
+      "reported_renderer_records": "A-ADV-021/022/023 are summarized from the existing coordinator handoff; raw receipts were unavailable to this update and were not rerun.",
+      "a_editor_089_receipt_sha256": "9c2ebc05cfc107b51ceb6ed91ac2e12c9f5b402e047bed0466a04c973e3bc25d",
+      "status_summary": "Of the eight issue #19 records, A-EDITOR-089 is accepted and seven remain acceptance-pending; issue #19 remains open. All 339 program IDs are preserved.",
+      "unrun_boundaries": "Physical disk save for A-EDITOR-089 and installed Windows/native acceptance remain unrun.",
+      "ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md",
+      "manifest_scope": "Only program.json is in the SHA-256 manifest for these changes; the issue report is explicitly excluded and docs/CUSTOMIZATION.md is outside the corpus manifest. Historical coverage and source cards are unchanged."
     }
   }
 }

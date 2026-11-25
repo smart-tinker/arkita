@@ -2653,7 +2653,7 @@
       "title": "Выбор и смена viewpoint существующего представления",
       "family": "profiles",
       "historical_status": "partial",
-      "current_status": "acceptance-pending",
+      "current_status": "accepted",
       "evidence": [
         "schemka-model-core/src/viewpoints.js",
         "schemka-model-core/src/store.js",
@@ -2662,11 +2662,14 @@
         "schemka-model-ui/test/viewpoint-ui.test.js",
         "schemka-model-ui/test/notation-viewpoints-app.test.js"
       ],
-      "remaining": "Source and regression routes exist for binding, selection, filtering, undo/redo and native serialization. Installed Windows acceptance of the viewpoint workflow remains unrun; no new source gap was established in this review.",
+      "remaining": "The two numbered criteria are accepted on the merged source. Physical disk save and installed Windows acceptance remain unrun; this does not claim a normative Archi 3.2 viewpoint catalog.",
       "issue": 19,
-      "closed_criteria": [],
+      "closed_criteria": [
+        "Используется проверяемый реестр viewpoints Arkita; «без ограничения» и неизвестный viewpoint различимы.",
+        "Смена viewpoint сохраняет все концепты, изображения и геометрию; Undo возвращает прежние настройки, список 3.2 не считается нормативным каталогом 4."
+      ],
       "windows_acceptance": "unrun",
-      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-EDITOR-089. All criteria remain acceptance-pending.",
+      "verification": "Accepted for both numbered criterion bullets against Chromium receipt source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b (receipt SHA-256 9c2ebc05cfc107b51ceb6ed91ac2e12c9f5b402e047bed0466a04c973e3bc25d; synthetic fixture SHA-256 88d0ff7749ab0af993da70489f576817e82fffbbd840894b86183062cb5ea070, 7,568 bytes). An unknown viewpoint was rejected without changing selection, dirty state or Undo; the manual no-viewpoint option was distinct. Unbinding changed only view.viewpointId, retained three occurrences, two connections and one image node, and Blob export plus Undo restored the exact fixture state and bytes. The implementation is in merged bootstrap [PR #1](https://github.com/smart-tinker/arkita/pull/1), commit bc4b413b052bf1fff43ed2d9c9022b67681eb3e7. Current-main Extended CI [run 45178717375](https://github.com/smart-tinker/arkita/actions/runs/45178717375) completed successfully: full tests passed on Ubuntu and Windows on fe1245a3d61612b15b78270e9f49fe9dc6467988. Relevant source/test files are unchanged from the scenario source. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. Physical disk save and installed Windows acceptance remain unrun.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4466,7 +4469,7 @@
       "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-021. All criteria remain acceptance-pending.",
+      "verification": "Existing coordinator handoff summarizes independent Chromium QA on source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: same-name specializations with overlapping targets require an explicit separate-ID choice, and usage counts are by concept ID. Raw scenario receipt was unavailable to this update; the scenario was not rerun. Relevant source/test files are unchanged on current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Renderer evidence and boundaries: docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. All criteria remain acceptance-pending; installed Windows acceptance remains unrun.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4500,7 +4503,7 @@
       "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-022. All criteria remain acceptance-pending.",
+      "verification": "Existing coordinator handoff summarizes independent Chromium QA on source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: a compatible profile with explicit false appeared in both views, while an incompatible profile could not be applied. Raw scenario receipt was unavailable to this update; the scenario was not rerun. Relevant source/test files are unchanged on current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Renderer evidence and boundaries: docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. All criteria remain acceptance-pending; installed Windows acceptance remains unrun, and no Archi equivalence is claimed.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4529,11 +4532,11 @@
         "schemka-model-ui/test/customization-ui.test.js",
         "schemka-model-core/test/customization.test.js"
       ],
-      "remaining": "The manager now offers an explicit detach-all-and-delete preview listing affected concept IDs, preserves base concepts/relationships, and commits one Undo. Native Windows confirmation/cancel/Undo acceptance remains unrun.",
+      "remaining": "Ordinary Delete remains blocked while a profile has applications; the separate detach-all-and-delete confirmation lists affected concept IDs, removes application overrides, preserves base concepts and relationships, and commits one Undo. Native Windows confirmation/cancel/Undo acceptance remains unrun.",
       "issue": 19,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Source/test route review against public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b on 2026-11-15; test files are evidence routes, not new test executions in this documentation update. See docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md#A-ADV-023. All criteria remain acceptance-pending.",
+      "verification": "Existing coordinator handoff summarizes independent Chromium QA on source 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b: preview listed the affected concept, Cancel preserved bytes, bulk deletion preserved base concepts and relationships, and one Undo restored definition/applications and matching saved bytes. Raw scenario receipt was unavailable to this update; the scenario was not rerun. Relevant source/test files are unchanged on current main fe1245a3d61612b15b78270e9f49fe9dc6467988. Renderer evidence and boundaries: docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md. All criteria remain acceptance-pending; native Windows confirmation/cancel/Undo remains unrun.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
