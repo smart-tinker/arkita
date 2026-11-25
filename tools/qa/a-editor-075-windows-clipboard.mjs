@@ -179,7 +179,11 @@ async function main() {
     }, 'Packaged Arkita did not expose its renderer');
     cdp = await DevTools.connect(targets.webSocketDebuggerUrl);
     await cdp.send('Page.enable'); await cdp.send('Runtime.enable'); await cdp.send('Page.bringToFront');
-    await waitFor(() => cdp.evaluate(`Boolean(document.querySelector('#canvas') && document.querySelector('#view-tabs [role="tab"][aria-selected="true"]') && document.querySelector('#status'))`), 'Synthetic diagram did not load in Arkita');
+    await waitFor(() => cdp.evaluate(`(() => {
+      const ids = ${JSON.stringify([manifest.fullView, manifest.alphaView, manifest.largeView])};
+      const tabs = new Set([...document.querySelectorAll('#view-tabs [role="tab"]')].map(tab => tab.dataset.viewId));
+      return ids.every(id => tabs.has(id));
+    })()`), 'Synthetic fixture views did not load in Arkita');
     const active = await cdp.evaluate(`document.querySelector('#view-tabs [role="tab"][aria-selected="true"]')?.dataset.viewId`);
     assert.equal(active, manifest.initialView);
     await clickSelector(cdp, `document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')`);
