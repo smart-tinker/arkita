@@ -99,6 +99,18 @@ test(`${production ? 'production' : 'source'} app: occurrence shape overrides cl
     if (shape === 'ellipse') {
       assert.equal(group(sourceId).querySelector('.custom-drawing-shape').tagName.toLowerCase(), 'ellipse');
       const [x, y] = pathNumbers(actual); assert.ok(Math.abs(x - 221.04365376846425) < 1e-7); assert.ok(Math.abs(y - 162.31722846565754) < 1e-7);
+      h.$('project-name').click();
+      const input = h.document.querySelector('.inline-editor input'); assert.ok(input);
+      input.value = 'Undo ellipse contour check';
+      input.dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      assert.equal(h.$('file-state').dataset.dirty, 'true');
+      h.$('undo').click();
+      assert.equal(h.$('file-state').dataset.dirty, 'false');
+      assert.equal(h.$('undo').disabled, true);
+      assert.equal(group(connectionId).querySelector('.line').getAttribute('d'), actual);
+      const svg = new h.window.DOMParser().parseFromString((await h.download('download-svg')).toString(), 'image/svg+xml');
+      assert.equal(svg.querySelector('parsererror'), null);
+      assert.ok([...svg.querySelectorAll('path')].some(path => path.getAttribute('d') === actual), 'downloaded SVG preserves the ellipse-boundary connection path');
     }
     assert.equal(h.$('file-state').dataset.dirty, 'false'); assert.equal(h.$('undo').disabled, true);
     assert.deepEqual(await h.download(), bytes);
