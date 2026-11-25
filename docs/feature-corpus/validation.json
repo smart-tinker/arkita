@@ -39,7 +39,7 @@
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
     "docs/feature-corpus/program.json": "283f833752c6dc2d46b9394936870127547175660a236ff35918565930a91e9a",
-    "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md": "5dd335990b139c95e67b4d5f8422c164aa5adfa317a109034262c5591e43e8c4"
+    "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md": "9adaeaeb2470c045f229133e11beec7f26d81279e60788d74ba804374be71ea8"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -90,6 +90,6 @@
     "ledger": "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md",
     "criteria": 40,
     "result": "All 40 mapped; all remain acceptance-pending, closed_criteria empty, Windows acceptance unrun.",
-    "scope": "Documentation-only evidence map and manifest pointer. No application tests, runtime, package or native Windows acceptance were run. Historical checked_at/result remain unchanged; refreshed hashes cover only program.json and this ledger."
+    "scope": "Documentation-only evidence map and manifest pointer. No application tests, runtime, package or native Windows acceptance were run. Historical checked_at/result remain unchanged; this update changed only the ledger hash, with program.json hash verified unchanged."
   }
 }
