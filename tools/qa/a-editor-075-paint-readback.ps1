@@ -5,8 +5,13 @@ Add-Type -AssemblyName System.Drawing
 $mode = $env:ARKITA_QA_MODE
 $clipboardPath = $env:ARKITA_QA_CLIPBOARD_PNG
 $paintPath = $env:ARKITA_QA_PAINT_PNG
+$rawSamplePoints = $env:ARKITA_QA_SAMPLE_POINTS
 $points = @()
-if ($env:ARKITA_QA_SAMPLE_POINTS) { $points = @(ConvertFrom-Json $env:ARKITA_QA_SAMPLE_POINTS) }
+if ($rawSamplePoints) { $points = @(ConvertFrom-Json $rawSamplePoints) }
+$script:samplePointsJson = $rawSamplePoints
+$script:samplePointsContainerType = $points.GetType().FullName
+$script:samplePointsCount = $points.Count
+$script:pixelReadArguments = @()
 
 $data = [System.Windows.Forms.Clipboard]::GetDataObject()
 if (-not $data) { throw 'Windows OS clipboard is empty.' }
@@ -33,7 +38,32 @@ if ($rawPng -is [byte[]] -and $rawPng.Length -gt 32) {
 }
 
 function Read-Pixel($bitmap, $point) {
-  $pixel = $bitmap.GetPixel([int]$point.x, [int]$point.y)
+  $x = $point.x; $y = $point.y
+  $pointType = 'null'; if ($null -ne $point) { $pointType = $point.GetType().FullName }
+  $xType = 'null'; if ($null -ne $x) { $xType = $x.GetType().FullName }
+  $yType = 'null'; if ($null -ne $y) { $yType = $y.GetType().FullName }
+  $script:pixelReadArguments += [pscustomobject]@{
+    pointType = $pointType
+    name = $point.name
+    xType = $xType
+    xValue = $x
+    yType = $yType
+    yValue = $y
+  }
+  try {
+    $pixel = $bitmap.GetPixel([int]$point.x, [int]$point.y)
+  } catch {
+    $diagnostic = [pscustomobject]@{
+      rawSamplePoints = $script:samplePointsJson
+      parsedContainerType = $script:samplePointsContainerType
+      parsedCount = $script:samplePointsCount
+      beforeGetPixel = @($script:pixelReadArguments)
+      errorType = $_.Exception.GetType().FullName
+      errorMessage = $_.Exception.Message
+    }
+    [Console]::Error.WriteLine("A_EDITOR_075_PIXEL_READBACK_DIAGNOSTIC $($diagnostic | ConvertTo-Json -Compress -Depth 8)")
+    throw
+  }
   return @{ r = [int]$pixel.R; g = [int]$pixel.G; b = [int]$pixel.B; a = [int]$pixel.A }
 }
 
