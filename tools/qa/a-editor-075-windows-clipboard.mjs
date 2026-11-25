@@ -215,8 +215,41 @@ async function main() {
     } catch (error) { await reportFixtureFailure(error); }
     const active = await cdp.evaluate(`document.querySelector('#view-tabs [role="tab"][aria-selected="true"]')?.dataset.viewId`);
     assert.equal(active, manifest.initialView);
+    const openAllButtonProbe = await cdp.evaluate(`(() => {
+      const button = document.querySelector('#open-all-views');
+      if (!button) return null;
+      const rect = button.getBoundingClientRect(), point = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+      const hit = document.elementFromPoint(point.x, point.y);
+      const describe = element => element ? { tag: element.tagName.toLowerCase(), id: element.id || '', className: String(element.className?.baseVal ?? element.className ?? ''), text: (element.textContent || '').trim().slice(0, 120) } : null;
+      return { disabled: Boolean(button.disabled), rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }, point,
+        hitIsButton: Boolean(hit && (hit === button || button.contains(hit))), hit: describe(hit) };
+    })()`);
+    await cdp.evaluate(`(() => {
+      const button = document.querySelector('#open-all-views');
+      const state = window.__aEditor075OpenAllDiagnostic = { events: { pointerdown: 0, click: 0 }, errors: [] };
+      for (const type of ['pointerdown', 'click']) button?.addEventListener(type, event => {
+        state.events[type]++;
+      }, true);
+      window.addEventListener('error', event => {
+        if (state.errors.length < 8) state.errors.push({ type: 'error', message: String(event.message || '').slice(0, 500), stack: String(event.error?.stack || '').slice(0, 1500) });
+      }, true);
+      window.addEventListener('unhandledrejection', event => {
+        if (state.errors.length < 8) state.errors.push({ type: 'unhandledrejection', reason: String(event.reason?.stack || event.reason || '').slice(0, 1500) });
+      }, true);
+    })()`);
     await clickSelector(cdp, `document.querySelector('#open-all-views')`);
-    await waitFor(() => cdp.evaluate(`document.querySelector('#open-views-dialog')?.open === true`), 'Open all views dialog did not open');
+    try {
+      await waitFor(() => cdp.evaluate(`document.querySelector('#open-views-dialog')?.open === true`), 'Open all views dialog did not open');
+    } catch (error) {
+      const state = await cdp.evaluate(`(() => ({
+        events: window.__aEditor075OpenAllDiagnostic?.events || {},
+        dialogs: [...document.querySelectorAll('dialog[open]')].map(dialog => ({ id: dialog.id, text: (dialog.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 240) })),
+        status: document.querySelector('#status')?.textContent.trim() || '',
+        errors: window.__aEditor075OpenAllDiagnostic?.errors || [],
+      }))()`).catch(snapshotError => ({ snapshotError: snapshotError.message }));
+      console.error(`A_EDITOR_075_OPEN_ALL_DIAGNOSTIC ${JSON.stringify({ error: error.message, button: openAllButtonProbe, ...state })}`);
+      throw error;
+    }
     await clickSelector(cdp, `document.querySelector('#open-views-dialog [data-confirm]')`);
     try {
       await waitFor(() => cdp.evaluate(`(() => {
