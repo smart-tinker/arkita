@@ -125,13 +125,27 @@ async function waitFor(callback, message, timeout = 90000) {
   throw new Error(`${message}${lastError ? `: ${lastError.message}` : ''}`);
 }
 
-async function clickSelector(cdp, expression) {
-  const target = await cdp.evaluate(`(() => { const item = ${expression}; if (!item) return null; const rect = item.getBoundingClientRect(); return { disabled: Boolean(item.disabled), x: rect.x + rect.width / 2, y: rect.y + rect.height / 2, width: rect.width, height: rect.height }; })()`);
-  assert.ok(target && !target.disabled && target.width > 0 && target.height > 0, `Action is unavailable: ${expression}`);
+async function clickSelector(cdp, expression, trackEvents = false) {
+  const target = await cdp.evaluate(`(() => {
+    const item = ${expression}; if (!item) return null;
+    item.scrollIntoView({ block: 'center', inline: 'center' });
+    const rect = item.getBoundingClientRect(), point = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+    const hit = document.elementFromPoint(point.x, point.y);
+    const describe = element => element ? { tag: element.tagName.toLowerCase(), id: element.id || '', className: String(element.className?.baseVal ?? element.className ?? ''), text: (element.textContent || '').trim().slice(0, 120) } : null;
+    return { disabled: Boolean(item.disabled), rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }, ...point,
+      hitIsTarget: Boolean(hit && (hit === item || item.contains(hit))), hit: describe(hit) };
+  })()`);
+  assert.ok(target && !target.disabled && target.rect.width > 0 && target.rect.height > 0, `Action is unavailable: ${expression}; probe=${JSON.stringify(target)}`);
+  assert.ok(target.hitIsTarget, `Action hit-test missed target: ${expression}; probe=${JSON.stringify(target)}`);
+  if (trackEvents) await cdp.evaluate(`(() => {
+    const item = ${expression}, state = window.__aEditor075ClickEvents = { pointerdown: 0, click: 0 };
+    for (const type of ['pointerdown', 'click']) item.addEventListener(type, () => { state[type]++; }, true);
+  })()`);
   const point = { x: target.x, y: target.y, button: 'left', clickCount: 1 };
   await cdp.send('Input.dispatchMouseEvent', { ...point, type: 'mouseMoved' });
   await cdp.send('Input.dispatchMouseEvent', { ...point, type: 'mousePressed' });
   await cdp.send('Input.dispatchMouseEvent', { ...point, type: 'mouseReleased' });
+  return target;
 }
 
 async function copyCurrentView(cdp) {
@@ -260,8 +274,15 @@ async function main() {
         return ids.every(id => tabs.has(id));
       })()`), 'All synthetic fixture views were not opened');
     } catch (error) { await reportFixtureFailure(error); }
-    await clickSelector(cdp, `document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')`);
-    await waitFor(() => cdp.evaluate(`document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')?.getAttribute('aria-selected') === 'true'`), 'Full fixture view was not activated');
+    let fullViewClick;
+    try {
+      fullViewClick = await clickSelector(cdp, `document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')`, true);
+      await waitFor(() => cdp.evaluate(`document.querySelector('#view-tabs [data-view-id="${manifest.fullView}"]')?.getAttribute('aria-selected') === 'true'`), 'Full fixture view was not activated');
+    } catch (error) {
+      const events = await cdp.evaluate(`window.__aEditor075ClickEvents || { pointerdown: 0, click: 0 }`).catch(snapshotError => ({ snapshotError: snapshotError.message }));
+      console.error(`A_EDITOR_075_VIEW_ACTIVATION_DIAGNOSTIC ${JSON.stringify({ error: error.message, tab: fullViewClick || null, events })}`);
+      throw error;
+    }
     const renderedLabels = await cdp.evaluate(`(() => [...document.querySelectorAll('#canvas text')].map(item => item.textContent.trim()).filter(Boolean))()`);
     for (const label of manifest.labels) assert.ok(renderedLabels.includes(label), `Canvas is missing Cyrillic label: ${label}`);
 
