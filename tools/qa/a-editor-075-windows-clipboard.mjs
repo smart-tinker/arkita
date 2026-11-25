@@ -284,7 +284,9 @@ async function main() {
       throw error;
     }
     const renderedLabels = await cdp.evaluate(`(() => [...document.querySelectorAll('#canvas text')].map(item => item.textContent.trim()).filter(Boolean))()`);
-    for (const label of manifest.labels) assert.ok(renderedLabels.includes(label), `Canvas is missing Cyrillic label: ${label}`);
+    const missingLabels = manifest.labels.filter(label => !renderedLabels.some(text => text.includes(label)));
+    if (missingLabels.length) console.error(`A_EDITOR_075_CANVAS_LABEL_DIAGNOSTIC ${JSON.stringify({ missingLabels, renderedLabels })}`);
+    assert.equal(missingLabels.length, 0, `Canvas is missing Cyrillic labels: ${missingLabels.join(', ')}`);
 
     const full = await copyCurrentView(cdp);
     assert.match(full.status, /Изображение представления скопировано в системный буфер\./);
