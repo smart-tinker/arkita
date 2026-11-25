@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Set up Node.js 22
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -26,12 +26,23 @@ jobs:
       - name: Validate focused QA harness
         shell: pwsh
         run: |
+          $baseSha = 'fe1245a3d61612b15b78270e9f49fe9dc6467988'
+          git cat-file -e "${baseSha}^{commit}"
+          if ($LASTEXITCODE -ne 0) { throw "Required app base is missing: $baseSha" }
+          $changed = @(git diff --name-only $baseSha HEAD)
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot compare QA branch with the app base.' }
+          $expected = @('.github/workflows/ci.yml', 'tools/qa/a-editor-075-paint-readback.ps1', 'tools/qa/a-editor-075-windows-clipboard.mjs')
+          $unexpected = @($changed | Where-Object { $_ -notin $expected })
+          $missing = @($expected | Where-Object { $_ -notin $changed })
+          if ($unexpected.Count -or $missing.Count) { throw "Expected only the three QA harness files. Unexpected: $($unexpected -join ', '); missing: $($missing -join ', ')" }
           $tokens = $null
           $errors = $null
           [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path 'tools/qa/a-editor-075-paint-readback.ps1').Path, [ref]$tokens, [ref]$errors)
           if ($errors.Count) { throw ($errors | Out-String) }
           node --check tools/qa/a-editor-075-windows-clipboard.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Node syntax check failed.' }
           node tools/qa/a-editor-075-windows-clipboard.mjs --fixture-only
+          if ($LASTEXITCODE -ne 0) { throw 'Fixture validation failed.' }
 
       - name: Install locked dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
