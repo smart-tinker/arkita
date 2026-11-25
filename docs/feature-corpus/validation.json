@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "4b056ef806a1744e33db4568bf6aaa002e643dde6f88690599a336bbae3a15ab"
+    "docs/feature-corpus/program.json": "0d6a174ddd651da60e1cfd5ab605848ff9a666dad43eee947bc55d4b298ec11a"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -81,6 +81,23 @@
       "dependency_review_run": "https://github.com/smart-tinker/arkita/actions/runs/43674034195",
       "result": "Eight criteria reviewed against current source and regression routes. A-EDITOR-090 has a confirmed gap addressed in draft PR #75; exact-head CI, CodeQL and Dependency Review passed. No other new source gap was confirmed; the normative relationship-field contract for A-EDITOR-095 remains unresolved. All eight criteria remain acceptance-pending; installed Windows/native acceptance is unrun.",
       "ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md"
+    },
+    "renderer_evidence_refresh": {
+      "updated_at": "2026-11-25",
+      "issue": 19,
+      "scenario_date": "2026-11-18",
+      "scenario_source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "compared_current_main_sha": "fe1245a3d61612b15b78270e9f49fe9dc6467988",
+      "merged_implementation_pr": "https://github.com/smart-tinker/arkita/pull/1",
+      "merged_implementation_commit": "bc4b413b052bf1fff43ed2d9c9022b67681eb3e7",
+      "current_main_extended_ci": "https://github.com/smart-tinker/arkita/actions/runs/45178717375",
+      "accepted_record": "A-EDITOR-089; both numbered criterion bullets; Windows acceptance remains unrun.",
+      "reported_renderer_records": "A-ADV-021/022/023 are summarized from the existing coordinator handoff; raw receipts were unavailable to this update and were not rerun.",
+      "a_editor_089_receipt_sha256": "9c2ebc05cfc107b51ceb6ed91ac2e12c9f5b402e047bed0466a04c973e3bc25d",
+      "status_summary": "Of the eight issue #19 records, A-EDITOR-089 is accepted and seven remain acceptance-pending; issue #19 remains open. All 339 program IDs are preserved.",
+      "unrun_boundaries": "Physical disk save for A-EDITOR-089 and installed Windows/native acceptance remain unrun.",
+      "ledger": "docs/feature-corpus/REVIEW-ISSUE-19-2026-11-15.md",
+      "manifest_scope": "Only program.json is in the SHA-256 manifest for these changes; the issue report is explicitly excluded and docs/CUSTOMIZATION.md is outside the corpus manifest. Historical coverage and source cards are unchanged."
     }
   }
 }
