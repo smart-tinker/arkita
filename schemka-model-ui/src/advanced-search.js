@@ -212,7 +212,12 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   function commit() {
     const pending = plan;
     if (!pending?.changes.length || pending.collisions.length) return;
-    if (!current(pending.captured)) { invalidate(); error.textContent = 'Модель изменилась после предпросмотра. Подготовьте изменения заново.'; return; }
+    if (!current(pending.captured)) {
+      invalidate();
+      if (dialog.dataset.mode === 'properties') { source = stamp(); drawCommon(); }
+      error.textContent = 'Модель изменилась после предпросмотра. Подготовьте изменения заново.';
+      return;
+    }
     invalidate();
     try {
       model.execute({ type: 'bulkUpdateMetadata', changes: pending.changes }, pending.captured.revision); render(); report('Изменения применены. Одно Undo вернёт их полностью.'); vocabulary();

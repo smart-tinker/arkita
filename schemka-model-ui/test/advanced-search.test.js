@@ -126,6 +126,25 @@ test('multi-selection property preview refuses a changed selection even without 
   assert.deepEqual(h.capture(), before); assert.match(h.$('advanced-search-error').textContent, /изменилась/);
 });
 
+test('global property manager rejects a stale preview and can prepare a fresh one without reopening', async t => {
+  const h = await setup(t);
+  h.dialog.close(); h.ui.open({ propertiesOnly: true });
+  const ownerRow = () => [...h.$('advanced-property-common').querySelectorAll('button')].find(button => button.textContent.startsWith('owner:'));
+  ownerRow().click(); h.input('advanced-property-new-key', 'stale-rename'); h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false);
+
+  h.model.execute({ type: 'renameProject', name: 'Externally changed' });
+  const externalState = h.capture(); h.$('advanced-search-apply').click();
+  assert.deepEqual(h.capture(), externalState, 'The stale preview must not apply over the external change');
+  assert.match(h.$('advanced-search-error').textContent, /изменилась/);
+  assert.equal(h.$('advanced-search-apply').disabled, true);
+
+  ownerRow().click(); h.input('advanced-property-new-key', 'fresh-rename'); h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false, h.$('advanced-search-error').textContent);
+  h.$('advanced-search-apply').click();
+  assert.ok(h.store.snapshot.elements[0].properties.some(item => item.key === 'fresh-rename'));
+});
+
 test('normal catalogue owner scope previews common/mixed properties and applies only the fixed owners in one Undo', async t => {
  const h = await setup(t), owners = [{ kind: 'project', id: h.state.project.id }, { kind: 'element', id: h.state.elements[0].id }]; h.dialog.close(); h.ui.open({ owners });
  assert.equal(h.$('advanced-property-scope').value, 'catalog'); assert.equal(h.$('advanced-search-results').children.length, 2); const before = h.capture();
