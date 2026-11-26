@@ -71,6 +71,8 @@ async function run() {
     const initialViewIds = initial.views.map(item => item.view.id);
     const initialHistory = await page.locator('#history-state').textContent();
 
+    const templateMenu = page.locator('.app-menu').filter({ has: page.locator('#templates-button') });
+    if (!(await templateMenu.evaluate(menu => menu.open))) await templateMenu.locator(':scope > summary').click();
     await page.locator('#templates-button').click();
     await page.locator('#templates-dialog').waitFor({ state: 'visible' });
     await page.getByText('Сохранить и изменить шаблон', { exact: true }).click();
@@ -89,12 +91,30 @@ async function run() {
 
     const previewView = page.locator('#template-preview-view');
     const preview = page.locator('#template-preview');
+    const previewSvg = async () => {
+      const source = await preview.getAttribute('src');
+      assert.ok(source?.startsWith('data:image/svg+xml;charset=utf-8,'));
+      return decodeURIComponent(source.slice(source.indexOf(',') + 1));
+    };
+    const detailOnly = initial.views[1].occurrences.find(item =>
+      !initial.views[0].occurrences.some(other => other.concept.id === item.concept.id)
+    );
+    assert.ok(detailOnly, 'synthetic detail view has a unique concept');
+    const detailConcept = initial.elements.find(item => item.id === detailOnly.concept.id);
+    assert.ok(detailConcept);
+    const detailLabel = detailOnly.text ?? detailOnly.name ?? detailConcept.name;
+    assert.ok(detailLabel, 'detail-only concept has visible text');
+    const overviewBounds = initial.views[0].occurrences[0].bounds;
+    const overviewGeometry = '<rect x="' + overviewBounds.x + '" y="' + overviewBounds.y +
+      '" width="' + overviewBounds.width + '" height="' + overviewBounds.height + '"';
     assert.deepEqual(
       await previewView.locator('option').evaluateAll(options => options.map(option => option.value)),
       initialViewIds
     );
     assert.equal(await previewView.inputValue(), keyViewId, 'key view ID selects the initial preview');
     assert.equal(await preview.getAttribute('alt'), 'Предпросмотр: ' + initial.views[1].view.name);
+    const keyViewSVG = await previewSvg();
+    assert.ok(keyViewSVG.includes(detailLabel), 'detail preview SVG renders its unique concept');
 
     const previewPanel = await previewView.locator('xpath=ancestor::details[1]').boundingBox();
     const title = await page.locator('#templates-title').boundingBox();
@@ -111,6 +131,10 @@ async function run() {
     await page.keyboard.press('ArrowUp');
     await page.waitForFunction(viewId => document.querySelector('#template-preview-view')?.value === viewId, initialViewIds[0]);
     assert.equal(await preview.getAttribute('alt'), 'Предпросмотр: ' + initial.views[0].view.name);
+    const overviewSVG = await previewSvg();
+    assert.ok(overviewSVG.includes(overviewGeometry), 'overview preview SVG renders its own geometry');
+    assert.ok(!overviewSVG.includes(detailLabel), 'overview preview SVG excludes the detail-only concept');
+    assert.notEqual(overviewSVG, keyViewSVG, 'view selection changes rendered SVG content');
 
     const previewSize = page.locator('#template-preview-size');
     const widthBefore = await preview.evaluate(image => image.width);
@@ -121,6 +145,7 @@ async function run() {
 
     await page.locator('#templates-close').click();
     await page.locator('#templates-dialog').waitFor({ state: 'hidden' });
+    if (await templateMenu.evaluate(menu => menu.open)) await templateMenu.locator(':scope > summary').click();
     assert.deepEqual(await saveThroughBrowser(), initialBytes, 'template preview leaves model bytes unchanged');
     assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false');
     assert.equal(await page.locator('#history-state').textContent(), initialHistory);
@@ -165,7 +190,7 @@ async function run() {
     assert.deepEqual(reopenedBytes, savedBytes, 'browser save → open → save preserves exact model bytes');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · template key-view keyboard preview, 2-view shared model, Cancel/focus, create, browser save/reopen`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · template key-view keyboard SVG preview, 2-view shared model, Cancel/focus, create, browser save/reopen`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {
