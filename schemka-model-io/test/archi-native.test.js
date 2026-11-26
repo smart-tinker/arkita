@@ -3,14 +3,54 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 import { previewArchiXml, importArchiXml, collectArchiMappings } from '../src/archi-native.js';
+import { archiReportFiles } from '../src/archi-report.js';
+import { exportCSV, parseCSV, previewCSVImport } from '../src/csv.js';
 import { serializeProjectFile, deserializeProjectFile } from '../src/project-file.js';
 import { remapProject } from '../src/model-transfer.js';
-import { exportFiles } from '../../schemka-model-core/src/index.js';
+import { createProject, exportFiles } from '../../schemka-model-core/src/index.js';
 const { DOMParser } = new JSDOM('').window;
 const fixture = await readFile(new URL('./fixtures/archi-v5-synthetic.archimate', import.meta.url), 'utf8');
 const options = { DOMParser };
 const element = (id, type, extra = '') => `<element xsi:type="archimate:${type}" id="${id}" name="${id}" ${extra}/>`;
 const xml = content => `<?xml version="1.0" encoding="UTF-8"?><archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" id="model" name="Migration" version="5.0.0"><folder id="folder" name="Folder">${content}</folder></archimate:model>`;
+const relationship = (id, type, source, target, attributes = '') => `<element xsi:type="archimate:${type}" id="${id}" name="${id}" source="${source}" target="${target}"${attributes}/>`;
+
+test('native direction and access values map to nominal Arkita types and survive CSV roundtrip with junction IDs', () => {
+  const cases = [
+    ['association-default', 'AssociationRelationship', 'Association', 'service', 'other-service', ''],
+    ['association-true', 'AssociationRelationship', 'DirectedAssociation', 'service', 'other-service', ' directed="true"'],
+    ['association-one', 'AssociationRelationship', 'DirectedAssociation', 'service', 'other-service', ' directed="1"'],
+    ['association-false', 'AssociationRelationship', 'Association', 'service', 'other-service', ' directed="false"'],
+    ['association-zero', 'AssociationRelationship', 'Association', 'service', 'other-service', ' directed="0"'],
+    ['access-write', 'AccessRelationship', 'WriteAccess', 'service', 'data', ' accessType="0"'],
+    ['access-read', 'AccessRelationship', 'ReadAccess', 'service', 'data', ' accessType="1"'],
+    ['access-unspecified', 'AccessRelationship', 'Access', 'service', 'data', ' accessType="2"'],
+    ['access-read-write', 'AccessRelationship', 'ReadWriteAccess', 'service', 'data', ' accessType="3"'],
+    ['influence', 'InfluenceRelationship', 'Influence', 'service', 'grouping', ''],
+  ];
+  const content = [
+    element('service', 'ApplicationService'), element('other-service', 'ApplicationService'), element('data', 'DataObject'), element('grouping', 'Grouping'),
+    element('and', 'AndJunction'), element('or', 'OrJunction'),
+    ...cases.map(([id, sourceType, , source, target, attributes]) => relationship(id, sourceType, source, target, attributes)),
+  ].join('');
+  const converted = previewArchiXml(xml(content), options);
+  assert.ok(converted.snapshot, JSON.stringify(converted.diagnostics.errors));
+  assert.deepEqual(converted.snapshot.relationships.map(item => [item.archiSource.id, item.type]), cases.map(([id, , targetType]) => [id, targetType]));
+  assert.deepEqual(converted.snapshot.junctions.map(item => [item.archiSource.id, item.type]), [['and', 'AndJunction'], ['or', 'OrJunction']]);
+  const roundtrip = previewCSVImport(createProject('CSV roundtrip'), exportCSV(converted.snapshot).files).snapshot;
+  const withoutSource = ({ archiSource, ...item }) => item;
+  assert.deepEqual(roundtrip.relationships, converted.snapshot.relationships.map(withoutSource));
+  assert.deepEqual(roundtrip.junctions, converted.snapshot.junctions.map(withoutSource));
+});
+
+test('unsupported Influence strength is named in the existing compatibility report', () => {
+  const incoming = xml(element('service', 'ApplicationService') + element('grouping', 'Grouping') + relationship('influence', 'InfluenceRelationship', 'service', 'grouping', ' strength="unsupported"'));
+  const result = previewArchiXml(incoming, options), issue = result.diagnostics.errors.find(row => row.code === 'ARCHI_INFLUENCE');
+  assert.equal(result.snapshot, null);
+  assert.deepEqual([issue?.sourceId, issue?.sourceType, issue?.field], ['influence', 'InfluenceRelationship', 'strength']);
+  const rows = parseCSV(archiReportFiles(result)[0].bytes), diagnostic = rows.find(row => row.values[1] === "'ARCHI_INFLUENCE");
+  assert.deepEqual(diagnostic?.values.slice(0, 7), ["'errors", "'ARCHI_INFLUENCE", "'influence", "'InfluenceRelationship", '', '', "'strength"]);
+});
 
 test('preview collects unrelated type, relationship, geometry and extension issues without a candidate', () => {
   const incoming = xml(element('gap', 'Gap') + element('unknown', 'VendorElement') + element('actor', 'BusinessActor') + element('rel', 'AssociationRelationship', 'source="actor" target="missing"') + '<element xsi:type="archimate:ArchimateDiagramModel" id="view" name="Broken"><child xsi:type="archimate:DiagramObject" id="shape" archimateElement="actor" foreign="value"><bounds x="bad" y="2" width="-1" height="0"/></child><child xsi:type="archimate:DiagramModelImage" id="image"><bounds x="1" y="2" width="30" height="40"/></child></element>');

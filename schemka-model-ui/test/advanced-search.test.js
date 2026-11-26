@@ -76,6 +76,40 @@ test('query changes require refresh; invalid regex leaves usable dialog; current
   assert.equal(h.dialog.open, true); assert.equal(h.store.history.undo, 0);
 });
 
+test('model-wide previous and next reveal the exact drawing across views', async t => {
+  const state = conceptProject(), sourceView = state.views[0], startView = state.views[1];
+  const alphaId = state.elements[0].id, betaId = state.elements[1].id;
+  const alphaViewId = 'view-10000000-0000-4000-8000-000000000002', betaViewId = 'view-10000000-0000-4000-8000-000000000003';
+  const alternateViewId = 'view-10000000-0000-4000-8000-000000000004';
+  const alphaDrawingId = 'occ-10000000-0000-4000-8000-000000000001', betaDrawingId = 'occ-10000000-0000-4000-8000-000000000002';
+  const alternateDrawingId = 'occ-10000000-0000-4000-8000-000000000003';
+  const drawing = (ownerId, id) => ({ ...structuredClone(sourceView.occurrences.find(item => item.concept.id === ownerId)), id });
+  const view = (id, name, occurrences = []) => ({ ...structuredClone(startView), view: { ...structuredClone(startView.view), id, name }, occurrences, connections: [], visualNodes: [], visualConnectors: [] });
+  state.junctions = []; state.relationships = [];
+  state.views = [
+    view(startView.view.id, 'Start'),
+    view(alphaViewId, 'Alpha view', [drawing(alphaId, alphaDrawingId)]),
+    view(betaViewId, 'Beta view', [drawing(betaId, betaDrawingId)]),
+    view(alternateViewId, 'Alpha alternate', [drawing(alphaId, alternateDrawingId)])
+  ];
+  const h = await setup(t, undefined, state);
+  h.input('advanced-query', 'Сервер'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 2);
+
+  h.$('advanced-search-next').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: betaViewId, kind: 'occurrence', id: betaDrawingId });
+  assert.equal(h.document.activeElement.id, 'advanced-result-1');
+  h.model.switchView(betaViewId); h.ui.refresh();
+
+  h.$('advanced-search-prev').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: alphaViewId, kind: 'occurrence', id: alphaDrawingId });
+  assert.equal(h.document.activeElement.id, 'advanced-result-0');
+  h.model.switchView(alphaViewId); h.ui.refresh();
+
+  h.$('advanced-search-next').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: betaViewId, kind: 'occurrence', id: betaDrawingId });
+});
+
 test('current-view search excludes viewpoint-hidden objects unless explicitly included', async t => {
   const graph = viewpointGraph({ selection: { elementTypes: ['ApplicationComponent'], junctionTypes: [], relationshipTypes: [] } });
   const h = await setup(t, undefined, graph.state); h.input('advanced-query', 'Сервер'); h.input('advanced-scope', 'view'); await h.submit();
@@ -124,6 +158,25 @@ test('multi-selection property preview refuses a changed selection even without 
   h.$('advanced-property-set').click(); assert.equal(h.$('advanced-search-apply').disabled, false);
   h.model.selectMany([{ kind: 'occurrence', id: drawings[0].id }]); const before = h.capture(); h.$('advanced-search-apply').click();
   assert.deepEqual(h.capture(), before); assert.match(h.$('advanced-search-error').textContent, /изменилась/);
+});
+
+test('global property manager rejects a stale preview and can prepare a fresh one without reopening', async t => {
+  const h = await setup(t);
+  h.dialog.close(); h.ui.open({ propertiesOnly: true });
+  const ownerRow = () => [...h.$('advanced-property-common').querySelectorAll('button')].find(button => button.textContent.startsWith('owner:'));
+  ownerRow().click(); h.input('advanced-property-new-key', 'stale-rename'); h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false);
+
+  h.model.execute({ type: 'renameProject', name: 'Externally changed' });
+  const externalState = h.capture(); h.$('advanced-search-apply').click();
+  assert.deepEqual(h.capture(), externalState, 'The stale preview must not apply over the external change');
+  assert.match(h.$('advanced-search-error').textContent, /изменилась/);
+  assert.equal(h.$('advanced-search-apply').disabled, true);
+
+  ownerRow().click(); h.input('advanced-property-new-key', 'fresh-rename'); h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false, h.$('advanced-search-error').textContent);
+  h.$('advanced-search-apply').click();
+  assert.ok(h.store.snapshot.elements[0].properties.some(item => item.key === 'fresh-rename'));
 });
 
 test('normal catalogue owner scope previews common/mixed properties and applies only the fixed owners in one Undo', async t => {

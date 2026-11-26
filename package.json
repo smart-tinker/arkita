@@ -39,6 +39,7 @@
     },
     "files": [
       "package.json",
+      "LICENSE",
       "electron/*.mjs",
       "electron/preload.cjs",
       "electron/preload-palette.cjs",
@@ -69,6 +70,7 @@
       }
     ],
     "extraResources": [
+      "LICENSE",
       {
         "from": "release/git-runtime/windows-x64",
         "to": "git",
