@@ -74,6 +74,71 @@ test('full command creation flow creates two views sharing one relationship', ()
   assert.equal(store.snapshot.views[0].occurrences[0].bounds.x, 0);
 });
 
+test('atomic element-and-relationship creation respects the ordered endpoint role and is one undoable v4 edit', () => {
+  for (const { existingType, elementType, newEndpointRole } of [
+    { existingType: 'ApplicationComponent', elementType: 'DataObject', newEndpointRole: 'target' },
+    { existingType: 'DataObject', elementType: 'ApplicationComponent', newEndpointRole: 'source' },
+  ]) {
+    const store = createStore(createProject('Atomic connector'));
+    const viewId = run(store, { type: 'createView', name: 'Main' }).created.viewId;
+    const existing = run(store, { type: 'createElementAndOccurrence', viewId, elementType: existingType, name: 'Existing',
+      locked: true, bounds: { x: 0, y: 0, width: 120, height: 80 } }).created;
+    const before = store.exportFiles(), beforeHistory = store.history, beforeRevision = store.revision;
+    const created = run(store, { type: 'createElementAndRelationship', viewId, existingOccurrenceId: existing.occurrenceId,
+      elementType, name: 'New', relationshipType: 'Access', label: 'Connect', newEndpointRole,
+      bounds: { x: 240, y: 0, width: 120, height: 80 } }).created;
+    const state = store.snapshot, entry = state.views[0], relationship = state.relationships.find(item => item.id === created.relationshipId);
+    const existingRef = { kind: 'element', id: existing.elementId }, newRef = { kind: 'element', id: created.elementId };
+    assert.equal(state.elements.find(item => item.id === created.elementId).type, elementType);
+    assert.equal(state.elements.find(item => item.id === created.elementId).name, 'New');
+    assert.deepEqual(entry.occurrences.find(item => item.id === created.occurrenceId).bounds, { x: 240, y: 0, width: 120, height: 80 });
+    assert.equal(entry.occurrences.find(item => item.id === created.occurrenceId).parent, null);
+    const sourceRef = newEndpointRole === 'source' ? newRef : existingRef, targetRef = newEndpointRole === 'target' ? newRef : existingRef;
+    const sourceOccurrenceId = newEndpointRole === 'source' ? created.occurrenceId : existing.occurrenceId;
+    const targetOccurrenceId = newEndpointRole === 'target' ? created.occurrenceId : existing.occurrenceId;
+    assert.deepEqual(relationship.source, sourceRef); assert.deepEqual(relationship.target, targetRef);
+    assert.deepEqual(entry.connections.find(item => item.id === created.connectionId).source, { kind: 'occurrence', id: sourceOccurrenceId });
+    assert.deepEqual(entry.connections.find(item => item.id === created.connectionId).target, { kind: 'occurrence', id: targetOccurrenceId });
+    assert.equal(entry.occurrences.find(item => item.id === existing.occurrenceId).locked, true);
+    assert.equal(store.revision, beforeRevision + 1);
+    assert.deepEqual(store.history, { undo: beforeHistory.undo + 1, redo: 0 });
+    assert.equal(state.project.formatVersion, 4);
+    const after = store.exportFiles();
+    assert.deepEqual(exportFiles(importFiles(after)), after);
+    store.undo(store.revision); assert.deepEqual(store.exportFiles(), before);
+    store.redo(store.revision); assert.deepEqual(store.exportFiles(), after);
+    assert.deepEqual(store.snapshot.relationships.find(item => item.id === created.relationshipId), relationship);
+  }
+});
+
+test('atomic connector creation rejects forbidden, unknown, invalid-role and stale commands without committing', () => {
+  const setup = existingType => {
+    const store = createStore(createProject('Guarded connector'));
+    const viewId = run(store, { type: 'createView', name: 'Main' }).created.viewId;
+    const existing = run(store, { type: 'createElementAndOccurrence', viewId, elementType: existingType, name: 'Existing',
+      bounds: { x: 0, y: 0, width: 120, height: 80 } }).created;
+    return { store, viewId, existing };
+  };
+  const command = (viewId, existingOccurrenceId, elementType, relationshipType, newEndpointRole = 'target') => ({
+    type: 'createElementAndRelationship', viewId, existingOccurrenceId, elementType, name: 'Candidate',
+    relationshipType, label: 'Candidate', newEndpointRole, bounds: { x: 240, y: 0, width: 120, height: 80 },
+  });
+  {
+    const { store, viewId, existing } = setup('ApplicationComponent');
+    unchangedAfter(store, () => run(store, command(viewId, existing.occurrenceId, 'ApplicationComponent', 'Access')), 'RELATIONSHIP_FORBIDDEN');
+    unchangedAfter(store, () => run(store, command(viewId, existing.occurrenceId, 'DataObject', 'Access', 'middle')), 'COMMAND');
+  }
+  {
+    const { store, viewId, existing } = setup('Product');
+    unchangedAfter(store, () => run(store, command(viewId, existing.occurrenceId, 'Deliverable', 'Aggregation')), 'RELATIONSHIP_UNKNOWN');
+  }
+  {
+    const { store, viewId, existing } = setup('ApplicationComponent'), staleRevision = store.revision;
+    run(store, { type: 'renameProject', name: 'Changed after proposal' });
+    unchangedAfter(store, () => store.execute(command(viewId, existing.occurrenceId, 'DataObject', 'Access'), staleRevision), 'REVISION');
+  }
+});
+
 test('fixture is complete, canonical and round-trips every supported field', () => {
   const state = fresh();
   assert.equal(fixture.length, 12);
