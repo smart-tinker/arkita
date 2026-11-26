@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { deserializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { readTemplate } from '../../schemka-model-io/src/templates.js';
 import { openFileDialog } from './browser-files.mjs';
 
 class BlockedError extends Error {}
@@ -70,6 +71,60 @@ async function run() {
     const initialViewIds = initial.views.map(item => item.view.id);
     const initialHistory = await page.locator('#history-state').textContent();
 
+    await page.locator('#templates-button').click();
+    await page.locator('#templates-dialog').waitFor({ state: 'visible' });
+    await page.getByText('Сохранить и изменить шаблон', { exact: true }).click();
+    await page.locator('#template-name').fill('Browser smoke template');
+    const keyViewId = initialViewIds[1];
+    await page.locator('#template-key-view').selectOption(keyViewId);
+    await page.locator('#template-save-current').click();
+
+    const templateLibraryBytes = await page.evaluate(() => localStorage.getItem('arkita.templates.v1'));
+    assert.ok(templateLibraryBytes, 'saved template is present in the local library');
+    const templateLibrary = JSON.parse(templateLibraryBytes);
+    assert.equal(templateLibrary.templates.length, 1);
+    const savedTemplate = readTemplate(templateLibrary.templates[0]);
+    assert.equal(savedTemplate.metadata.keyViewId, keyViewId);
+    assert.deepEqual(savedTemplate.snapshot.views.map(item => item.view.id), initialViewIds);
+
+    const previewView = page.locator('#template-preview-view');
+    const preview = page.locator('#template-preview');
+    assert.deepEqual(
+      await previewView.locator('option').evaluateAll(options => options.map(option => option.value)),
+      initialViewIds
+    );
+    assert.equal(await previewView.inputValue(), keyViewId, 'key view ID selects the initial preview');
+    assert.equal(await preview.getAttribute('alt'), 'Предпросмотр: ' + initial.views[1].view.name);
+
+    const previewPanel = await previewView.locator('xpath=ancestor::details[1]').boundingBox();
+    const title = await page.locator('#templates-title').boundingBox();
+    assert.ok(previewPanel && title, 'preview panel and dialog title are visible');
+    const outside = { x: title.x + title.width / 2, y: title.y + title.height / 2 };
+    assert.ok(
+      outside.x < previewPanel.x || outside.x > previewPanel.x + previewPanel.width ||
+        outside.y < previewPanel.y || outside.y > previewPanel.y + previewPanel.height,
+      'keyboard navigation is exercised with the pointer outside the preview panel'
+    );
+
+    await previewView.focus();
+    await page.mouse.move(outside.x, outside.y);
+    await page.keyboard.press('ArrowUp');
+    await page.waitForFunction(viewId => document.querySelector('#template-preview-view')?.value === viewId, initialViewIds[0]);
+    assert.equal(await preview.getAttribute('alt'), 'Предпросмотр: ' + initial.views[0].view.name);
+
+    const previewSize = page.locator('#template-preview-size');
+    const widthBefore = await preview.evaluate(image => image.width);
+    await previewSize.focus();
+    await page.mouse.move(outside.x, outside.y);
+    await page.keyboard.press('ArrowRight');
+    await page.waitForFunction(width => document.querySelector('#template-preview')?.width === width, widthBefore + 1);
+
+    await page.locator('#templates-close').click();
+    await page.locator('#templates-dialog').waitFor({ state: 'hidden' });
+    assert.deepEqual(await saveThroughBrowser(), initialBytes, 'template preview leaves model bytes unchanged');
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false');
+    assert.equal(await page.locator('#history-state').textContent(), initialHistory);
+
     await page.locator('#new-view').click();
     await page.locator('#new-view-name').fill('Cancelled view');
     await page.keyboard.press('Escape');
@@ -110,7 +165,7 @@ async function run() {
     assert.deepEqual(reopenedBytes, savedBytes, 'browser save → open → save preserves exact model bytes');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · 2-view shared model, Cancel/focus, create, browser save/reopen`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · template key-view keyboard preview, 2-view shared model, Cancel/focus, create, browser save/reopen`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {
