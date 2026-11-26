@@ -179,7 +179,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     if (event.key === 'Insert' && event.target.closest('#canvas')) { event.preventDefault(); quickAdd(event.shiftKey); }
   }, true);
   dialog.addEventListener('cancel', event => { event.preventDefault(); cancel(); });
-  dialog.addEventListener('close', () => { request?.abort && request.abort.abort(); if (request) { const dirty = request.mode === 'geometry'; request = null; generation++; if (dirty) preview(model.view); } });
+  dialog.addEventListener('close', () => { if (dialog.open) return; request?.abort && request.abort.abort(); if (request) { const dirty = request.mode === 'geometry'; request = null; generation++; if (dirty) preview(model.view); } });
   window.addEventListener('blur', () => { if (repeated) cancel(); });
   return { tools, quickAdd, geometry, reverse, cancel, refresh() { trigger.disabled = quick.disabled = !model.view; if (request && !current(request) || repeated && !current(repeated)) cancel(); }, get active() { return Boolean(request || repeated); }, get generation() { return generation; } };
 }
