@@ -137,13 +137,13 @@ jobs:
             throw "Packaged application license is not MIT: $($packagedManifest.license)."
           }
           $sourceLicenseHash = (Get-FileHash LICENSE -Algorithm SHA256).Hash
-          $packagedLicense = Join-Path $extractDir 'LICENSE'
-          if (-not (Test-Path $packagedLicense -PathType Leaf)) {
-            throw 'Root LICENSE is absent from installed app.asar.'
+          $installedLicense = Join-Path $installDir 'resources/LICENSE'
+          if (-not (Test-Path $installedLicense -PathType Leaf)) {
+            throw 'Standalone resources/LICENSE is missing from the installed application.'
           }
-          $packagedLicenseHash = (Get-FileHash $packagedLicense -Algorithm SHA256).Hash
-          if ($sourceLicenseHash -cne $packagedLicenseHash) {
-            throw 'MIT LICENSE inside installed app.asar differs from the source LICENSE.'
+          $installedLicenseHash = (Get-FileHash $installedLicense -Algorithm SHA256).Hash
+          if ($sourceLicenseHash -cne $installedLicenseHash) {
+            throw 'Standalone resources/LICENSE differs from the source LICENSE.'
           }
 
           $installerHash = (Get-FileHash $installer -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -159,7 +159,7 @@ jobs:
           - Installer: $([IO.Path]::GetFileName($installer))
           - Size: $installerSize bytes
           - SHA-256: $installerHash
-          - NSIS container, silent install, installed app.asar byte match, and MIT LICENSE: PASS
+          - NSIS container, silent install, installed app.asar byte match, app.asar MIT metadata, and standalone resources/LICENSE: PASS
           "@ | Add-Content -Path $env:GITHUB_STEP_SUMMARY
 
       - name: Create hidden draft prerelease and upload installer
