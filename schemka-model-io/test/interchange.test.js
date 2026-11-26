@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createProject, createStore, exportFiles, validateProject } from '../../schemka-model-core/src/index.js';
 import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
 import { fixtureId } from '../../schemka-model-core/fixtures/relationship-project.js';
+import { profileDefinition, profileId } from '../../schemka-model-core/fixtures/customization-project.js';
 import { previewNativeMerge, remapProject, extractViewProject } from '../src/model-transfer.js';
 import { exportCSV, parseCSV, previewCSVImport } from '../src/csv.js';
 import { CURRENT_PROFILE, createRegistry, assessProject } from '../../schemka-model-profiles/src/index.js';
@@ -30,6 +31,38 @@ test('CSV canonical set roundtrips Unicode/newlines/duplicate keys/relationship 
  const source=portableGraph(); source.views=[];
  for(const delimiter of [',',';','\t']) for(const bom of [false,true]) { const exported=exportCSV(source,{delimiter,bom}); const preview=previewCSVImport(createProject('New'),exported.files,{delimiter,modelMetadata:true}); assert.deepEqual(preview.snapshot.elements,source.elements); assert.deepEqual(preview.snapshot.relationships,source.relationships); assert.deepEqual(preview.snapshot.junctions,source.junctions); assert.equal(preview.snapshot.project.name,source.project.name); }
  const original=exportFiles(source); exportCSV(source,{spreadsheet:true,flatten:true}); assert.deepEqual(exportFiles(source),original);
+});
+
+test('CSV roundtrip preserves notation relationship types, IDs, endpoint kinds, raw multiplicities and profile applications', () => {
+ const id = fixtureId, state = createProject('Notation fields');
+ state.project.id = id('prj', 500);
+ state.elements = [['Grouping', 1], ['Service', 2], ['DataObject', 3]].map(([type, number]) => ({ id: id('el', 500 + number), type, name: type, documentation: '', properties: [] }));
+ state.junctions = ['AndJunction', 'OrJunction'].map((type, index) => ({ id: id('jct', 500 + index), type, name: type, documentation: '', properties: [], ...(index === 0 ? { profileApplications: [{ profileId, values: {} }] } : {}) }));
+ state.customizationProfiles = [{ id: profileId, ...profileDefinition() }];
+ const ref = (kind, number) => ({ kind, id: id(kind === 'element' ? 'el' : kind === 'junction' ? 'jct' : 'rel', number) });
+ const service = ref('element', 502), data = ref('element', 503), group = ref('element', 501), and = ref('junction', 500);
+ const rows = [
+  { type: 'Association', source: service, target: service, sourceMultiplicity: '', targetMultiplicity: ' raw\r\n value ' },
+  { type: 'DirectedAssociation', source: service, target: service },
+  { type: 'Access', source: service, target: data, sourceMultiplicity: '0..1' },
+  { type: 'ReadAccess', source: service, target: data, targetMultiplicity: '' },
+  { type: 'WriteAccess', source: service, target: data },
+  { type: 'ReadWriteAccess', source: service, target: data },
+  { type: 'Influence', source: service, target: group },
+  { type: 'Aggregation', source: group, target: and, junctionRole: 'container' },
+  { type: 'Association', source: ref('relationship', 700), target: service },
+ ];
+ state.relationships = rows.map((row, index) => ({ id: id('rel', 700 + index), label: `Relation ${index}`, documentation: '', properties: [], profileApplications: [{ profileId, values: {} }], ...row }));
+ validateProject(state);
+ const imported = previewCSVImport(createProject('Target'), exportCSV(state).files).snapshot;
+ const plain = value => JSON.parse(JSON.stringify(value));
+ assert.deepEqual(plain(imported.relationships), state.relationships);
+ assert.deepEqual(plain(imported.elements), state.elements); assert.deepEqual(plain(imported.junctions), state.junctions);
+ assert.deepEqual(plain(imported.customizationProfiles), state.customizationProfiles);
+ for (let index = 0; index < rows.length; index++) for (const end of ['source', 'target']) {
+  const field = `${end}Multiplicity`;
+  assert.equal(Object.hasOwn(imported.relationships[index], field), Object.hasOwn(rows[index], field), `${index}:${field} presence`);
+ }
 });
 
 test('CSV parser preserves # values, handles explicit comments, bounds malformed input and physical row numbers', () => {
