@@ -478,8 +478,10 @@ async function run() {
     await page.waitForFunction(() => document.querySelector('#automation-feedback')?.textContent.includes('Проверьте изменения'));
     const automationPreview = JSON.parse(await page.locator('#automation-report').textContent());
     assert.equal(automationPreview.changes.length, 2, 'preview lists both batch changes');
-    assert.equal(automationPreview.changes[0].before[0].name, automationBaseline.project.name);
-    assert.equal(automationPreview.changes[0].after[0].name, automationPrefix + automationBaseline.project.name);
+    const projectPreview = automationPreview.changes[0].owners.find(change => change.kind === 'project' && change.id === automationBaseline.project.id);
+    assert.ok(projectPreview, 'preview identifies the project by stable ID');
+    assert.equal(projectPreview.before.name, automationBaseline.project.name);
+    assert.equal(projectPreview.after.name, automationPrefix + automationBaseline.project.name);
     const propertyPreview = automationPreview.changes[1].owners.find(change => change.kind === 'element' && change.id === automationTarget.id);
     assert.ok(propertyPreview, 'preview identifies the target element by stable ID');
     const propertyValue = properties => Array.isArray(properties)
