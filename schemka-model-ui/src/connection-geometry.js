@@ -33,7 +33,7 @@ function polygonRay(rect, direction) {
 // New outlines use normalized local coordinates so clipping remains stable for
 // tiny, extremely asymmetric nodes translated far from the origin. Keep the
 // historical rectangle/box paths below unchanged.
-const extendedToken = token => token === 'circle' || token === 'octagon' || token === 'ellipse' || token === 'folder' || token === 'cloud' || token === 'wavy';
+const extendedToken = token => token === 'circle' || token === 'octagon' || token === 'ellipse' || token === 'folder' || token === 'cloud' || token === 'wavy' || token === 'folded';
 const cross = (a, b) => a.x * b.y - a.y * b.x;
 const subtract = (a, b) => ({ x: a.x - b.x, y: a.y - b.y });
 const interpolate = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });

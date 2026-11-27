@@ -25,6 +25,15 @@ export function nodeContourGeometry({ x = 0, y = 0, width, height }, token) {
   if (token === 'ellipse') return { ellipse: {
     cx: x + width / 2, cy: y + height / 2, rx: width / 2, ry: height / 2,
   } };
+  if (token === 'folded') {
+    const fold = Math.min(14, width / 4, height / 4);
+    return {
+      outline: [[x, y], [x + width - fold, y], [x + width, y + fold],
+        [x + width, y + height], [x, y + height]].map(([px, py]) => ({ x: px, y: py })),
+      crease: [[x + width - fold, y], [x + width - fold, y + fold],
+        [x + width, y + fold]].map(([px, py]) => ({ x: px, y: py })),
+    };
+  }
   let points;
   if (token === 'octagon') {
     const cut = Math.min(width / 5, height / 5, 12);

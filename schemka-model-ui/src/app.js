@@ -521,7 +521,7 @@ function occurrenceContourFor(state) {
     if (occurrence.style?.shape === 'rectangle') return 0;
     if (occurrence.style?.shape === 'ellipse') return 'ellipse';
     if (occurrence.style?.shape === 'rounded') return Math.min(10, occurrence.bounds.width / 4, occurrence.bounds.height / 4);
-    // shortcut: folded overrides keep notation clipping; add their polygon contour if exact endpoint routing is needed.
+    if (occurrence.style?.shape === 'folded') return 'folded';
     return contours.get(occurrence.concept.id) ?? 0;
   } };
   return contourCache.read;
