@@ -3,7 +3,7 @@
   "scope": "All applicable recorded Archi → Arkita requirements before final local Windows acceptance; no new exclusions by implementation difficulty.",
   "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
   "historical_baseline": "d075e67c7ca6e7720f537102e245a59f53808b32",
-  "updated_at": "2026-11-25",
+  "updated_at": "2026-11-27",
   "record_count": 339,
   "method": "Current release preparation separates source implementation from acceptance. previous_inventory preserves the prior eb643c46-era current_status/evidence/remaining/verification without rewriting coverage.json/cards. acceptance-pending does not mean implemented or accepted; follow implementation_ledger for current routes, tests and limits. closed_criteria still requires criterion-level exact-source checks and reviewed/merged PR evidence.",
   "issues": {
@@ -742,13 +742,14 @@
         "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md",
         "schemka-model-ui/src/catalog-folders.js",
         "schemka-model-ui/test/catalog-folders.test.js",
-        "schemka-model-ui/test/catalog-tree-app.test.js"
+        "schemka-model-ui/test/catalog-tree-app.test.js",
+        "docs/feature-corpus/GROUP-46-CRITERION-REVIEW.md#a-editor-024-evidence-update-2026-11-27"
       ],
-      "remaining": "Записать criterion-level сценарий навигации Back/Home и восстановления контекста после удаления или перемещения текущей папки.",
+      "remaining": "Saved Chromium receipts are tied to historical main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; no independent renderer re-review on current main 9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf is recorded. Installed Windows/native acceptance remains UNRUN.",
       "issue": 46,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Current source/test routes reviewed against main f648a7570ea29fea4ea5a4166e0c741d68191886. This is a coverage map, not criterion acceptance; result remains pending and no closed_criteria added.",
+      "verification": "Saved renderer receipts in PR #68 are tied to exact historical public main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b (tree 04d0cc509e93c19471182f00c4ec30553008e07f): selection/move/delete receipt SHA-256 b33fb31cae36f45be88270111845e7e947b10594fd34508f84cd6b4ad7e1de69 and navigation/bytes/history receipt SHA-256 8ab3b1e9e8184714e724e2a242b9236ed42330d884702ce6d1e1484c3965ea08. The current-main comparison leaves catalog-folders.js and its two focused tests unchanged, while app.js contains additional selection/visual refresh changes; no current-main Chromium rerun is claimed. Main CI 45926069910 and CodeQL 45926069967 passed on 9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf. Criterion remains acceptance-pending, closed_criteria stays empty, and installed Windows/native acceptance remains UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
