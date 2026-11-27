@@ -457,6 +457,8 @@ async function run() {
     if (!(await additionalMenu.evaluate(menu => menu.open))) await additionalMenu.locator(':scope > summary').click();
     await page.locator('#automation-button').click();
     await page.locator('#automation-dialog').waitFor({ state: 'visible' });
+    const installDetails = page.locator('#automation-dialog details').filter({ hasText: 'Установить или обновить пакет' });
+    if (!(await installDetails.evaluate(section => section.open))) await installDetails.locator(':scope > summary').click();
     const automationManifest = {
       ...EXAMPLE_AUTOMATION,
       id: 'arkita.smoke-batch',
