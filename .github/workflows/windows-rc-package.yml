@@ -64,7 +64,7 @@ jobs:
             throw "Checked out $actualSha, expected $env:SOURCE_SHA."
           }
           $manifest = Get-Content package.json -Raw | ConvertFrom-Json
-          $lock = Get-Content package-lock.json -Raw | ConvertFrom-Json
+          $lock = Get-Content package-lock.json -Raw | ConvertFrom-Json -AsHashtable
           $lockRoot = $lock.packages['']
           if ($null -eq $lockRoot) {
             throw 'package-lock.json root package metadata is missing.'
