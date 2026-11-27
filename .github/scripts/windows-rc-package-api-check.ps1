@@ -61,4 +61,12 @@ $body = "Installer ${env:INSTALLER_NAME}: 123 bytes, SHA-256 abcdef."
 if (-not $body.Contains('Installer Arkita-0.7.1-rc.1-win-x64-setup.exe: 123 bytes, SHA-256 abcdef.')) {
   throw 'Installer name/colon interpolation did not preserve the release body.'
 }
-Write-Output 'PowerShell Invoke-RestMethod parameters, response shape, URI, and body checks passed.'
+$repositoryRoot = Join-Path $PSScriptRoot '..\..'
+$manifest = Get-Content -LiteralPath (Join-Path $repositoryRoot 'package.json') -Raw | ConvertFrom-Json
+$lockfile = Get-Content -LiteralPath (Join-Path $repositoryRoot 'package-lock.json') -Raw | ConvertFrom-Json -AsHashtable
+$lockRoot = $lockfile.packages['']
+if ($null -eq $lockRoot -or [string]$lockRoot.name -cne [string]$manifest.name) {
+  throw 'The actual package-lock.json root entry did not match package.json.'
+}
+
+Write-Output 'PowerShell Invoke-RestMethod parameters, response shape, URI, and body and npm lockfile root checks passed.'
