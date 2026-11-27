@@ -11,7 +11,7 @@ import { applyV4Command, assertUnlockedDrawings } from './native-v4-commands.js'
 import { applyBulkMetadata } from './bulk-metadata.js';
 import { metadataRecord } from './metadata.js';
 import { generateViewInto } from './model-graph.js';
-import { CURRENT_PROFILE, createRegistry, assessRelationshipCreation, assessProject } from '../../schemka-model-profiles/src/index.js';
+import { CURRENT_PROFILE, createRegistry, assessRelationshipCreation, assessProject, evaluateConceptRelationship, getVerifiedRelationshipDecision, getVerifiedConceptDecision } from '../../schemka-model-profiles/src/index.js';
 
 const creationRegistry = createRegistry([CURRENT_PROFILE]);
 
@@ -503,6 +503,24 @@ function apply(state, command) {
       result.affectedViewIds = relationshipViews(item.id);
       break;
     }
+    case 'createElementAndRelationship': {
+      shape(['viewId', 'existingOccurrenceId', 'elementType', 'name', 'relationshipType', 'label', 'newEndpointRole', 'bounds'], ['parent', 'elementStyle', 'connectionStyle']);
+      if (!['source', 'target'].includes(command.newEndpointRole)) fail('COMMAND', 'New endpoint role must be source or target');
+      const entry = view(), existing = find(entry.occurrences, command.existingOccurrenceId);
+      const element = apply(state, { type: 'createElementAndOccurrence', viewId: command.viewId,
+        elementType: command.elementType, name: command.name, bounds: command.bounds,
+        ...(Object.hasOwn(command, 'parent') ? { parent: command.parent } : {}),
+        ...(Object.hasOwn(command, 'elementStyle') ? { style: command.elementStyle } : {}) });
+      const newEnd = { kind: 'occurrence', id: element.created.occurrenceId }, existingEnd = { kind: 'occurrence', id: existing.id };
+      const relationship = apply(state, { type: 'createRelationshipAndConnection', viewId: command.viewId,
+        source: command.newEndpointRole === 'source' ? newEnd : existingEnd,
+        target: command.newEndpointRole === 'target' ? newEnd : existingEnd,
+        relationshipType: command.relationshipType, label: command.label,
+        ...(Object.hasOwn(command, 'connectionStyle') ? { style: command.connectionStyle } : {}) });
+      result.created = { ...element.created, ...relationship.created };
+      result.affectedViewIds = [entry.view.id];
+      break;
+    }
     case 'createRelationshipAndConnection': {
       shape(['viewId', 'source', 'target', 'relationshipType', 'label'], ['documentation', 'properties', 'routePoints', 'labelPosition', 'sourceMultiplicity', 'targetMultiplicity', 'junctionRole', 'style', 'profileId']);
       const entry = view();
@@ -638,6 +656,18 @@ export function createStore(initialState) {
       const result = apply(candidate, structuredClone(command));
       validateProject(candidate);
       assertUnlockedDrawings(state, candidate);
+      if (command.type === 'createElementAndRelationship') {
+        const relationship = find(candidate.relationships, result.created.relationshipId), index = projectIndex(candidate);
+        const describe = ref => { const item = conceptRecord(index, ref); return { kind: ref.kind, type: item.type }; };
+        const decision = evaluateConceptRelationship(creationRegistry, candidate.project.metamodel, {
+          source: describe(relationship.source), relationshipType: relationship.type, target: describe(relationship.target), scope: 'direct',
+        });
+        const verified = getVerifiedRelationshipDecision(decision) ?? getVerifiedConceptDecision(decision);
+        if (verified?.status !== 'ALLOWED') {
+          const code = verified?.status === 'FORBIDDEN' ? 'RELATIONSHIP_FORBIDDEN' : 'RELATIONSHIP_UNKNOWN';
+          fail(code, `Compound creation requires a verified ALLOWED endpoint pair (received ${decision.status}).`);
+        }
+      }
       for (const relationshipId of result.created.relationshipIds ?? (result.created.relationshipId ? [result.created.relationshipId] : [])) {
         const forbidden = assessRelationshipCreation(candidate, creationRegistry, relationshipId);
         if (forbidden) fail('RELATIONSHIP_FORBIDDEN', `Новое отношение запрещено: ${forbidden.reason} (${forbidden.ruleId || 'endpoint-permission'}).`);
