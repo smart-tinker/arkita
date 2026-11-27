@@ -13,6 +13,7 @@ test('real report exclusion precedes all data, follows folder/relationship/drawi
   assert.throws(() => prepareReportProject(f.store.snapshot, { excludeIds: [f.store.snapshot.project.id] }));
 });
 
+
 test('report revision uses locale number formatting without changing model data', () => {
   const f = fixture(), before = f.store.exportFiles(), revision = 1234, generatedAt = '2026-01-01T00:00:00Z';
   for (const [locale, revisionLabel] of [['ru-RU', 'Ревизия'], ['en-US', 'Revision']]) {
@@ -31,6 +32,12 @@ test('missing report translations fall back to the other supported locale or the
   assert.equal(resolveReportWord('ru-RU', 'missingSection', { 'ru-RU': {}, 'en-US': {} }), 'missingSection');
 });
 
+test('offline report print stylesheet numbers pages within safe margins without mutating model data', () => {
+  const f = fixture(), before = f.store.exportFiles(), html = generateHtmlReport(f.store.snapshot, { revision: f.store.revision, generatedAt: '2026-01-01T00:00:00Z' });
+  assert.ok(html.includes('@page{margin:12mm;@bottom-center{content:counter(page)'), 'print CSS should keep safe paper margins and reserve the bottom margin for page numbers');
+  assert.deepEqual(f.store.exportFiles(), before);
+});
+
 test('offline report scripts use only fixed code; model HTML is inert, search and query resolve exact IDs', async t => {
   const f = fixture(), html = generateHtmlReport(f.store.snapshot, { revision: 1 });
   const dom = new JSDOM(html, { runScripts: 'dangerously', url: 'file:///report.html' }); t.after(() => dom.window.close()); const { document, Event } = dom.window;
@@ -38,6 +45,27 @@ test('offline report scripts use only fixed code; model HTML is inert, search an
   const search = document.getElementById('report-search'); search.value = 'privatesecretentity'; search.dispatchEvent(new Event('input')); assert.equal(document.getElementById(f.a.elementId).hidden, false); assert.equal(document.getElementById(f.b.elementId).hidden, true); document.getElementById('report-reset').click(); assert.equal(document.getElementById(f.b.elementId).hidden, false);
   const filter = document.querySelector(`[data-filter="${f.folder.folderId}"]`); filter.checked = false; filter.dispatchEvent(new Event('change')); assert.equal(document.getElementById(f.a.elementId).hidden, true); assert.equal(document.getElementById(f.folder.folderId).hidden, false); assert.ok(html.includes('PrivateSecretEntity'));
   document.getElementById('query-table').value = 'element'; document.getElementById('query-field').value = 'name'; document.getElementById('query-value').value = 'public'; document.getElementById('query-form').dispatchEvent(new Event('submit', { cancelable: true })); assert.equal(document.querySelector('#query-result a').getAttribute('href'), `#${f.b.elementId}`);
+
+  filter.checked = true; filter.dispatchEvent(new Event('change')); search.value = 'privatesecretentity'; search.dispatchEvent(new Event('input')); assert.equal(document.getElementById(f.a.elementId).hidden, false);
+  filter.checked = false; filter.dispatchEvent(new Event('change')); assert.equal(document.getElementById(f.a.elementId).hidden, true); assert.equal(document.getElementById(f.b.elementId).hidden, true);
+  const reportData = document.getElementById('report-data').textContent, original = f.store.exportFiles();
+  document.getElementById('query-value').value = 'PrivateSecretEntity'; document.getElementById('query-form').dispatchEvent(new Event('submit', { cancelable: true }));
+  const result = document.querySelector('#query-result a'); assert.equal(result?.getAttribute('href'), `#${f.a.elementId}`); result.click();
+  assert.equal(document.getElementById(f.a.elementId).hidden, false); assert.equal(document.getElementById(f.b.elementId).hidden, true);
+  assert.equal(search.value, 'privatesecretentity'); assert.equal(filter.checked, false); assert.equal(document.getElementById('report-data').textContent, reportData); assert.deepEqual(f.store.exportFiles(), original);
+});
+
+test('actually excluded report data is absent from the offline query as well as the saved page', () => {
+  const f = fixture(), excluded = prepareReportProject(f.store.snapshot, { excludeIds: [f.folder.folderId] }), html = generateHtmlReport(excluded.snapshot, { revision: f.store.revision });
+  assert.ok(!html.includes('PrivateSecretEntity')); assert.ok(!html.includes(f.a.elementId));
+  const dom = new JSDOM(html, { runScripts: 'dangerously', url: 'file:///excluded-report.html' });
+  try {
+    const { document, Event } = dom.window, rows = JSON.parse(document.getElementById('report-data').textContent);
+    assert.equal(rows.some(row => row.id === f.a.elementId), false);
+    document.getElementById('query-table').value = 'element'; document.getElementById('query-field').value = 'name'; document.getElementById('query-value').value = 'PrivateSecretEntity';
+    document.getElementById('query-form').dispatchEvent(new Event('submit', { cancelable: true }));
+    assert.equal(document.querySelectorAll('#query-result a').length, 0); assert.match(document.getElementById('query-status').textContent, /^0 \/ /);
+  } finally { dom.window.close(); }
 });
 
 test('report templates are closed data with sections and locale; malformed/active templates fail before export', () => {

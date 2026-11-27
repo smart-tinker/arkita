@@ -87,7 +87,7 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   const selected = id => [...controls[id].selectedOptions].map(option => option.value);
   const stamp = () => ({ store: model.store, revision: model.store.revision, viewId: model.viewId });
   const selectionKey = () => JSON.stringify(model.selections?.length ? model.selections : model.selection);
-  const current = captured => captured && captured.store === model.store && captured.revision === model.store.revision && captured.viewId === model.viewId && (!captured.selection || captured.selection === selectionKey()) && dialog.open;
+  const current = captured => captured && captured.store === model.store && captured.revision === model.store.revision && (scope.value !== 'view' || captured.viewId === model.viewId) && (!captured.selection || captured.selection === selectionKey()) && dialog.open;
   function report(text) { message.textContent = text; }
   function invalidate() { generation++; task.cancel(); plan = null; preview.hidden = true; preview.replaceChildren(); apply.disabled = true; discard.hidden = true; cancelTask.disabled = true; error.textContent = ''; }
   function options() {
@@ -119,8 +119,9 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     try {
       const rows = await task.run(model.store.snapshot, options());
       if (request !== generation || !current(captured)) return;
-      found = rows; chosen = new Set([...chosen].filter(key => rows.some(row => ownerKey(row.owner) === key))); active = rows.length ? 0 : -1;
-      drawResults(); report(query.value ? `Найдено объектов: ${rows.length}.` : `Пустой запрос: все объекты выбранной области (${rows.length}).`);
+      found = scope.value === 'view' ? rows.filter(row => row.owner.kind !== 'view') : rows;
+      chosen = new Set([...chosen].filter(key => found.some(row => ownerKey(row.owner) === key))); active = found.length ? 0 : -1;
+      drawResults(); report(query.value ? `Найдено объектов: ${found.length}.` : `Пустой запрос: все объекты выбранной области (${found.length}).`);
     } catch (failure) { if (request === generation && current(captured)) { found = []; drawResults(); error.textContent = failure.message; report('Поиск не выполнен. Модель не изменена.'); } }
     finally { if (request === generation) cancelTask.disabled = true; }
   }
@@ -147,7 +148,8 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     active = (active + delta + found.length) % found.length;
     document.getElementById(`advanced-result-${active}`)?.focus();
     const row = found[active]; report(`${active + 1} / ${found.length}: ${row.name} · ${row.owner.id}`);
-    if (scope.value === 'view') { const drawing = row.drawings.find(item => item.viewId === model.viewId); if (drawing) revealDrawing(drawing); }
+    const drawing = row.drawings.find(item => item.viewId === model.viewId) || row.drawings[0];
+    if (drawing) revealDrawing(drawing);
   }
   function targets() {
     const all = modelSearchRecords(model.store.snapshot);
@@ -212,7 +214,12 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
   function commit() {
     const pending = plan;
     if (!pending?.changes.length || pending.collisions.length) return;
-    if (!current(pending.captured)) { invalidate(); error.textContent = 'Модель изменилась после предпросмотра. Подготовьте изменения заново.'; return; }
+    if (!current(pending.captured)) {
+      invalidate();
+      if (dialog.dataset.mode === 'properties') { source = stamp(); drawCommon(); }
+      error.textContent = 'Модель изменилась после предпросмотра. Подготовьте изменения заново.';
+      return;
+    }
     invalidate();
     try {
       model.execute({ type: 'bulkUpdateMetadata', changes: pending.changes }, pending.captured.revision); render(); report('Изменения применены. Одно Undo вернёт их полностью.'); vocabulary();

@@ -38,7 +38,11 @@ export function prepareReportProject(state, { excludeIds = [], excludeProperties
   const viewIds = new Set(snapshot.views.map(entry => entry.view.id));
   for (const entry of snapshot.views) {
     entry.occurrences = entry.occurrences.filter(item => !excluded.has(item.id) && !excluded.has(item.concept.id));
-    entry.visualNodes = entry.visualNodes.filter(item => !excluded.has(item.id) && (item.kind !== 'viewReference' || viewIds.has(item.targetViewId)));
+    entry.visualNodes = entry.visualNodes.filter(item => {
+      if (excluded.has(item.id)) return false;
+      if (item.kind !== 'viewReference' || viewIds.has(item.targetViewId)) return true;
+      warnings.push(`Ссылка ${item.id} удалена из сохранённого представления «${entry.view.name || '(без названия)'}» (${entry.view.id}), так как целевое представление исключено`); return false;
+    });
     entry.connections = entry.connections.filter(item => !excluded.has(item.id) && !excluded.has(item.relationshipId)); entry.visualConnectors = entry.visualConnectors.filter(item => !excluded.has(item.id));
     for (let changed = true; changed;) {
       const available = new Set([...entry.occurrences, ...entry.visualNodes, ...entry.connections, ...entry.visualConnectors].map(item => item.id)); changed = false;
@@ -60,7 +64,7 @@ export function resolveReportWord(locale, key, translations = words) {
   const fallbackLocale = locale === 'ru-RU' ? 'en-US' : 'ru-RU';
   return translations[locale]?.[key] ?? translations[fallbackLocale]?.[key] ?? key;
 }
-const css = 'body{font:15px/1.55 "Segoe UI",system-ui,sans-serif;margin:0;color:#172033;background:#fff}header,main,footer{max-width:1100px;margin:auto;padding:24px}nav{display:flex;gap:12px;flex-wrap:wrap}a{color:#1559ad}section{margin:32px 0}article{border-top:1px solid #d9e0eb;padding:16px 0;break-inside:avoid}table{border-collapse:collapse;max-width:100%;overflow-wrap:anywhere}td,th{border:1px solid #d9e0eb;padding:6px 10px;text-align:left}pre{white-space:pre-wrap;background:#f3f5f8;padding:12px}.diagram{overflow:auto;max-width:100%;border:1px solid #d9e0eb}.diagram img{display:block;max-width:none;height:auto}button,input,select{font:inherit;padding:6px;margin:4px}button:focus-visible,a:focus-visible{outline:3px solid #3877bf}small{color:#5b6578}.excluded{padding:10px;background:#fff3d6}[hidden]{display:none!important}@media print{header form,.report-tools,nav{display:none}header,main,footer{padding:0}section{break-before:page}.diagram{overflow:visible;border:0}.diagram img{max-width:100%;width:100%!important}a{color:inherit}}';
+const css = 'body{font:15px/1.55 "Segoe UI",system-ui,sans-serif;margin:0;color:#172033;background:#fff}header,main,footer{max-width:1100px;margin:auto;padding:24px}nav{display:flex;gap:12px;flex-wrap:wrap}a{color:#1559ad}section{margin:32px 0}article{border-top:1px solid #d9e0eb;padding:16px 0;break-inside:avoid}table{border-collapse:collapse;max-width:100%;overflow-wrap:anywhere}td,th{border:1px solid #d9e0eb;padding:6px 10px;text-align:left}pre{white-space:pre-wrap;background:#f3f5f8;padding:12px}.diagram{overflow:auto;max-width:100%;border:1px solid #d9e0eb}.diagram img{display:block;max-width:none;height:auto}button,input,select{font:inherit;padding:6px;margin:4px}button:focus-visible,a:focus-visible{outline:3px solid #3877bf}small{color:#5b6578}.excluded{padding:10px;background:#fff3d6}[hidden]{display:none!important}@page{margin:12mm;@bottom-center{content:counter(page);font:10px sans-serif;color:#5b6578}}@media print{header form,.report-tools,nav{display:none}header,main,footer{padding:0}section{break-before:page}.diagram{overflow:visible;border:0}.diagram img{max-width:100%;width:100%!important}a{color:inherit}}';
 /** The same fixed navigation runs in the offline artifact and the in-app preview. */
 export function installReportNavigation(root, data) {
   const document = root.ownerDocument ?? root, $ = id => root.querySelector(`[id="${id}"]`), search = $('report-search'), hidden = new Set(), byId = new Map(data.map(row => [row.id, row]));
@@ -71,7 +75,7 @@ export function installReportNavigation(root, data) {
   }
   root.addEventListener('click', event => {
     const anchor = event.target.closest('a[href^="#"]'); if (!anchor || !root.contains(anchor)) return;
-    const target = $(anchor.getAttribute('href').slice(1)); if (target) { event.preventDefault(); target.scrollIntoView?.({ block: 'start' }); }
+    const target = $(anchor.getAttribute('href').slice(1)); if (target) { event.preventDefault(); if (target.matches('article[data-owner]')) target.hidden = false; target.scrollIntoView?.({ block: 'start' }); }
   });
   search.addEventListener('input', refresh);
   $('report-reset').onclick = () => { search.value = ''; hidden.clear(); for (const input of root.querySelectorAll('[data-filter]')) input.checked = true; refresh(); };

@@ -12,6 +12,32 @@ test('XML export requires explicit layer mapping and reports every unsupported d
 test('unsupported types, unresolved references, unknown fields and alternate languages never silently disappear',async()=>{const out=exportExchangeXml(model()),xml=new TextDecoder().decode(out.bytes);assert.throws(()=>importExchangeXml(xml.replace('ApplicationComponent','Constraint'),{DOMParser}),/утверждённого преобразования/);assert.throws(()=>importExchangeXml(xml.replace(/elementRef="[^"]+"/,'elementRef="missing"'),{DOMParser}),/неизвестный элемент/);const result=importExchangeXml(xml.replace('<name>Приложение</name>','<name xml:lang="en">App</name><name xml:lang="ru">Приложение</name>').replace('xsi:type="ApplicationComponent"','xsi:type="ApplicationComponent" foreign="value"'),{DOMParser,language:'ru'});assert.equal(result.snapshot.elements[0].name,'Приложение');assert.match(result.losses.join('\n'),/дополнительный язык en/);assert.match(result.losses.join('\n'),/@foreign/);});
 
 
+test('Exchange reports explicit language fallback for tagged, untagged and empty fields without changing input', () => {
+ for(const lang of ['en','']) {
+  const source=createProject('Кириллица'),before=exportFiles(source),{bytes}=exportExchangeXml(source,{language:lang}),original=bytes.slice();
+  const result=importExchangeXml(bytes,{DOMParser,language:'ru'});
+  for(const field of ['name','documentation']) assert.ok(result.losses.includes(`${source.project.id}/${field}: запрошенный язык ru отсутствует; выбран ${lang||'(без языка)'}.`));
+  assert.deepEqual(result.snapshot,source);assert.deepEqual(bytes,original);assert.deepEqual(exportFiles(source),before);
+ }
+});
+
+test('Exchange preserves exact-match and unspecified language selection without fallback diagnostics', () => {
+ const source=createProject('Кириллица'),{bytes}=exportExchangeXml(source,{language:'en'});
+ for(const preferred of ['en',undefined,'']) {
+  const result=importExchangeXml(bytes,{DOMParser,language:preferred});
+  assert.deepEqual(result.snapshot,source);assert.ok(!result.losses.some(message=>message.includes('запрошенный язык')));
+ }
+});
+
+test('Exchange does not report a language fallback for an absent field', () => {
+ const source=createProject('Кириллица'),{bytes}=exportExchangeXml(source,{language:'en'}),original=new TextDecoder().decode(bytes);
+ const xml=original.replace('<documentation xml:lang="en"></documentation>','');assert.notEqual(xml,original);
+ const result=importExchangeXml(xml,{DOMParser,language:'ru'});
+ assert.deepEqual(result.snapshot,source);
+ assert.deepEqual(result.losses.filter(message=>message.includes('запрошенный язык')),[`${source.project.id}/name: запрошенный язык ru отсутствует; выбран en.`]);
+});
+
+
 test('Archi native v5 uses its own namespace/Ecore map, relative child geometry, ordered properties and explicit losses',async()=>{
  const {readFile}=await import('node:fs/promises'),{importArchiXml}=await import('../src/archi-native.js');const bytes=await readFile(new URL('./fixtures/archi-v5-synthetic.archimate',import.meta.url));const before=Buffer.from(bytes),r=importArchiXml(bytes,{DOMParser});validateProject(r.snapshot);assert.equal(r.snapshot.elements.length,2);assert.equal(r.snapshot.views.length,2);assert.equal(r.snapshot.elements[1].type,'Role');assert.deepEqual(r.snapshot.elements[0].properties,[{key:'dup',value:'1'},{key:'dup',value:'2'}]);assert.deepEqual(r.snapshot.views[0].occurrences[0].bounds,{x:120,y:130,width:100,height:50});assert.equal(r.snapshot.views[1].visualNodes[0].style.shape,'actor');assert.match(r.losses.join('\n'),/bendpoints/);assert.deepEqual(bytes,before);assert.equal(r.snapshot.folders.filter(f=>f.name==='Equal').length,2);
  assert.throws(()=>importArchiXml(bytes.toString().replace('version="5.0.0"','version="99.0"'),{DOMParser}),/Версия/);assert.throws(()=>importArchiXml(bytes.toString().replace('source="actor"','source="missing"'),{DOMParser}),/неизвестный концепт/);assert.throws(()=>importArchiXml(bytes.toString().replace('archimate:SketchModelActor','archimate:DiagramModelImage'),{DOMParser}),/drawing/);assert.throws(()=>importArchiXml(new Uint8Array([80,75,3,4]),{DOMParser}),/ZIP/);assert.throws(()=>importExchangeXml(bytes,{DOMParser}),/не .archimate/);
