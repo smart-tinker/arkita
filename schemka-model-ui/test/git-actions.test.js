@@ -376,3 +376,43 @@ test('milestone creation, publication and local deletion have distinct actions a
   button('Удалить локальную веху').click(); await h.settle(); assert.equal(h.calls[2][0], 'delete-milestone'); assert.match(h.$('git-milestones').textContent, /на сервере/);
   assert.equal(h.calls.some(call => call[0] === 'push'), false); assert.equal(h.session.dirty, false); assert.deepEqual(h.model.store.history, { undo: 0, redo: 0 });
 });
+
+test('rejected push shows the Git error and preserves the model and local history', async t => {
+  const refusal = { status: 'error', code: 'GIT_PUSH', message: 'Non-fast-forward; local versions are preserved.' };
+  const pushedTokens = [], gitHistory = [{ oid: 'abc12345', message: 'Local version', author: 'QA', date: '2026-11-27T00:00:00.000Z' }];
+  const h = setup(t, { gitPush: async token => { pushedTokens.push(token); return refusal; } }, {
+    head: 'abc12345', ahead: 1, attached: true, history: gitHistory,
+    changes: [{ path: 'schemka.json', label: 'Unsaved model', kind: 'modified' }],
+  });
+  h.rename('Unsaved model before push');
+  await h.open();
+  const token = h.session.documentToken, before = {
+    snapshot: structuredClone(h.model.store.snapshot),
+    bytes: serializeProjectFile(h.model.store.snapshot),
+    revision: h.model.store.revision,
+    undo: structuredClone(h.model.store.history),
+    dirty: h.session.dirty,
+    head: h.state.head,
+    ahead: h.state.ahead,
+    history: structuredClone(h.state.history),
+  };
+  assert.equal(before.dirty, true);
+  assert.equal(h.$('git-push').disabled, false);
+
+  h.$('git-push').click(); await h.settle();
+
+  assert.deepEqual(pushedTokens, [token]);
+  assert.equal(h.$('git-feedback').textContent, refusal.message);
+  assert.equal(h.messages.at(-1), refusal.message);
+  assert.doesNotMatch(h.$('git-feedback').textContent, /отправлены|успеш/i);
+  assert.equal(h.state.head, before.head);
+  assert.equal(h.state.ahead, before.ahead);
+  assert.deepEqual(h.state.history, before.history);
+  assert.deepEqual(h.model.store.snapshot, before.snapshot);
+  assert.deepEqual(serializeProjectFile(h.model.store.snapshot), before.bytes);
+  assert.equal(h.model.store.revision, before.revision);
+  assert.deepEqual(h.model.store.history, before.undo);
+  assert.equal(h.session.dirty, before.dirty);
+  assert.match(h.$('git-sync-state').textContent, /К отправке: 1/);
+  assert.equal(h.$('git-push').disabled, false);
+});
