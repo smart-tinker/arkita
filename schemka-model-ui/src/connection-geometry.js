@@ -238,6 +238,30 @@ function automaticGeometry(connection, occurrences, radiusFor) {
     y: (start.y + end.y) / 2 - 12, bounds: extent([start, end]) };
 }
 
+function orthogonalAutomaticGeometry(connection, occurrences, radiusFor) {
+  const source = occurrences.find(item => item.id === connection.source.id);
+  const target = occurrences.find(item => item.id === connection.target.id);
+  const from = source.bounds, to = target.bounds, fromToken = radiusFor(source), toToken = radiusFor(target);
+  if (source.id === target.id) return { ...exteriorRoute(from, to, fromToken, toToken, true), routeMode: 'orthogonal-attachment' };
+  const gapX = Math.max(0, to.x - (from.x + from.width), from.x - (to.x + to.width));
+  const gapY = Math.max(0, to.y - (from.y + from.height), from.y - (to.y + to.height));
+  if (!gapX && !gapY) return { ...exteriorRoute(from, to, fromToken, toToken, false), routeMode: 'orthogonal-attachment' };
+  let start, end, points;
+  if (gapX >= gapY) {
+    const direction = center(to).x >= center(from).x ? 1 : -1;
+    start = contourPoint(from, { x: direction, y: 0 }, fromToken);
+    end = contourPoint(to, { x: -direction, y: 0 }, toToken);
+    points = [start, { x: end.x, y: start.y }, end];
+  } else {
+    const direction = center(to).y >= center(from).y ? 1 : -1;
+    start = contourPoint(from, { x: 0, y: direction }, fromToken);
+    end = contourPoint(to, { x: 0, y: -direction }, toToken);
+    points = [start, { x: start.x, y: end.y }, end];
+  }
+  const geometry = polylineGeometry(points);
+  return { ...geometry, points, routeMode: 'orthogonal-attachment' };
+}
+
 function containsPoint(rect, point, radius) {
   if (radius === 'circle') return containsPoint(circleBounds(rect), point, 'ellipse');
   if (extendedToken(radius)) return localContains(localContour(rect, radius),
@@ -351,7 +375,7 @@ function polylineGeometry(points) {
     x: middle.x, y: middle.y - 12, bounds: extent(points), length };
 }
 
-function pinnedPolyline(connection, occurrences, radiusFor, storedGeometry, connections) {
+function pinnedPolyline(connection, occurrences, radiusFor, storedGeometry, connections, orthogonalAttachment = false) {
   // A preview replaces the same-ID host in this call, so a self attachment also
   // uses the current preview's point. Other hosts are read directly, once.
   const hosts = [connection, ...connections.filter(item => item.id !== connection.id)];
@@ -360,8 +384,23 @@ function pinnedPolyline(connection, occurrences, radiusFor, storedGeometry, conn
   const retained = connection.routePoints.map((item, index) => ({ ...item, rawIndex: index }))
     .filter(item => storedGeometry === true || item.kind === 'anchor');
   const waypoints = retained;
-  const points = [source.point, ...waypoints.map(item => item.point), target.point];
-  const pinnedIndices = waypoints.flatMap((item, index) => item.kind === 'anchor' ? [index + 1] : []);
+  let points = [source.point, ...waypoints.map(item => item.point), target.point];
+  let segmentOwners = [];
+  const pinnedIndices = [];
+  if (orthogonalAttachment) {
+    const rawPoints = points;
+    points = [rawPoints[0]];
+    for (let index = 1; index < rawPoints.length; index++) {
+      const previous = points.at(-1), next = rawPoints[index];
+      const owner = index === 1 ? -1 : index === rawPoints.length - 1
+        ? connection.routePoints.length - 1 : waypoints[index - 2]?.rawIndex ?? -1;
+      if (previous.x !== next.x && previous.y !== next.y) {
+        points.push({ x: next.x, y: previous.y }); segmentOwners.push(owner);
+      }
+      points.push(next); segmentOwners.push(owner);
+      if (index < rawPoints.length - 1 && waypoints[index - 1]?.kind === 'anchor') pinnedIndices.push(points.length - 1);
+    }
+  } else pinnedIndices.push(...waypoints.flatMap((item, index) => item.kind === 'anchor' ? [index + 1] : []));
   // Connection endpoints themselves are pins. They must survive clipping by
   // the occurrence at the other end, even when that point is fully hidden.
   if (source.kind === 'connection') pinnedIndices.unshift(0);
@@ -399,10 +438,13 @@ function pinnedPolyline(connection, occurrences, radiusFor, storedGeometry, conn
   if (!length) diagnostics.push({ ruleId: 'degenerate-route', connectionId: connection.id });
   const result = { ...geometry, points: route, anchors, diagnostics, routeMode: 'pinned-polyline',
     endpointBounds: { source: source.bounds, target: target.bounds } };
-  const rawIndex = position => position <= 0 ? -1 : waypoints[Math.min(position - 1, waypoints.length - 1)]?.rawIndex ?? -1;
-  routeInsertionIndices.set(result, [rawIndex(Math.floor(start.position)),
-    ...points.slice(Math.floor(start.position) + 1, Math.ceil(end.position)).map((_, index) => rawIndex(Math.floor(start.position) + 1 + index)),
-    connection.routePoints.length - 1]);
+  if (orthogonalAttachment) routeInsertionIndices.set(result, segmentOwners.slice(Math.floor(start.position), Math.ceil(end.position)));
+  else {
+    const rawIndex = position => position <= 0 ? -1 : waypoints[Math.min(position - 1, waypoints.length - 1)]?.rawIndex ?? -1;
+    routeInsertionIndices.set(result, [rawIndex(Math.floor(start.position)),
+      ...points.slice(Math.floor(start.position) + 1, Math.ceil(end.position)).map((_, index) => rawIndex(Math.floor(start.position) + 1 + index)),
+      connection.routePoints.length - 1]);
+  }
   return result;
 }
 
@@ -442,20 +484,26 @@ function drawingStyleGeometry(base, connection, storedGeometry) {
  * clipping cannot discard a pin and degenerate routes remain inspectable.
  */
 export function connectionGeometry(connection, occurrences, radiusFor = () => 0, storedGeometry = false, connections = []) {
+  const orthogonalAttachment = connection.orthogonalAttachment === true;
+  const automatic = () => orthogonalAttachment ? orthogonalAutomaticGeometry(connection, occurrences, radiusFor)
+    : automaticGeometry(connection, occurrences, radiusFor);
   const pinned = connection.source.kind === 'connection' || connection.target.kind === 'connection' ||
     connection.routePoints.some(item => item.kind === 'anchor');
-  if (!pinned && storedGeometry !== true) return anchoredLabel(drawingStyleGeometry(automaticGeometry(connection, occurrences, radiusFor), connection, false),connection,false);
-  const manual = pinned ? pinnedPolyline(connection, occurrences, radiusFor, storedGeometry, connections) :
-    storedPolyline(connection, occurrences, radiusFor);
+  if (!pinned && storedGeometry !== true) return anchoredLabel(drawingStyleGeometry(automatic(), connection, false), connection, false);
+  const manual = pinned ? pinnedPolyline(connection, occurrences, radiusFor, storedGeometry, connections, orthogonalAttachment)
+    : storedGeometry === true && connection.routePoints.length
+      ? orthogonalAttachment ? pinnedPolyline(connection, occurrences, radiusFor, true, connections, true)
+        : storedPolyline(connection, occurrences, radiusFor)
+      : null;
   const routeMode = pinned ? 'pinned-polyline' : manual ? 'stored-polyline' : connection.routePoints.length ? 'automatic-fallback' : 'automatic';
-  const geometry = manual || automaticGeometry(connection, occurrences, radiusFor);
+  const geometry = manual || automatic();
   const label = (storedGeometry === true ? connection.labelPosition : null) ?? { x: geometry.x, y: geometry.y };
   const bounds = geometry.bounds;
   const result = { ...geometry, x: label.x, y: label.y, routeMode,
     ...(routeMode === 'automatic-fallback' ? { fallbackReason: 'no-visible-route' } : {}),
     bounds: extent([{ x: bounds.x, y: bounds.y }, { x: bounds.x + bounds.width, y: bounds.y + bounds.height }, label]) };
   if (manual && routeInsertionIndices.has(manual)) routeInsertionIndices.set(result, routeInsertionIndices.get(manual));
-  return anchoredLabel(drawingStyleGeometry(result, connection, storedGeometry === true),connection,storedGeometry===true);
+  return anchoredLabel(drawingStyleGeometry(result, connection, storedGeometry === true), connection, storedGeometry === true);
 }
 
 function anchoredLabel(geometry,connection,storedGeometry){

@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { setup, richLifecycleFixture } from './app-test-fixture.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/project-file.js';
+import { beginLayoutEdit, layoutHandle } from './notation-app-helpers.js';
 const dispatch = (h, id, type) => h.$(id).dispatchEvent(new h.window.Event(type, { bubbles: true, cancelable: true }));
 const state = async h => deserializeProjectFile(await h.download());
 const nextTask = window => new Promise(resolve => window.setTimeout(resolve, 0));
@@ -78,10 +79,61 @@ test('Alt-click quick creation is optional while Insert remains available and ca
 });
 
 
-test('saved view orthogonal router changes displayed strokes only, restores authored routes with Undo and no-op keeps redo',async t=>{
- const h=await setup(t),f=richLifecycleFixture(),bytes=Buffer.from(serializeProjectFile(f.state));await h.load(bytes);h.document.querySelector(`[data-view-id="${f.viewId}"]`).click();const open=()=>{h.$('diagram-tools-button').click();h.$('diagram-router-settings').click();};const paths=()=>[...h.$('canvas').querySelectorAll('g.connection .line')].map(path=>path.getAttribute('d')),originalPaths=paths();
- open();h.$('diagram-router').value='orthogonal';dispatch(h,'diagram-tools-form','submit');assert.equal(h.$('diagram-tools-dialog').open,false,h.$('diagram-tools-error').textContent);const after=await state(h),view=after.views.find(item=>item.view.id===f.viewId),original=f.state.views.find(item=>item.view.id===f.viewId);assert.equal(view.view.router,'orthogonal');assert.deepEqual(view.connections,original.connections);assert.deepEqual(view.occurrences,original.occurrences);assert.ok(paths().every(path=>!path.includes(' C ')));assert.deepEqual(deserializeProjectFile(serializeProjectFile(after)),after);
- h.$('undo').click();assert.deepEqual(await h.download(),bytes);assert.deepEqual(paths(),originalPaths);const history=h.$('history-state').textContent;open();dispatch(h,'diagram-tools-form','submit');assert.equal(h.$('history-state').textContent,history);assert.deepEqual(await h.download(),bytes);h.$('redo').click();assert.equal((await state(h)).views.find(item=>item.view.id===f.viewId).view.router,'orthogonal');
+test('saved view router attaches orthogonal lines to contours, preserves authored anchors and supports bend edits', async t => {
+  const h = await setup(t), f = richLifecycleFixture(), entry = f.state.views.find(item => item.view.id === f.viewId);
+  const route = entry.connections.find(item => item.id === f.relation.connectionId);
+  route.routePoints.splice(1, 0, { kind: 'anchor', id: 'anc-00000000-0000-4000-8000-000000000149', point: { x: 295, y: 50 } });
+  const authoredRoute = structuredClone(route.routePoints), bytes = Buffer.from(serializeProjectFile(f.state));
+  await h.load(bytes); h.document.querySelector(`[data-view-id="${f.viewId}"]`).click();
+  const open = () => { h.$('diagram-tools-button').click(); h.$('diagram-router-settings').click(); };
+  const paths = () => [...h.$('canvas').querySelectorAll('g.connection .line')].map(path => path.getAttribute('d'));
+  const originalPaths = paths();
+  assert.equal(Object.hasOwn(entry.view, 'router'), false);
+  open(); assert.equal(h.$('diagram-router').value, 'manual');
+  assert.match(h.$('diagram-tools-dialog').textContent, /примыкание по контуру/);
+  h.$('diagram-router').value = 'orthogonal'; dispatch(h, 'diagram-tools-form', 'submit');
+  assert.equal(h.$('diagram-tools-dialog').open, false, h.$('diagram-tools-error').textContent);
+  const orthogonalBytes = await h.download(), orthogonalState = deserializeProjectFile(orthogonalBytes);
+  let view = orthogonalState.views.find(item => item.view.id === f.viewId);
+  let connection = view.connections.find(item => item.id === f.relation.connectionId);
+  assert.equal(view.view.router, 'orthogonal');
+  assert.deepEqual(connection.routePoints, authoredRoute);
+  assert.ok(paths().every(path => !path.includes(' C ')), 'The selected strategy paints only orthogonal segments');
+  assert.deepEqual(deserializeProjectFile(serializeProjectFile(orthogonalState)), orthogonalState);
+
+  beginLayoutEdit(h, f.relation.connectionId);
+  const bend = layoutHandle(h, 0); bend.focus();
+  const moved = new h.window.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true });
+  bend.dispatchEvent(moved); assert.equal(moved.defaultPrevented, true);
+  assert.notDeepEqual(paths(), originalPaths);
+  h.$('layout-edit-toggle').click();
+  const movedBytes = await h.download(), movedState = deserializeProjectFile(movedBytes);
+  view = movedState.views.find(item => item.view.id === f.viewId);
+  connection = view.connections.find(item => item.id === f.relation.connectionId);
+  assert.equal(connection.routePoints[0].point.x, authoredRoute[0].point.x + 10);
+  assert.deepEqual(connection.routePoints[1], authoredRoute[1], 'Editing a bend leaves the anchor ID and coordinates exact');
+  assert.equal(view.view.router, 'orthogonal');
+
+  h.$('undo').click(); assert.deepEqual(await h.download(), orthogonalBytes);
+  open(); h.$('diagram-router').value = 'manual'; dispatch(h, 'diagram-tools-form', 'submit');
+  const manualBytes = await h.download(), manualState = deserializeProjectFile(manualBytes);
+  view = manualState.views.find(item => item.view.id === f.viewId);
+  connection = view.connections.find(item => item.id === f.relation.connectionId);
+  assert.equal(Object.hasOwn(view.view, 'router'), false, 'Manual clears the override and restores the old default');
+  assert.deepEqual(connection.routePoints, authoredRoute);
+  assert.deepEqual(paths(), originalPaths);
+  assert.deepEqual(manualBytes, bytes);
+
+  h.$('undo').click(); assert.deepEqual(await h.download(), orthogonalBytes);
+  h.$('undo').click(); assert.deepEqual(await h.download(), bytes);
+  const history = h.$('history-state').textContent;
+  open(); dispatch(h, 'diagram-tools-form', 'submit');
+  assert.equal(h.$('history-state').textContent, history); assert.equal(h.$('redo').disabled, false);
+  h.$('redo').click(); assert.deepEqual(await h.download(), orthogonalBytes);
+  await h.load(orthogonalBytes);
+  view = deserializeProjectFile(orthogonalBytes).views.find(item => item.view.id === f.viewId);
+  connection = view.connections.find(item => item.id === f.relation.connectionId);
+  assert.equal(view.view.router, 'orthogonal'); assert.deepEqual(connection.routePoints, authoredRoute);
 });
 
 test('quick type searches work in both orders, keep source-issued UNKNOWN and omit verified forbidden combinations',async t=>{
