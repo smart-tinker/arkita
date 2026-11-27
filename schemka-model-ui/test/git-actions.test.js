@@ -392,11 +392,18 @@ test('rejected push shows the Git error and preserves the model and local histor
     revision: h.model.store.revision,
     undo: structuredClone(h.model.store.history),
     dirty: h.session.dirty,
+    documentToken: h.session.documentToken,
     head: h.state.head,
     ahead: h.state.ahead,
+    changes: structuredClone(h.state.changes),
     history: structuredClone(h.state.history),
+    syncState: h.$('git-sync-state').textContent,
   };
   assert.equal(before.dirty, true);
+  assert.equal(h.state.attached, true);
+  assert.equal(before.ahead, 1);
+  assert.equal(before.changes.length, 1);
+  assert.equal(before.syncState, 'Файл .arkita: есть несохранённые изменения. Не записано в Git: 1. К отправке: 1. К получению: 0. Сведения о сервере — после последнего подключения или получения.');
   assert.equal(h.$('git-push').disabled, false);
 
   h.$('git-push').click(); await h.settle();
@@ -405,9 +412,12 @@ test('rejected push shows the Git error and preserves the model and local histor
   assert.equal(h.$('git-feedback').textContent, refusal.message);
   assert.equal(h.messages.at(-1), refusal.message);
   assert.doesNotMatch(h.$('git-feedback').textContent, /отправлены|успеш/i);
+  assert.equal(h.session.documentToken, before.documentToken);
   assert.equal(h.state.head, before.head);
   assert.equal(h.state.ahead, before.ahead);
+  assert.deepEqual(h.state.changes, before.changes);
   assert.deepEqual(h.state.history, before.history);
+  assert.equal(h.$('git-sync-state').textContent, before.syncState);
   assert.deepEqual(h.model.store.snapshot, before.snapshot);
   assert.deepEqual(serializeProjectFile(h.model.store.snapshot), before.bytes);
   assert.equal(h.model.store.revision, before.revision);
