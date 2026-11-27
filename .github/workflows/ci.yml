@@ -28,6 +28,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Check Windows RC package API handling
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./.github/scripts/windows-rc-package-api-check.ps1
+
       - name: Set up Node.js 22
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
@@ -93,6 +98,20 @@ jobs:
           if (-not (Test-Path $executable -PathType Leaf)) {
             throw "Installed Arkita executable was not found: $executable"
           }
+          $sourceLicense = Join-Path $env:GITHUB_WORKSPACE 'LICENSE'
+          $installedLicense = Join-Path $installDir 'resources\LICENSE'
+          if (-not (Test-Path $sourceLicense -PathType Leaf)) {
+            throw "Repository MIT license was not found: $sourceLicense"
+          }
+          if (-not (Test-Path $installedLicense -PathType Leaf)) {
+            throw "Installed MIT license was not found: $installedLicense"
+          }
+          $sourceLicenseHash = (Get-FileHash -LiteralPath $sourceLicense -Algorithm SHA256).Hash
+          $installedLicenseHash = (Get-FileHash -LiteralPath $installedLicense -Algorithm SHA256).Hash
+          if ($installedLicenseHash -ne $sourceLicenseHash) {
+            throw "Installed MIT license SHA-256 differs from source. Source=$sourceLicenseHash Installed=$installedLicenseHash"
+          }
+          Write-Output "Installed MIT license SHA-256 matches source: $installedLicenseHash."
           $app = Start-Process -FilePath $executable -PassThru
           try {
             $deadline = (Get-Date).AddSeconds(45)

@@ -278,3 +278,88 @@ test('magic drop fixes endpoint drawings while explicit menu dialog restores edi
   h.ui.openLink(null, { smart: true });
   assert.equal(h.$('link-endpoints').hidden, false); assert.equal(h.$('link-source').disabled, false); assert.equal(h.$('link-target').disabled, false); assert.equal(h.$('link-fixed-endpoints').hidden, true);
 });
+
+test('smart chooser assesses both ordered directions, omits forbidden ReadAccess and commits the selected order once', () => {
+  const f = extendedEndpointFixture(), h = setup(createStore(f.state)); h.model.switchView(f.viewId);
+  const endpoints = { sourceEndpoint: { kind: 'occurrence', id: f.items.ApplicationComponent.occurrenceId }, targetEndpoint: { kind: 'occurrence', id: f.items.DataObject.occurrenceId } };
+  const before = h.model.store.exportFiles(), source = f.items.ApplicationComponent.elementId, target = f.items.DataObject.elementId;
+  h.ui.openLink(null, { smart: true, ...endpoints });
+  const options = h.$('smart-link-type').children.flatMap(group => group.tag === 'optgroup' ? group.children : [group]);
+  const groups = h.$('smart-link-type').children.filter(item => item.tag === 'optgroup');
+  assert.ok(groups.some(group => group.label.startsWith('ALLOWED · Прямое: ApplicationComponent') && group.label.includes('→ DataObject')));
+  assert.ok(groups.some(group => group.label.startsWith('ALLOWED · Обратное: DataObject') && group.label.includes('→ ApplicationComponent')));
+  assert.ok(options.some(item => item.value === 'ReadAccess'));
+  assert.ok(!options.some(item => item.value === 'reverse:ReadAccess'));
+  assert.match(h.$('smart-link-direction').textContent, /ApplicationComponent.*→.*DataObject.*DataObject.*→.*ApplicationComponent/);
+  assert.deepEqual(h.model.store.exportFiles(), before);
+  h.$('smart-link-type').value = 'reverse:Association'; h.$('smart-link-type').event('change');
+  assert.equal(h.$('link-assessment').dataset.assessment, 'ALLOWED');
+  h.$('link-form').event('submit');
+  const command = h.commands.at(-1), relation = h.model.store.snapshot.relationships.at(-1), connection = h.model.view.connections.at(-1);
+  assert.equal(command.type, 'createRelationshipAndConnection'); assert.equal(command.relationshipType, 'Association');
+  assert.equal(relation.source.id, target); assert.equal(relation.target.id, source);
+  assert.deepEqual(connection.source, endpoints.targetEndpoint); assert.deepEqual(connection.target, endpoints.sourceEndpoint);
+  assert.equal(h.model.store.history.undo, 1); h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
+});
+
+test('smart chooser separates UNKNOWN, explains an empty choice list and cancels without writing', () => {
+  const f = extendedEndpointFixture(), h = setup(createStore(f.state)); h.model.switchView(f.viewId);
+  const endpoints = { sourceEndpoint: { kind: 'occurrence', id: f.items.Plateau.occurrenceId }, targetEndpoint: { kind: 'occurrence', id: f.items.Deliverable.occurrenceId } };
+  const before = h.model.store.exportFiles();
+  h.ui.openLink(null, { smart: true, ...endpoints });
+  const groups = h.$('smart-link-type').children.filter(item => item.tag === 'optgroup');
+  assert.ok(groups.some(group => group.label.startsWith('UNKNOWN · Прямое: Plateau') && group.label.includes('→ Deliverable')));
+  assert.ok(groups.some(group => group.label.startsWith('ALLOWED · Обратное: Deliverable') && group.label.includes('→ Plateau')));
+  assert.ok(h.$('smart-link-type').children.flatMap(group => group.children || []).some(item => item.value === 'Composition'));
+  h.$('smart-link-type').value = 'Composition'; h.$('smart-link-type').event('change');
+  assert.equal(h.$('link-assessment').dataset.assessment, 'UNKNOWN'); assert.equal(h.$('link-submit').disabled, false);
+  h.$('link-dialog').close(); h.$('link-form').event('submit'); assert.deepEqual(h.model.store.exportFiles(), before);
+
+  h.model.typeVisible = kind => kind !== 'relationship';
+  h.ui.openLink(null, { smart: true, ...endpoints });
+  assert.match(h.$('smart-link-direction').textContent, /нет доступных вариантов/i);
+  assert.equal(h.$('link-submit').disabled, true);
+  h.$('link-form').event('submit'); h.$('link-dialog').close(); assert.deepEqual(h.model.store.exportFiles(), before);
+});
+
+test('reverse smart choice keeps exact drawing and anchor IDs; reuse stays bound to one relation direction', () => {
+  const f = extendedEndpointFixture(), state = structuredClone(f.state);
+  const view = state.views.find(item => item.view.id === f.viewId), host = view.connections.find(item => item.id === f.oldDrafts[0].connectionId);
+  const anchor = { id: 'anc-00000000-0000-4000-8000-000000000399', kind: 'anchor', point: { x: 111, y: 222 } }; host.routePoints.push(anchor);
+  const h = setup(createStore(state)); h.model.switchView(f.viewId);
+  const sourceEndpoint = { kind: 'connection', id: host.id, anchorId: anchor.id }, targetEndpoint = { kind: 'occurrence', id: f.items.DataObject.occurrenceId };
+  const before = h.model.store.exportFiles(), endpoints = { sourceEndpoint, targetEndpoint };
+  h.ui.openLink(null, { smart: true, ...endpoints });
+  assert.ok(h.$('smart-link-type').children.flatMap(group => group.children || []).some(item => item.value === 'reverse:Association'));
+  h.$('smart-link-type').value = 'reverse:Association'; h.$('smart-link-type').event('change');
+  h.$('link-dialog').close(); h.$('link-form').event('submit'); assert.deepEqual(h.model.store.exportFiles(), before);
+  h.ui.openLink(null, { smart: true, ...endpoints }); h.$('smart-link-type').value = 'reverse:Association'; h.$('smart-link-type').event('change'); h.$('link-form').event('submit');
+  assert.deepEqual(h.commands.at(-1).source, targetEndpoint); assert.deepEqual(h.commands.at(-1).target, sourceEndpoint);
+  assert.deepEqual(h.model.view.connections.at(-1).target, sourceEndpoint); assert.equal(h.model.store.history.undo, 1);
+  h.model.undo(); assert.deepEqual(h.model.store.exportFiles(), before);
+
+  const relationId = f.oldDrafts[0].relationshipId, relation = f.state.relationships.find(item => item.id === relationId);
+  const reuseState = structuredClone(f.state), reuse = reuseState.views.find(item => item.view.id === f.otherViewId);
+  const service = reuse.occurrences.find(item => item.concept.id === relation.source.id), process = reuse.occurrences.find(item => item.concept.id === relation.target.id);
+  const reuseH = setup(createStore(reuseState)); reuseH.model.switchView(f.otherViewId); const reuseBefore = reuseH.model.store.exportFiles();
+  reuseH.ui.openLink(null, { relationshipId: relationId });
+  assert.deepEqual(reuseH.$('link-source').options.map(item => item.value), [service.id]);
+  assert.deepEqual(reuseH.$('link-target').options.map(item => item.value), [process.id]);
+  reuseH.$('link-source').value = process.id; reuseH.$('link-target').value = service.id;
+  reuseH.$('link-source').event('change'); reuseH.$('link-target').event('change'); reuseH.$('link-form').event('submit');
+  assert.equal(reuseH.commands.length, 0); assert.deepEqual(reuseH.model.store.exportFiles(), reuseBefore);
+  reuseH.ui.openLink(null, { relationshipId: relationId }); reuseH.$('link-form').event('submit');
+  assert.equal(reuseH.commands.at(-1).relationshipId, relationId); assert.deepEqual(reuseH.commands.at(-1).source, { kind: 'occurrence', id: service.id });
+  assert.deepEqual(reuseH.commands.at(-1).target, { kind: 'occurrence', id: process.id });
+  reuseH.model.undo(); assert.deepEqual(reuseH.model.store.exportFiles(), reuseBefore);
+});
+
+test('smart chooser keeps direct and reverse groups distinct when both endpoint names match', () => {
+  const f = extendedEndpointFixture(), state = structuredClone(f.state);
+  for (const type of ['ApplicationComponent', 'DataObject']) state.elements.find(item => item.id === f.items[type].elementId).name = 'Same endpoint';
+  const h = setup(createStore(state)); h.model.switchView(f.viewId);
+  h.ui.openLink(null, { smart: true, sourceEndpoint: { kind: 'occurrence', id: f.items.ApplicationComponent.occurrenceId }, targetEndpoint: { kind: 'occurrence', id: f.items.DataObject.occurrenceId } });
+  const labels = h.$('smart-link-type').children.filter(item => item.tag === 'optgroup').map(item => item.label);
+  assert.ok(labels.includes('ALLOWED · Прямое: Same endpoint → Same endpoint'));
+  assert.ok(labels.includes('ALLOWED · Обратное: Same endpoint → Same endpoint'));
+});

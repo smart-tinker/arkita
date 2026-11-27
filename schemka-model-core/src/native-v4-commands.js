@@ -23,7 +23,7 @@ export function hierarchyDescendants(entry, refs) {
   for (let at = 0; at < queue.length; at++) for (const child of children.get(queue[at]) ?? []) if (!selected.has(child)) { selected.add(child); queue.push(child); }
   return all.filter(({ kind, item }) => selected.has(`${kind}:${item.id}`));
 }
-const types = new Set(['createFolder', 'updateFolder', 'moveFolderMembers', 'deleteFolder', 'createElementInModel', 'createJunctionInModel', 'duplicateConcept', 'createAsset', 'deleteAsset', 'createVisualNode', 'updateVisualNode', 'createVisualConnector', 'updateVisualConnector', 'updateDrawingStyle', 'resetDrawingStyle', 'reparentDrawing', 'resizeDrawing', 'setCustomizationProfileImage', 'setDrawingLocked', 'setViewPresentation']);
+const types = new Set(['createFolder', 'updateFolder', 'moveFolderMembers', 'deleteFolder', 'createElementInModel', 'createJunctionInModel', 'duplicateConcept', 'createAsset', 'replaceAsset', 'deleteAsset', 'createVisualNode', 'updateVisualNode', 'createVisualConnector', 'updateVisualConnector', 'updateDrawingStyle', 'resetDrawingStyle', 'reparentDrawing', 'resizeDrawing', 'setCustomizationProfileImage', 'setDrawingLocked', 'setViewPresentation']);
 
 /** Applies only to the store's disposable draft; its ordinary validation commits once. */
 export function applyV4Command(state, command, result) {
@@ -117,6 +117,16 @@ export function applyV4Command(state, command, result) {
       shape(['name', 'mediaType', 'data']);
       const asset = { id: newId('ast'), name: command.name, mediaType: command.mediaType, encoding: 'base64', data: command.data };
       state.assets.push(asset); result.created.assetId = asset.id; break;
+    }
+    case 'replaceAsset': {
+      shape(['assetId', 'mediaType', 'data']);
+      const asset = find(state.assets, command.assetId), usages = assetUsages(state, command.assetId);
+      if (asset.mediaType === command.mediaType && asset.data === command.data) fail('COMMAND', 'Asset replacement must change content');
+      asset.mediaType = command.mediaType; asset.data = command.data;
+      result.affectedViewIds = usages.some(item => item.kind === 'customizationProfile')
+        ? state.views.map(entry => entry.view.id)
+        : [...new Set(usages.map(item => item.viewId).filter(Boolean))];
+      break;
     }
     case 'deleteAsset': {
       shape(['assetId']); find(state.assets, command.assetId);

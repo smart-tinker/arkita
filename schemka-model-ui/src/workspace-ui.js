@@ -186,7 +186,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
     const control = event.target.closest?.('#workspace-button,#workspace-toggle-catalog,#workspace-toggle-palette,#workspace-reset,#workspace-fullscreen,#help-button,#tutorial-button,.workspace-resizer');
     if (control && ['help-button', 'tutorial-button'].includes(control.id)) beforeHelp();
     if (control && !(control.id === 'workspace-fullscreen' && document.fullscreenElement) && blocked()) {
-      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед этой командой.');
+      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед этой командой.', 'blocking');
     }
   }, true);
 
@@ -217,7 +217,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
     const focus = document.createElement('button'); focus.type = 'button'; focus.textContent = 'Перейти к команде';
     focus.addEventListener('click', () => {
       helpHandoff = previous => {
-        if (blocked()) { restoreHelpFocus(previous); status('Завершите или отмените текущую правку перед переходом к учебной команде.'); return; }
+        if (blocked()) { restoreHelpFocus(previous); status('Завершите или отмените текущую правку перед переходом к учебной команде.', 'blocking'); return; }
         const control = $(target), region = control?.closest('.toolbox') ? 'inspector' : control?.closest('.catalog') ? 'catalog' : control?.closest('.canvas-panel') ? 'canvas' : null;
         if (region) { revealPanel(region); panel(region); }
         if (control && !control.disabled && control.getClientRects().length) control.focus({ preventScroll: true });
@@ -241,7 +241,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
   const actions = help.querySelector('.dialog-actions'); help.insertBefore(nav, actions); help.insertBefore(article, actions); help.insertBefore(tutorial, actions); help.insertBefore(original, actions);
   function openHelp(key = 'overview') {
     beforeHelp();
-    if (!canHelp()) { status('Дождитесь завершения текущей операции перед открытием справки.'); return false; }
+    if (!canHelp()) { status('Дождитесь завершения текущей операции перед открытием справки.', 'blocking'); return false; }
     showArticle(key);
     if (!help.open) { helpHandoff = null; helpBookmark = focusTarget(document.activeElement); help.showModal(); }
     nav.querySelector(`[data-help-topic="${key}"]`)?.focus(); return true;

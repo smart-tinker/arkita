@@ -38,7 +38,11 @@ export function prepareReportProject(state, { excludeIds = [], excludeProperties
   const viewIds = new Set(snapshot.views.map(entry => entry.view.id));
   for (const entry of snapshot.views) {
     entry.occurrences = entry.occurrences.filter(item => !excluded.has(item.id) && !excluded.has(item.concept.id));
-    entry.visualNodes = entry.visualNodes.filter(item => !excluded.has(item.id) && (item.kind !== 'viewReference' || viewIds.has(item.targetViewId)));
+    entry.visualNodes = entry.visualNodes.filter(item => {
+      if (excluded.has(item.id)) return false;
+      if (item.kind !== 'viewReference' || viewIds.has(item.targetViewId)) return true;
+      warnings.push(`Ссылка ${item.id} удалена из сохранённого представления «${entry.view.name || '(без названия)'}» (${entry.view.id}), так как целевое представление исключено`); return false;
+    });
     entry.connections = entry.connections.filter(item => !excluded.has(item.id) && !excluded.has(item.relationshipId)); entry.visualConnectors = entry.visualConnectors.filter(item => !excluded.has(item.id));
     for (let changed = true; changed;) {
       const available = new Set([...entry.occurrences, ...entry.visualNodes, ...entry.connections, ...entry.visualConnectors].map(item => item.id)); changed = false;
