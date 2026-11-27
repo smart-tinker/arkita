@@ -77,7 +77,7 @@ test('view orthogonal attachment recalculates contour endpoints while retaining 
   assert.deepEqual(original.anchors, [{ id: 'fixed-pin', point: point(250, 80), occludedBy: [] }]);
   assert.ok(includes(original.points, point(250, 80)), 'The anchor remains an exact route point');
 
-  const movedBend = { ...route, routePoints: route.routePoints.map((item, index) => index === 0 ? { ...item, point: point(30, 50) } : item) };
+  const movedBend = { ...route, routePoints: route.routePoints.map((item, index) => index === 0 ? { ...item, point: point(-30, 105) } : item) };
   const afterBendMove = connectionGeometry(movedBend, occurrences, radiusFor, true);
   const movedPoints = orthogonal(afterBendMove);
   pointClose(movedPoints[0], contourPoint(occurrences[0].bounds, point(-1, 0), 12));
