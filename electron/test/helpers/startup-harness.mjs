@@ -289,7 +289,7 @@ if (scenario === 'lock-lost') {
 
       first.dirty = true;
       first.close();
-      assert.deepEqual(messageBoxes[promptOffset].buttons, ['Остаться', 'Сохранить и закрыть', 'Закрыть без сохранения']);
+      assert.deepEqual([...messageBoxes[promptOffset].buttons], ['Остаться', 'Сохранить и закрыть', 'Закрыть без сохранения']);
       assert.equal(messageBoxes[promptOffset].cancelId, 0);
       assert.equal(closeRequest, undefined);
       assert.equal(first.isDestroyed(), false);
@@ -306,7 +306,8 @@ if (scenario === 'lock-lost') {
       assert.equal((await ipc.get('schemka:save-current-project')(firstEvent, firstEdit, firstToken)).status, 'saved');
       assert.deepEqual(await fs.readFile(firstPath), firstEdit);
       first.dirty = false;
-      const stale = await ipc.get('schemka:finish-save-close')(firstEvent, closeRequest, randomUUID());
+      assert.notEqual(firstToken, secondToken);
+      const stale = await ipc.get('schemka:finish-save-close')(firstEvent, closeRequest, secondToken);
       assert.equal(stale.status, 'error');
       assert.equal(stale.code, 'DOCUMENT_STALE');
       assert.equal(first.isDestroyed(), false);
@@ -314,7 +315,6 @@ if (scenario === 'lock-lost') {
       assert.equal(first.isDestroyed(), true);
       assert.equal(second.isDestroyed(), false);
 
-      assert.notEqual(firstToken, secondToken);
       assert.equal((await ipc.get('schemka:document-location')(secondEvent, secondToken)).path, secondPath);
       assert.deepEqual(await fs.readFile(secondPath), originalSecond);
       const secondEdit = Buffer.from(serializeProjectFile(createProject('Second edited')));
