@@ -101,10 +101,18 @@ test(`${production ? 'production' : 'source'} app: Magic Connector creates an al
   const nestedElement = nested.state.elements.find(item => item.name === 'Created endpoint');
   assert.deepEqual(nested.state.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === nestedElement.id).parent, { kind: 'occurrence', id: parent.occurrenceId });
   const groupStore = createStore(fixture.state), group = groupStore.execute({ type: 'createVisualNode', viewId: fixture.viewId, kind: 'group', name: 'Visual group', bounds: { x: 600, y: 250, width: 350, height: 300 } }, groupStore.revision).created;
+  const competingGroup = groupStore.execute({ type: 'createVisualNode', viewId: fixture.viewId, kind: 'group', name: 'Competing group', bounds: { x: 600, y: 250, width: 350, height: 300 } }, groupStore.revision).created;
   const groupParent = { kind: 'visualNode', id: group.visualNodeId };
   const nestedGroup = await run(groupStore.snapshot, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', point: { x: 800, y: 400 }, parentRef: groupParent, shiftDrop: true });
+  const nestedGroupView = nestedGroup.state.views.find(item => item.view.id === fixture.viewId);
   const groupElement = nestedGroup.state.elements.find(item => item.name === 'Created endpoint');
-  assert.deepEqual(nestedGroup.state.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === groupElement.id).parent, groupParent);
+  const nestedGroupOccurrence = nestedGroupView.occurrences.find(item => item.concept.id === groupElement.id);
+  const containingGroups = nestedGroupView.visualNodes.filter(item => item.kind === 'group'
+    && nestedGroupOccurrence.bounds.x >= item.bounds.x && nestedGroupOccurrence.bounds.y >= item.bounds.y
+    && nestedGroupOccurrence.bounds.x + nestedGroupOccurrence.bounds.width <= item.bounds.x + item.bounds.width
+    && nestedGroupOccurrence.bounds.y + nestedGroupOccurrence.bounds.height <= item.bounds.y + item.bounds.height);
+  assert.deepEqual(containingGroups.map(item => item.id).sort(), [group.visualNodeId, competingGroup.visualNodeId].sort());
+  assert.deepEqual(nestedGroupOccurrence.parent, groupParent);
 });
 
 test(`${production ? 'production' : 'source'} app: manual relationship menu retains exact repeated connection anchors and both junction types with cancel and atomic undo`, async t => {

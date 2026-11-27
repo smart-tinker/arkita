@@ -122,6 +122,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
       status('Выбранный контейнер отсутствует в текущем представлении. Начните действие заново.'); return false;
     }
     const value = show(linked || options.atomic ? 'Элемент и отношение' : 'Быстро добавить элемент', 'quick'); if (!value) return false;
+    value.parentRef = options.parentRef ?? null;
     try {
       const defaults = readDefaults(), centered = Boolean(linked || options.atomic);
       const bounds = point ? {
@@ -209,7 +210,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     paint();
     value.read = () => ({
       viewId: value.viewId, elementType: type.value, name: name.value, bounds: value.bounds,
-      parent: !atomic() && value.controls.parent.value ? { kind: value.controls.parent.value.split(':')[0], id: value.controls.parent.value.split(':')[1] } : null,
+      parent: value.parentRef ?? (!atomic() && value.controls.parent.value ? { kind: value.controls.parent.value.split(':')[0], id: value.controls.parent.value.split(':')[1] } : null),
       sourceOccurrenceId: source.value || null, relationshipType: source.value ? relationship.value : null,
       relationshipLabel: relationshipLabel.value, reverse: reverse.value === 'reverse', atomic: atomic(),
     });
