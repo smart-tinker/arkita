@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { setup, production, richLifecycleFixture } from './app-test-fixture.js';
 import { serializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { readFileSync } from 'node:fs';
 
 test(`${production ? 'production' : 'source'} model search selects without a modal and opens exact context properties and views without consuming redo or changing saved bytes`, async t => {
   const h = await setup(t), fixture = richLifecycleFixture(), state = fixture.state;
@@ -52,27 +53,65 @@ test(`${production ? 'production' : 'source'} keys on a search result never rena
   assert.equal(previous.getAttribute('aria-pressed'), 'true'); assert.deepEqual(await h.download(), original);
 });
 
-test(`${production ? 'production' : 'source'} blocked search navigation announces the reason outside a hidden status bar`, async t => {
-  const h = await setup(t), fixture = richLifecycleFixture(), original = Buffer.from(serializeProjectFile(fixture.state));
-  await h.load(original);
+test(`${production ? 'production' : 'source'} blocked search navigation announces the reason outside a hidden status bar and preserves editor state`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture();
+  const style = h.document.createElement('style'); style.textContent = readFileSync(new URL('../style.css', import.meta.url), 'utf8'); h.document.head.append(style);
+  await h.load(Buffer.from(serializeProjectFile(fixture.state)));
+  for (const name of ['Search history A', 'Search history B']) {
+    h.$('new-view').click(); h.$('new-view-name').value = name;
+    h.$('view-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  }
+  h.$('undo').click();
+  assert.equal(h.$('undo').disabled, false); assert.equal(h.$('redo').disabled, false);
+  h.document.querySelector(`[data-view-scope="tree"][data-view-id="${fixture.viewId}"]`).click();
+  const previous = h.$('canvas').querySelector(`[data-id="${fixture.a.occurrenceId}"]`);
+  h.pointer(previous, 'pointerdown'); h.pointer(previous, 'pointerup');
+  assert.equal(previous.getAttribute('aria-pressed'), 'true');
+
   h.$('preferences-button').click(); h.$('preferences-display-statusBar').checked = false;
   h.$('preferences-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
   assert.equal(h.document.body.dataset.preferenceStatus, 'false');
+  const footer = h.$('status').closest('footer.statusbar');
+  assert.equal(h.window.getComputedStyle(footer).display, 'none');
 
-  const target = fixture.state.elements[0];
-  h.$('model-search').value = target.id;
+  h.$('model-search').value = fixture.b.elementId;
   h.$('model-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
-  const result = [...h.$('model-search-results').querySelectorAll('button')].find(button => button.dataset.searchId === target.id);
-  assert.ok(result, 'the target is available in search results');
+  const result = [...h.$('model-search-results').querySelectorAll('button')].find(button => button.dataset.searchId === fixture.b.elementId);
+  assert.ok(result, 'the other element is available in search results');
   h.$('project-name').click(); assert.ok(h.document.querySelector('.inline-editor'));
+  const snapshot = async () => ({
+    selection: [...h.$('canvas').querySelectorAll('[aria-pressed="true"]')].map(item => item.dataset.id),
+    history: h.$('history-state').textContent,
+    undoDisabled: h.$('undo').disabled,
+    redoDisabled: h.$('redo').disabled,
+    dirty: h.$('file-state').dataset.dirty,
+    bytes: Buffer.from(await h.download())
+  });
+  const before = await snapshot();
+  assert.deepEqual(before.selection, [fixture.a.occurrenceId]);
+  assert.equal(before.undoDisabled, false); assert.equal(before.redoDisabled, false); assert.equal(before.dirty, 'true');
   result.click();
 
   const external = h.$('external-feedback');
   assert.equal(external.hidden, false);
+  assert.notEqual(h.window.getComputedStyle(external).display, 'none');
   assert.equal(external.dataset.kind, 'blocking');
   assert.equal(external.getAttribute('role'), 'alert');
   assert.equal(external.getAttribute('aria-live'), 'assertive');
   assert.match(external.textContent, /Завершите или отмените текущую правку перед поиском/);
   assert.ok(h.document.querySelector('.inline-editor'));
-  assert.deepEqual(await h.download(), original);
+  assert.deepEqual(await snapshot(), before, 'refusal preserves selection, history controls, dirty state and saved bytes');
+
+  h.document.querySelector('.inline-editor input').dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+  assert.equal(h.document.querySelector('.inline-editor'), null);
+  h.$('preferences-button').click(); h.$('preferences-display-statusBar').checked = true;
+  h.$('preferences-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal(h.document.body.dataset.preferenceStatus, 'true');
+  h.$('fit-button').click();
+  assert.notEqual(h.window.getComputedStyle(footer).display, 'none');
+  assert.equal(h.$('status').getAttribute('role'), 'status');
+  assert.equal(h.$('status').getAttribute('aria-live'), 'polite');
+  assert.equal(h.$('status').textContent, 'Все элементы вписаны в полотно');
+  assert.equal(external.hidden, true);
+  assert.deepEqual(await snapshot(), before, 'normal informational feedback is in the visible footer without model changes');
 });
