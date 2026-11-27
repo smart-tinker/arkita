@@ -121,6 +121,61 @@ test('current-view search excludes viewpoint-hidden objects unless explicitly in
   assert.match(h.$('advanced-search-results').textContent, new RegExp(h.state.elements[1].id));
 });
 
+test('current-view search and replacement exclude a title-only match in both visibility modes while model scope keeps it', async t => {
+  const state = conceptProject(); state.views[0].view.name = 'TitleOnlyToken';
+  const h = await setup(t, undefined, state), before = h.store.exportFiles();
+  h.input('advanced-query', 'TitleOnlyToken'); h.input('advanced-scope', 'view'); h.input('advanced-replacement', 'Renamed');
+  for (const visibility of ['visible', 'all']) {
+    h.input('advanced-visibility', visibility); await h.submit();
+    assert.equal(h.$('advanced-search-results').children.length, 0, visibility);
+    h.$('advanced-replace-all').click(); await tick();
+    assert.match(h.$('advanced-search-preview').textContent, /Изменений нет/);
+    assert.equal(h.$('advanced-search-apply').disabled, true);
+    assert.deepEqual(h.store.exportFiles(), before);
+    h.$('advanced-search-discard').click();
+    h.$('advanced-replace-selected').click(); await tick();
+    assert.match(h.$('advanced-search-error').textContent, /Выберите объекты/);
+    assert.deepEqual(h.store.exportFiles(), before);
+  }
+
+  h.input('advanced-scope', 'model'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 1);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(h.state.views[0].view.id));
+  h.$('advanced-replace-all').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 1/);
+  assert.match(h.$('advanced-search-preview').textContent, /Renamed/);
+  h.$('advanced-search-apply').click(); await tick();
+  assert.equal(h.store.snapshot.views[0].view.name, 'Renamed');
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+});
+
+test('current-view replacement keeps one shared owner, exact drawing navigation and byte-exact Undo', async t => {
+  const state = conceptProject(), active = state.views[0], other = state.views[1], sharedId = state.elements[0].id;
+  active.view.name = 'Сервер 2 view title';
+  const first = active.occurrences.find(item => item.concept.id === sharedId), firstDrawingId = first.id;
+  active.occurrences.push({ ...structuredClone(first), id: 'occ-10000000-0000-4000-8000-000000000101' });
+  other.occurrences.push({ ...structuredClone(first), id: 'occ-10000000-0000-4000-8000-000000000102' });
+  const h = await setup(t, undefined, state), before = h.store.exportFiles(), activeViewId = active.view.id;
+  assert.equal(h.model.viewId, activeViewId);
+  h.input('advanced-query', 'Сервер 2'); h.input('advanced-scope', 'view'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 1);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(sharedId));
+  assert.doesNotMatch(h.$('advanced-search-results').textContent, new RegExp(activeViewId));
+  h.$('advanced-search-next').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: activeViewId, kind: 'occurrence', id: firstDrawingId });
+
+  h.input('advanced-replacement', 'Host'); h.$('advanced-replace-all').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 1/);
+  h.$('advanced-search-discard').click();
+  h.$('advanced-search-results').querySelector('input').click();
+  h.$('advanced-replace-selected').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 1/);
+  h.$('advanced-search-apply').click(); await tick();
+  assert.equal(h.store.snapshot.elements.find(item => item.id === sharedId).name, 'Host');
+  assert.equal(h.store.history.undo, 1);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+});
+
 test('search refreshes after deleting an owner and changing its profile application', async t => {
   const h = await setup(t, undefined, customizationProject());
   const profile = h.$('advanced-profiles').querySelector(`option[value="${profileId}"]`); assert.ok(profile); profile.selected = true;
