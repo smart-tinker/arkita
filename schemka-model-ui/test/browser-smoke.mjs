@@ -265,8 +265,10 @@ async function run() {
     await sourceShape.waitFor({ state: 'visible' });
     await groupShape.waitFor({ state: 'visible' });
     assert.equal(await page.locator('#undo').isDisabled(), true, 'opening the synthetic fixture starts with empty history');
+    const relationshipPalette = page.locator('[data-palette-group="relationships"]');
+    if (!(await relationshipPalette.evaluate(details => details.open))) await page.locator('#palette-relationships-title').click();
     const sourceBox = await sourceShape.boundingBox(), groupBox = await groupShape.boundingBox();
-    assert.ok(sourceBox && groupBox, 'source and target visual group have real Chromium bounds');
+    assert.ok(sourceBox && groupBox, 'source and target visual group have real Chromium bounds after opening the relationship palette');
 
     await page.locator('#smart-link-tool').click();
     if (await page.locator('#magic-order-dialog').isVisible()) {
