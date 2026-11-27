@@ -74,22 +74,23 @@ test(`${production ? 'production' : 'source'} blocked search navigation announce
   const footer = h.$('status').closest('footer.statusbar');
   assert.equal(h.window.getComputedStyle(footer).display, 'none');
 
+  const beforeBytes = Buffer.from(await h.download());
   h.$('model-search').value = fixture.b.elementId;
   h.$('model-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
   const result = [...h.$('model-search-results').querySelectorAll('button')].find(button => button.dataset.searchId === fixture.b.elementId);
   assert.ok(result, 'the other element is available in search results');
-  h.$('project-name').click(); assert.ok(h.document.querySelector('.inline-editor'));
-  const snapshot = async () => ({
+  const snapshot = () => ({
     selection: [...h.$('canvas').querySelectorAll('[aria-pressed="true"]')].map(item => item.dataset.id),
     history: h.$('history-state').textContent,
     undoDisabled: h.$('undo').disabled,
     redoDisabled: h.$('redo').disabled,
-    dirty: h.$('file-state').dataset.dirty,
-    bytes: Buffer.from(await h.download())
+    dirty: h.$('file-state').dataset.dirty
   });
-  const before = await snapshot();
+
+  h.$('project-name').click(); assert.ok(h.document.querySelector('.inline-editor'));
+  const before = snapshot();
   assert.deepEqual(before.selection, [fixture.a.occurrenceId]);
-  assert.equal(before.undoDisabled, false); assert.equal(before.redoDisabled, false); assert.equal(before.dirty, 'true');
+  assert.equal(before.undoDisabled, false); assert.equal(before.redoDisabled, false); assert.equal(before.dirty, 'false');
   result.click();
 
   const external = h.$('external-feedback');
@@ -100,10 +101,12 @@ test(`${production ? 'production' : 'source'} blocked search navigation announce
   assert.equal(external.getAttribute('aria-live'), 'assertive');
   assert.match(external.textContent, /Завершите или отмените текущую правку перед поиском/);
   assert.ok(h.document.querySelector('.inline-editor'));
-  assert.deepEqual(await snapshot(), before, 'refusal preserves selection, history controls, dirty state and saved bytes');
+  assert.deepEqual(snapshot(), before, 'refusal preserves selection, history controls and dirty state');
 
   h.document.querySelector('.inline-editor input').dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
   assert.equal(h.document.querySelector('.inline-editor'), null);
+  assert.deepEqual(await h.download(), beforeBytes, 'Save after cancel preserves exact project bytes');
+  assert.equal(h.$('file-state').dataset.dirty, 'false');
   h.$('preferences-button').click(); h.$('preferences-display-statusBar').checked = true;
   h.$('preferences-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
   assert.equal(h.document.body.dataset.preferenceStatus, 'true');
@@ -113,5 +116,5 @@ test(`${production ? 'production' : 'source'} blocked search navigation announce
   assert.equal(h.$('status').getAttribute('aria-live'), 'polite');
   assert.equal(h.$('status').textContent, 'Все элементы вписаны в полотно');
   assert.equal(external.hidden, true);
-  assert.deepEqual(await snapshot(), before, 'normal informational feedback is in the visible footer without model changes');
+  assert.deepEqual(snapshot(), before, 'normal informational feedback is in the visible footer without model changes');
 });
