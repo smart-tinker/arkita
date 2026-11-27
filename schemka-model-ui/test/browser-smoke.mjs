@@ -503,13 +503,16 @@ async function run() {
     if (await additionalMenu.evaluate(menu => menu.open)) await additionalMenu.locator(':scope > summary').click();
 
     const appliedBytes = await saveThroughBrowser();
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false', 'ordinary Save marks the applied state clean');
     const applied = deserializeProjectFile(appliedBytes);
     assert.equal(applied.project.name, automationPrefix + automationBaseline.project.name);
     const appliedElement = applied.elements.find(item => item.id === automationTarget.id);
     assert.ok(appliedElement, 'ordinary Save preserves the target element ID');
     assert.equal(propertyValue(appliedElement.properties), automationPropertyValue);
     await page.locator('#undo').click();
-    await page.waitForFunction(() => document.querySelector('#file-state')?.dataset.dirty === 'false');
+    await page.waitForFunction(() => document.querySelector('#file-state')?.dataset.dirty === 'true');
+    assert.equal(await page.locator('#project-name').textContent(), automationBaseline.project.name, 'one Undo restores the baseline project name');
+    assert.equal(await page.locator('#redo').isDisabled(), false, 'the applied batch remains available to Redo');
     assert.deepEqual(await saveThroughBrowser(), automationBaselineBytes, 'one Undo restores baseline bytes before reopen');
 
     await openFileDialog(page);
