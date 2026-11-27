@@ -38,7 +38,7 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "72e12101da7f350245c17e39926b25d28de433fe4e867ddc5c3d7f6d9742538f"
+    "docs/feature-corpus/program.json": "ca49f2e9e9c1a4697aa6a261fa8325674c0c4bbc59a6a9298053b36c3114c450"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -57,10 +57,10 @@
     "final_main_validation_receipt": "Exact final main SHA/tree and aggregate/syntax results are recorded in the final queue PR and completion report; this corpus PASS is not that runtime receipt."
   },
   "program_update": {
-    "updated_at": "2026-11-13",
+    "updated_at": "2026-11-27",
     "program_issue": 39,
     "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
-    "scope": "Refresh A-EDITOR-098 implementation evidence after PR #48 merged at 62aa1639752be2d4d345c97f4610e3673f0e5767. Keep all 16 group-46 criteria acceptance-pending; no native Windows acceptance or closed criteria are implied.",
+    "scope": "Documentation-only reconciliation for A-EDITOR-024 on current main 9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf. Link the two saved Chromium receipts from historical main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; keep all 16 group-46 criteria acceptance-pending and installed Windows/native acceptance UNRUN.",
     "records": 339,
     "original_exclusions": 9,
     "runtime_acceptance": "Tracked per PR; installed Windows GUI acceptance for the exact package remains UNRUN.",
@@ -73,6 +73,32 @@
       "ledger": "docs/feature-corpus/program.json"
     },
     "latest_evidence_review": {
+      "updated_at": "2026-11-27",
+      "issue": 12,
+      "source_sha": "9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf",
+      "required_ci_run": "https://github.com/smart-tinker/arkita/actions/runs/45926069910",
+      "codeql_run": "https://github.com/smart-tinker/arkita/actions/runs/45926069967",
+      "historical_renderer_source_sha": "3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b",
+      "historical_renderer_tree_sha": "04d0cc509e93c19471182f00c4ec30553008e07f",
+      "historical_renderer_pr": "https://github.com/smart-tinker/arkita/pull/68",
+      "historical_renderer_receipts": [
+        {
+          "scope": "selection/move/delete",
+          "browser": "Chromium 158.0.8127.18",
+          "sha256": "b33fb31cae36f45be88270111845e7e947b10594fd34508f84cd6b4ad7e1de69"
+        },
+        {
+          "scope": "navigation/bytes/history",
+          "browser": "Chrome 157.0.8103.38",
+          "sha256": "8ab3b1e9e8184714e724e2a242b9236ed42330d884702ce6d1e1484c3965ea08"
+        }
+      ],
+      "result": "Current-main CI and CodeQL passed. The two saved renderer receipts apply to historical main 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; catalog-folders.js and its focused tests are unchanged through current main, but app.js has additional selection/visual refresh changes. No current-main Chromium run is claimed. A-EDITOR-024 remains acceptance-pending; no closed_criteria added; installed Windows/native acceptance is UNRUN.",
+      "ledger": "docs/feature-corpus/program.json",
+      "current_main_renderer": "UNRUN",
+      "installed_windows_native": "UNRUN"
+    },
+    "previous_evidence_review": {
       "updated_at": "2026-11-13",
       "issue": 12,
       "source_sha": "f1a406dce2ffa23bb4394d9197a2723f5cb59071",
