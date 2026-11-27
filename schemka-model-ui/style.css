@@ -1453,6 +1453,8 @@ dialog,.document-bar,.statusbar,.editor-return {
 #replace-project { margin-top:12px; padding:12px; border:1px solid var(--warning-line); border-radius:7px; background:var(--warning-surface); }
 #replace-description { overflow-wrap:anywhere; color:var(--warning-ink); }
 #file-feedback { overflow-wrap:anywhere; color:var(--ink); }
+.external-feedback { margin:0; padding:8px 16px; border-block:1px solid var(--danger-line); background:var(--danger-surface); color:var(--danger); font-size:13px; font-weight:600; overflow-wrap:anywhere; }
+.external-feedback[data-kind="blocking"] { border-color:var(--warning-line); background:var(--warning-surface); color:var(--warning-ink); }
 .empty-canvas-title { fill:var(--ink); font-size:21px; }
 .empty-canvas-note { fill:var(--muted); font-size:14px; }
 @media(max-width:850px) {

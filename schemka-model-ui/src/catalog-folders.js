@@ -117,7 +117,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   }
   function changeType(ref) {
     const refs = scopedSelection(ref);
-    if (refs.some(item => !collection[item.kind])) { status('Смена типа доступна для элементов, junctions и отношений. Уберите папки и представления из выделения.'); return false; }
+    if (refs.some(item => !collection[item.kind])) { status('Смена типа доступна для элементов, junctions и отношений. Уберите папки и представления из выделения.', 'blocking'); return false; }
     return open('Изменить тип выбранных объектов', state => {
       const kinds = [...new Set(refs.map(item => item.kind))], controls = new Map();
       const list = node('ul'); for (const ref of refs) list.append(node('li', `${title(reference(state, ref))} · ${ref.kind} · ${ref.id}`)); fields.append(list);
@@ -292,10 +292,10 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   canvas.addEventListener('dragover', event => { if (drag && drag.ref.kind !== 'folder') event.preventDefault(); });
   canvas.addEventListener('drop', event => {
     if (!validDrop(event) || drag.ref.kind === 'folder') return;
-    event.preventDefault(); event.stopPropagation(); if (drag.refs.length > 1) { drag = null; status('Для добавления рисунка выберите один объект; группа переносится между папками целиком.'); return; } const ref = drag.ref; drag = null;
+    event.preventDefault(); event.stopPropagation(); if (drag.refs.length > 1) { drag = null; status('Для добавления рисунка выберите один объект; группа переносится между папками целиком.', 'blocking'); return; } const ref = drag.ref; drag = null;
     if (ref.kind === 'view') { activateView(ref.id); return; }
     const point = canvasDropPoint(canvas, event.clientX, event.clientY, window);
-    if(!point){status('Точка вне видимого полотна; рисунок не добавлен.');return;}
+    if(!point){status('Точка вне видимого полотна; рисунок не добавлен.', 'blocking');return;}
     addConcept(ref, point);
   });
   (section.closest('.catalog') ?? document.getElementById('tree-model')).addEventListener('keydown', event => {
