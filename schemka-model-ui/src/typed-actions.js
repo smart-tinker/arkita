@@ -29,7 +29,7 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     const kind = CURRENT_CATALOG.junctionTypes.includes(elementType) ? 'junction' : 'element';
     if (!model.view || model.typeVisible?.(kind, elementType) === false || !creationTypes(model.store.snapshot.project.metamodel, kind).includes(elementType)) return;
     const specialization = profileId && model.store.snapshot.customizationProfiles?.find(item => item.id === profileId);
-    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, kind, elementType))) { status('Специализация недоступна для выбранного типа.'); return; }
+    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, kind, elementType))) { status('Специализация недоступна для выбранного типа.', 'blocking'); return; }
     pendingElement = { kind, elementType, profileId, bounds: bounds && { ...bounds }, viewId: model.viewId, revision: model.store.revision };
     $('edit-title').textContent = `Новый ${elementType}${specialization ? ` · ${specialization.name}` : ''}`;
     $('edit-description').textContent = `Создаст ${elementType} в общей модели и его экземпляр в текущем представлении. Нормативная оценка: UNKNOWN.`;
@@ -106,29 +106,46 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     if (pendingLink?.smart) {
       const pair = JSON.stringify([source, target]);
       if (pendingLink.pair !== pair) {
-        pendingLink.pair = pair; pendingLink.relationshipType = null;
-        const buckets = smartRelationshipChoices(state, source, target, type => model.typeVisible?.('relationship', type) !== false);
-        pendingLink.types = new Map([...buckets.allowed, ...buckets.unknown].map(item => [item.type, item.decision]));
-        const groups = [];
-        for (const [key, label] of [['allowed', 'Допустимые по типам концов'], ['unknown', 'Не проверено · допустимость не подтверждена']]) {
-          if (!buckets[key].length) continue;
-          const group = node('optgroup', ''); group.label = label;
-          group.append(...buckets[key].map(({ type, decision }) => option(type, `${type} · ${key === 'unknown' ? 'UNKNOWN' : decision.sourceEvidence?.basis === 'concept-rule' ? 'правило концептов' : decision.permissionClass === 'derived' ? 'производное' : 'прямое'}`))); groups.push(group);
+        pendingLink.pair = pair; pendingLink.relationshipType = null; pendingLink.direction = null; pendingLink.hasChoices = false;
+        pendingLink.types = new Map(); const groups = [];
+        if (!source || !target) {
+          const empty = option('', 'Сначала выберите оба точных рисунка концов.'); empty.disabled = true; groups.push(empty);
+        } else for (const [direction, from, to] of [['forward', source, target], ['reverse', target, source]]) {
+          const buckets = smartRelationshipChoices(state, from, to, type => model.typeVisible?.('relationship', type) !== false); let count = 0;
+          for (const [key, label] of [['allowed', 'ALLOWED'], ['unknown', 'UNKNOWN']]) {
+            if (!buckets[key].length) continue;
+            const group = node('optgroup', ''); group.label = `${label} · ${direction === 'forward' ? 'Прямое' : 'Обратное'}: ${conceptName(state, from)} → ${conceptName(state, to)}`;
+            group.append(...buckets[key].map(({ type, decision }) => {
+              const value = direction === 'forward' ? type : `reverse:${type}`;
+              pendingLink.types.set(value, { type, direction });
+              return option(value, `${type} · ${key === 'unknown' ? 'UNKNOWN' : decision.sourceEvidence?.basis === 'concept-rule' ? 'правило концептов' : decision.permissionClass === 'derived' ? 'производное' : 'прямое'}`);
+            }));
+            count += buckets[key].length; groups.push(group);
+          }
+          pendingLink.hasChoices ||= count > 0;
+          if (!count) { const empty = option('', `Нет ALLOWED или UNKNOWN вариантов для ${conceptName(state, from)} → ${conceptName(state, to)}`); empty.disabled = true; groups.push(empty); }
         }
-        $('smart-link-type').replaceChildren(option('', 'Выберите тип отношения'), ...groups);
+        $('smart-link-type').replaceChildren(option('', 'Выберите тип и направление'), ...groups);
         $('smart-link-type').value = '';
       }
-      pendingLink.relationshipType = pendingLink.types?.has($('smart-link-type').value) ? $('smart-link-type').value : null;
-      $('smart-link-direction').textContent = pendingLink.fixedEndpoints ? 'Направление соответствует перетаскиванию.' : `Откуда → куда: ${conceptName(state, source)} → ${conceptName(state, target)}. Направление хранения не меняется. Проверка графа выполняется при создании.`;
-      if (pendingLink.fixedEndpoints) $('link-fixed-endpoints').textContent = `${conceptName(state, source)} → ${conceptName(state, target)}`;
+      const selected = pendingLink.types?.get($('smart-link-type').value);
+      pendingLink.relationshipType = selected?.type || null; pendingLink.direction = selected?.direction || null;
+      const from = pendingLink.direction === 'reverse' ? target : source, to = pendingLink.direction === 'reverse' ? source : target;
+      $('smart-link-direction').textContent = !source || !target ? 'Сначала выберите оба точных рисунка концов.'
+        : !pendingLink.hasChoices ? 'Для выбранных концов нет доступных вариантов ALLOWED/UNKNOWN в обоих направлениях.'
+          : pendingLink.direction ? `Выбрано направление: ${conceptName(state, from)} → ${conceptName(state, to)}. FORBIDDEN исключены; проверка графа выполняется при создании.`
+            : `Показаны ALLOWED и UNKNOWN для обоих направлений: ${conceptName(state, source)} → ${conceptName(state, target)} и ${conceptName(state, target)} → ${conceptName(state, source)}. FORBIDDEN исключены.`;
+      if (pendingLink.fixedEndpoints) $('link-fixed-endpoints').textContent = `${conceptName(state, from)} → ${conceptName(state, to)}${pendingLink.direction ? '' : ' · выберите направление ниже'}`;
     }
+    const reverse = pendingLink?.smart && pendingLink.direction === 'reverse';
     const relation = reuse ? state.relationships.find(item => item.id === $('existing-link').value) : {
       type: pendingLink?.relationshipType,
-      source, target,
+      source: reverse ? target : source, target: reverse ? source : target,
     };
     const endpoints = ['source', 'target'].map(end => choices.get(`${end}:${$('link-' + end).value}`)?.endpoint);
+    const directedEndpoints = reverse ? [...endpoints].reverse() : endpoints;
     const planCounts = new Map();
-    for (const endpoint of endpoints) if (endpoint?.insertAnchor) planCounts.set(endpoint.id, (planCounts.get(endpoint.id) || 0) + 1);
+    for (const endpoint of directedEndpoints) if (endpoint?.insertAnchor) planCounts.set(endpoint.id, (planCounts.get(endpoint.id) || 0) + 1);
     const fullHost = [...planCounts].find(([id, count]) => { const host = view.connections.find(item => item.id === id); return !host || host.routePoints.length + count > 128; });
     const unavailable = endpoints.some(endpoint => !endpoint) || (reuse && !relation);
     $('link-submit').disabled = unavailable || Boolean(fullHost);
@@ -139,8 +156,8 @@ export function installTypedActions({ document, model, openDialog, render, nextB
       $('link-note').textContent = reuse ? 'Общее отношение сохранится; добавится только соединение в текущем виде.' : 'Будет создано отдельное отношение, даже если похожая связь уже есть.';
       if (relation?.type === 'ReadAccess') $('link-note').textContent += ' У ReadAccess стрелка находится у «Откуда»; концы не переставляются.';
     }
-    previewEndpoints(view, fullHost ? [] : endpoints);
-    const plans = endpoints.filter(endpoint => endpoint?.insertAnchor);
+    previewEndpoints(view, fullHost ? [] : directedEndpoints);
+    const plans = directedEndpoints.filter(endpoint => endpoint?.insertAnchor);
     $('link-anchor-note').textContent = plans.length ? plans.map(endpoint => `Соединение ${endpoint.id.slice(-8)}: закреплённый якорь (${endpoint.insertAnchor.point.x}; ${endpoint.insertAnchor.point.y}) в позиции ${endpoint.insertAnchor.index + 1}.`).join(' ') + ' Маршрут хозяина станет ломаной через этот якорь. Якорь и отношение сохранятся одним действием; Отмена ничего не создаёт.' : '';
     const result = relationshipAssessment(state, relation);
     const diagnostic = diagnosticPresentation(result);
@@ -159,16 +176,18 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     if (!model.view || (relationshipId && model.conceptVisible?.({ kind: 'relationship', id: relationshipId }) === false) || (relationshipType !== null && model.typeVisible?.('relationship', relationshipType) === false) || (relationshipType !== null && !creationTypes(model.store.snapshot.project.metamodel, 'relationship').includes(relationshipType))) return;
     const state = model.store.snapshot;
     const specialization = profileId && state.customizationProfiles?.find(item => item.id === profileId);
-    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !relationshipType || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.'); return; }
+    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !relationshipType || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.', 'blocking'); return; }
     fixedEndpoints = Boolean(smart && fixedEndpoints && sourceEndpoint?.kind === 'occurrence' && targetEndpoint?.kind === 'occurrence');
     pendingLink = { relationshipType, profileId, sourceEndpoint: structuredClone(sourceEndpoint), targetEndpoint: structuredClone(targetEndpoint), smart, fixedEndpoints, viewId: model.viewId, revision: model.store.revision };
     $('smart-link-field').hidden = !smart;
     $('link-endpoints').hidden = fixedEndpoints; $('link-mode-field').hidden = fixedEndpoints;
     $('link-fixed-endpoints').hidden = !fixedEndpoints;
     $('link-source').disabled = fixedEndpoints; $('link-target').disabled = fixedEndpoints;
+    $('link-source-label').textContent = smart ? 'Первый выбранный конец: рисунок и точка' : 'Откуда: рисунок и точка';
+    $('link-target-label').textContent = smart ? 'Второй выбранный конец: рисунок и точка' : 'Куда: рисунок и точка';
     $('link-intro').textContent = fixedEndpoints ? 'Выберите тип связи между выбранными объектами.' : 'Выберите точные рисунки концов связи в текущем представлении.';
     $('link-intro').hidden = fixedEndpoints;
-    $('smart-link-direction').hidden = fixedEndpoints;
+    $('smart-link-direction').hidden = false;
     $('link-title').textContent = smart ? 'Магическая связь · выберите тип' : relationshipType ? `${relationshipType} · связь в представлении` : 'Существующее отношение · соединение';
     $('link-mode').value = relationshipType || smart ? 'new' : 'reuse'; $('link-mode').disabled = smart || !relationshipType || Boolean(profileId); $('link-label').value = '';
     $('existing-link').replaceChildren(...state.relationships.filter(item => model.conceptVisible?.({ kind: 'relationship', id: item.id }) ?? true).map(item => {
@@ -197,8 +216,9 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     updateLinkAssessment();
     if (!pendingLink.smart && $('link-mode').value !== 'reuse' && !pendingLink.relationshipType) { $('link-note').textContent = 'Создание этого типа недоступно. Выберите существующее отношение.'; return; }
     if ($('link-submit').disabled) return;
-    const source = choices.get(`source:${$('link-source').value}`)?.endpoint, target = choices.get(`target:${$('link-target').value}`)?.endpoint;
+    let source = choices.get(`source:${$('link-source').value}`)?.endpoint, target = choices.get(`target:${$('link-target').value}`)?.endpoint;
     if (!source || !target) { $('link-note').textContent = 'Выберите оба точных рисунка концов.'; return; }
+    if (pendingLink.smart && pendingLink.direction === 'reverse') [source, target] = [target, source];
     const ends = { viewId: pendingLink.viewId, source: structuredClone(source), target: structuredClone(target) };
     if (ends.source.insertAnchor && ends.target.insertAnchor && ends.source.id === ends.target.id && ends.target.insertAnchor.index >= ends.source.insertAnchor.index) ends.target.insertAnchor.index++;
     const reuse = !pendingLink?.smart && $('link-mode').value === 'reuse';
@@ -215,9 +235,9 @@ export function installTypedActions({ document, model, openDialog, render, nextB
     if (!view || model.typeVisible?.('relationship', relationshipType) === false || !creationTypes(state.project.metamodel, 'relationship').includes(relationshipType)) return;
     if (sourceEndpoint?.kind !== 'occurrence' || targetEndpoint?.kind !== 'occurrence') return;
     const specialization = profileId && state.customizationProfiles?.find(item => item.id === profileId);
-    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.'); return; }
+    if (profileId && (!specialization || specialization.purpose !== 'specialization' || !profileAppliesTo(specialization, 'relationship', relationshipType))) { status('Специализация недоступна для выбранного отношения.', 'blocking'); return; }
     const source = choiceConcept(view, sourceEndpoint), target = choiceConcept(view, targetEndpoint);
-    if (!source || !target) { status('Выбранные объекты недоступны. Начните создание связи заново.'); return; }
+    if (!source || !target) { status('Выбранные объекты недоступны. Начните создание связи заново.', 'blocking'); return; }
     const assessment = relationshipAssessment(state, { type: relationshipType, source, target });
     if (diagnosticPresentation(assessment).status === 'FORBIDDEN') { status(`Связь не создана: ${assessmentMessage(assessment)}`); return; }
     executeCreation({ type: 'createRelationshipAndConnection', relationshipType, viewId: model.viewId, source: structuredClone(sourceEndpoint), target: structuredClone(targetEndpoint), label: '', ...(profileId ? { profileId } : {}) },

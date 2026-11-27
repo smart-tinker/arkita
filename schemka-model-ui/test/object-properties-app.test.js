@@ -54,6 +54,37 @@ test(`${mode} app: properties open explicitly for the context target and cancell
   assert.deepEqual(deserializeProjectFile(await h.download()), fixture.state);
 });
 
+test(`${mode} app: inspector explains protected ID and type without changing the model or history`, async t => {
+  const h = await setup(t), fixture = richLifecycleFixture(), initial = Buffer.from(serializeProjectFile(fixture.state));
+  await h.load(initial);
+  const history = h.$('history-state').textContent, undoDisabled = h.$('undo').disabled, redoDisabled = h.$('redo').disabled;
+  h.document.querySelector(`[data-element-id="${fixture.a.elementId}"]`).click();
+  if (!h.$('inspector-panel').open) command(h, 'inspector-button');
+  const content = h.$('inspector-content'), kind = content.querySelector('.object-kind');
+  assert.match(kind.textContent, /Collaboration/);
+  const typeHelp = content.querySelector('.object-kind-explanation');
+  assert.ok(typeHelp, 'inspector explains the read-only type and the supported change action');
+  assert.equal(typeHelp.closest('.inspector-advanced'), null, 'type help stays visible beside the type');
+  assert.match(typeHelp.textContent, /только для чтения/i);
+  assert.match(typeHelp.textContent, /Изменить тип/);
+  assert.match(typeHelp.textContent, /связанные отношения/i);
+  assert.equal(kind.querySelector('input'), null);
+
+  content.querySelector('.inspector-advanced').open = true;
+  const identity = content.querySelector('.object-identity'); identity.open = true;
+  const idHelp = identity.querySelector('.object-identity-explanation');
+  assert.ok(idHelp, 'inspector explains why the stable ID cannot be edited');
+  assert.match(idHelp.textContent, /закреплён за объектом/i);
+  assert.match(idHelp.textContent, /отношения и рисунки/i);
+  assert.match(idHelp.textContent, /сохраняется/i);
+  assert.equal(identity.querySelector('.object-id input'), null);
+
+  assert.deepEqual(await h.download(), initial);
+  assert.equal(h.$('history-state').textContent, history);
+  assert.equal(h.$('undo').disabled, undoDisabled);
+  assert.equal(h.$('redo').disabled, redoDisabled);
+});
+
 test(`${mode} app: modal properties hand documentation editing one dialog and one undoable change`, async t => {
   const h = await setup(t), fixture = richLifecycleFixture(); await h.load(serializeProjectFile(fixture.state));
   h.document.querySelector(`[data-view-scope="tree"][data-view-id="${fixture.viewId}"]`).click(); selectDrawing(h, fixture.a.occurrenceId);
