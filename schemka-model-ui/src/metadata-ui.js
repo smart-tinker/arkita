@@ -14,7 +14,7 @@ export function installMetadataUI({ document, model, openDialog, documentationEd
     if (!dialog.open || !owner) return;
     let item;
     try { item = metadataRecord(model.store.snapshot, owner); }
-    catch { close(); status('Владелец метаданных уже изменился.'); return; }
+    catch { close(); status('Владелец метаданных уже изменился.', 'blocking'); return; }
     $('metadata-title').textContent = ({ project: 'Свойства модели', view: 'Свойства представления', folder: 'Свойства папки', visualNode: 'Свойства аннотации', visualConnector: 'Свойства визуального соединителя' })[owner.kind];
     content.replaceChildren(node('h3', item.name || '(без названия)'), node('p', item.id, 'object-id'), node('h4', 'Документация'), node('p', item.documentation || 'Документация пока не задана', 'documentation-text'));
     if (owner.kind === 'project') {
@@ -37,7 +37,7 @@ export function installMetadataUI({ document, model, openDialog, documentationEd
   function open(reference, source = document.activeElement) {
     if (blocked() || !['project', 'view', 'folder', 'visualNode', 'visualConnector'].includes(reference?.kind)) return false;
     try { metadataRecord(model.store.snapshot, reference); }
-    catch { status('Владелец метаданных не найден.'); return false; }
+    catch { status('Владелец метаданных не найден.', 'blocking'); return false; }
     owner = { ...reference }; trigger = source;
     openDialog('metadata-dialog'); refresh(); $('metadata-documentation').focus(); return true;
   }

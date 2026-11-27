@@ -15,7 +15,7 @@ export function installSmartRelationship({ document, window, canvas, model, open
   button.title = 'Создать связь · Alt: временно изменить порядок выбора';
   dismiss.addEventListener('click', cancel); chooser.addEventListener('cancel', event => { event.preventDefault(); cancel(); });
   choice.addEventListener('change', () => { generation++; choose.disabled = !choice.value; });
-  choose.addEventListener('click', () => { const captured = choiceBoundary, type = choice.value; cancel(); if (!captured || captured.store !== model.store || captured.revision !== model.store.revision || captured.viewId !== model.viewId) { status('Модель изменилась. Выберите отношение заново.'); return; } if (type) activate(type); });
+  choose.addEventListener('click', () => { const captured = choiceBoundary, type = choice.value; cancel(); if (!captured || captured.store !== model.store || captured.revision !== model.store.revision || captured.viewId !== model.viewId) { status('Модель изменилась. Выберите отношение заново.', 'blocking'); return; } if (type) activate(type); });
   chooser.addEventListener('close', () => { choiceBoundary = null; generation++; });
   const activeButton = () => profileId ? document.querySelector(`[data-create-specialization="${profileId}"][data-kind="relationship"][data-type="${relationshipType}"]`) : relationshipType ? document.getElementById(`create-${relationshipType.toLowerCase()}`) : button;
   function cancel() {
