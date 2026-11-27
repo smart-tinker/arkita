@@ -11,6 +11,15 @@ test('local preferences apply without model/history edits; creation uses saved d
   h.$('create-service').click();h.$('element-name').value='Configured';h.$('edit-form').dispatchEvent(new h.window.Event('submit',{bubbles:true,cancelable:true}));const state=deserializeProjectFile(await h.download()),element=state.elements.find(item=>item.name==='Configured'),drawing=state.views.flatMap(view=>view.occurrences).find(item=>item.concept.id===element.id);assert.equal(drawing.bounds.width,300);assert.equal(drawing.bounds.height,140);assert.equal(drawing.style.fill,'#123456');h.$('undo').click();assert.deepEqual(await h.download(),before);
 });
 
+test('save failures and blocked commands stay visible when the status bar is hidden',async t=>{
+  const h=await setup(t);h.$('preferences-button').click();h.$('preferences-display-statusBar').checked=false;h.$('preferences-form').dispatchEvent(new h.window.Event('submit',{bubbles:true,cancelable:true}));
+  h.$('create-service').click();h.$('element-name').value='Unsaved';h.$('edit-form').dispatchEvent(new h.window.Event('submit',{bubbles:true,cancelable:true}));
+  h.window.URL.createObjectURL=()=>{throw Error('synthetic write refused');};h.document.querySelector('[data-command="save"]').click();
+  const external=h.$('external-feedback');assert.ok(external,'A separate live region must carry feedback outside the hidden status bar');assert.equal(external.closest('footer'),null);assert.equal(external.getAttribute('role'),'alert');assert.equal(external.getAttribute('aria-live'),'assertive');assert.equal(external.hidden,false);assert.equal(external.dataset.kind,'error');assert.match(external.textContent,/synthetic write refused/);assert.equal(h.$('file-dialog').open,false);
+  h.$('project-name').click();assert.ok(h.document.querySelector('.inline-editor'));h.document.querySelector('[data-command="save"]').click();
+  assert.equal(external.hidden,false);assert.equal(external.dataset.kind,'blocking');assert.match(external.textContent,/Завершите или отмените текущую правку/);
+});
+
 test('specialization palette creates the selected explicit profile in one Undo step and preserves cancel',async t=>{
   const h=await setup(t),state=customizationDrawingProject(1,true);await h.load(serializeProjectFile(state));const before=await h.download(),button=h.document.querySelector(`[data-create-specialization="${profileId}"][data-kind="element"]`);assert.ok(button);button.click();assert.equal(h.$('edit-dialog').open,true);h.$('edit-dialog').close();assert.deepEqual(await h.download(),before);button.click();h.$('element-name').value='Specialized';h.$('edit-form').dispatchEvent(new h.window.Event('submit',{bubbles:true,cancelable:true}));const after=deserializeProjectFile(await h.download()),created=after.elements.find(item=>item.name==='Specialized');assert.deepEqual(created.profileApplications,[{profileId,values:{}}]);h.$('undo').click();assert.deepEqual(await h.download(),before);
 });

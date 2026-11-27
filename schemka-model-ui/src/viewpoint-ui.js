@@ -101,7 +101,7 @@ export function installViewpointUI({ document, model, openDialog, render, status
   }
   $('viewpoint-binding').addEventListener('change', () => {
     const request = bindingRevision, id = $('viewpoint-binding').value || null;
-    if (!request || !current(request)) { refresh(); status('Модель или вид изменились. Повторите выбор viewpoint.'); return; }
+    if (!request || !current(request)) { refresh(); status('Модель или вид изменились. Повторите выбор viewpoint.', 'blocking'); return; }
     if ((model.view?.view.viewpointId ?? null) === id) return;
     let committed = false;
     try {

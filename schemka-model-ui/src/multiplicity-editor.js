@@ -33,7 +33,7 @@ export function installMultiplicityEditor({ document, model, openDialog, render,
     diagnostic: $(`multiplicity-${end}-diagnostic`), set: $(`multiplicity-${end}-set`), remove: $(`multiplicity-${end}-remove`),
   }]));
   let pending = null, generation = 0;
-  const report = text => { try { status(text); } catch { /* Feedback cannot repeat a commit. */ } };
+  const report = (text, kind) => { try { status(text, kind); } catch { /* Feedback cannot repeat a commit. */ } };
   const rawValue = (state, field) => state.initialDefined && field.value.value === state.initialDOMValue
     ? state.initialRaw : field.value.value;
 
@@ -76,7 +76,7 @@ export function installMultiplicityEditor({ document, model, openDialog, render,
   function open(relationshipId) {
     if (pending || blocked()) return false;
     const store = model.store, relationship = store.snapshot.relationships.find(item => item.id === relationshipId);
-    if (!relationship) { report('Отношение для изменения кратности не найдено'); return false; }
+    if (!relationship) { report('Отношение для изменения кратности не найдено', 'blocking'); return false; }
     const request = { relationshipId, store, revision: store.revision, viewId: model.viewId, ends: {} };
     for (const [end, field] of Object.entries(fields)) {
       const key = `${end}Multiplicity`, defined = Object.hasOwn(relationship, key), raw = defined ? relationship[key] : '';

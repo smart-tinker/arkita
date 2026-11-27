@@ -91,12 +91,12 @@ export function installContextMenu({ document, window, host, resolveContext, bui
       return boundary && boundary.revision === session.boundary.revision && boundary.viewId === session.boundary.viewId;
     };
     if (!unchanged()) {
-      close(true); status(STALE_MESSAGE); return;
+      close(true); status(STALE_MESSAGE, 'blocking'); return;
     }
     close(true); // Close and restore before a command opens a dialog or replaces DOM.
     // Restoring focus can synchronously run application handlers. Check again at
     // the invocation boundary so they cannot silently retarget an old command.
-    if (!unchanged()) { status(STALE_MESSAGE); return; }
+    if (!unchanged()) { status(STALE_MESSAGE, 'blocking'); return; }
     try { item.action(session.context); }
     catch (error) {
       let applied = null;
