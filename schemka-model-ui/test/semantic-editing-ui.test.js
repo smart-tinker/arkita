@@ -33,10 +33,13 @@ test('semantic rebind updates three drawings across two views and one Undo resto
  h.$('semantic-editing-preview').click();assert.match(h.$('semantic-editing-error').textContent,/^Проверено\./);assert.equal(h.$('semantic-editing-apply').disabled,true);h.change('rebind-consent',true,true);h.$('semantic-editing-apply').click();
  const after=h.store.snapshot,afterRelationship=after.relationships.find(item=>item.id===relationship.id);
  assert.deepEqual(afterRelationship,{...beforeState.relationships.find(item=>item.id===relationship.id),source:{kind:'element',id:newConcept.id}});
- for(const view of after.views)for(const line of view.connections.filter(item=>item.relationshipId===relationship.id)){
-  const oldView=beforeState.views.find(item=>item.view.id===view.view.id),old=oldView.connections.find(item=>item.id===line.id);
-  assert.deepEqual(line,{...old,source:{kind:'occurrence',id:sourceByConnection.get(line.id)}});
-  assert.deepEqual(line.routePoints,old.routePoints);assert.deepEqual(line.labelPosition,old.labelPosition);
+ for(const view of after.views){
+  const oldView=beforeState.views.find(item=>item.view.id===view.view.id),beforeLines=oldView.connections.filter(item=>item.relationshipId===relationship.id),lines=view.connections.filter(item=>item.relationshipId===relationship.id);
+  assert.equal(lines.length,beforeLines.length);assert.deepEqual(lines.map(item=>item.id).sort(),beforeLines.map(item=>item.id).sort());
+  for(const line of lines){const old=beforeLines.find(item=>item.id===line.id);
+   assert.deepEqual(line,{...old,source:{kind:'occurrence',id:sourceByConnection.get(line.id)}});
+   assert.deepEqual(line.routePoints,old.routePoints);assert.deepEqual(line.labelPosition,old.labelPosition);
+  }
  }
  assert.equal(h.store.history.undo,undoBefore+1);assert.equal(h.session.dirty,true);h.model.undo();assert.equal(h.store.history.undo,undoBefore);assert.deepEqual(serializeProjectFile(h.store.snapshot),beforeBytes);
 });
