@@ -5,7 +5,7 @@ import { box3dGeometry, nodeContourGeometry } from '../src/node-shapes.js';
 import * as geometry from '../src/connection-geometry.js';
 
 const { contourPoint, connectionGeometry, viewGeometryBounds } = geometry;
-const tokens = ['octagon', 'ellipse', 'folder', 'cloud', 'wavy'];
+const tokens = ['octagon', 'ellipse', 'folder', 'cloud', 'wavy', 'folded'];
 const sizes = [[.1, .1], [.1, 1000000], [1000000, .1], [20, 20], [120, 60], [60, 120], [2000, 1000], [1000000, 1000000]];
 const translations = [[0, 0], [-999000, 999000], [1000000, -1000000]];
 const center = rect => ({ x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 });
@@ -84,9 +84,14 @@ test('shared closed contour API supplies exact local designs and never rewrites 
     [[20, -30], [68, -30], [68, -18], [140, -18], [140, 30], [20, 30]].map(([x, y]) => ({ x, y })));
   assert.deepEqual(nodeContourGeometry(rect, 'octagon').outline,
     [[32, -30], [128, -30], [140, -18], [140, 18], [128, 30], [32, 30], [20, 18], [20, -18]].map(([x, y]) => ({ x, y })));
-  for (const token of ['octagon', 'folder', 'cloud', 'wavy']) {
+  assert.deepEqual(nodeContourGeometry(rect, 'folded'), {
+    outline: [[20, -30], [126, -30], [140, -16], [140, 30], [20, 30]].map(([x, y]) => ({ x, y })),
+    crease: [[126, -30], [126, -16], [140, -16]].map(([x, y]) => ({ x, y })),
+  });
+  for (const token of ['octagon', 'folder', 'cloud', 'wavy', 'folded']) {
     const global = nodeContourGeometry(rect, token), local = nodeContourGeometry({ width: 120, height: 60 }, token);
     assert.deepEqual(global.outline, local.outline.map(p => ({ x: p.x + 20, y: p.y - 30 })));
+    if (global.crease) assert.deepEqual(global.crease, local.crease.map(p => ({ x: p.x + 20, y: p.y - 30 })));
     global.outline[0].x = 987654;
     assert.deepEqual(nodeContourGeometry(rect, token).outline, local.outline.map(p => ({ x: p.x + 20, y: p.y - 30 })));
   }
@@ -125,6 +130,11 @@ test('rays land on the actual polygon or analytic ellipse for every quadrant and
     pointClose(contourPoint(rect, { x: 0, y: -1 }, token), point(rect, .5, token === 'folder' ? .2 : 0));
     pointClose(contourPoint(rect, { x: 1, y: 0 }, token), point(rect, 1, .5));
   }
+  const rect = { x: 100, y: 200, width: 160, height: 100 };
+  const hit = contourPoint(rect, { x: 100, y: -50 }, 'folded');
+  pointClose(hit, { x: 100 + 80 + 100 * 58 / 75, y: 200 + 50 - 50 * 58 / 75 });
+  onContour(rect, hit, 'folded');
+  assert.equal(inside(rect, { x: 259, y: 201 }, 'folded'), false, 'The former rectangular corner is outside the folded fill');
 });
 
 test('automatic new and mixed contour endpoints preserve direction and reverse precisely', () => {
