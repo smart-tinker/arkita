@@ -101,7 +101,7 @@ test(`${production ? 'production' : 'source'} app: Magic Connector creates an al
   const nestedElement = nested.state.elements.find(item => item.name === 'Created endpoint');
   assert.deepEqual(nested.state.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === nestedElement.id).parent, { kind: 'occurrence', id: parent.occurrenceId });
   const groupStore = createStore(fixture.state), group = groupStore.execute({ type: 'createVisualNode', viewId: fixture.viewId, kind: 'group', name: 'Visual group', bounds: { x: 600, y: 250, width: 350, height: 300 } }, groupStore.revision).created;
-  const competingGroup = groupStore.execute({ type: 'createVisualNode', viewId: fixture.viewId, kind: 'group', name: 'Competing group', bounds: { x: 600, y: 250, width: 350, height: 300 } }, groupStore.revision).created;
+  const competingGroup = groupStore.execute({ type: 'createVisualNode', viewId: fixture.viewId, kind: 'group', name: 'Competing group', zIndex: 1, bounds: { x: 600, y: 250, width: 350, height: 300 } }, groupStore.revision).created;
   const groupParent = { kind: 'visualNode', id: group.visualNodeId };
   const nestedGroup = await run(groupStore.snapshot, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', point: { x: 800, y: 400 }, parentRef: groupParent, shiftDrop: true });
   const nestedGroupView = nestedGroup.state.views.find(item => item.view.id === fixture.viewId);
