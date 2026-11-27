@@ -139,6 +139,33 @@ test('atomic connector creation rejects forbidden, unknown, invalid-role and sta
   }
 });
 
+test('atomic connector carries independent styles and a contained parent, and rejects a cross-view endpoint without mutation', () => {
+  const store = createStore(createProject('Atomic connector placement'));
+  const viewId = run(store, { type: 'createView', name: 'Main' }).created.viewId;
+  const otherViewId = run(store, { type: 'createView', name: 'Other' }).created.viewId;
+  const parent = run(store, { type: 'createElementAndOccurrence', viewId, elementType: 'Service', name: 'Container',
+    bounds: { x: 0, y: 0, width: 500, height: 400 } }).created;
+  const source = run(store, { type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Source',
+    bounds: { x: 600, y: 0, width: 140, height: 80 } }).created;
+  const foreign = run(store, { type: 'createElementAndOccurrence', viewId: otherViewId, elementType: 'ApplicationComponent', name: 'Foreign',
+    bounds: { x: 0, y: 0, width: 140, height: 80 } }).created;
+  const command = {
+    type: 'createElementAndRelationship', viewId, existingOccurrenceId: source.occurrenceId, elementType: 'DataObject', name: 'Created',
+    relationshipType: 'Access', label: 'Uses', newEndpointRole: 'target', bounds: { x: 100, y: 100, width: 160, height: 80 },
+    parent: { kind: 'occurrence', id: parent.occurrenceId }, elementStyle: { fill: '#123456' }, connectionStyle: { lineStyle: 'orthogonal' },
+  };
+  const before = store.exportFiles(), revision = store.revision, history = store.history;
+  const created = run(store, command).created, after = store.exportFiles(), view = store.snapshot.views.find(item => item.view.id === viewId);
+  assert.deepEqual(view.occurrences.find(item => item.id === created.occurrenceId).parent, command.parent);
+  assert.deepEqual(view.occurrences.find(item => item.id === created.occurrenceId).style, command.elementStyle);
+  assert.deepEqual(view.connections.find(item => item.id === created.connectionId).style, command.connectionStyle);
+  assert.deepEqual(store.history, { undo: history.undo + 1, redo: 0 });
+  assert.equal(store.revision, revision + 1);
+  store.undo(store.revision); assert.deepEqual(store.exportFiles(), before);
+  store.redo(store.revision); assert.deepEqual(store.exportFiles(), after);
+  unchangedAfter(store, () => run(store, { ...command, existingOccurrenceId: foreign.occurrenceId }), 'REFERENCE');
+});
+
 test('fixture is complete, canonical and round-trips every supported field', () => {
   const state = fresh();
   assert.equal(fixture.length, 12);

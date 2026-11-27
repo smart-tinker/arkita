@@ -167,7 +167,7 @@ Commands use exact data records:
   `labelPosition`, `sourceMultiplicity`, `targetMultiplicity`, `junctionRole`
 - `createElementAndRelationship`: `viewId`, `existingOccurrenceId`, `elementType`, `name`,
   `relationshipType`, `label`, `newEndpointRole: 'source' | 'target'`, `bounds`;
-  optional `parent`. Creates the element, occurrence, relationship and connection in
+  optional `parent`, `elementStyle`, and `connectionStyle`. Creates the element, occurrence, relationship and connection in
   one revision. It requires a verified `ALLOWED` ordered endpoint pair; `UNKNOWN`
   is rejected. Undo/Redo restore the same IDs; native v4 files are unchanged.
 - `addConnection`: `viewId`, `relationshipId`, `source`, `target`;

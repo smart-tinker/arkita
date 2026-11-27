@@ -31,6 +31,69 @@ test(`${production ? 'production' : 'source'} app: smart dialog keeps UNKNOWN se
   assert.match(h.$('history-state').textContent, /1 действий/); h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await h.download(), saved);
 });
 
+test(`${production ? 'production' : 'source'} app: Magic Connector creates an allowed endpoint at an empty point in both orders and preserves one-step history`, async t => {
+  const { endpointFixture } = await import('./endpoint-fixture.js');
+  const fixture = endpointFixture(), h = await setup(t), canvas = h.$('canvas');
+  async function run(state, { sourceId, newType, order, reverse = false, point = { x: 800, y: 500 }, cancelFirst = false }) {
+    const bytes = Buffer.from(serializeProjectFile(state)); await h.load(bytes);
+    h.document.querySelector(`[data-view-scope="tree"][data-view-id="${fixture.viewId}"]`).click();
+    const source = canvas.querySelector(`[data-id="${sourceId}"]`), hit = smartHitSurface(h, source);
+    if (order === 'relation-first') {
+      h.$('smart-link-tool').dispatchEvent(new h.window.MouseEvent('click', { bubbles: true, altKey: true }));
+      assert.equal(h.$('magic-order-dialog').open, true); h.change('magic-order-type', 'Access'); assert.equal(h.$('magic-order-apply').disabled, false);
+      h.$('magic-order-apply').click();
+    } else h.$('smart-link-tool').click();
+    h.pointer(source, 'pointerdown', 100, 100, 91); hit(canvas);
+    h.pointer(canvas, 'pointermove', point.x, point.y, 91); h.pointer(canvas, 'pointerup', point.x, point.y, 91);
+    assert.equal(h.$('diagram-tools-dialog').open, true); assert.equal(h.$('diagram-search-order').value, order);
+    assert.equal(h.$('diagram-source').value, sourceId); assert.equal(h.$('diagram-source').disabled, true);
+    if (cancelFirst) {
+      const history = h.$('history-state').textContent; h.$('diagram-tools-cancel').click();
+      assert.deepEqual(await h.download(), bytes); assert.equal(h.$('history-state').textContent, history);
+      return { bytes, state };
+    }
+    h.$('diagram-search').value = newType; h.$('diagram-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+    if (reverse) h.change('diagram-reverse', 'reverse');
+    assert.ok([...h.$('diagram-type').options].some(option => option.value === newType));
+    assert.ok([...h.$('diagram-relationship').options].some(option => option.value === 'Access'));
+    if (order === 'relation-first') assert.equal(h.$('diagram-relationship').value, 'Access');
+    h.$('diagram-type').value = newType; h.$('diagram-type').dispatchEvent(new h.window.Event('change', { bubbles: true }));
+    h.$('diagram-relationship').value = 'Access'; h.$('diagram-relationship').dispatchEvent(new h.window.Event('change', { bubbles: true }));
+    h.$('diagram-name').value = 'Created endpoint'; h.$('diagram-relationship-label').value = 'Uses';
+    h.$('diagram-tools-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+    if (h.$('semantic-editing-dialog').open) {
+      h.change('nesting-relation-0', '');
+      h.$('semantic-editing-apply').click();
+    }
+    assert.equal(h.$('diagram-tools-dialog').open, false);
+    const saved = await h.download(), after = deserializeProjectFile(saved), before = deserializeProjectFile(bytes);
+    const element = after.elements.find(item => !before.elements.some(old => old.id === item.id));
+    const occurrence = after.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === element.id);
+    const relationship = after.relationships.find(item => !before.relationships.some(old => old.id === item.id));
+    const view = after.views.find(item => item.view.id === fixture.viewId), connection = view.connections.find(item => item.relationshipId === relationship.id);
+    const existing = before.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.id === sourceId);
+    assert.equal(element.type, newType); assert.equal(element.name, 'Created endpoint');
+    assert.equal(after.relationships.length, before.relationships.length + 1);
+    assert.equal(relationship.label, 'Uses'); assert.equal(relationship.type, 'Access');
+    assert.deepEqual(relationship.source, reverse ? { kind: 'element', id: element.id } : existing.concept);
+    assert.deepEqual(relationship.target, reverse ? existing.concept : { kind: 'element', id: element.id });
+    assert.deepEqual(connection.source, { kind: 'occurrence', id: reverse ? occurrence.id : sourceId });
+    assert.deepEqual(connection.target, { kind: 'occurrence', id: reverse ? sourceId : occurrence.id });
+    assert.equal(occurrence.bounds.x, point.x - 105); assert.equal(occurrence.bounds.y, point.y - 45);
+    assert.match(h.$('history-state').textContent, /1 действий/);
+    h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await h.download(), saved);
+    return { bytes, state: after };
+  }
+  await run(fixture.state, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', cancelFirst: true });
+  await run(fixture.state, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first' });
+  await run(fixture.state, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'relation-first' });
+  await run(fixture.state, { sourceId: fixture.items[2].occurrenceId, newType: 'ApplicationComponent', order: 'relation-first', reverse: true });
+  const nestedStore = createStore(fixture.state), parent = nestedStore.execute({ type: 'createElementAndOccurrence', viewId: fixture.viewId, elementType: 'Service', name: 'Container', bounds: { x: 600, y: 250, width: 350, height: 300 } }, nestedStore.revision).created;
+  const nested = await run(nestedStore.snapshot, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', point: { x: 800, y: 400 } });
+  const nestedElement = nested.state.elements.find(item => item.name === 'Created endpoint');
+  assert.deepEqual(nested.state.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === nestedElement.id).parent, { kind: 'occurrence', id: parent.occurrenceId });
+});
+
 test(`${production ? 'production' : 'source'} app: manual relationship menu retains exact repeated connection anchors and both junction types with cancel and atomic undo`, async t => {
   const state = conceptProject(), bytes = Buffer.from(serializeProjectFile(state)), h = await setup(t);
   const view = state.views[0], source = view.occurrences[0], host = view.connections.at(-1), anchor = host.routePoints.find(point => point.kind === 'anchor');

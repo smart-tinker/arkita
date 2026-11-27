@@ -504,17 +504,19 @@ function apply(state, command) {
       break;
     }
     case 'createElementAndRelationship': {
-      shape(['viewId', 'existingOccurrenceId', 'elementType', 'name', 'relationshipType', 'label', 'newEndpointRole', 'bounds'], ['parent']);
+      shape(['viewId', 'existingOccurrenceId', 'elementType', 'name', 'relationshipType', 'label', 'newEndpointRole', 'bounds'], ['parent', 'elementStyle', 'connectionStyle']);
       if (!['source', 'target'].includes(command.newEndpointRole)) fail('COMMAND', 'New endpoint role must be source or target');
       const entry = view(), existing = find(entry.occurrences, command.existingOccurrenceId);
       const element = apply(state, { type: 'createElementAndOccurrence', viewId: command.viewId,
         elementType: command.elementType, name: command.name, bounds: command.bounds,
-        ...(Object.hasOwn(command, 'parent') ? { parent: command.parent } : {}) });
+        ...(Object.hasOwn(command, 'parent') ? { parent: command.parent } : {}),
+        ...(Object.hasOwn(command, 'elementStyle') ? { style: command.elementStyle } : {}) });
       const newEnd = { kind: 'occurrence', id: element.created.occurrenceId }, existingEnd = { kind: 'occurrence', id: existing.id };
       const relationship = apply(state, { type: 'createRelationshipAndConnection', viewId: command.viewId,
         source: command.newEndpointRole === 'source' ? newEnd : existingEnd,
         target: command.newEndpointRole === 'target' ? newEnd : existingEnd,
-        relationshipType: command.relationshipType, label: command.label });
+        relationshipType: command.relationshipType, label: command.label,
+        ...(Object.hasOwn(command, 'connectionStyle') ? { style: command.connectionStyle } : {}) });
       result.created = { ...element.created, ...relationship.created };
       result.affectedViewIds = [entry.view.id];
       break;

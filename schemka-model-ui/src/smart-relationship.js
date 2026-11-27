@@ -2,7 +2,7 @@ import { canvasDropPoint } from './drag-drop.js';
 import { creationTypes } from './profile-ui.js';
 
 /** Disposable connector gesture. Only a completed, validated drop can edit the model. */
-export function installSmartRelationship({ document, window, canvas, model, openLink, connect, blocked, beforeStart, status, readBehavior = () => ({}), openDialog = id => document.getElementById(id).showModal() }) {
+export function installSmartRelationship({ document, window, canvas, model, openLink, connect, createElementAtDrop = () => {}, blocked, beforeStart, status, readBehavior = () => ({}), readDocumentToken = () => null, openDialog = id => document.getElementById(id).showModal() }) {
   const button = document.getElementById('smart-link-tool');
   let enabled = false, relationshipType = null, profileId = null, gesture = null, generation = 0, choiceBoundary = null;
   const chooser = document.createElement('dialog'); chooser.id = 'magic-order-dialog'; chooser.setAttribute('aria-labelledby', 'magic-order-title');
@@ -35,7 +35,7 @@ export function installSmartRelationship({ document, window, canvas, model, open
     return record ? { node: item, id: record.id } : null;
   }
   function current() {
-    return gesture && gesture.store === model.store && gesture.revision === model.store.revision && gesture.viewId === model.viewId
+    return gesture && gesture.store === model.store && gesture.revision === model.store.revision && gesture.documentToken === readDocumentToken() && gesture.viewId === model.viewId
       && gesture.node.isConnected && canvas.contains(gesture.node) && occurrence(gesture.node)?.id === gesture.source.id;
   }
   function start(event) {
@@ -47,7 +47,7 @@ export function installSmartRelationship({ document, window, canvas, model, open
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('class', 'smart-link-preview'); line.setAttribute('aria-hidden', 'true');
     for (const [name, value] of Object.entries({ x1: point.x, y1: point.y, x2: point.x, y2: point.y })) line.setAttribute(name, value);
-    gesture = { pointerId: event.pointerId, source: { kind: 'occurrence', id: source.id }, node: source.node, line, relationshipType, profileId, store: model.store, revision: model.store.revision, viewId: model.viewId };
+    gesture = { pointerId: event.pointerId, source: { kind: 'occurrence', id: source.id }, node: source.node, line, relationshipType, profileId, store: model.store, revision: model.store.revision, documentToken: readDocumentToken(), viewId: model.viewId };
     generation++;
     try { canvas.append(line); source.node.focus({ preventScroll: true }); canvas.setPointerCapture(event.pointerId); }
     catch (error) { cancel(); status(`Магическая связь отменена: ${error.message}`); }
@@ -62,13 +62,21 @@ export function installSmartRelationship({ document, window, canvas, model, open
   }
   function finish(event) {
     if (!gesture || gesture.pointerId !== event.pointerId) return;
-    const prior = gesture; let target, failure;
+    const prior = gesture; let target, point, hit, occupied, failure;
     try {
-      const valid = current() && canvasDropPoint(canvas, event.clientX, event.clientY, window);
-      target = valid && occurrence(document.elementFromPoint?.(event.clientX, event.clientY));
+      point = current() && canvasDropPoint(canvas, event.clientX, event.clientY, window);
+      hit = point && document.elementFromPoint?.(event.clientX, event.clientY);
+      target = point && occurrence(hit);
+      occupied = point && hit?.closest?.('[data-id]');
     } catch (error) { failure = error; } finally { cancel(); } // Clear state/capture before every callback.
     if (failure) { status(`Магическая связь отменена: ${failure.message}`); return; }
-    if (!target) return;
+    if (!target) {
+      if (point && hit && !occupied) {
+        try { createElementAtDrop({ sourceOccurrenceId: prior.source.id, relationshipType: prior.relationshipType, profileId: prior.profileId, point }); }
+        catch (error) { status(`Не удалось предложить новый конец связи: ${error.message}`); }
+      }
+      return;
+    }
     const endpoints = { sourceEndpoint: prior.source, targetEndpoint: { kind: 'occurrence', id: target.id } };
     try {
       if (prior.relationshipType) connect(prior.relationshipType, { ...endpoints, profileId: prior.profileId });
@@ -85,7 +93,7 @@ export function installSmartRelationship({ document, window, canvas, model, open
       choose.disabled = true; openDialog(chooser.id); choiceBoundary = { store: model.store, revision: model.store.revision, viewId: model.viewId }; generation++; choice.focus(); return;
     }
     beforeStart(); cancel(); enabled = true; relationshipType = type; profileId = specializationId; generation++; activeButton()?.setAttribute('aria-pressed', 'true'); canvas.classList.add('smart-link-armed');
-    status(type ? `${type}: протяните от объекта к объекту.` : 'Магическая связь: протяните от элемента к элементу, затем выберите тип.');
+    status(type ? `${type}: протяните к объекту или пустой точке.` : 'Магическая связь: от элемента протяните к существующему объекту или пустой точке.');
   }
   button.addEventListener('click', event => activate(null, { alternate: event.altKey }));
   document.getElementById('smart-link-dialog').addEventListener('click', () => {

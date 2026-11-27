@@ -8,7 +8,7 @@ import { drawingFor } from './visual-drawings.js';
 import { canvasDropPoint } from './drag-drop.js';
 
 /** Drafts and repeat tools are disposable; each accepted edit is one store command. */
-export function installEditingTools({ document, window, model, canvas, openDialog, render, status, blocked, beforeChange, preview, nextBounds, selectMany, readQuickAdd = () => true, readMagicOrder = () => 'element-first', readResizeBehavior = () => 'retain', readDefaults = () => ({ width: 210, height: 90 }) }) {
+export function installEditingTools({ document, window, model, canvas, openDialog, render, status, blocked, beforeChange, preview, nextBounds, selectMany, readQuickAdd = () => true, readMagicOrder = () => 'element-first', readResizeBehavior = () => 'retain', readDefaults = () => ({ width: 210, height: 90 }), readDocumentToken = () => null }) {
   const node = (tag, text) => { const item = document.createElement(tag); if (text !== undefined) item.textContent = text; return item; };
   const button = (id, text, action) => { const item = node('button', text); item.id = id; item.type = 'button'; item.addEventListener('click', action); return item; };
   const dialog = node('dialog'), form = node('form'), heading = node('h2'), fields = node('div'), error = node('p'), actions = node('div');
@@ -21,7 +21,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   menu?.append(trigger, quick);
   const repeatStatus = button('diagram-repeat-stop', 'Повторение: завершить · Esc', () => cancel()); repeatStatus.hidden = true; document.getElementById('catalogue-palette')?.prepend(repeatStatus);
   const create = (state,options) => createLinkedElement(state,options,{prepareCommand:command=>prepareCreationCommand(command,{defaults:{nodeStyle:{},lineStyle:'auto',legend:{},...readDefaults()}})});
-  const current = value => value && value.store === model.store && value.revision === model.store.revision && value.viewId === model.viewId && value.projectId === model.store.snapshot.project.id;
+  const current = value => value && value.store === model.store && value.revision === model.store.revision && value.viewId === model.viewId && value.projectId === model.store.snapshot.project.id && value.documentToken === readDocumentToken();
   function cancel() {
     const dirtyPreview = request?.mode === 'geometry'; request?.abort?.abort(); request = null; repeated = null; generation++; repeatStatus.hidden = true; canvas.classList.remove('repeat-tool');
     if (dialog.open) dialog.close(); if (dirtyPreview) preview(model.view);
@@ -29,7 +29,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   function show(title, mode) {
     if (blocked() || !model.view) return null;
     beforeChange(); fields.replaceChildren(); error.textContent = ''; heading.textContent = title; apply.hidden = false; apply.disabled = false;
-    const value = { store: model.store, revision: model.store.revision, projectId: model.store.snapshot.project.id, viewId: model.viewId, mode, refs: model.selections, controls: {} };
+    const value = { store: model.store, revision: model.store.revision, projectId: model.store.snapshot.project.id, documentToken: readDocumentToken(), viewId: model.viewId, mode, refs: model.selections, controls: {} };
     openDialog(dialog.id); request = value; generation++; return value;
   }
   function field(value, id, label, initial, choices = null, type = 'text') {
@@ -108,37 +108,100 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     } catch (failure) { apply.disabled = true; error.textContent = failure.message; }
     return true;
   }
-  function quickAdd(linked = false, point = lastPoint) {
-    const value = show(linked ? 'Элемент и отношение' : 'Быстро добавить элемент', 'quick'); if (!value) return false;
-    try { value.bounds = point ? { x: Math.round(point.x * 10) / 10, y: Math.round(point.y * 10) / 10, width: readDefaults().width, height: readDefaults().height } : nextBounds(); } catch (failure) { cancel(); status(failure.message); return false; }
-    const state=model.store.snapshot;
+  function quickAdd(linked = false, point = lastPoint, options = {}) {
+    const selected = linked && model.selection?.kind === 'occurrence'
+      ? model.view?.occurrences.find(item => item.id === model.selection.id && item.concept.kind === 'element') : null;
+    const sourceId = options.sourceOccurrenceId ?? selected?.id ?? null;
+    if (options.sourceOccurrenceId && !model.view?.occurrences.some(item => item.id === options.sourceOccurrenceId && item.concept.kind === 'element')) {
+      status('Выбранный конец отсутствует в текущем представлении. Начните действие заново.'); return false;
+    }
+    const value = show(linked || options.atomic ? 'Элемент и отношение' : 'Быстро добавить элемент', 'quick'); if (!value) return false;
+    try {
+      const defaults = readDefaults(), centered = Boolean(linked || options.atomic);
+      value.bounds = point ? {
+        x: Math.round((point.x - (centered ? defaults.width / 2 : 0)) * 10) / 10,
+        y: Math.round((point.y - (centered ? defaults.height / 2 : 0)) * 10) / 10,
+        width: defaults.width, height: defaults.height,
+      } : nextBounds();
+    } catch (failure) { cancel(); status(failure.message); return false; }
+    const state = model.store.snapshot;
     fields.append(node('p', `Точка: ${value.bounds.x}, ${value.bounds.y}. Viewpoint: ${model.view.view.viewpointId ?? 'все типы'}.`));
-    const order=field(value,'search-order','Сначала искать',readMagicOrder(),[['element-first','Элемент'],['relation-first','Отношение']]),ordered=node('div');fields.append(ordered);
+    const order = field(value, 'search-order', 'Сначала искать', options.relationshipType ? 'relation-first' : readMagicOrder(), [['element-first', 'Элемент'], ['relation-first', 'Отношение']]), ordered = node('div'); fields.append(ordered);
     const search = field(value, 'search', 'Найти тип элемента', ''), type = field(value, 'type', 'Тип элемента', '', []), name = field(value, 'name', 'Название', 'Новый элемент'); name.required = true;
     const parents = [...model.view.occurrences.map(item => ['occurrence', item]), ...model.view.visualNodes.filter(item => item.kind === 'group').map(item => ['visualNode', item])];
-    field(value, 'parent', 'Контейнер', '', [['', 'Без контейнера'], ...parents.map(([kind, item]) => [`${kind}:${item.id}`, `${kind === 'visualNode' ? item.name || 'Группа' : stateName(item)} · ${item.id.slice(-8)}`])]);
+    const parent = field(value, 'parent', 'Контейнер', '', [['', 'Без контейнера'], ...parents.map(([kind, item]) => [`${kind}:${item.id}`, `${kind === 'visualNode' ? item.name || 'Группа' : stateName(item)} · ${item.id.slice(-8)}`])]);
     const sources = model.view.occurrences.filter(item => item.concept.kind === 'element');
-    const source = field(value, 'source', 'Отношение от объекта', '', [['', 'Без отношения'], ...sources.map(item => [item.id, stateName(item)])]);
-    const selected = model.selection?.kind === 'occurrence' && sources.find(item => item.id === model.selection.id); if (linked && selected) source.value = selected.id;
-    const relationshipSearch=field(value,'relationship-search','Найти тип отношения',''),relationship=field(value,'relationship','Тип отношения','',[]),reverse=field(value,'reverse','Направление','forward',[['forward','От выбранного к новому'],['reverse','От нового к выбранному']]);
-    field(value, 'repeat', 'Повторять создание щелчком на полотне', false, null, 'checkbox');
-    const assessment=node('div');assessment.id='diagram-combination-assessment';assessment.setAttribute('aria-live','polite');fields.append(assessment);
-    const sourceTypes=new Map(sources.map(item=>[item.id,state.elements.find(element=>element.id===item.concept.id).type])),decisions=new Map();
-    function decision(element,relation){if(!source.value||!element||!relation)return null;const key=`${source.value}:${reverse.value}:${element}:${relation}`;if(!decisions.has(key)){const known={kind:'element',type:sourceTypes.get(source.value)},created={kind:'element',type:element};decisions.set(key,evaluateConceptRelationship(modelProfiles,state.project.metamodel,{source:reverse.value==='reverse'?created:known,target:reverse.value==='reverse'?known:created,relationshipType:relation,scope:'direct'}));}return decisions.get(key);}
-    const forbidden=result=>Boolean((getVerifiedRelationshipDecision(result)||getVerifiedConceptDecision(result))?.status==='FORBIDDEN');
-    function fill(select,types,label){const previous=select.value;select.replaceChildren();for(const id of types){const option=node('option',label(id));option.value=id;select.append(option);}if(types.includes(previous))select.value=previous;}
-    function paint(){
-      const relationFirst=order.value==='relation-first',elementTypes=CURRENT_CATALOG.elementTypes.filter(id=>model.typeVisible('element',id)&&id.toLocaleLowerCase().includes(search.value.toLocaleLowerCase())),relationTypes=CURRENT_CATALOG.relationshipTypes.filter(id=>model.typeVisible('relationship',id)&&id.toLocaleLowerCase().includes(relationshipSearch.value.toLocaleLowerCase()));
-      for(const row of [source.parentElement,reverse.parentElement])fields.insertBefore(row,ordered);
-      if(relationFirst){fill(relationship,relationTypes,id=>id);fill(type,elementTypes.filter(id=>!forbidden(decision(id,relationship.value))),id=>`${id}${source.value&&relationship.value?' · '+decision(id,relationship.value).status:''}`);ordered.replaceChildren(relationshipSearch.parentElement,relationship.parentElement,search.parentElement,type.parentElement);}
-      else{fill(type,elementTypes,id=>id);fill(relationship,relationTypes.filter(id=>!forbidden(decision(type.value,id))),id=>`${id}${source.value&&type.value?' · '+decision(type.value,id).status:''}`);ordered.replaceChildren(search.parentElement,type.parentElement,relationshipSearch.parentElement,relationship.parentElement);}
-      const result=decision(type.value,relationship.value);assessment.replaceChildren(node('p',source.value?(result?`${type.value} / ${relationship.value}: ${result.status} · ${assessmentMessage(result.reason)}. ${result.status==='UNKNOWN'?'Нормативное разрешение не подтверждено.':''}`:'Нет подходящей комбинации выбранных типов и viewpoint.'):'Создаст только новый элемент и его рисунок. Отношение не выбрано.'));if(result)renderAssessmentEvidence(document,assessment,result,{sourceType:reverse.value==='reverse'?type.value:sourceTypes.get(source.value),relationshipType:relationship.value,targetType:reverse.value==='reverse'?sourceTypes.get(source.value):type.value,sourceKind:'element',targetKind:'element'});
-      apply.disabled=!type.options.length||Boolean(source.value&&(!relationship.options.length||forbidden(result)));
+    const sourceChoices = options.sourceOccurrenceId ? sources.filter(item => item.id === options.sourceOccurrenceId) : sources;
+    const source = field(value, 'source', 'Отношение от объекта', '', [['', 'Без отношения'], ...sourceChoices.map(item => [item.id, stateName(item)])]);
+    if (sourceId) source.value = sourceId;
+    if (options.sourceOccurrenceId) source.disabled = true;
+    const relationshipSearch = field(value, 'relationship-search', 'Найти тип отношения', options.relationshipType ?? ''), relationship = field(value, 'relationship', 'Тип отношения', '', []), reverse = field(value, 'reverse', 'Направление', 'forward', [['forward', 'От выбранного к новому'], ['reverse', 'От нового к выбранному']]);
+    const relationshipLabel = field(value, 'relationship-label', 'Подпись отношения', '');
+    const repeat = field(value, 'repeat', 'Повторять создание щелчком на полотне', false, null, 'checkbox');
+    const assessment = node('div'); assessment.id = 'diagram-combination-assessment'; assessment.setAttribute('aria-live', 'polite'); fields.append(assessment);
+    const sourceTypes = new Map(sources.map(item => [item.id, state.elements.find(element => element.id === item.concept.id).type])), decisions = new Map();
+    function decision(element, relation) {
+      if (!source.value || !element || !relation) return null;
+      const key = `${source.value}:${reverse.value}:${element}:${relation}`;
+      if (!decisions.has(key)) {
+        const known = { kind: 'element', type: sourceTypes.get(source.value) }, created = { kind: 'element', type: element };
+        decisions.set(key, evaluateConceptRelationship(modelProfiles, state.project.metamodel, {
+          source: reverse.value === 'reverse' ? created : known, target: reverse.value === 'reverse' ? known : created,
+          relationshipType: relation, scope: 'direct',
+        }));
+      }
+      return decisions.get(key);
     }
-    for(const input of [search,relationshipSearch])input.addEventListener('input',paint);for(const input of [order,type,relationship,source,reverse])input.addEventListener('change',paint);paint();
-    value.read = () => ({ viewId: value.viewId, elementType: type.value, name: name.value, bounds: value.bounds, parent: value.controls.parent.value ? { kind: value.controls.parent.value.split(':')[0], id: value.controls.parent.value.split(':')[1] } : null,
-      sourceOccurrenceId: source.value || null, relationshipType: source.value ? relationship.value : null, reverse: reverse.value === 'reverse' });
-    (order.value==='relation-first'?relationshipSearch:search).focus();return true;
+    const verified = result => getVerifiedRelationshipDecision(result) || getVerifiedConceptDecision(result);
+    const atomic = () => Boolean(options.atomic || (linked && source.value));
+    const rejected = result => atomic() ? verified(result)?.status !== 'ALLOWED' : verified(result)?.status === 'FORBIDDEN';
+    function fill(select, types, label) {
+      const previous = select.value || (select === relationship ? options.relationshipType : '');
+      select.replaceChildren();
+      for (const id of types) { const option = node('option', label(id)); option.value = id; select.append(option); }
+      if (types.includes(previous)) select.value = previous;
+    }
+    function paint() {
+      const relationFirst = order.value === 'relation-first';
+      const elementTypes = CURRENT_CATALOG.elementTypes.filter(id => model.typeVisible('element', id) && id.toLocaleLowerCase().includes(search.value.toLocaleLowerCase()));
+      const relationTypes = CURRENT_CATALOG.relationshipTypes.filter(id => model.typeVisible('relationship', id) && id.toLocaleLowerCase().includes(relationshipSearch.value.toLocaleLowerCase()));
+      const isAtomic = atomic();
+      parent.parentElement.hidden = repeat.parentElement.hidden = isAtomic;
+      relationshipLabel.parentElement.hidden = !source.value;
+      for (const row of [source.parentElement, reverse.parentElement, relationshipLabel.parentElement]) fields.insertBefore(row, ordered);
+      if (relationFirst) {
+        fill(relationship, relationTypes, id => id);
+        fill(type, elementTypes.filter(id => !rejected(decision(id, relationship.value))), id => `${id}${source.value && relationship.value ? ' · ' + decision(id, relationship.value).status : ''}`);
+        ordered.replaceChildren(relationshipSearch.parentElement, relationship.parentElement, search.parentElement, type.parentElement);
+      } else {
+        fill(type, elementTypes, id => id);
+        fill(relationship, relationTypes.filter(id => !rejected(decision(type.value, id))), id => `${id}${source.value && type.value ? ' · ' + decision(type.value, id).status : ''}`);
+        ordered.replaceChildren(search.parentElement, type.parentElement, relationshipSearch.parentElement, relationship.parentElement);
+      }
+      const result = decision(type.value, relationship.value);
+      assessment.replaceChildren(node('p', source.value
+        ? (result ? `${type.value} / ${relationship.value}: ${result.status} · ${assessmentMessage(result.reason)}. ${result.status === 'UNKNOWN' ? 'Нормативное разрешение не подтверждено.' : ''}`
+          : 'Нет подходящей комбинации выбранных типов и viewpoint.')
+        : 'Создаст только новый элемент и его рисунок. Отношение не выбрано.'));
+      if (result) renderAssessmentEvidence(document, assessment, result, {
+        sourceType: reverse.value === 'reverse' ? type.value : sourceTypes.get(source.value),
+        relationshipType: relationship.value, targetType: reverse.value === 'reverse' ? sourceTypes.get(source.value) : type.value,
+        sourceKind: 'element', targetKind: 'element',
+      });
+      apply.disabled = isAtomic
+        ? !source.value || !type.value || !relationship.value || !result || rejected(result)
+        : !type.options.length || Boolean(source.value && (!relationship.options.length || rejected(result)));
+    }
+    for (const input of [search, relationshipSearch]) input.addEventListener('input', paint);
+    for (const input of [order, type, relationship, source, reverse]) input.addEventListener('change', paint);
+    paint();
+    value.read = () => ({
+      viewId: value.viewId, elementType: type.value, name: name.value, bounds: value.bounds,
+      parent: !atomic() && value.controls.parent.value ? { kind: value.controls.parent.value.split(':')[0], id: value.controls.parent.value.split(':')[1] } : null,
+      sourceOccurrenceId: source.value || null, relationshipType: source.value ? relationship.value : null,
+      relationshipLabel: relationshipLabel.value, reverse: reverse.value === 'reverse', atomic: atomic(),
+    });
+    (order.value === 'relation-first' ? relationshipSearch : search).focus(); return true;
   }
   function stateName(item) { const concept = model.store.snapshot[item.concept.kind === 'element' ? 'elements' : 'junctions'].find(value => value.id === item.concept.id); return concept.name || concept.type; }
   form.addEventListener('submit', event => {
@@ -148,7 +211,26 @@ export function installEditingTools({ document, window, model, canvas, openDialo
       if (value.mode === 'geometry') { const stage = value.build(); if (!stage.changed) { cancel(); status('Геометрия не изменилась.'); } else commit(value, stage.snapshot); }
       else if(value.mode==='router'){const stage=value.build();if(!stage.changed){cancel();status('Маршрутизация уже выбрана.');}else commit(value,stage.snapshot,null,'Режим маршрутизации вида изменён · один шаг отмены.');}
       else if (value.mode === 'reverse') { if (!value.out.newBlockers.length) commit(value, value.out.snapshot); }
-      else if (value.mode === 'quick') { const out = create(model.store.snapshot, value.read()); commit(value, out.snapshot, { kind: 'occurrence', id: out.created.occurrenceId }); }
+      else if (value.mode === 'quick') {
+        const options = value.read();
+        if (options.atomic) {
+          if (!options.sourceOccurrenceId || !options.relationshipType) throw Error('Выберите существующий объект, новый элемент и допустимое отношение.');
+          const command = {
+            type: 'createElementAndRelationship', viewId: value.viewId, existingOccurrenceId: options.sourceOccurrenceId,
+            elementType: options.elementType, name: options.name, relationshipType: options.relationshipType,
+            label: options.relationshipLabel, newEndpointRole: options.reverse ? 'source' : 'target', bounds: options.bounds,
+            ...(options.parent ? { parent: options.parent } : {}),
+          };
+          const out = model.execute(command, value.revision);
+          if (out.deferred || request !== value) return;
+          request = null; if (dialog.open) dialog.close(); generation++;
+          model.select({ kind: 'occurrence', id: out.created.occurrenceId }); render();
+          status('Элемент и отношение созданы одним действием · один шаг отмены.');
+        } else {
+          const out = create(model.store.snapshot, options);
+          commit(value, out.snapshot, { kind: 'occurrence', id: out.created.occurrenceId });
+        }
+      }
     } catch (failure) { error.textContent = `Не применено: ${failure.message}`; }
   });
   fields.addEventListener('input', () => generation++); fields.addEventListener('change', () => generation++);
@@ -176,7 +258,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   document.addEventListener('keydown', event => {
     if (event.defaultPrevented || event.isComposing || event.target.closest('input,textarea,select,[contenteditable=true]')) return;
     if (event.key === 'Escape' && repeated) { event.preventDefault(); cancel(); return; }
-    if (event.key === 'Insert' && event.target.closest('#canvas')) { event.preventDefault(); quickAdd(event.shiftKey); }
+    if (event.key === 'Insert' && event.target.closest('#canvas')) { event.preventDefault(); quickAdd(event.shiftKey, lastPoint, { atomic: Boolean(event.shiftKey && model.selection?.kind === 'occurrence') }); }
   }, true);
   dialog.addEventListener('cancel', event => { event.preventDefault(); cancel(); });
   dialog.addEventListener('close', () => { if (dialog.open) return; request?.abort && request.abort.abort(); if (request) { const dirty = request.mode === 'geometry'; request = null; generation++; if (dirty) preview(model.view); } });
