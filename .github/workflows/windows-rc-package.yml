@@ -64,7 +64,7 @@ jobs:
             throw "Checked out $actualSha, expected $env:SOURCE_SHA."
           }
           $manifest = Get-Content package.json -Raw | ConvertFrom-Json
-          $lock = Get-Content package-lock.json -Raw | ConvertFrom-Json
+          $lock = Get-Content package-lock.json -Raw | ConvertFrom-Json -AsHashtable
           $lockRoot = $lock.packages['']
           if ($null -eq $lockRoot) {
             throw 'package-lock.json root package metadata is missing.'
@@ -230,7 +230,7 @@ jobs:
           $isPrerelease = $env:RELEASE_CHANNEL -ceq 'rc'
           $tagEscaped = [Uri]::EscapeDataString($env:TAG_NAME)
           $tagUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/git/ref/tags/$tagEscaped"
-          $releaseList = @(Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases?per_page=100" -Headers $headers)
+          $releaseList = @((Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases?per_page=100" -Headers $headers))
           if ($releaseList.Count -ge 100) {
             throw 'Release listing reached 100 entries; refusing an incomplete conflict check.'
           }
@@ -258,7 +258,7 @@ jobs:
           }
 
           if (-not $release) {
-            $body = "Prepared for $env:RELEASE_CHANNEL from source/build SHA $env:SOURCE_SHA. Installer $env:INSTALLER_NAME: $localSize bytes, SHA-256 $localHash. Draft only; exact-package userVM acceptance is UNRUN and owner publication decision is pending."
+            $body = "Prepared for $env:RELEASE_CHANNEL from source/build SHA $env:SOURCE_SHA. Installer ${env:INSTALLER_NAME}: $localSize bytes, SHA-256 $localHash. Draft only; exact-package userVM acceptance is UNRUN and owner publication decision is pending."
             $releaseBody = @{
               tag_name = $env:TAG_NAME
               target_commitish = $env:SOURCE_SHA
@@ -277,7 +277,7 @@ jobs:
           }
 
           $assetUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/$($release.id)/assets?per_page=100"
-          $assets = @(Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers)
+          $assets = @((Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers))
           if ($assets.Count -ge 100) {
             throw 'Release asset listing reached 100 entries; refusing an incomplete conflict check.'
           }
@@ -295,7 +295,8 @@ jobs:
           } else {
             $uploadBase = $release.upload_url -replace '\{\?name,label\}$', ''
             $assetName = [Uri]::EscapeDataString($env:INSTALLER_NAME)
-            $uploadedAsset = Invoke-RestMethod -Method Post -Uri "$uploadBase?name=$assetName" -Headers $headers -ContentType 'application/octet-stream' -InFile $installer
+            $uploadUri = "${uploadBase}?name=${assetName}"
+            $uploadedAsset = Invoke-RestMethod -Method Post -Uri $uploadUri -Headers $headers -ContentType 'application/octet-stream' -InFile $installer
             if ($uploadedAsset.name -cne $env:INSTALLER_NAME -or $uploadedAsset.size -ne [long]$env:INSTALLER_SIZE -or $uploadedAsset.state -cne 'uploaded') {
               throw 'Uploaded release asset name, size, or state did not match the verified installer.'
             }
@@ -304,7 +305,7 @@ jobs:
             }
           }
 
-          $assets = @(Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers)
+          $assets = @((Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers))
           if ($assets.Count -ge 100) {
             throw 'Release asset listing reached 100 entries; refusing an incomplete readback.'
           }
