@@ -129,7 +129,8 @@ test('current-view search and replacement exclude a title-only match in both vis
     h.input('advanced-visibility', visibility); await h.submit();
     assert.equal(h.$('advanced-search-results').children.length, 0, visibility);
     h.$('advanced-replace-all').click(); await tick();
-    assert.match(h.$('advanced-search-preview').textContent, /Изменений нет/);
+    assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 0/);
+    assert.match(h.$('advanced-search-message').textContent, /Изменений нет/);
     assert.equal(h.$('advanced-search-apply').disabled, true);
     assert.deepEqual(h.store.exportFiles(), before);
     h.$('advanced-search-discard').click();
