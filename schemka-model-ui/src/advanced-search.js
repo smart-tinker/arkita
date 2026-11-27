@@ -119,8 +119,9 @@ export function installAdvancedSearch({ document, model, openDialog, render = ()
     try {
       const rows = await task.run(model.store.snapshot, options());
       if (request !== generation || !current(captured)) return;
-      found = rows; chosen = new Set([...chosen].filter(key => rows.some(row => ownerKey(row.owner) === key))); active = rows.length ? 0 : -1;
-      drawResults(); report(query.value ? `Найдено объектов: ${rows.length}.` : `Пустой запрос: все объекты выбранной области (${rows.length}).`);
+      found = scope.value === 'view' ? rows.filter(row => row.owner.kind !== 'view') : rows;
+      chosen = new Set([...chosen].filter(key => found.some(row => ownerKey(row.owner) === key))); active = found.length ? 0 : -1;
+      drawResults(); report(query.value ? `Найдено объектов: ${found.length}.` : `Пустой запрос: все объекты выбранной области (${found.length}).`);
     } catch (failure) { if (request === generation && current(captured)) { found = []; drawResults(); error.textContent = failure.message; report('Поиск не выполнен. Модель не изменена.'); } }
     finally { if (request === generation) cancelTask.disabled = true; }
   }
