@@ -34,6 +34,14 @@ export function installSmartRelationship({ document, window, canvas, model, open
     const record = model.view?.occurrences.find(o => o.id === item.dataset.id && (o.concept.kind === 'element' || (relationshipType && o.concept.kind === 'junction')));
     return record ? { node: item, id: record.id } : null;
   }
+  function visualGroup(node) {
+    const item = node?.closest?.('[data-id]');
+    if (!item || item.dataset.kind !== 'visualNode' || !canvas.contains(item) || !item.isConnected || !item.getClientRects().length) return null;
+    const style = window.getComputedStyle(item);
+    if (style.display === 'none' || ['hidden', 'collapse'].includes(style.visibility)) return null;
+    const record = model.view?.visualNodes.find(value => value.id === item.dataset.id && value.kind === 'group');
+    return record ? { node: item, id: record.id } : null;
+  }
   function current() {
     return gesture && gesture.store === model.store && gesture.revision === model.store.revision && gesture.documentToken === readDocumentToken() && gesture.viewId === model.viewId
       && gesture.node.isConnected && canvas.contains(gesture.node) && occurrence(gesture.node)?.id === gesture.source.id;
@@ -62,16 +70,18 @@ export function installSmartRelationship({ document, window, canvas, model, open
   }
   function finish(event) {
     if (!gesture || gesture.pointerId !== event.pointerId) return;
-    const prior = gesture; let target, point, hit, occupied, failure;
+    const prior = gesture; let target, container, point, hit, occupied, failure;
     try {
       point = current() && canvasDropPoint(canvas, event.clientX, event.clientY, window);
       hit = point && document.elementFromPoint?.(event.clientX, event.clientY);
       target = point && occurrence(hit);
+      container = point && visualGroup(hit);
       occupied = point && hit?.closest?.('[data-id]');
     } catch (error) { failure = error; } finally { cancel(); } // Clear state/capture before every callback.
     if (failure) { status(`Магическая связь отменена: ${failure.message}`); return; }
-    if (target && event.shiftKey && !prior.profileId) {
-      try { createElementAtDrop({ sourceOccurrenceId: prior.source.id, relationshipType: prior.relationshipType, parentOccurrenceId: target.id, point }); }
+    if ((target || container) && event.shiftKey && !prior.profileId) {
+      const parentRef = target ? { kind: 'occurrence', id: target.id } : { kind: 'visualNode', id: container.id };
+      try { createElementAtDrop({ sourceOccurrenceId: prior.source.id, relationshipType: prior.relationshipType, parentRef, point }); }
       catch (error) { status(`Не удалось предложить вложенный конец связи: ${error.message}`); }
       return;
     }

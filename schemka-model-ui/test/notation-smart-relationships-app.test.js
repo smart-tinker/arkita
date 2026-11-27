@@ -34,12 +34,12 @@ test(`${production ? 'production' : 'source'} app: smart dialog keeps UNKNOWN se
 test(`${production ? 'production' : 'source'} app: Magic Connector creates an allowed endpoint at an empty point in both orders and preserves one-step history`, async t => {
   const { endpointFixture } = await import('./endpoint-fixture.js');
   const fixture = endpointFixture(), h = await setup(t), canvas = h.$('canvas');
-  async function run(state, { sourceId, newType, order, reverse = false, point = { x: 800, y: 500 }, cancelFirst = false, parentOccurrenceId = null, shiftDrop = false }) {
+  async function run(state, { sourceId, newType, order, reverse = false, point = { x: 800, y: 500 }, cancelFirst = false, parentRef = null, shiftDrop = false }) {
     const bytes = Buffer.from(serializeProjectFile(state)); await h.load(bytes);
     h.document.querySelector(`[data-view-scope="tree"][data-view-id="${fixture.viewId}"]`).click();
     const source = canvas.querySelector(`[data-id="${sourceId}"]`), hit = smartHitSurface(h, source);
-    const parentNode = parentOccurrenceId && canvas.querySelector(`[data-id="${parentOccurrenceId}"]`);
-    if (shiftDrop) assert.ok(parentNode, 'the exact parent occurrence is rendered');
+    const parentNode = parentRef && canvas.querySelector(`[data-id="${parentRef.id}"]`);
+    if (shiftDrop) assert.ok(parentNode, 'the exact parent drawing is rendered');
     if (order === 'relation-first') {
       h.$('smart-link-tool').dispatchEvent(new h.window.MouseEvent('click', { bubbles: true, altKey: true }));
       assert.equal(h.$('magic-order-dialog').open, true); h.change('magic-order-type', 'Access'); assert.equal(h.$('magic-order-apply').disabled, false);
@@ -48,7 +48,7 @@ test(`${production ? 'production' : 'source'} app: Magic Connector creates an al
     h.pointer(source, 'pointerdown', 100, 100, 91); hit(shiftDrop ? parentNode : canvas);
     h.pointer(canvas, 'pointermove', point.x, point.y, 91);
     if (shiftDrop) {
-      assert.equal(h.document.elementFromPoint(point.x, point.y), parentNode, 'the drop hits the parent occurrence, not the canvas');
+      assert.equal(h.document.elementFromPoint(point.x, point.y), parentNode, 'the drop hits the exact parent drawing, not the canvas');
       const release = new h.window.Event('pointerup', { bubbles: true, cancelable: true });
       Object.assign(release, { button: 0, isPrimary: true, pointerId: 91, clientX: point.x, clientY: point.y, shiftKey: true });
       canvas.dispatchEvent(release);
@@ -97,9 +97,14 @@ test(`${production ? 'production' : 'source'} app: Magic Connector creates an al
   await run(fixture.state, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'relation-first' });
   await run(fixture.state, { sourceId: fixture.items[2].occurrenceId, newType: 'ApplicationComponent', order: 'relation-first', reverse: true });
   const nestedStore = createStore(fixture.state), parent = nestedStore.execute({ type: 'createElementAndOccurrence', viewId: fixture.viewId, elementType: 'Service', name: 'Container', bounds: { x: 600, y: 250, width: 350, height: 300 } }, nestedStore.revision).created;
-  const nested = await run(nestedStore.snapshot, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', point: { x: 800, y: 400 }, parentOccurrenceId: parent.occurrenceId, shiftDrop: true });
+  const nested = await run(nestedStore.snapshot, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', point: { x: 800, y: 400 }, parentRef: { kind: 'occurrence', id: parent.occurrenceId }, shiftDrop: true });
   const nestedElement = nested.state.elements.find(item => item.name === 'Created endpoint');
   assert.deepEqual(nested.state.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === nestedElement.id).parent, { kind: 'occurrence', id: parent.occurrenceId });
+  const groupStore = createStore(fixture.state), group = groupStore.execute({ type: 'createVisualNode', viewId: fixture.viewId, kind: 'group', name: 'Visual group', bounds: { x: 600, y: 250, width: 350, height: 300 } }, groupStore.revision).created;
+  const groupParent = { kind: 'visualNode', id: group.visualNodeId };
+  const nestedGroup = await run(groupStore.snapshot, { sourceId: fixture.items[0].occurrenceId, newType: 'DataObject', order: 'element-first', point: { x: 800, y: 400 }, parentRef: groupParent, shiftDrop: true });
+  const groupElement = nestedGroup.state.elements.find(item => item.name === 'Created endpoint');
+  assert.deepEqual(nestedGroup.state.views.find(item => item.view.id === fixture.viewId).occurrences.find(item => item.concept.id === groupElement.id).parent, groupParent);
 });
 
 test(`${production ? 'production' : 'source'} app: manual relationship menu retains exact repeated connection anchors and both junction types with cancel and atomic undo`, async t => {

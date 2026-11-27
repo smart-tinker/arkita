@@ -115,9 +115,10 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     if (options.sourceOccurrenceId && !model.view?.occurrences.some(item => item.id === options.sourceOccurrenceId && item.concept.kind === 'element')) {
       status('Выбранный конец отсутствует в текущем представлении. Начните действие заново.'); return false;
     }
-    const parentOccurrence = options.parentOccurrenceId
-      ? model.view?.occurrences.find(item => item.id === options.parentOccurrenceId && item.concept.kind === 'element') : null;
-    if (options.parentOccurrenceId && !parentOccurrence) {
+    const parentDrawing = options.parentRef?.kind === 'occurrence'
+      ? model.view?.occurrences.find(item => item.id === options.parentRef.id && item.concept.kind === 'element')
+      : options.parentRef?.kind === 'visualNode' ? model.view?.visualNodes.find(item => item.id === options.parentRef.id && item.kind === 'group') : null;
+    if (options.parentRef && !parentDrawing) {
       status('Выбранный контейнер отсутствует в текущем представлении. Начните действие заново.'); return false;
     }
     const value = show(linked || options.atomic ? 'Элемент и отношение' : 'Быстро добавить элемент', 'quick'); if (!value) return false;
@@ -128,10 +129,10 @@ export function installEditingTools({ document, window, model, canvas, openDialo
         y: Math.round((point.y - (centered ? defaults.height / 2 : 0)) * 10) / 10,
         width: defaults.width, height: defaults.height,
       } : nextBounds();
-      if (parentOccurrence) {
-        if (bounds.width > parentOccurrence.bounds.width || bounds.height > parentOccurrence.bounds.height) throw Error('Контейнер меньше стандартного размера нового элемента.');
-        bounds.x = Math.max(parentOccurrence.bounds.x, Math.min(bounds.x, parentOccurrence.bounds.x + parentOccurrence.bounds.width - bounds.width));
-        bounds.y = Math.max(parentOccurrence.bounds.y, Math.min(bounds.y, parentOccurrence.bounds.y + parentOccurrence.bounds.height - bounds.height));
+      if (parentDrawing) {
+        if (bounds.width > parentDrawing.bounds.width || bounds.height > parentDrawing.bounds.height) throw Error('Контейнер меньше стандартного размера нового элемента.');
+        bounds.x = Math.max(parentDrawing.bounds.x, Math.min(bounds.x, parentDrawing.bounds.x + parentDrawing.bounds.width - bounds.width));
+        bounds.y = Math.max(parentDrawing.bounds.y, Math.min(bounds.y, parentDrawing.bounds.y + parentDrawing.bounds.height - bounds.height));
       }
       value.bounds = bounds;
     } catch (failure) { cancel(); status(failure.message); return false; }
