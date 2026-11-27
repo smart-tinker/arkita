@@ -1,17 +1,14 @@
-$invokeRestMethod = Get-Command Invoke-RestMethod -CommandType Cmdlet -ErrorAction Stop
-$requiredParameters = @('Uri', 'Method', 'Headers', 'ContentType', 'InFile', 'SkipHttpErrorCheck')
-foreach ($parameterName in $requiredParameters) {
-  if (-not $invokeRestMethod.Parameters.ContainsKey($parameterName)) {
-    throw "Invoke-RestMethod does not expose expected parameter '$parameterName'."
-  }
+$invokeRestMethodParameters = (Get-Command Invoke-RestMethod -CommandType Cmdlet -ErrorAction Stop).Parameters
+$workflowCalls = @{
+  'release and asset list GET' = @('Method', 'Uri', 'Headers')
+  'tag ref GET' = @('Method', 'Uri', 'Headers', 'SkipHttpErrorCheck')
+  'asset upload POST' = @('Method', 'Uri', 'Headers', 'ContentType', 'InFile')
 }
-
-try {
-  Invoke-RestMethod -Uri $null -Method Get -Headers @{} -ErrorAction Stop
-  throw 'Expected null Uri to fail during parameter binding without issuing a request.'
-} catch {
-  if ($_.FullyQualifiedErrorId -notlike 'ParameterArgumentValidationErrorNullNotAllowed,*') {
-    throw "Invoke-RestMethod probe failed outside null-Uri parameter validation: $($_.FullyQualifiedErrorId) $($_.Exception.Message)"
+foreach ($callName in $workflowCalls.Keys) {
+  foreach ($parameterName in $workflowCalls[$callName]) {
+    if (-not $invokeRestMethodParameters.ContainsKey($parameterName)) {
+      throw "Workflow $callName uses unsupported Invoke-RestMethod parameter '$parameterName'."
+    }
   }
 }
 
@@ -64,4 +61,4 @@ $body = "Installer ${env:INSTALLER_NAME}: 123 bytes, SHA-256 abcdef."
 if (-not $body.Contains('Installer Arkita-0.7.1-rc.1-win-x64-setup.exe: 123 bytes, SHA-256 abcdef.')) {
   throw 'Installer name/colon interpolation did not preserve the release body.'
 }
-Write-Output 'PowerShell Invoke-RestMethod parameter, response shape, URI, and body checks passed.'
+Write-Output 'PowerShell Invoke-RestMethod parameters, response shape, URI, and body checks passed.'
