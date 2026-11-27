@@ -24,7 +24,7 @@ export function installAlignmentUI({ document, window, model, openDialog, render
     if (request && !current(request)) cancel();
   }
   function open() {
-    if (blocked()) { status('Завершите или отмените текущую правку перед выравниванием.'); return; }
+    if (blocked()) { status('Завершите или отмените текущую правку перед выравниванием.', 'blocking'); return; }
     const { count, connections, reason } = eligibility();
     if (reason) { status(reason); return; }
     const anchor = model.selection, item = drawingFor(model.view,anchor);
@@ -38,13 +38,13 @@ export function installAlignmentUI({ document, window, model, openDialog, render
   $('alignment-button').addEventListener('click', open);
   for (const type of ['pointerdown', 'click']) document.addEventListener(type, event => {
     if (event.target.closest('#alignment-button') && blocked()) {
-      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед выравниванием.');
+      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед выравниванием.', 'blocking');
     }
   }, true);
   dialog.addEventListener('click', event => {
     const button = event.target.closest('[data-align]');
     if (!button) return;
-    if (!dialog.open || !current(request)) { cancel(); status('Выбор или модель изменились. Откройте выравнивание заново.'); return; }
+    if (!dialog.open || !current(request)) { cancel(); status('Выбор или модель изменились. Откройте выравнивание заново.', 'blocking'); return; }
     let result;
     try { result = model.alignSelection(button.dataset.align); }
     catch (error) {

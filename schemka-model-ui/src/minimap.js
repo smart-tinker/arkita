@@ -17,7 +17,7 @@ export function installMinimap({ document, window, canvas, viewport, viewId, fal
   for (const type of ['pointerdown', 'click']) on(document, type, event => {
     if (event.target.closest?.('#minimap-panel,#minimap-toggle,[data-command="minimap-toggle"]') && !viewport.isPanning(drag?.token) && blocked()) {
       event.preventDefault(); event.stopImmediatePropagation();
-      status('Завершите или отмените текущую правку перед работой с мини-картой.');
+      status('Завершите или отмените текущую правку перед работой с мини-картой.', 'blocking');
     }
   }, { capture: true });
 

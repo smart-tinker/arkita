@@ -112,7 +112,10 @@ export function planProperties(records, operation) {
         const existing = new Set(rows.map(row => row.key));
         for (const row of operation.entries) {
           if (!row.key.trim()) fail('COMMAND', 'Имя нового свойства не может быть пустым.');
-          if (operation.mode === 'all' || !existing.has(row.key)) rows.push({ ...row });
+          if (operation.mode === 'all' || !existing.has(row.key)) {
+            rows.push({ ...row });
+            existing.add(row.key);
+          }
         }
         break;
       }

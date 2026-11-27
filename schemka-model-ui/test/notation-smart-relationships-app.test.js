@@ -15,9 +15,10 @@ test(`${production ? 'production' : 'source'} app: smart dialog keeps UNKNOWN se
   h.change('link-source', f.items.Product.occurrenceId); h.change('link-target', f.items.Deliverable.occurrenceId);
   assert.equal(h.$('smart-link-type').value, ''); assert.equal(h.$('link-submit').disabled, true);
   const groups = [...h.$('smart-link-type').querySelectorAll('optgroup')];
-  const unknown = groups.find(g => g.label.startsWith('Не проверено'));
+  const unknown = groups.find(g => g.label.startsWith('UNKNOWN · Прямое: Product') && g.label.includes('→ Deliverable'));
   assert.deepEqual([...unknown.children].map(o => o.value).sort(), ['Aggregation', 'Composition']);
-  assert.ok(groups.find(g => g.label === 'Допустимые по типам концов'));
+  assert.ok(groups.some(g => g.label.startsWith('ALLOWED · Прямое: Product') && g.label.includes('→ Deliverable')));
+  assert.ok(groups.some(g => g.label.startsWith('ALLOWED · Обратное: Deliverable') && g.label.includes('→ Product')));
   h.change('smart-link-type', 'Aggregation'); assert.equal(h.$('link-submit').disabled, false);
   assert.equal(h.$('link-assessment').dataset.assessment, 'UNKNOWN'); assert.match(h.$('link-note').textContent, /Допустимость не подтверждена/);
   assert.match(h.$('smart-link-direction').textContent, /Product.*→.*Deliverable/);

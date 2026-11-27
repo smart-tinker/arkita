@@ -67,11 +67,11 @@ export function installModelSearch({ document, model, panel, openConcept, openMe
       identity.textContent = result.id; identity.className = 'model-search-id';
       button.append(name, description, identity); row.append(button); results.append(row);
       button.addEventListener('click', () => {
-        if (blocked()) { status('Завершите или отмените текущую правку перед переходом.'); return; }
+        if (blocked()) { status('Завершите или отмените текущую правку перед переходом.', 'blocking'); return; }
         const current = model.store.snapshot;
         if (!button.isConnected || sourceStore !== model.store || sourceProject !== current.project.id ||
             !findModelObjects(current, query, selectedCategory).some(item => item.kind === result.kind && item.id === result.id)) {
-          refresh(); status('Результаты поиска изменились. Выберите объект заново.'); return;
+          refresh(); status('Результаты поиска изменились. Выберите объект заново.', 'blocking'); return;
         }
         if (result.kind === 'view') activateView(result.id);
         else selectConcept({ kind: result.kind, id: result.id });
@@ -123,7 +123,7 @@ export function installModelSearch({ document, model, panel, openConcept, openMe
   // Do not let a search click discard an unfinished inline or native operation.
   for (const type of ['pointerdown', 'click']) document.addEventListener(type, event => {
     if (event.target.closest?.('#model-search-region') && blocked()) {
-      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед поиском.');
+      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед поиском.', 'blocking');
     }
   }, true);
   preferences?.subscribe((_value,changed)=>{if(changed.includes('behavior')){if(preferences.get('behavior').searchTrigger==='input')query=input.value;refresh();}});
