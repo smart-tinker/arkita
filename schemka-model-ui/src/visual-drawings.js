@@ -2,6 +2,7 @@ import { DRAWING_COLLECTIONS } from '../../schemka-model-core/src/native-v4.js';
 import { crossingPaths, clippingPath } from './connection-presentation.js';
 import { legendLayout, legendColor } from './visual-layout.js';
 import { connectionGeometry, sampleRoute } from './connection-geometry.js';
+import { nodeContourGeometry } from './node-shapes.js';
 import { createNotationPaletteGlyph, notationElement, notationRelationship, cornerGlyphLayout } from './notation.js';
 
 const graphemes = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
@@ -61,8 +62,10 @@ function shape(document, bounds, variant = 'rectangle') {
   }
   if (variant === 'ellipse') return vector(document, 'ellipse', { cx: width / 2, cy: height / 2, rx: width / 2, ry: height / 2, class: 'node-box' });
   if (variant === 'folded') {
-    const fold = Math.min(14, width / 4, height / 4);
-    return vector(document, 'path', { d: `M0 0 H${width - fold} L${width} ${fold} V${height} H0 Z M${width - fold} 0 V${fold} H${width}`, class: 'node-box' });
+    const { outline, crease } = nodeContourGeometry({ width, height }, 'folded');
+    const polygon = outline.map(point => point.x + ' ' + point.y).join(' L');
+    const seam = crease.map(point => point.x + ' ' + point.y).join(' L');
+    return vector(document, 'path', { d: 'M' + polygon + ' Z M' + seam, class: 'node-box' });
   }
   return vector(document, 'rect', { width, height, rx: variant === 'rounded' ? Math.min(10, width / 4, height / 4) : 0, class: 'node-box' });
 }

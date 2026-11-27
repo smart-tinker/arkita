@@ -3,6 +3,7 @@ import { production, setup, richLifecycleFixture, setStoredGeometry } from './ap
 import { importedRelationship } from './imported-relationship.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { createProject, createStore } from '../../schemka-model-core/src/index.js';
 import { serializeProjectFile, deserializeProjectFile, exportMermaid } from '../../schemka-model-io/src/index.js';
 import { notationElement } from '../src/notation.js';
@@ -79,6 +80,10 @@ test(`${production ? 'production' : 'source'} app: imported rounded corners and 
 
 const pathNumbers = path => path.match(/-?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?/gi).map(Number);
 
+function loadStyle(h) {
+  const style = h.document.createElement('style'); style.textContent = readFileSync(new URL('../style.css', import.meta.url), 'utf8'); h.document.head.append(style);
+}
+
 test(`${production ? 'production' : 'source'} app: occurrence shape overrides clip connections to the painted contour without changing saved IDs or bytes`, async t => {
   const h = await setup(t), store = createStore(createProject('Synthetic occurrence contours'));
   const run = command => store.execute(command, store.revision).created;
@@ -103,6 +108,67 @@ test(`${production ? 'production' : 'source'} app: occurrence shape overrides cl
     assert.equal(h.$('file-state').dataset.dirty, 'false'); assert.equal(h.$('undo').disabled, true);
     assert.deepEqual(await h.download(), bytes);
   }
+});
+
+test((production ? 'production' : 'source') + ' app: folded overrides share the cut contour in canvas and SVG; one undo restores the exact model', async t => {
+  const h = await setup(t), store = createStore(createProject('Synthetic folded contour'));
+  loadStyle(h);
+  const run = command => store.execute(command, store.revision).created;
+  const { viewId } = run({ type: 'createView', name: 'Folded endpoint' });
+  const sourceBounds = { x: 100, y: 200, width: 160, height: 100 };
+  const source = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Cut corner', bounds: sourceBounds });
+  const target = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Upper right', bounds: { x: 500, y: 0, width: 160, height: 100 } });
+  const link = run({ type: 'createRelationshipAndConnection', viewId, relationshipType: 'Association',
+    source: { kind: 'occurrence', id: source.occurrenceId }, target: { kind: 'occurrence', id: target.occurrenceId },
+    label: 'Preserved route', routePoints: [{ kind: 'bend', point: { x: 275.2, y: 230.5 } }],
+    labelPosition: { x: 300.5, y: 180.3 } });
+  const beforeBytes = Buffer.from(serializeProjectFile(store.snapshot)), beforeState = deserializeProjectFile(beforeBytes);
+  const entry = beforeState.views.find(item => item.view.id === viewId);
+  const route = entry.connections.find(item => item.id === link.connectionId);
+  await h.load(beforeBytes);
+  setStoredGeometry(h, false);
+  const group = id => h.$('canvas').querySelector('[data-id="' + id + '"]');
+  const line = () => group(link.connectionId).querySelector('.line').getAttribute('d');
+  const before = line();
+  assert.equal(before, connectionGeometry(route, entry.occurrences, () => 0).d);
+  h.pointer(group(source.occurrenceId), 'pointerdown', sourceBounds.x + sourceBounds.width / 2, sourceBounds.y + sourceBounds.height / 2);
+  h.pointer(h.$('canvas'), 'pointerup', sourceBounds.x + sourceBounds.width / 2, sourceBounds.y + sourceBounds.height / 2);
+  const tools = h.$('visual-tools');
+  if (!tools.open) tools.querySelector('summary').click();
+  assert.equal(h.$('visual-style').disabled, false);
+  h.$('visual-style').click();
+  assert.equal(h.$('visual-dialog').open, true);
+  h.$('visual-shape').value = 'folded';
+  h.$('visual-shape').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+  h.$('visual-apply').click();
+  assert.equal(h.$('visual-dialog').open, false);
+  assert.equal(h.$('file-state').dataset.dirty, 'true');
+  assert.equal(h.$('undo').disabled, false);
+  const actual = line();
+  assert.notEqual(actual, before);
+  assert.equal(group(link.connectionId).querySelector('.hit').getAttribute('d'), actual);
+  assert.equal(actual, connectionGeometry(route, entry.occurrences, item => item.id === source.occurrenceId ? 'folded' : 0).d);
+  const [x, y] = pathNumbers(actual), folded = nodeContourGeometry({ width: sourceBounds.width, height: sourceBounds.height }, 'folded');
+  const local = { x: x - sourceBounds.x, y: y - sourceBounds.y }, a = folded.outline[1], b = folded.outline[2];
+  assert.ok(Math.abs((b.x - a.x) * (local.y - a.y) - (b.y - a.y) * (local.x - a.x)) < 1e-7,
+    'Automatic endpoint lands on the visible cut edge');
+  assert.ok(local.y > 0 && local.y < 14);
+  const shape = group(source.occurrenceId).querySelector('.custom-drawing-shape');
+  const shapeD = 'M' + folded.outline.map(point => point.x + ' ' + point.y).join(' L') + ' Z M' + folded.crease.map(point => point.x + ' ' + point.y).join(' L');
+  assert.equal(shape.getAttribute('d'), shapeD, 'SVG outline and crease use the shared contour geometry');
+  const svg = new h.window.DOMParser().parseFromString((await h.download('download-svg')).toString(), 'image/svg+xml');
+  assert.equal(svg.querySelector('parsererror'), null);
+  assert.ok([...svg.querySelectorAll('path')].some(path => path.getAttribute('d') === actual), 'SVG retains the clipped connection');
+  assert.ok([...svg.querySelectorAll('path')].some(path => path.getAttribute('d') === shapeD), 'SVG retains the crease as display-only geometry');
+  const expected = structuredClone(beforeState);
+  expected.views.find(item => item.view.id === viewId).occurrences.find(item => item.id === source.occurrenceId).style.shape = 'folded';
+  const changed = deserializeProjectFile(await h.download());
+  assert.deepEqual(Buffer.from(serializeProjectFile(changed)), Buffer.from(serializeProjectFile(expected)),
+    'Only the occurrence shape override changes; route data, IDs, bounds and labels remain exact');
+  h.$('undo').click();
+  assert.equal(group(source.occurrenceId).querySelector('.custom-drawing-shape'), null);
+  assert.equal(line(), before);
+  assert.deepEqual(await h.download(), beforeBytes, 'One undo restores the exact prior shape, route and file bytes');
 });
 
 test(`${production ? 'production' : 'source'} app: stored routes display on open with exact labels, fit, shared hit geometry and byte-safe movement`, async t => {

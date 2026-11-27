@@ -1,6 +1,6 @@
 {
   "name": "arkita",
-  "version": "0.7.1-rc.2",
+  "version": "0.7.1-rc.3",
   "private": true,
   "description": "Arkita — desktop architecture modeller for ArchiMate 4",
   "scripts": {
