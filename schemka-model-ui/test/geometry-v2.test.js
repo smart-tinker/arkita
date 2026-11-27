@@ -41,6 +41,54 @@ test('circle rays use a centered inscribed circle without changing asymmetric oc
   }
 });
 
+test('view orthogonal attachment recalculates contour endpoints while retaining bends and exact anchors', () => {
+  const occurrences = [occurrence('a', 0, 0, 120, 80), occurrence('b', 300, 120, 120, 80)];
+  const radiusFor = item => item.id === 'a' ? 12 : 'ellipse';
+  const route = { ...connection('fixed', end('a'), end('b'), [bend(220, 40), anchor('fixed-pin', 250, 80), bend(280, 95)]), orthogonalAttachment: true };
+  const orthogonal = geometry => {
+    const points = sampleRoute(geometry);
+    assert.ok(points.length > 1);
+    assert.ok(points.slice(1).every((item, index) => item.x === points[index].x || item.y === points[index].y), 'Every displayed segment is horizontal or vertical');
+    return points;
+  };
+  const automatic = { ...connection('automatic', end('a'), end('b')), orthogonalAttachment: true };
+  const automaticPoints = orthogonal(connectionGeometry(automatic, occurrences, radiusFor));
+  pointClose(automaticPoints[0], contourPoint(occurrences[0].bounds, point(1, 0), 12));
+  pointClose(automaticPoints.at(-1), contourPoint(occurrences[1].bounds, point(-1, 0), 'ellipse'));
+  assert.equal(automaticPoints[1].y, automaticPoints[0].y, 'The route leaves the source east contour normally');
+  assert.equal(automaticPoints.at(-2).y, automaticPoints.at(-1).y, 'The route enters the target west contour normally');
+  const verticalRoute = { ...connection('vertical', end('a'), end('c')), orthogonalAttachment: true };
+  const vertical = orthogonal(connectionGeometry(verticalRoute, [
+    occurrences[0], occurrence('c', 30, 220, 120, 80),
+  ], radiusFor));
+  pointClose(vertical[0], contourPoint(occurrences[0].bounds, point(0, 1), 12));
+  pointClose(vertical.at(-1), contourPoint({ x: 30, y: 220, width: 120, height: 80 }, point(0, -1), 'ellipse'));
+  assert.equal(vertical[1].x, vertical[0].x, 'The route leaves the source south contour normally');
+  assert.equal(vertical.at(-2).x, vertical.at(-1).x, 'The route enters the target north contour normally');
+  const movedOccurrence = { ...occurrences[0], bounds: { ...occurrences[0].bounds, x: 20, y: 20 } };
+  const afterNodeMove = orthogonal(connectionGeometry(automatic, [movedOccurrence, occurrences[1]], radiusFor));
+  pointClose(afterNodeMove[0], contourPoint(movedOccurrence.bounds, point(1, 0), 12));
+  assert.notDeepEqual(afterNodeMove[0], automaticPoints[0]);
+
+  const original = connectionGeometry(route, occurrences, radiusFor, true);
+  const originalPoints = orthogonal(original);
+  pointClose(originalPoints[0], contourPoint(occurrences[0].bounds, point(1, 0), 12));
+  pointClose(originalPoints.at(-1), contourPoint(occurrences[1].bounds, point(0, -1), 'ellipse'));
+  assert.deepEqual(original.anchors, [{ id: 'fixed-pin', point: point(250, 80), occludedBy: [] }]);
+  assert.ok(includes(original.points, point(250, 80)), 'The anchor remains an exact route point');
+
+  const movedBend = { ...route, routePoints: route.routePoints.map((item, index) => index === 0 ? { ...item, point: point(30, 50) } : item) };
+  const afterBendMove = connectionGeometry(movedBend, occurrences, radiusFor, true);
+  const movedPoints = orthogonal(afterBendMove);
+  pointClose(movedPoints[0], contourPoint(occurrences[0].bounds, point(-1, 0), 12));
+  assert.deepEqual(afterBendMove.anchors, original.anchors);
+  assert.ok(includes(afterBendMove.points, point(250, 80)), 'Moving a bend does not move or replace the pin');
+
+  const priorDefault = connectionGeometry({ ...route, orthogonalAttachment: false }, occurrences, radiusFor, true);
+  assert.ok(sampleRoute(priorDefault).some((item, index, points) => index && item.x !== points[index - 1].x && item.y !== points[index - 1].y),
+    'The old default remains unchanged without the selected view strategy');
+});
+
 test('automatic and stored circle routes clip on the same contour including self loops', () => {
   const occurrences = [occurrence('a', 0, 0, 120, 60, 'junction'), occurrence('b', 300, 0, 60, 120, 'junction')];
   const radiusFor = () => 'circle';
