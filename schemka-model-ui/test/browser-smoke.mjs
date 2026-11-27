@@ -2,9 +2,8 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { deserializeProjectFile, serializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { deserializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { openFileDialog } from './browser-files.mjs';
-import { createStore } from '../../schemka-model-core/src/index.js';
 
 class BlockedError extends Error {}
 
@@ -109,6 +108,10 @@ async function run() {
 
     const reopenedBytes = await saveThroughBrowser();
     assert.deepEqual(reopenedBytes, savedBytes, 'browser save → open → save preserves exact model bytes');
+    const [{ createStore }, { serializeProjectFile }] = await Promise.all([
+      import('../../schemka-model-core/src/index.js'),
+      import('../../schemka-model-io/src/index.js')
+    ]);
     const imageStore = createStore(initial), runImageCommand = command => imageStore.execute(command, imageStore.revision);
     const originalSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="#123456"/></svg>';
     const sharedAssetId = runImageCommand({ type: 'createAsset', name: 'Shared.svg', mediaType: 'image/svg+xml', data: Buffer.from(originalSvg).toString('base64') }).created.assetId;
