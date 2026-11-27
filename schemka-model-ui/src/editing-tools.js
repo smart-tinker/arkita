@@ -43,7 +43,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     if (request !== value || !current(value)) { cancel(); status('Контекст изменился. Начните действие заново.'); return false; }
     try {
       model.execute({ type: 'applyProjectSnapshot', files: exportFiles(snapshot) }, value.revision);
-      const repeat = value.mode === 'quick' && value.controls.repeat.checked ? { ...value.read(), store: model.store, revision: model.store.revision, projectId: value.projectId, viewId: value.viewId } : null;
+      const repeat = value.mode === 'quick' && value.controls.repeat.checked ? { ...value.read(), store: model.store, revision: model.store.revision, projectId: value.projectId, documentToken: value.documentToken, viewId: value.viewId } : null;
       request?.abort?.abort(); request = null; if (dialog.open) dialog.close(); generation++;
       if (selected) model.select(selected); render();
       if (repeat) { repeated = repeat; repeatStatus.hidden = false; repeatStatus.textContent = `Повтор: ${repeat.elementType} · завершить (Esc)`; canvas.classList.add('repeat-tool'); }
@@ -115,14 +115,25 @@ export function installEditingTools({ document, window, model, canvas, openDialo
     if (options.sourceOccurrenceId && !model.view?.occurrences.some(item => item.id === options.sourceOccurrenceId && item.concept.kind === 'element')) {
       status('Выбранный конец отсутствует в текущем представлении. Начните действие заново.'); return false;
     }
+    const parentOccurrence = options.parentOccurrenceId
+      ? model.view?.occurrences.find(item => item.id === options.parentOccurrenceId && item.concept.kind === 'element') : null;
+    if (options.parentOccurrenceId && !parentOccurrence) {
+      status('Выбранный контейнер отсутствует в текущем представлении. Начните действие заново.'); return false;
+    }
     const value = show(linked || options.atomic ? 'Элемент и отношение' : 'Быстро добавить элемент', 'quick'); if (!value) return false;
     try {
       const defaults = readDefaults(), centered = Boolean(linked || options.atomic);
-      value.bounds = point ? {
+      const bounds = point ? {
         x: Math.round((point.x - (centered ? defaults.width / 2 : 0)) * 10) / 10,
         y: Math.round((point.y - (centered ? defaults.height / 2 : 0)) * 10) / 10,
         width: defaults.width, height: defaults.height,
       } : nextBounds();
+      if (parentOccurrence) {
+        if (bounds.width > parentOccurrence.bounds.width || bounds.height > parentOccurrence.bounds.height) throw Error('Контейнер меньше стандартного размера нового элемента.');
+        bounds.x = Math.max(parentOccurrence.bounds.x, Math.min(bounds.x, parentOccurrence.bounds.x + parentOccurrence.bounds.width - bounds.width));
+        bounds.y = Math.max(parentOccurrence.bounds.y, Math.min(bounds.y, parentOccurrence.bounds.y + parentOccurrence.bounds.height - bounds.height));
+      }
+      value.bounds = bounds;
     } catch (failure) { cancel(); status(failure.message); return false; }
     const state = model.store.snapshot;
     fields.append(node('p', `Точка: ${value.bounds.x}, ${value.bounds.y}. Viewpoint: ${model.view.view.viewpointId ?? 'все типы'}.`));

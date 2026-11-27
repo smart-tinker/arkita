@@ -8,7 +8,7 @@ export function installSmartRelationship({ document, window, canvas, model, open
   const chooser = document.createElement('dialog'); chooser.id = 'magic-order-dialog'; chooser.setAttribute('aria-labelledby', 'magic-order-title');
   const heading = document.createElement('h2'); heading.id = 'magic-order-title'; heading.textContent = 'Сначала выберите отношение';
   const label = document.createElement('label'); label.textContent = 'Тип отношения'; const choice = document.createElement('select'); choice.id = 'magic-order-type'; label.append(choice);
-  const note = document.createElement('p'); note.textContent = 'Затем протяните связь между объектами. Допустимость проверяется после выбора обоих концов. Alt при включении палочки временно меняет порядок.';
+  const note = document.createElement('p'); note.textContent = 'Затем протяните связь к объекту или пустой точке. Shift при сбросе на контейнер создаст внутри него новый элемент. Допустимость проверяется после выбора обоих концов. Alt при включении палочки временно меняет порядок.';
   const choose = document.createElement('button'); choose.type = 'button'; choose.textContent = 'Выбрать и протянуть'; choose.id = 'magic-order-apply';
   const dismiss = document.createElement('button'); dismiss.type = 'button'; dismiss.textContent = 'Отмена'; dismiss.id = 'magic-order-cancel';
   chooser.append(heading, label, note, dismiss, choose); document.body.append(chooser);
@@ -70,6 +70,11 @@ export function installSmartRelationship({ document, window, canvas, model, open
       occupied = point && hit?.closest?.('[data-id]');
     } catch (error) { failure = error; } finally { cancel(); } // Clear state/capture before every callback.
     if (failure) { status(`Магическая связь отменена: ${failure.message}`); return; }
+    if (target && event.shiftKey && !prior.profileId) {
+      try { createElementAtDrop({ sourceOccurrenceId: prior.source.id, relationshipType: prior.relationshipType, parentOccurrenceId: target.id, point }); }
+      catch (error) { status(`Не удалось предложить вложенный конец связи: ${error.message}`); }
+      return;
+    }
     if (!target) {
       if (point && hit && !occupied) {
         try { createElementAtDrop({ sourceOccurrenceId: prior.source.id, relationshipType: prior.relationshipType, profileId: prior.profileId, point }); }
@@ -93,7 +98,8 @@ export function installSmartRelationship({ document, window, canvas, model, open
       choose.disabled = true; openDialog(chooser.id); choiceBoundary = { store: model.store, revision: model.store.revision, viewId: model.viewId }; generation++; choice.focus(); return;
     }
     beforeStart(); cancel(); enabled = true; relationshipType = type; profileId = specializationId; generation++; activeButton()?.setAttribute('aria-pressed', 'true'); canvas.classList.add('smart-link-armed');
-    status(type ? `${type}: протяните к объекту или пустой точке.` : 'Магическая связь: от элемента протяните к существующему объекту или пустой точке.');
+    const nestingHint = specializationId ? '' : ' Shift при сбросе на контейнер создаёт внутри него новый элемент.';
+    status(type ? `${type}: протяните к объекту или пустой точке.${nestingHint}` : `Магическая связь: от элемента протяните к существующему объекту или пустой точке.${nestingHint}`);
   }
   button.addEventListener('click', event => activate(null, { alternate: event.altKey }));
   document.getElementById('smart-link-dialog').addEventListener('click', () => {

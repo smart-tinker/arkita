@@ -1141,11 +1141,13 @@ typedActions = installTypedActions({ document, model, openDialog, render, nextBo
 smartRelationship = installSmartRelationship({ document, window, canvas: svg, model, readBehavior: () => preferenceState.behavior, readDocumentToken: () => projectSession.documentToken, openDialog,
   connect: (...args) => typedActions.connect(...args),
   openLink: (...args) => typedActions.openLink(...args),
-  createElementAtDrop({ sourceOccurrenceId, relationshipType, profileId, point }) {
+  createElementAtDrop({ sourceOccurrenceId, relationshipType, profileId, parentOccurrenceId, point }) {
     const source = model.view?.occurrences.find(item => item.id === sourceOccurrenceId);
+    const parent = parentOccurrenceId && model.view?.occurrences.find(item => item.id === parentOccurrenceId && item.concept.kind === 'element');
+    if (parentOccurrenceId && !parent) { status('Контейнер отсутствует в текущем представлении. Начните действие заново.'); return; }
     if (profileId) { status('Специализированное отношение можно завершить только на существующем конце.'); return; }
     if (source?.concept.kind !== 'element') { status('Создать новый конец можно только от существующего элемента.'); return; }
-    editingTools?.quickAdd(true, point, { atomic: true, sourceOccurrenceId, relationshipType });
+    editingTools?.quickAdd(true, point, { atomic: true, sourceOccurrenceId, relationshipType, parentOccurrenceId });
   },
   beforeStart: cancelGesture, status,
   blocked: () => Boolean(inline.active || gesture || layoutEditor?.active || internalDrag?.active || files?.transient || git?.transient || document.querySelector('dialog[open]')) });
