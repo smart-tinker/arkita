@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { deserializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { readTemplate } from '../../schemka-model-io/src/templates.js';
 import { openFileDialog } from './browser-files.mjs';
 
 class BlockedError extends Error {}
@@ -70,6 +71,99 @@ async function run() {
     const initialViewIds = initial.views.map(item => item.view.id);
     const initialHistory = await page.locator('#history-state').textContent();
 
+    const templateMenu = page.locator('.app-menu').filter({ has: page.locator('#templates-button') });
+    if (!(await templateMenu.evaluate(menu => menu.open))) await templateMenu.locator(':scope > summary').click();
+    await page.locator('#templates-button').click();
+    await page.locator('#templates-dialog').waitFor({ state: 'visible' });
+    await page.getByText('Сохранить и изменить шаблон', { exact: true }).click();
+    await page.locator('#template-name').fill('Browser smoke template');
+    const keyViewId = initialViewIds[1];
+    await page.locator('#template-key-view').selectOption(keyViewId);
+    await page.locator('#template-save-current').click();
+
+    const templateLibraryBytes = await page.evaluate(() => localStorage.getItem('arkita.templates.v1'));
+    assert.ok(templateLibraryBytes, 'saved template is present in the local library');
+    const templateLibrary = JSON.parse(templateLibraryBytes);
+    assert.equal(templateLibrary.templates.length, 1);
+    const savedTemplate = readTemplate(templateLibrary.templates[0]);
+    assert.equal(savedTemplate.metadata.keyViewId, keyViewId);
+    assert.deepEqual(savedTemplate.snapshot.views.map(item => item.view.id), initialViewIds);
+
+    const previewView = page.locator('#template-preview-view');
+    const preview = page.locator('#template-preview');
+    const previewSnapshot = async () => {
+      const source = await preview.getAttribute('src');
+      assert.ok(source?.startsWith('data:image/svg+xml;charset=utf-8,'));
+      return page.evaluate(encoded => {
+        const svg = new DOMParser().parseFromString(decodeURIComponent(encoded), 'image/svg+xml').documentElement;
+        return {
+          title: svg.children[0]?.localName === 'title' ? svg.children[0].textContent : null,
+          transforms: Array.from(svg.querySelectorAll(':scope > g[transform]')).map(group => group.getAttribute('transform')),
+          text: Array.from(svg.querySelectorAll('text')).map(item => item.textContent).join(' ')
+        };
+      }, source.slice(source.indexOf(',') + 1));
+    };
+    const detailOnly = initial.views[1].occurrences.find(item =>
+      !initial.views[0].occurrences.some(other => other.concept.id === item.concept.id)
+    );
+    assert.ok(detailOnly, 'synthetic detail view has a unique concept');
+    const detailConcept = initial.elements.find(item => item.id === detailOnly.concept.id);
+    assert.ok(detailConcept);
+    const detailLabel = detailOnly.text ?? detailOnly.name ?? detailConcept.name;
+    assert.ok(detailLabel, 'detail-only concept has visible text');
+    const firstView = savedTemplate.snapshot.views.find(item => item.view.id === initialViewIds[0]);
+    const detailView = savedTemplate.snapshot.views.find(item => item.view.id === initialViewIds[1]);
+    assert.ok(firstView && detailView);
+    const firstBounds = firstView.occurrences[0].bounds;
+    const detailBounds = detailView.occurrences.find(item => item.concept.id === detailOnly.concept.id).bounds;
+    const firstTransform = 'translate(' + firstBounds.x + ' ' + firstBounds.y + ')';
+    const detailTransform = 'translate(' + detailBounds.x + ' ' + detailBounds.y + ')';
+    assert.deepEqual(
+      await previewView.locator('option').evaluateAll(options => options.map(option => option.value)),
+      initialViewIds
+    );
+    assert.equal(await previewView.inputValue(), keyViewId, 'key view ID selects the initial preview');
+    assert.equal(await preview.getAttribute('alt'), 'Предпросмотр: ' + initial.views[1].view.name);
+    const keyViewSVG = await previewSnapshot();
+    assert.equal(keyViewSVG.title, initial.views[1].view.name, 'decoded SVG root title follows the key view');
+    assert.ok(keyViewSVG.transforms.includes(detailTransform), 'detail preview SVG includes its drawing group geometry');
+    assert.ok(keyViewSVG.text.includes(detailLabel), 'detail preview SVG renders its unique concept');
+
+    const previewPanel = await previewView.locator('xpath=ancestor::details[1]').boundingBox();
+    const title = await page.locator('#templates-title').boundingBox();
+    assert.ok(previewPanel && title, 'preview panel and dialog title are visible');
+    const outside = { x: title.x + title.width / 2, y: title.y + title.height / 2 };
+    assert.ok(
+      outside.x < previewPanel.x || outside.x > previewPanel.x + previewPanel.width ||
+        outside.y < previewPanel.y || outside.y > previewPanel.y + previewPanel.height,
+      'keyboard navigation is exercised with the pointer outside the preview panel'
+    );
+
+    await previewView.focus();
+    await page.mouse.move(outside.x, outside.y);
+    await page.keyboard.press('ArrowUp');
+    await page.waitForFunction(viewId => document.querySelector('#template-preview-view')?.value === viewId, initialViewIds[0]);
+    assert.equal(await preview.getAttribute('alt'), 'Предпросмотр: ' + initial.views[0].view.name);
+    const firstViewSVG = await previewSnapshot();
+    assert.equal(firstViewSVG.title, initial.views[0].view.name, 'decoded SVG root title follows the selected view');
+    assert.ok(firstViewSVG.transforms.includes(firstTransform), 'first-view SVG includes its drawing group geometry');
+    assert.ok(!firstViewSVG.text.includes(detailLabel), 'first-view SVG excludes the detail-only concept');
+    assert.notDeepEqual(firstViewSVG, keyViewSVG, 'view selection changes rendered SVG content');
+
+    const previewSize = page.locator('#template-preview-size');
+    const widthBefore = await preview.evaluate(image => image.width);
+    await previewSize.focus();
+    await page.mouse.move(outside.x, outside.y);
+    await page.keyboard.press('ArrowRight');
+    await page.waitForFunction(width => document.querySelector('#template-preview')?.width === width, widthBefore + 1);
+
+    await page.locator('#templates-close').click();
+    await page.locator('#templates-dialog').waitFor({ state: 'hidden' });
+    if (await templateMenu.evaluate(menu => menu.open)) await templateMenu.locator(':scope > summary').click();
+    assert.deepEqual(await saveThroughBrowser(), initialBytes, 'template preview leaves model bytes unchanged');
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false');
+    assert.equal(await page.locator('#history-state').textContent(), initialHistory);
+
     await page.locator('#new-view').click();
     await page.locator('#new-view-name').fill('Cancelled view');
     await page.keyboard.press('Escape');
@@ -108,9 +202,55 @@ async function run() {
 
     const reopenedBytes = await saveThroughBrowser();
     assert.deepEqual(reopenedBytes, savedBytes, 'browser save → open → save preserves exact model bytes');
+    const [{ createStore }, { serializeProjectFile }] = await Promise.all([
+      import('../../schemka-model-core/src/index.js'),
+      import('../../schemka-model-io/src/index.js')
+    ]);
+    const imageStore = createStore(initial), runImageCommand = command => imageStore.execute(command, imageStore.revision);
+    const originalSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="#123456"/></svg>';
+    const sharedAssetId = runImageCommand({ type: 'createAsset', name: 'Shared.svg', mediaType: 'image/svg+xml', data: Buffer.from(originalSvg).toString('base64') }).created.assetId;
+    const sharedDrawings = initial.views.slice(0, 2).map(({ view }, index) => ({
+      viewId: view.id,
+      drawingId: runImageCommand({ type: 'createVisualNode', viewId: view.id, kind: 'image', assetId: sharedAssetId, bounds: { x: 100 + index * 120, y: 100, width: 100, height: 80 } }).created.visualNodeId
+    }));
+    const imageFixtureBytes = Buffer.from(serializeProjectFile(imageStore.snapshot));
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'shared-image.arkita', mimeType: 'application/json', buffer: imageFixtureBytes });
+    await page.locator('#load-project').waitFor({ state: 'visible' });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+
+    const visualTools = page.locator('#visual-tools');
+    if (!(await visualTools.evaluate(details => details.open))) await visualTools.locator(':scope > summary').click();
+    await page.locator('#visual-assets-button').click();
+    const replacementSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="10" fill="#abcdef"/></svg>';
+    const replacementFile = page.waitForEvent('filechooser');
+    await page.locator(`#visual-replace-asset-${sharedAssetId}`).click();
+    await (await replacementFile).setFiles({ name: 'Replacement.svg', mimeType: 'image/svg+xml', buffer: Buffer.from(replacementSvg) });
+    await page.locator('#visual-apply').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#visual-apply').textContent(), 'Заменить для всех использований');
+    await page.locator('#visual-apply').click();
+    await page.locator('#visual-cancel').click();
+    await page.locator('#visual-dialog').waitFor({ state: 'hidden' });
+
+    const replacedBytes = await saveThroughBrowser();
+    const replaced = deserializeProjectFile(replacedBytes), asset = replaced.assets.find(item => item.id === sharedAssetId);
+    assert.deepEqual({ id: asset?.id, name: asset?.name, mediaType: asset?.mediaType, data: asset?.data }, {
+      id: sharedAssetId, name: 'Shared.svg', mediaType: 'image/svg+xml', data: Buffer.from(replacementSvg).toString('base64')
+    });
+    for (const { viewId, drawingId } of sharedDrawings) {
+      const drawing = replaced.views.find(entry => entry.view.id === viewId)?.visualNodes.find(item => item.id === drawingId);
+      assert.equal(drawing?.assetId, sharedAssetId, 'both original drawings still reference the same asset ID');
+    }
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'shared-image.arkita', mimeType: 'application/json', buffer: replacedBytes });
+    await page.locator('#load-project').waitFor({ state: 'visible' });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+    assert.deepEqual(await saveThroughBrowser(), replacedBytes, 'ordinary Save → Open → Save preserves the replaced shared image bytes, ID and references');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · 2-view shared model, Cancel/focus, create, browser save/reopen`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · template key-view keyboard SVG geometry, 2-view shared model, Cancel/focus, create, browser save/reopen`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {

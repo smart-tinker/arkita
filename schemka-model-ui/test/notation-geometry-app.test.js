@@ -3,6 +3,7 @@ import { production, setup, richLifecycleFixture, setStoredGeometry } from './ap
 import { importedRelationship } from './imported-relationship.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { createProject, createStore } from '../../schemka-model-core/src/index.js';
 import { serializeProjectFile, deserializeProjectFile, exportMermaid } from '../../schemka-model-io/src/index.js';
 import { notationElement } from '../src/notation.js';
@@ -78,6 +79,49 @@ test(`${production ? 'production' : 'source'} app: imported rounded corners and 
 });
 
 const pathNumbers = path => path.match(/-?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?/gi).map(Number);
+
+function loadStyle(h) {
+  const style = h.document.createElement('style'); style.textContent = readFileSync(new URL('../style.css', import.meta.url), 'utf8'); h.document.head.append(style);
+}
+
+test(`${production ? 'production' : 'source'} app: occurrence shape overrides clip connections to the painted contour without changing saved IDs or bytes`, async t => {
+  const h = await setup(t), store = createStore(createProject('Synthetic occurrence contours'));
+  loadStyle(h);
+  const run = command => store.execute(command, store.revision).created;
+  const { viewId } = run({ type: 'createView', name: 'Occurrence contours' });
+  const sourceId = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Source', bounds: { x: 80, y: 80, width: 160, height: 100 } }).occurrenceId;
+  const targetId = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Target', bounds: { x: 420, y: 260, width: 160, height: 100 } }).occurrenceId;
+  const connectionId = run({ type: 'createRelationshipAndConnection', viewId, relationshipType: 'Association', source: { kind: 'occurrence', id: sourceId }, target: { kind: 'occurrence', id: targetId }, label: 'Contour' }).connectionId;
+  const initial = store.snapshot, entry = initial.views.find(item => item.view.id === viewId), connection = entry.connections.find(item => item.id === connectionId);
+  for (const [shape, contour] of [['ellipse', 'ellipse'], ['rectangle', 0], ['rounded', 10], ['default', 0]]) {
+    const state = structuredClone(initial), view = state.views.find(item => item.view.id === viewId);
+    view.occurrences.find(item => item.id === sourceId).style.shape = shape;
+    const bytes = Buffer.from(serializeProjectFile(state));
+    await h.load(bytes, `synthetic-${shape}.arkita`);
+    const group = id => h.$('canvas').querySelector(`[data-id="${id}"]`), actual = group(connectionId).querySelector('.line').getAttribute('d');
+    const expected = connectionGeometry(connection, entry.occurrences, occurrence => occurrence.id === sourceId ? contour : 0).d;
+    assert.equal(actual, expected, `${shape} endpoint matches its painted contour`);
+    assert.equal(group(connectionId).querySelector('.hit').getAttribute('d'), actual);
+    if (shape === 'ellipse') {
+      assert.equal(group(sourceId).querySelector('.custom-drawing-shape').tagName.toLowerCase(), 'ellipse');
+      const [x, y] = pathNumbers(actual); assert.ok(Math.abs(x - 221.04365376846425) < 1e-7); assert.ok(Math.abs(y - 162.31722846565754) < 1e-7);
+      h.$('project-name').click();
+      const input = h.document.querySelector('.inline-editor input'); assert.ok(input);
+      input.value = 'Undo ellipse contour check';
+      input.dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      assert.equal(h.$('file-state').dataset.dirty, 'true');
+      h.$('undo').click();
+      assert.equal(h.$('file-state').dataset.dirty, 'false');
+      assert.equal(h.$('undo').disabled, true);
+      assert.equal(group(connectionId).querySelector('.line').getAttribute('d'), actual);
+      const svg = new h.window.DOMParser().parseFromString((await h.download('download-svg')).toString(), 'image/svg+xml');
+      assert.equal(svg.querySelector('parsererror'), null);
+      assert.ok([...svg.querySelectorAll('path')].some(path => path.getAttribute('d') === actual), 'downloaded SVG preserves the ellipse-boundary connection path');
+    }
+    assert.equal(h.$('file-state').dataset.dirty, 'false'); assert.equal(h.$('undo').disabled, true);
+    assert.deepEqual(await h.download(), bytes);
+  }
+});
 
 test(`${production ? 'production' : 'source'} app: stored routes display on open with exact labels, fit, shared hit geometry and byte-safe movement`, async t => {
   const h = await setup(t), fixture = richLifecycleFixture(), state = fixture.state;
