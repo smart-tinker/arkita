@@ -92,7 +92,7 @@ export function installEditingTools({ document, window, model, canvas, openDialo
   }
   function router(){
     const value=show('Маршрутизация всего представления','router');if(!value)return false;
-    const entry=model.store.snapshot.views.find(item=>item.view.id===value.viewId);value.original=entry.view.router??'manual';field(value,'router','Маршрутизация',value.original,[['manual','Ручная и сохранённые стили рисунков'],['orthogonal','Ортогональная для всех линий']]);fields.append(node('p','Изменяется только режим этого вида. Концы, якоря, изгибы и индивидуальные стили сохраняются; ручной режим восстанавливает их. Показ сохранённых изгибов и подписей управляется отдельным локальным переключателем.'));
+    const entry=model.store.snapshot.views.find(item=>item.view.id===value.viewId);value.original=entry.view.router??'manual';field(value,'router','Маршрутизация',value.original,[['manual','Ручная и сохранённые стили рисунков'],['orthogonal','Ортогональная, примыкание по контуру']]);fields.append(node('p','Изменяется только режим этого вида. Линии входят и выходят по контуру фигуры; сохранённые изгибы и якоря остаются точными точками. Ручной режим возвращает прежнее отображение. Обход препятствий не выполняется. Показ сохранённых изгибов и подписей управляется отдельным локальным переключателем.'));
     value.build=()=>{const next=value.controls.router.value;if(next===value.original)return{changed:false};const stage=createStore(model.store.snapshot);stage.execute({type:'setViewPresentation',viewId:value.viewId,router:next==='manual'?null:next},stage.revision);return{snapshot:stage.snapshot,changed:true};};return true;
   }
   function reverse() {

@@ -13,7 +13,6 @@ test('real report exclusion precedes all data, follows folder/relationship/drawi
   assert.throws(() => prepareReportProject(f.store.snapshot, { excludeIds: [f.store.snapshot.project.id] }));
 });
 
-
 test('report revision uses locale number formatting without changing model data', () => {
   const f = fixture(), before = f.store.exportFiles(), revision = 1234, generatedAt = '2026-01-01T00:00:00Z';
   for (const [locale, revisionLabel] of [['ru-RU', 'Ревизия'], ['en-US', 'Revision']]) {
