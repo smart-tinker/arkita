@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.1-rc.4 — candidate
+
+- Keep immediate creation from a newly saved full-model template reliable after the template gallery closes.
+- No model-format change; exact Windows GUI acceptance and release publication remain pending.
+
 ## 0.7.1-rc.3 — candidate
 
 - Route folded occurrence connections to the visible cut outline in the canvas and SVG export.
