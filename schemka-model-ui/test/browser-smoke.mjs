@@ -129,9 +129,10 @@ async function run() {
     const visualTools = page.locator('#visual-tools');
     if (!(await visualTools.evaluate(details => details.open))) await visualTools.locator(':scope > summary').click();
     await page.locator('#visual-assets-button').click();
-    await page.locator(`#visual-replace-asset-${sharedAssetId}`).click();
     const replacementSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="10" fill="#abcdef"/></svg>';
-    await page.locator(`#visual-replace-file-${sharedAssetId}`).setInputFiles({ name: 'Replacement.svg', mimeType: 'image/svg+xml', buffer: Buffer.from(replacementSvg) });
+    const replacementFile = page.waitForEvent('filechooser');
+    await page.locator(`#visual-replace-asset-${sharedAssetId}`).click();
+    await (await replacementFile).setFiles({ name: 'Replacement.svg', mimeType: 'image/svg+xml', buffer: Buffer.from(replacementSvg) });
     await page.locator('#visual-apply').waitFor({ state: 'visible' });
     assert.equal(await page.locator('#visual-apply').textContent(), 'Заменить для всех использований');
     await page.locator('#visual-apply').click();
