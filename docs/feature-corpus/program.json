@@ -836,13 +836,17 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#search"
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/src/advanced-search.js#L24-L46",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/test/model-search-bulk.test.js#L22-L40",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search.test.js#L180-L193",
+        "https://github.com/smart-tinker/arkita/pull/130",
+        "https://github.com/smart-tinker/arkita/actions/runs/45914783155"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "No exact UI receipt yet combines text with multiple types and specializations, current-catalog refresh, and reset while preserving a collapsed branch. Existing evidence covers parts of filtering and refresh; no functional defect is confirmed. Installed Windows/native acceptance remains UNRUN.",
       "issue": 47,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and tests read at exact main 3afc01a1e72251bc9610730e6d772580dcc755c6. The model-search test covers text with type/view filters and profile filters separately; the UI declares AND across filters/OR within lists and refreshes after deleting an owner/changing a profile. CI 45914783155 is the exact synced #130 test-profile run; it is supporting suite evidence, not a full A-EDITOR-027 acceptance scenario. Status remains acceptance-pending.",
       "implementation_prs": [
         29,
         30,
@@ -975,13 +979,19 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#search"
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/src/advanced-search.js#L24-L56",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/src/model-search.js",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/test/model-search-bulk.test.js#L55-L80",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search.test.js#L32-L52",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search.test.js#L202-L209",
+        "https://github.com/smart-tinker/arkita/pull/94",
+        "https://github.com/smart-tinker/arkita/actions/runs/45904491933"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Existing tests cover separate preview/cancel/Undo, shared-owner deduplication, exact affected owners, and search navigation. Remaining: one criterion-level selected-model Replace All scenario across case/whole-word/folder/relationship options, preview IDs/count, shared concept once, and safe cancel/apply/Undo. No product defect is confirmed; installed Windows/native acceptance remains UNRUN.",
       "issue": 47,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and tests read at exact main 3afc01a1e72251bc9610730e6d772580dcc755c6. PR #94 head 4b2b5724faf362998dbdcf7e4f6b491cabda62d1 merged as 4c5bbfcefc64db43d31f7b9e237537006bd69144; exact CI 45904491933, CodeQL 45904491979 and Dependency Review 45904492001 passed, with independent scoped source review PASS. Its direct scope is model-wide navigation/current-result invalidation; it does not prove the full Replace All option matrix. Status remains acceptance-pending.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -1164,13 +1174,23 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#search"
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/src/advanced-search.js#L28-L56",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search.test.js#L79-L112",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search.test.js#L113-L179",
+        "https://github.com/smart-tinker/arkita/pull/94",
+        "https://github.com/smart-tinker/arkita/actions/runs/45904491933",
+        "https://github.com/smart-tinker/arkita/actions/runs/45904491979",
+        "https://github.com/smart-tinker/arkita/actions/runs/45904492001",
+        "https://github.com/smart-tinker/arkita/pull/136",
+        "https://github.com/smart-tinker/arkita/actions/runs/45923723888",
+        "https://github.com/smart-tinker/arkita/actions/runs/45923723846",
+        "https://github.com/smart-tinker/arkita/actions/runs/45923723900"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Current-view navigation, title exclusion, hidden-viewpoint policy, shared-concept deduplication, preview and exact Undo are covered by the linked source/CI receipts. Installed Windows/userVM acceptance remains UNRUN; no additional functional defect was confirmed.",
       "issue": 47,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and tests read at exact main 3afc01a1e72251bc9610730e6d772580dcc755c6. PR #94 head 4b2b5724faf362998dbdcf7e4f6b491cabda62d1 merged as 4c5bbfcefc64db43d31f7b9e237537006bd69144; CI 45904491933, CodeQL 45904491979 and Dependency Review 45904492001 passed. PR #136 head e5908ef6822317236aaf7443738e3470f083ceda merged as 9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf; CI 45923723888, CodeQL 45923723846 and Dependency Review 45923723900 passed. The latter covers title exclusion, visibility modes, shared owner/drawing behavior and byte-exact Undo. Status remains acceptance-pending; installed/native Windows acceptance is UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -3697,13 +3717,23 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#search"
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/src/bulk-metadata.js#L4-L17",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/src/bulk-metadata.js#L80-L131",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/test/model-search-bulk.test.js#L85-L122",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search-app.test.js#L129-L168",
+        "https://github.com/smart-tinker/arkita/pull/130",
+        "https://github.com/smart-tinker/arkita/actions/runs/45907848245",
+        "https://github.com/smart-tinker/arkita/actions/runs/45914783155",
+        "https://github.com/smart-tinker/arkita/actions/runs/45914783028",
+        "https://github.com/smart-tinker/arkita/actions/runs/45914782951",
+        "https://github.com/smart-tinker/arkita/pull/55",
+        "https://github.com/smart-tinker/arkita/actions/runs/43644090808"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Core tests/CI cover preservation of existing values, missing-mode no-op/repeat, first-wins duplicates, and all-mode duplicate preservation; UI evidence covers preview/apply and save/reopen in all mode. Remaining UI evidence: Cancel after preview of a multi-entry add leaves bytes/history unchanged. No product defect is confirmed; installed Windows/userVM acceptance remains UNRUN.",
       "issue": 47,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Source and tests read at exact main 3afc01a1e72251bc9610730e6d772580dcc755c6. PR #130 head 3779d43d71888ce719284a3a02f387574d620ae0 merged as 368533498f8d8de1c2f884ae815100fa5f0b01cf. Test-only RED run 45907848245 failed for the intended extra x=B; exact synced GREEN CI 45914783155 passed on Ubuntu/Windows, with CodeQL 45914783028 and Dependency Review 45914782951 passing. PR #55 UI tests/CI 43644090808 support add/save/reopen behavior. Status remains acceptance-pending; native acceptance is UNRUN.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
@@ -4418,13 +4448,24 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#search"
+        "https://github.com/smart-tinker/arkita/pull/55",
+        "https://github.com/smart-tinker/arkita/actions/runs/43644090808",
+        "https://github.com/smart-tinker/arkita/pull/72",
+        "https://github.com/smart-tinker/arkita/actions/runs/45901545832",
+        "https://github.com/smart-tinker/arkita/actions/runs/45901545779",
+        "https://github.com/smart-tinker/arkita/actions/runs/45901545844",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/src/bulk-metadata.js#L4-L17",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/test/model-search-bulk.test.js#L85-L122",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search-app.test.js#L66-L126",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-ui/test/advanced-search-app.test.js#L129-L168",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/fixtures/metadata-compatibility.js#L25-L49",
+        "https://github.com/smart-tinker/arkita/blob/3afc01a1e72251bc9610730e6d772580dcc755c6/schemka-model-core/test/metadata-contract.test.js#L34-L68"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed Windows/userVM acceptance remains UNRUN. Keep format behavior versioned: v4 row-backed properties may repeat keys; legacy object maps remain unique-key, while raw duplicate JSON object keys and malformed tuple rows are refused. No product defect was established by the linked source/test evidence.",
       "issue": 47,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Read source at exact main 3afc01a1e72251bc9610730e6d772580dcc755c6. PR #55 head 37a332abf9cec3f033c5acabb7c6ea7aa0f23cc0 merged as 3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b; exact CI 43644090808 passed Ubuntu and Windows. PR #72 head ed2dfb7a789318acf52962b617c79eac6f932fdb merged as 8329a07e985691e89d3ee2ec8cafe82adc3def83; exact CI 45901545832, CodeQL 45901545779 and Dependency Review 45901545844 passed. #72 independent scoped source review PASS. V4 array-backed duplicate rows are preserved; object-backed encoding rejects duplicate keys. Status remains acceptance-pending; installed/native acceptance is UNRUN.",
       "source": "docs/feature-corpus/advanced.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
