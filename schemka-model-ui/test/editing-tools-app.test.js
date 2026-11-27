@@ -26,6 +26,32 @@ test('quick linked creation uses one undo, filtered types and cancellation canno
   h.$('diagram-quick-add').click(); h.$('diagram-search').value = 'nothing matches'; dispatch(h, 'diagram-search', 'input'); assert.equal(h.$('diagram-tools-apply').disabled, true); h.$('diagram-tools-cancel').click(); assert.deepEqual(await state(h), after);
 });
 
+test('Shift+Insert on a selected occurrence uses the atomic connector dialog and free-slot keyboard placement', async t => {
+  const store = createStore(createProject('Keyboard atomic connector'));
+  const viewId = store.execute({ type: 'createView', name: 'Main' }, store.revision).created.viewId;
+  const source = store.execute({ type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Source',
+    bounds: { x: 40, y: 40, width: 160, height: 90 } }, store.revision).created;
+  const bytes = Buffer.from(serializeProjectFile(store.snapshot)), h = await setup(t); await h.load(bytes);
+  h.document.querySelector(`[data-view-scope="tree"][data-view-id="${viewId}"]`).click();
+  const sourceNode = h.$('canvas').querySelector(`[data-id="${source.occurrenceId}"]`);
+  h.pointer(sourceNode, 'pointerdown'); h.pointer(h.$('canvas'), 'pointerup');
+  h.$('canvas').dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Insert', shiftKey: true, bubbles: true, cancelable: true }));
+  assert.equal(h.$('diagram-tools-dialog').open, true); assert.equal(h.$('diagram-source').value, source.occurrenceId);
+  assert.equal(h.document.activeElement.id, 'diagram-search');
+  h.$('diagram-search').value = 'DataObject'; h.$('diagram-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+  assert.ok([...h.$('diagram-relationship').options].some(option => option.value === 'Access'));
+  h.$('diagram-type').value = 'DataObject'; h.$('diagram-type').dispatchEvent(new h.window.Event('change', { bubbles: true }));
+  h.$('diagram-relationship').value = 'Access'; h.$('diagram-relationship').dispatchEvent(new h.window.Event('change', { bubbles: true }));
+  h.$('diagram-name').value = 'Keyboard target';
+  h.$('diagram-tools-form').dispatchEvent(new h.window.Event('submit', { bubbles: true, cancelable: true }));
+  const saved = await h.download(), after = deserializeProjectFile(saved), relationship = after.relationships.find(item => !store.snapshot.relationships.some(old => old.id === item.id));
+  const target = after.elements.find(item => item.name === 'Keyboard target');
+  assert.equal(target.type, 'DataObject'); assert.deepEqual(relationship.source, { kind: 'element', id: source.elementId });
+  assert.deepEqual(relationship.target, { kind: 'element', id: target.id });
+  assert.match(h.$('history-state').textContent, /1 действий/);
+  h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await h.download(), saved);
+});
+
 test('keyboard geometry preview has no history, Escape restores it, Enter applies once and text arrows do not move', async t => {
   const h = await setup(t), f = richLifecycleFixture(), bytes = Buffer.from(serializeProjectFile(f.state)); await h.load(bytes); h.document.querySelector(`[data-view-id="${f.viewId}"]`).click();
   const target = h.document.querySelector(`[data-kind="occurrence"][data-id="${f.a.occurrenceId}"]`); h.pointer(target, 'pointerdown'); h.pointer(h.$('canvas'), 'pointerup');

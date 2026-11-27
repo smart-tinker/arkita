@@ -24,7 +24,7 @@ export function nestingTargets(view, drawings, { parentView = view } = {}) {
 }
 
 export function prepareNestingPlacement(state,command,{visibleIds=null}={}) {
-  if(!['createElementAndOccurrence','createJunctionAndOccurrence','addOccurrence','moveDrawings'].includes(command.type))return null;
+  if(!['createElementAndOccurrence','createJunctionAndOccurrence','createElementAndRelationship','addOccurrence','moveDrawings'].includes(command.type))return null;
   const original=state.views.find(item=>item.view.id===command.viewId);if(!original)return null;
   const preview=structuredClone(original),visible=visibleIds?new Set(visibleIds):null;
   let previewRefs;
