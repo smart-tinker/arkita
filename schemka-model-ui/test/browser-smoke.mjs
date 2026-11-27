@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { deserializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { deserializeProjectFile, serializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { openFileDialog } from './browser-files.mjs';
+import { createStore } from '../../schemka-model-core/src/index.js';
 
 class BlockedError extends Error {}
 
@@ -108,6 +109,45 @@ async function run() {
 
     const reopenedBytes = await saveThroughBrowser();
     assert.deepEqual(reopenedBytes, savedBytes, 'browser save → open → save preserves exact model bytes');
+    const imageStore = createStore(initial), runImageCommand = command => imageStore.execute(command, imageStore.revision);
+    const originalSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="#123456"/></svg>';
+    const sharedAssetId = runImageCommand({ type: 'createAsset', name: 'Shared.svg', mediaType: 'image/svg+xml', data: Buffer.from(originalSvg).toString('base64') }).created.assetId;
+    const sharedDrawings = initial.views.slice(0, 2).map(({ view }, index) => ({
+      viewId: view.id,
+      drawingId: runImageCommand({ type: 'createVisualNode', viewId: view.id, kind: 'image', assetId: sharedAssetId, bounds: { x: 100 + index * 120, y: 100, width: 100, height: 80 } }).created.visualNodeId
+    }));
+    const imageFixtureBytes = Buffer.from(serializeProjectFile(imageStore.snapshot));
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'shared-image.arkita', mimeType: 'application/json', buffer: imageFixtureBytes });
+    await page.locator('#load-project').waitFor({ state: 'visible' });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+
+    await page.locator('#visual-assets-button').click();
+    await page.locator(`#visual-replace-asset-${sharedAssetId}`).click();
+    const replacementSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="10" fill="#abcdef"/></svg>';
+    await page.locator(`#visual-replace-file-${sharedAssetId}`).setInputFiles({ name: 'Replacement.svg', mimeType: 'image/svg+xml', buffer: Buffer.from(replacementSvg) });
+    await page.locator('#visual-apply').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#visual-apply').textContent(), 'Заменить для всех использований');
+    await page.locator('#visual-apply').click();
+    await page.locator('#visual-cancel').click();
+    await page.locator('#visual-dialog').waitFor({ state: 'hidden' });
+
+    const replacedBytes = await saveThroughBrowser();
+    const replaced = deserializeProjectFile(replacedBytes), asset = replaced.assets.find(item => item.id === sharedAssetId);
+    assert.deepEqual({ id: asset?.id, name: asset?.name, mediaType: asset?.mediaType, data: asset?.data }, {
+      id: sharedAssetId, name: 'Shared.svg', mediaType: 'image/svg+xml', data: Buffer.from(replacementSvg).toString('base64')
+    });
+    for (const { viewId, drawingId } of sharedDrawings) {
+      const drawing = replaced.views.find(entry => entry.view.id === viewId)?.visualNodes.find(item => item.id === drawingId);
+      assert.equal(drawing?.assetId, sharedAssetId, 'both original drawings still reference the same asset ID');
+    }
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'shared-image.arkita', mimeType: 'application/json', buffer: replacedBytes });
+    await page.locator('#load-project').waitFor({ state: 'visible' });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+    assert.deepEqual(await saveThroughBrowser(), replacedBytes, 'ordinary Save → Open → Save preserves the replaced shared image bytes, ID and references');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
     console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · 2-view shared model, Cancel/focus, create, browser save/reopen`);
