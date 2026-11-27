@@ -125,15 +125,16 @@ test(`${production ? 'production' : 'source'} app: occurrence shape overrides cl
 
 test((production ? 'production' : 'source') + ' app: folded overrides share the cut contour in canvas and SVG; one undo restores the exact model', async t => {
   const h = await setup(t), store = createStore(createProject('Synthetic folded contour'));
+  loadStyle(h);
   const run = command => store.execute(command, store.revision).created;
   const { viewId } = run({ type: 'createView', name: 'Folded endpoint' });
   const sourceBounds = { x: 100, y: 200, width: 160, height: 100 };
   const source = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Cut corner', bounds: sourceBounds });
-  const target = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Upper right', bounds: { x: 200, y: 150, width: 160, height: 100 } });
+  const target = run({ type: 'createElementAndOccurrence', viewId, elementType: 'Location', name: 'Upper right', bounds: { x: 500, y: 0, width: 160, height: 100 } });
   const link = run({ type: 'createRelationshipAndConnection', viewId, relationshipType: 'Association',
     source: { kind: 'occurrence', id: source.occurrenceId }, target: { kind: 'occurrence', id: target.occurrenceId },
-    label: 'Preserved route', routePoints: [{ kind: 'bend', point: { x: 275.25, y: 230.5 } }],
-    labelPosition: { x: 300.5, y: 180.25 } });
+    label: 'Preserved route', routePoints: [{ kind: 'bend', point: { x: 275.2, y: 230.5 } }],
+    labelPosition: { x: 300.5, y: 180.3 } });
   const beforeBytes = Buffer.from(serializeProjectFile(store.snapshot)), beforeState = deserializeProjectFile(beforeBytes);
   const entry = beforeState.views.find(item => item.view.id === viewId);
   const route = entry.connections.find(item => item.id === link.connectionId);
@@ -143,7 +144,8 @@ test((production ? 'production' : 'source') + ' app: folded overrides share the 
   const line = () => group(link.connectionId).querySelector('.line').getAttribute('d');
   const before = line();
   assert.equal(before, connectionGeometry(route, entry.occurrences, () => 0).d);
-  group(source.occurrenceId).click();
+  h.pointer(group(source.occurrenceId), 'pointerdown', sourceBounds.x + sourceBounds.width / 2, sourceBounds.y + sourceBounds.height / 2);
+  h.pointer(h.$('canvas'), 'pointerup', sourceBounds.x + sourceBounds.width / 2, sourceBounds.y + sourceBounds.height / 2);
   const tools = h.$('visual-tools');
   if (!tools.open) tools.querySelector('summary').click();
   assert.equal(h.$('visual-style').disabled, false);
