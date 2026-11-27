@@ -215,6 +215,30 @@ jobs:
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
+          function ConvertTo-GitHubList {
+            param([AllowNull()][AllowEmptyCollection()][object]$Response)
+            $items = [System.Collections.Generic.List[object]]::new()
+            if ($null -eq $Response) {
+              return ,$items
+            }
+            if ($Response -is [array]) {
+              foreach ($entry in $Response) {
+                if ($entry -is [array]) {
+                  foreach ($nestedEntry in $entry) {
+                    if ($null -ne $nestedEntry) {
+                      $items.Add($nestedEntry)
+                    }
+                  }
+                } elseif ($null -ne $entry) {
+                  $items.Add($entry)
+                }
+              }
+            } else {
+              $items.Add($Response)
+            }
+            return ,$items
+          }
+
           $headers = @{
             Authorization = "Bearer $env:GH_TOKEN"
             Accept = 'application/vnd.github+json'
@@ -230,7 +254,8 @@ jobs:
           $isPrerelease = $env:RELEASE_CHANNEL -ceq 'rc'
           $tagEscaped = [Uri]::EscapeDataString($env:TAG_NAME)
           $tagUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/git/ref/tags/$tagEscaped"
-          $releaseList = @(Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases?per_page=100" -Headers $headers)
+          $releaseListResponse = Invoke-RestMethod -NoEnumerate -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases?per_page=100" -Headers $headers
+          $releaseList = ConvertTo-GitHubList -Response $releaseListResponse
           if ($releaseList.Count -ge 100) {
             throw 'Release listing reached 100 entries; refusing an incomplete conflict check.'
           }
@@ -258,7 +283,7 @@ jobs:
           }
 
           if (-not $release) {
-            $body = "Prepared for $env:RELEASE_CHANNEL from source/build SHA $env:SOURCE_SHA. Installer $env:INSTALLER_NAME: $localSize bytes, SHA-256 $localHash. Draft only; exact-package userVM acceptance is UNRUN and owner publication decision is pending."
+            $body = "Prepared for $env:RELEASE_CHANNEL from source/build SHA $env:SOURCE_SHA. Installer ${env:INSTALLER_NAME}: $localSize bytes, SHA-256 $localHash. Draft only; exact-package userVM acceptance is UNRUN and owner publication decision is pending."
             $releaseBody = @{
               tag_name = $env:TAG_NAME
               target_commitish = $env:SOURCE_SHA
@@ -277,7 +302,8 @@ jobs:
           }
 
           $assetUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/$($release.id)/assets?per_page=100"
-          $assets = @(Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers)
+          $assetsResponse = Invoke-RestMethod -NoEnumerate -Method Get -Uri $assetUri -Headers $headers
+          $assets = ConvertTo-GitHubList -Response $assetsResponse
           if ($assets.Count -ge 100) {
             throw 'Release asset listing reached 100 entries; refusing an incomplete conflict check.'
           }
@@ -295,7 +321,8 @@ jobs:
           } else {
             $uploadBase = $release.upload_url -replace '\{\?name,label\}$', ''
             $assetName = [Uri]::EscapeDataString($env:INSTALLER_NAME)
-            $uploadedAsset = Invoke-RestMethod -Method Post -Uri "$uploadBase?name=$assetName" -Headers $headers -ContentType 'application/octet-stream' -InFile $installer
+            $uploadUri = "${uploadBase}?name=${assetName}"
+            $uploadedAsset = Invoke-RestMethod -Method Post -Uri $uploadUri -Headers $headers -ContentType 'application/octet-stream' -InFile $installer
             if ($uploadedAsset.name -cne $env:INSTALLER_NAME -or $uploadedAsset.size -ne [long]$env:INSTALLER_SIZE -or $uploadedAsset.state -cne 'uploaded') {
               throw 'Uploaded release asset name, size, or state did not match the verified installer.'
             }
@@ -304,7 +331,8 @@ jobs:
             }
           }
 
-          $assets = @(Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers)
+          $assetsResponse = Invoke-RestMethod -NoEnumerate -Method Get -Uri $assetUri -Headers $headers
+          $assets = ConvertTo-GitHubList -Response $assetsResponse
           if ($assets.Count -ge 100) {
             throw 'Release asset listing reached 100 entries; refusing an incomplete readback.'
           }
