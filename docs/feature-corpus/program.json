@@ -2249,13 +2249,14 @@
       "historical_status": "absent",
       "current_status": "acceptance-pending",
       "evidence": [
-        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard"
+        "docs/feature-corpus/RELEASE-0.6.0.md#clipboard",
+        "https://github.com/smart-tinker/arkita/actions/runs/45608596460/job/139185891102"
       ],
-      "remaining": "Сверить каждый исходный критерий с текущими source routes и проверками направления; зафиксировать точный финальный SHA, review/PR и применимую Windows-приёмку. Реальное отсутствие кода или ограничение должно быть указано в ledger, а не переименовано в GUI-проверку.",
+      "remaining": "Installed-user acceptance of the exact final package remains UNRUN. Clipboard alpha was verified only in the clipboard PNG, not in Paint's Format24bppRgb save; hosted-runner evidence does not replace installed Windows acceptance.",
       "issue": 51,
       "closed_criteria": [],
       "windows_acceptance": "unrun",
-      "verification": "Previous inspection retained in previous_inventory. Current family-level source inventory is separate from criterion acceptance; no closed_criteria added by this documentation update.",
+      "verification": "Hosted Windows-2025 run 45608596460/job 139185891102 used Arkita 0.7.0 x64 packaged from source fe1245a3d61612b15b78270e9f49fe9dc6467988 and QA harness 495996591ec2eda25e1f0cba5b0aef5c876a5c02. The synthetic clipboard image pasted into Microsoft Paint and was saved as PNG; dimensions, sample pixels, and Cyrillic matched expectations, while model history stayed at 0 actions and dirty=false. Alpha was verified only in the clipboard PNG (Paint saved Format24bppRgb); the oversized image was explicitly refused at 16384 px / 32 MiPixel. This hosted packaged-app run does not establish installed-user acceptance.",
       "source": "docs/feature-corpus/editor.md",
       "previous_inventory": {
         "review_base": "eb643c46facc1f9bd1adb3135c697ae96f4b3bdc",
