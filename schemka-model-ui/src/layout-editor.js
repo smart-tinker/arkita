@@ -12,7 +12,7 @@ export function installLayoutEditor({ document, window, canvas, model, enabled, 
   };
   const editable = kind => kind === 'anchor' || storedGeometry();
   const hiddenGeometryMessage = 'Сейчас доступны только закреплённые якоря. Для правки изгибов и подписи включите показ сохранённых маршрутов и подписей.';
-  const report = text => { try { status(text); } catch { /* Feedback cannot repeat a commit. */ } };
+  const report = (text, kind) => { try { status(text, kind); } catch { /* Feedback cannot repeat a commit. */ } };
   function context() {
     const view = model.view, selection = model.selection;
     const connection = selection?.kind === 'connection' && view?.connections.find(item => item.id === selection.id);
@@ -92,7 +92,7 @@ export function installLayoutEditor({ document, window, canvas, model, enabled, 
     canvas.querySelector(selector)?.focus({ preventScroll: true });
   }
   function apply(layout, request, message, focusTarget = null) {
-    if (!valid(request)) { report('Модель или представление изменились. Начните изменение геометрии заново.'); return false; }
+    if (!valid(request)) { report('Модель или представление изменились. Начните изменение геометрии заново.', 'blocking'); return false; }
     if (sameLayout(layout, request.layout)) return false;
     let committed = false;
     try {
@@ -167,14 +167,14 @@ export function installLayoutEditor({ document, window, canvas, model, enabled, 
     const handle = event.target.closest?.('.layout-handle,.layout-edit-label');
     if (!armed && (!handle || !editing)) return;
     event.preventDefault(); event.stopImmediatePropagation();
-    if (!enabled() || blocked()) { report('Сначала завершите текущее действие'); return; }
+    if (!enabled() || blocked()) { report('Сначала завершите текущее действие', 'blocking'); return; }
     const current = context(); if (!current || editing !== current.connection.id) return;
     event.preventDefault(); event.stopImmediatePropagation();
     const coordinates = pointerPoint(event); if (!coordinates) { cancel(); report('Преобразование полотна недоступно; геометрия не изменена'); return; }
     const kind = armed ? 'add' : handle.dataset.layoutKind === 'anchor' ? 'anchor' : handle.dataset.layoutKind === 'bend' ? 'bend' : 'label';
     if (!editable(kind)) { report(hiddenGeometryMessage); return; }
     const request = armed || capture(current);
-    if (!valid(request)) { cancel(); report('Модель изменилась; повторите действие'); return; }
+    if (!valid(request)) { cancel(); report('Модель изменилась; повторите действие', 'blocking'); return; }
     const index = ['bend', 'anchor'].includes(kind) ? Number(handle.dataset.layoutIndex) : -1;
     if (['bend', 'anchor'].includes(kind)) {
       selectedIndex = index;
@@ -195,9 +195,9 @@ export function installLayoutEditor({ document, window, canvas, model, enabled, 
   }
   function candidate(event) {
     const prior = pending; if (!prior || event.pointerId !== prior.pointerId) return null;
-    if (!valid(prior)) { cancel(); report('Модель или представление изменились. Правка отменена.'); return null; }
+    if (!valid(prior)) { cancel(); report('Модель или представление изменились. Правка отменена.', 'blocking'); return null; }
     const coordinates = pointerPoint(event);
-    if (!coordinates || coordinates.matrix !== prior.matrix) { cancel(); report('Преобразование полотна изменилось. Правка отменена.'); return null; }
+    if (!coordinates || coordinates.matrix !== prior.matrix) { cancel(); report('Преобразование полотна изменилось. Правка отменена.', 'blocking'); return null; }
     prior.clientX = event.clientX; prior.clientY = event.clientY;
     if (Math.hypot(event.clientX - prior.startX, event.clientY - prior.startY) >= 6) prior.dragging = true;
     if (prior.kind !== 'add' && !prior.dragging) return null;
@@ -208,7 +208,7 @@ export function installLayoutEditor({ document, window, canvas, model, enabled, 
   // Capture before app-level inline-editor dismissal and ordinary node dragging.
   document.addEventListener('pointerdown', event => {
     if (event.target.closest?.('.layout-editor-controls') && blocked()) {
-      event.preventDefault(); event.stopImmediatePropagation(); report('Сначала завершите текущее действие'); return;
+      event.preventDefault(); event.stopImmediatePropagation(); report('Сначала завершите текущее действие', 'blocking'); return;
     }
     if (canvas.contains(event.target)) down(event);
   }, true);

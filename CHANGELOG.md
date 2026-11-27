@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1-rc.2 — candidate
+
+- Keep relationship Rebind available immediately after selection changes.
+- Show blocking editor feedback outside the status bar when that bar is hidden.
+- No model-format change; exact Windows GUI acceptance and release publication remain pending.
+
 ## 0.7.1-rc.1 — candidate
 
 - Keep plain-letter shortcuts from interrupting text entry; color-scheme imports preserve other unsaved preference edits.
