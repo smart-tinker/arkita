@@ -126,6 +126,8 @@ async function run() {
     await page.locator('#load-project').click();
     await page.locator('#file-dialog').waitFor({ state: 'hidden' });
 
+    const visualTools = page.locator('#visual-tools');
+    if (!(await visualTools.evaluate(details => details.open))) await visualTools.locator(':scope > summary').click();
     await page.locator('#visual-assets-button').click();
     await page.locator(`#visual-replace-asset-${sharedAssetId}`).click();
     const replacementSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="10" fill="#abcdef"/></svg>';
