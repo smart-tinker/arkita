@@ -367,9 +367,86 @@ async function run() {
     await page.locator('#file-dialog').waitFor({ state: 'hidden' });
     assert.deepEqual(await saveThroughBrowser(), replacedBytes, 'ordinary Save → Open → Save preserves the replaced shared image bytes, ID and references');
     await verifyReportPdf(browser);
+
+    const { endpointFixture } = await import('./endpoint-fixture.js');
+    const endpoint = endpointFixture(), endpointStore = createStore(endpoint.state);
+    const group = endpointStore.execute({ type: 'createVisualNode', viewId: endpoint.viewId, kind: 'group', name: 'Chromium Shift-drop target', bounds: { x: 600, y: 250, width: 350, height: 300 } }, endpointStore.revision).created;
+    const endpointBytes = Buffer.from(serializeProjectFile(endpointStore.snapshot)), beforeEndpoint = deserializeProjectFile(endpointBytes);
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'magic-connector-group.arkita', mimeType: 'application/json', buffer: endpointBytes });
+    await page.locator('#load-project').waitFor({ state: 'visible' });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+    await page.locator('[data-view-scope="tree"][data-view-id="' + endpoint.viewId + '"]').click();
+    const sourceId = endpoint.items[0].occurrenceId;
+    const sourceShape = page.locator('#canvas [data-kind="occurrence"][data-id="' + sourceId + '"] .node-box');
+    const groupShape = page.locator('#canvas [data-kind="visualNode"][data-id="' + group.visualNodeId + '"] .node-box');
+    await sourceShape.waitFor({ state: 'visible' });
+    await groupShape.waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#undo').isDisabled(), true, 'opening the synthetic fixture starts with empty history');
+    const relationshipPalette = page.locator('[data-palette-group="relationships"]');
+    if (!(await relationshipPalette.evaluate(details => details.open))) await page.locator('#palette-relationships-title').click();
+    const sourceBox = await sourceShape.boundingBox(), groupBox = await groupShape.boundingBox();
+    assert.ok(sourceBox && groupBox, 'source and target visual group have real Chromium bounds after opening the relationship palette');
+
+    await page.locator('#smart-link-tool').click();
+    if (await page.locator('#magic-order-dialog').isVisible()) {
+      await page.locator('#magic-order-type').selectOption('Access');
+      await page.locator('#magic-order-apply').click();
+    }
+    await page.locator('#canvas.smart-link-armed').waitFor();
+    await page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2);
+    await page.mouse.down();
+    await page.locator('#canvas .smart-link-preview').waitFor({ state: 'attached' });
+    await page.keyboard.down('Shift');
+    const dropPoint = { x: groupBox.x + groupBox.width / 2, y: groupBox.y + groupBox.height / 2 };
+    await page.mouse.move(dropPoint.x, dropPoint.y);
+    const actualHit = await page.evaluate(({ x, y }) => {
+      const target = document.elementFromPoint(x, y)?.closest('[data-id]');
+      return target ? { kind: target.dataset.kind, id: target.dataset.id } : null;
+    }, dropPoint);
+    assert.deepEqual(actualHit, { kind: 'visualNode', id: group.visualNodeId }, 'real Chromium elementFromPoint hits the requested visual group');
+    await page.mouse.up();
+    await page.keyboard.up('Shift');
+
+    await page.locator('#diagram-tools-dialog').waitFor({ state: 'visible' });
+    await page.locator('#diagram-search').fill('DataObject');
+    await page.locator('#diagram-type').selectOption('DataObject');
+    await page.locator('#diagram-relationship-search').fill('Access');
+    await page.locator('#diagram-relationship').selectOption('Access');
+    assert.equal(await page.locator('#diagram-source').inputValue(), sourceId);
+    assert.equal(await page.locator('#diagram-source').isDisabled(), true);
+    await page.locator('#diagram-name').fill('Chromium created endpoint');
+    await page.locator('#diagram-relationship-label').fill('Uses');
+    assert.equal(await page.locator('#diagram-tools-apply').isDisabled(), false, 'the allowed atomic creation can be applied');
+    await page.locator('#diagram-tools-apply').click();
+    await page.locator('#diagram-tools-dialog').waitFor({ state: 'hidden' });
+
+    const endpointCreatedBytes = await saveThroughBrowser();
+    const endpointCreated = deserializeProjectFile(endpointCreatedBytes);
+    const endpointElement = endpointCreated.elements.find(item => !beforeEndpoint.elements.some(old => old.id === item.id));
+    assert.ok(endpointElement, 'atomic create adds an element');
+    assert.equal(endpointElement.type, 'DataObject');
+    assert.equal(endpointElement.name, 'Chromium created endpoint');
+    const endpointRelationship = endpointCreated.relationships.find(item => !beforeEndpoint.relationships.some(old => old.id === item.id));
+    assert.ok(endpointRelationship, 'atomic create adds a relationship');
+    assert.equal(endpointRelationship.type, 'Access');
+    assert.equal(endpointRelationship.label, 'Uses');
+    const endpointView = endpointCreated.views.find(item => item.view.id === endpoint.viewId);
+    const endpointDrawing = endpointView.occurrences.find(item => item.concept.id === endpointElement.id);
+    assert.deepEqual(endpointDrawing.parent, { kind: 'visualNode', id: group.visualNodeId }, 'saved occurrence keeps the exact visual group hit as its parent');
+    const endpointConnection = endpointView.connections.find(item => item.relationshipId === endpointRelationship.id);
+    assert.ok(endpointConnection, 'atomic relationship has a connection in the selected view');
+    assert.deepEqual(endpointConnection.source, { kind: 'occurrence', id: sourceId });
+    assert.deepEqual(endpointConnection.target, { kind: 'occurrence', id: endpointDrawing.id });
+    assert.equal(await page.locator('#undo').isDisabled(), false, 'the atomic edit creates one undoable action');
+    await page.locator('#undo').click();
+    assert.deepEqual(await saveThroughBrowser(), endpointBytes, 'one Undo restores the exact synthetic input bytes');
+    assert.equal(await page.locator('#undo').isDisabled(), true);
+    assert.equal(await page.locator('#redo').isDisabled(), false);
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · template key-view keyboard SVG geometry, 2-view shared model, Cancel/focus, create, browser save/reopen`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, Magic Connector Shift-drop/hit/exact-parent/Undo`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {

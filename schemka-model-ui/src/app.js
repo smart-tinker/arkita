@@ -1143,9 +1143,20 @@ paletteUI = installPaletteActions({ document, model, beforeFilter: cancelGesture
 typedActions = installTypedActions({ document, model, openDialog, render, nextBounds, panel, focusSelected, status, anchorPlanFor, previewEndpoints,
   revealOccurrence: bounds => viewport?.reveal(bounds),
   drawRelationship: type => smartRelationship.activate(type) });
-smartRelationship = installSmartRelationship({ document, window, canvas: svg, model, readBehavior: () => preferenceState.behavior, openDialog,
+smartRelationship = installSmartRelationship({ document, window, canvas: svg, model, readBehavior: () => preferenceState.behavior, readDocumentToken: () => projectSession.documentToken, openDialog,
   connect: (...args) => typedActions.connect(...args),
-  openLink: (...args) => typedActions.openLink(...args), beforeStart: cancelGesture, status,
+  openLink: (...args) => typedActions.openLink(...args),
+  createElementAtDrop({ sourceOccurrenceId, relationshipType, profileId, parentRef, point }) {
+    const source = model.view?.occurrences.find(item => item.id === sourceOccurrenceId);
+    const parent = parentRef?.kind === 'occurrence'
+      ? model.view?.occurrences.find(item => item.id === parentRef.id && item.concept.kind === 'element')
+      : parentRef?.kind === 'visualNode' ? model.view?.visualNodes.find(item => item.id === parentRef.id && item.kind === 'group') : null;
+    if (parentRef && !parent) { status('Контейнер отсутствует в текущем представлении. Начните действие заново.'); return; }
+    if (profileId) { status('Специализированное отношение можно завершить только на существующем конце.'); return; }
+    if (source?.concept.kind !== 'element') { status('Создать новый конец можно только от существующего элемента.'); return; }
+    editingTools?.quickAdd(true, point, { atomic: true, sourceOccurrenceId, relationshipType, parentRef });
+  },
+  beforeStart: cancelGesture, status,
   blocked: () => Boolean(inline.active || gesture || layoutEditor?.active || internalDrag?.active || files?.transient || git?.transient || document.querySelector('dialog[open]')) });
 documentationEditor = installDocumentationEditor({ document, model, session: projectSession, openDialog, render, status,
   blocked: propertyEditorBlocked });
@@ -1203,7 +1214,8 @@ visualsUI = installVisualsUI({ document, window, model, readResizeBehavior: () =
 editingTools = installEditingTools({ document, window, model, readResizeBehavior: () => preferenceState.behavior.resizeChildren, readQuickAdd: () => preferenceState.behavior.quickAdd, readMagicOrder: () => preferenceState.behavior.magicOrder, readDefaults: () => preferenceState.defaults, canvas: svg, openDialog, render, status, blocked: workbenchBlocked,
   beforeChange: () => { viewport?.cancel(); cancelEditingGestures(); }, nextBounds,
   preview: view => { updateGeometry(view); paintSelection(view); },
-  selectMany: refs => { model.selectMany(refs); render(); focusSelected(); } });
+  selectMany: refs => { model.selectMany(refs); render(); focusSelected(); },
+  readDocumentToken: () => projectSession.documentToken });
 
 alignmentUI = installAlignmentUI({ document, window, model, openDialog, render, status, blocked: workbenchBlocked });
 whereUsed = installWhereUsed({ document, preferences, model, openDialog, status, blocked: propertyEditorBlocked,
