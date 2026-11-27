@@ -1,12 +1,130 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { deserializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { JSDOM } from 'jsdom';
+import { createProject, createStore } from '../../schemka-model-core/src/index.js';
+import { deserializeProjectFile, serializeProjectFile } from '../../schemka-model-io/src/index.js';
+import { generateHtmlReport } from '../../schemka-model-io/src/report.js';
 import { readTemplate } from '../../schemka-model-io/src/templates.js';
 import { openFileDialog } from './browser-files.mjs';
 
 class BlockedError extends Error {}
+
+async function verifyReportPdf(browser) {
+  const store = createStore(createProject('Synthetic print report'));
+  const execute = command => store.execute(command, store.revision).created;
+  const { viewId } = execute({ type: 'createView', name: 'Print view' });
+  for (let index = 0; index < 30; index += 1) {
+    execute({
+      type: 'createElementAndOccurrence',
+      viewId,
+      elementType: 'Role',
+      name: 'Print item ' + (index + 1),
+      bounds: { x: 20, y: 20 + index * 10, width: 220, height: 80 },
+      documentation: 'Synthetic printable content for A4 pagination. '.repeat(12)
+    });
+  }
+
+  const modelBytes = Buffer.from(serializeProjectFile(store.snapshot));
+  const html = generateHtmlReport(store.snapshot, {
+    revision: store.revision,
+    generatedAt: '2026-01-01T00:00:00.000Z'
+  });
+  assert.deepEqual(Buffer.from(serializeProjectFile(store.snapshot)), modelBytes, 'report generation preserves model bytes');
+
+  const reportPage = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  const externalRequests = [], pageErrors = [];
+  reportPage.on('request', request => {
+    if (request.url().startsWith('http:') || request.url().startsWith('https:')) externalRequests.push(request.url());
+  });
+  reportPage.on('pageerror', error => pageErrors.push(error.message));
+  reportPage.on('console', message => {
+    if (message.type() === 'error') pageErrors.push(message.text());
+  });
+  let parsed;
+  try {
+    await reportPage.setContent(html, { waitUntil: 'load' });
+    const headings = await reportPage.locator('h1, h2').allTextContents();
+    assert.deepEqual(headings, [
+      'Synthetic print report', 'Модель', 'Представления', 'Объекты',
+      'Отношения', 'Папки', 'Свойства'
+    ], 'screen report keeps its title and all six sections');
+
+    const screenBefore = await reportPage.screenshot();
+    await reportPage.emulateMedia({ media: 'print' });
+    const pdf = await reportPage.pdf({
+      format: 'A4',
+      preferCSSPageSize: true,
+      displayHeaderFooter: false,
+      printBackground: true
+    });
+    await reportPage.emulateMedia({ media: 'screen' });
+    assert.deepEqual(await reportPage.screenshot(), screenBefore, 'printing leaves the screen rendering unchanged');
+
+    const readback = spawnSync('pdftotext', ['-bbox', '-', '-'], {
+      input: pdf,
+      encoding: 'utf8',
+      maxBuffer: 8 * 1024 * 1024
+    });
+    if (readback.error?.code === 'ENOENT') {
+      throw new BlockedError('pdftotext is unavailable. Install poppler-utils in the Ubuntu renderer smoke job.');
+    }
+    assert.equal(readback.error, undefined, 'pdftotext starts successfully');
+    assert.equal(readback.status, 0, 'pdftotext reads the generated PDF: ' + readback.stderr);
+
+    parsed = new JSDOM(readback.stdout, { contentType: 'application/xhtml+xml' });
+    const pages = Array.from(parsed.window.document.getElementsByTagName('page'));
+    assert.ok(pages.length >= 2, 'A4 report spans multiple pages');
+    const marginPt = 12 * 72 / 25.4;
+    const tolerancePt = 2;
+    const a4WidthPt = 210 * 72 / 25.4;
+    const a4HeightPt = 297 * 72 / 25.4;
+    let minimumInsetPt = Infinity;
+    const pdfWords = [];
+
+    pages.forEach((page, pageIndex) => {
+      const width = Number(page.getAttribute('width'));
+      const height = Number(page.getAttribute('height'));
+      assert.ok(Math.abs(width - a4WidthPt) < 1, 'PDF page width is A4');
+      assert.ok(Math.abs(height - a4HeightPt) < 1, 'PDF page height is A4');
+      const words = Array.from(page.getElementsByTagName('word')).map(word => ({
+        text: word.textContent.trim(),
+        xMin: Number(word.getAttribute('xMin')),
+        yMin: Number(word.getAttribute('yMin')),
+        xMax: Number(word.getAttribute('xMax')),
+        yMax: Number(word.getAttribute('yMax'))
+      }));
+      const counters = words.filter(word =>
+        /^[0-9]+$/.test(word.text) &&
+        Math.abs((word.xMin + word.xMax) / 2 - width / 2) <= 12 &&
+        word.yMin >= height - marginPt - tolerancePt
+      );
+      assert.equal(counters.length, 1, 'PDF page ' + (pageIndex + 1) + ' has one centered bottom counter');
+      assert.equal(counters[0].text, String(pageIndex + 1), 'PDF counter is sequential on page ' + (pageIndex + 1));
+
+      for (const word of words) {
+        if (word === counters[0]) continue;
+        const insetPt = Math.min(word.xMin, word.yMin, width - word.xMax, height - word.yMax);
+        minimumInsetPt = Math.min(minimumInsetPt, insetPt);
+        assert.ok(insetPt >= marginPt - tolerancePt, 'text stays within the 12 mm print margins with 2 pt tolerance');
+        pdfWords.push(word.text);
+      }
+    });
+
+    const pdfText = pdfWords.join(' ');
+    for (const heading of headings) assert.ok(pdfText.includes(heading), 'PDF preserves heading: ' + heading);
+    assert.deepEqual(Buffer.from(serializeProjectFile(store.snapshot)), modelBytes, 'PDF generation preserves model bytes');
+    assert.deepEqual(externalRequests, [], 'offline report makes no external requests');
+    assert.deepEqual(pageErrors, [], 'report browser has no uncaught errors');
+    const minimumInsetMm = (minimumInsetPt * 25.4 / 72).toFixed(2);
+    console.log('PASS: report PDF smoke · A4 · ' + pages.length + ' pages · counters 1-' + pages.length +
+      ' · minimum text inset ' + minimumInsetMm + ' mm · screen/model unchanged');
+  } finally {
+    parsed?.window.close();
+    await reportPage.close();
+  }
+}
 
 async function run() {
   let chromium;
@@ -248,6 +366,7 @@ async function run() {
     await page.locator('#load-project').click();
     await page.locator('#file-dialog').waitFor({ state: 'hidden' });
     assert.deepEqual(await saveThroughBrowser(), replacedBytes, 'ordinary Save → Open → Save preserves the replaced shared image bytes, ID and references');
+    await verifyReportPdf(browser);
 
     const { endpointFixture } = await import('./endpoint-fixture.js');
     const endpoint = endpointFixture(), endpointStore = createStore(endpoint.state);
@@ -327,7 +446,7 @@ async function run() {
     assert.equal(await page.locator('#redo').isDisabled(), false);
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · template and shared-view flows, shared-image Save → Open → Save, real Magic Connector Shift-drop hit on visual group, exact parent, one-step Undo`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, Magic Connector Shift-drop/hit/exact-parent/Undo`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {
