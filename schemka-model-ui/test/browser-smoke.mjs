@@ -7,6 +7,7 @@ import { createProject, createStore } from '../../schemka-model-core/src/index.j
 import { deserializeProjectFile, serializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { generateHtmlReport } from '../../schemka-model-io/src/report.js';
 import { readTemplate } from '../../schemka-model-io/src/templates.js';
+import { EXAMPLE_AUTOMATION } from '../../schemka-model-io/src/automation.js';
 import { openFileDialog } from './browser-files.mjs';
 
 class BlockedError extends Error {}
@@ -444,9 +445,87 @@ async function run() {
     assert.deepEqual(await saveThroughBrowser(), endpointBytes, 'one Undo restores the exact synthetic input bytes');
     assert.equal(await page.locator('#undo').isDisabled(), true);
     assert.equal(await page.locator('#redo').isDisabled(), false);
+    const automationBaselineBytes = await saveThroughBrowser();
+    const automationBaseline = deserializeProjectFile(automationBaselineBytes);
+    const automationTarget = automationBaseline.elements[0];
+    assert.ok(automationTarget, 'synthetic model provides an element for the batch property change');
+    const automationPropertyKey = 'qaSmoke';
+    const automationPropertyValue = 'applied';
+    const automationPrefix = 'Automation smoke · ';
+    const automationHistory = await page.locator('#history-state').textContent();
+    const additionalMenu = page.locator('.app-menu').filter({ has: page.locator('#automation-button') });
+    if (!(await additionalMenu.evaluate(menu => menu.open))) await additionalMenu.locator(':scope > summary').click();
+    await page.locator('#automation-button').click();
+    await page.locator('#automation-dialog').waitFor({ state: 'visible' });
+    const installDetails = page.locator('#automation-dialog details').filter({ hasText: 'Установить или обновить пакет' });
+    if (!(await installDetails.evaluate(section => section.open))) await installDetails.locator(':scope > summary').click();
+    const automationManifest = {
+      ...EXAMPLE_AUTOMATION,
+      id: 'arkita.smoke-batch',
+      name: 'Chromium batch smoke',
+      capabilities: ['model.read', 'model.write'],
+      steps: [
+        { action: 'rename', query: { kind: 'project' }, prefix: automationPrefix },
+        { action: 'setProperty', query: { kind: 'element', ids: [automationTarget.id] }, key: automationPropertyKey, value: automationPropertyValue }
+      ]
+    };
+    await page.locator('#automation-editor').fill(JSON.stringify(automationManifest));
+    await page.locator('#automation-inspect').click();
+    await page.locator('#automation-install-consent').check();
+    await page.locator('#automation-install').click();
+    await page.locator('#automation-enabled').check();
+    await page.locator('#automation-run').click();
+    await page.waitForFunction(() => document.querySelector('#automation-feedback')?.textContent.includes('Проверьте изменения'));
+    const automationPreview = JSON.parse(await page.locator('#automation-report').textContent());
+    assert.equal(automationPreview.changes.length, 2, 'preview lists both batch changes');
+    const projectPreview = automationPreview.changes[0].owners.find(change => change.kind === 'project' && change.id === automationBaseline.project.id);
+    assert.ok(projectPreview, 'preview identifies the project by stable ID');
+    assert.equal(projectPreview.before.name, automationBaseline.project.name);
+    assert.equal(projectPreview.after.name, automationPrefix + automationBaseline.project.name);
+    const propertyPreview = automationPreview.changes[1].owners.find(change => change.kind === 'element' && change.id === automationTarget.id);
+    assert.ok(propertyPreview, 'preview identifies the target element by stable ID');
+    const propertyValue = properties => Array.isArray(properties)
+      ? properties.find(entry => entry.key === automationPropertyKey)?.value
+      : properties?.[automationPropertyKey];
+    assert.equal(propertyValue(propertyPreview.after.properties), automationPropertyValue);
+    assert.equal(await page.locator('#project-name').textContent(), automationBaseline.project.name, 'preview has not changed the project');
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false');
+    assert.equal(await page.locator('#history-state').textContent(), automationHistory);
+    assert.equal(await page.locator('#undo').isDisabled(), true, 'preview adds no history entry');
+    assert.equal(await page.locator('#automation-apply').isDisabled(), true, 'Apply requires explicit consent');
+    await page.locator('#automation-apply-consent').check();
+    await page.locator('#automation-apply').click();
+    assert.equal(await page.locator('#project-name').textContent(), automationPrefix + automationBaseline.project.name);
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'true');
+    assert.equal(await page.locator('#undo').isDisabled(), false, 'the applied batch is undoable');
+    await page.locator('#automation-close').click();
+    await page.locator('#automation-dialog').waitFor({ state: 'hidden' });
+    if (await additionalMenu.evaluate(menu => menu.open)) await additionalMenu.locator(':scope > summary').click();
+
+    const appliedBytes = await saveThroughBrowser();
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false', 'ordinary Save marks the applied state clean');
+    const applied = deserializeProjectFile(appliedBytes);
+    assert.equal(applied.project.name, automationPrefix + automationBaseline.project.name);
+    const appliedElement = applied.elements.find(item => item.id === automationTarget.id);
+    assert.ok(appliedElement, 'ordinary Save preserves the target element ID');
+    assert.equal(propertyValue(appliedElement.properties), automationPropertyValue);
+    await page.locator('#undo').click();
+    await page.waitForFunction(() => document.querySelector('#file-state')?.dataset.dirty === 'true');
+    assert.equal(await page.locator('#project-name').textContent(), automationBaseline.project.name, 'one Undo restores the baseline project name');
+    assert.equal(await page.locator('#redo').isDisabled(), false, 'the applied batch remains available to Redo');
+    assert.deepEqual(await saveThroughBrowser(), automationBaselineBytes, 'one Undo restores baseline bytes before reopen');
+
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'automation-applied.arkita', mimeType: 'application/json', buffer: appliedBytes });
+    await page.locator('#load-project').waitFor({ state: 'visible' });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+    assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false');
+    assert.equal(await page.locator('#undo').isDisabled(), true, 'reopen starts a fresh history');
+    assert.deepEqual(await saveThroughBrowser(), appliedBytes, 'ordinary Save → reopen → Save preserves exact applied bytes');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, Magic Connector Shift-drop/hit/exact-parent/Undo`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, Magic Connector Shift-drop/hit/exact-parent/Undo, Automation batch preview/Apply/Save/Open/Save/Undo`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {
