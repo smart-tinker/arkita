@@ -81,7 +81,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   dialog.addEventListener('close', () => { if (!dialog.open) pending = null; });
   function open(name, build, commit) {
     if (blocked()) return false;
-    fields.replaceChildren(); heading.textContent = name; error.textContent = ''; apply.disabled = false;
+    fields.replaceChildren(); heading.textContent = name; error.textContent = ''; apply.disabled = false; apply.textContent = 'Применить';
     const state = model.store.snapshot, revision = model.store.revision, read = build(state);
     openDialog(dialog.id); pending = { store: model.store, revision, commit: () => commit(read(), state, revision) }; generation++;
     fields.querySelector('input,select,textarea,button')?.focus(); return true;
@@ -90,7 +90,7 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   form.addEventListener('submit', event => {
     event.preventDefault(); const request = pending; if (!request || apply.disabled) return;
     if (request.store !== model.store || request.revision !== model.store.revision) { error.textContent = 'Модель изменилась. Закройте диалог и проверьте действие заново.'; apply.disabled = true; return; }
-    try { request.commit(); cancel(); render(); status('Изменения модели сохранены. Можно отменить одним действием.'); }
+    try { request.commit(); cancel(); render(); status('Изменения внесены в модель. Можно отменить одним действием.'); }
     catch (failure) { error.textContent = failure.message; }
   });
   const input = (name, initial = '', kind = 'input') => {
@@ -349,9 +349,21 @@ export function installCatalogFolders({ document, window, model, canvas, render,
   }
   function duplicate(ref) {
     if (blocked() || !collection[ref?.kind]) return false;
-    const item = reference(model.store.snapshot, ref); if (!item) return false;
-    const out = model.execute({ type: 'duplicateConcept', concept: ref, name: `${title(item)} — копия` }, model.store.revision);
-    selectConcept({ kind: ref.kind, id: out.created[`${ref.kind}Id`] }); render(); return true;
+    if (!reference(model.store.snapshot, ref)) return false;
+    const opened = open('Дублировать объект', state => {
+      const item = reference(state, ref);
+      const drawings = state.views.reduce((count, entry) => count + (ref.kind === 'relationship'
+        ? entry.connections.filter(connection => connection.relationshipId === ref.id).length
+        : entry.occurrences.filter(occurrence => key(occurrence.concept) === key(ref)).length), 0);
+      const relationships = state.relationships.filter(relationship => [relationship.source, relationship.target].some(endpoint => key(endpoint) === key(ref))).length;
+      fields.append(node('p', `Создаётся независимый объект с новым ID и поддерживаемыми метаданными. Изображений: ${drawings}. Отношений: ${relationships}. Существующие изображения и отношения останутся у исходного объекта; у копии их не будет.`));
+      return () => item;
+    }, (item, _state, revision) => {
+      const out = model.execute({ type: 'duplicateConcept', concept: ref, name: `${title(item)} — копия` }, revision);
+      selectConcept({ kind: ref.kind, id: out.created[`${ref.kind}Id`] });
+    });
+    if (opened) apply.textContent = 'Создать копию';
+    return opened;
   }
   function makeDraggable(row, ref) {
     row.draggable = true;
