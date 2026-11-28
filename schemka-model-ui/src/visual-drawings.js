@@ -66,6 +66,27 @@ export function captionText(template, item, state, maxLength = Infinity) {
   return truncated && maxLength > 0 ? `${result.slice(0, maxLength - 1)}…` : result;
 }
 
+const captionTemplateFields = new Set(['name', 'type', 'id', 'documentation', 'model.name']);
+export function captionTemplateResult(template, item, state) {
+  const fallback = String(item?.name ?? item?.label ?? '');
+  const syntaxError = { text: fallback, diagnostic: 'Синтаксическая ошибка шаблона подписи.' };
+  if (typeof template !== 'string') return syntaxError;
+  let cursor = 0;
+  for (const match of template.matchAll(/\$\{([^}]*)\}/g)) {
+    const nested = template.indexOf('${', cursor);
+    if (nested !== -1 && nested < match.index) return syntaxError;
+    const key = match[1];
+    if (!key || key.includes('${')) return syntaxError;
+    if (key.startsWith('property:')) {
+      const property = key.slice(9);
+      if (!property || !(item?.properties ?? []).some(row => row.key === property)) return { text: fallback, diagnostic: `Неизвестное поле «${key}».` };
+    } else if (!captionTemplateFields.has(key)) return { text: fallback, diagnostic: `Неизвестное поле «${key}».` };
+    cursor = match.index + match[0].length;
+  }
+  if (template.indexOf('${', cursor) !== -1) return syntaxError;
+  return { text: captionText(template, item ?? {}, state), diagnostic: '' };
+}
+
 export function occurrenceImageLayout(bounds,position='center'){
  const width=Math.max(1,bounds.width),height=Math.max(1,bounds.height),gap=Math.min(8,width/8,height/8),header=Math.min(18,height/5),innerW=Math.max(1,width-gap*2),innerH=Math.max(1,height-header-gap*2),horizontal=['left','right'].includes(position),iw=horizontal?innerW*.45:innerW,ih=horizontal?innerH:innerH*.5,x=position==='right'?width-gap-iw:gap,y=position==='bottom'?height-gap-ih:header+gap;
  return{image:{x,y,width:iw,height:ih},text:horizontal?{x:position==='left'?gap+iw:gap,y:header,width:Math.max(1,innerW-iw),height:innerH}:{x:gap,y:position==='bottom'?header:header+gap+ih,width:innerW,height:Math.max(1,innerH-ih)}};
@@ -337,7 +358,11 @@ export function applyDrawingStyles(canvas, state, view) {
     if (['occurrence','visualNode'].includes(kind) && style.labelVisible === false) for (const label of group.querySelectorAll('text,.visual-caption')) label.style.display = 'none';
     if (['connection', 'visualConnector'].includes(kind)) {
       const label = group.querySelector('.relationship-label');
-      if (label && style.labelTemplate) label.textContent = captionText(style.labelTemplate, record, state);
+      if (label && style.labelTemplate) {
+        const result = kind === 'visualConnector' ? captionTemplateResult(style.labelTemplate, record, state) : { text: captionText(style.labelTemplate, record, state), diagnostic: '' }; label.textContent = result.text;
+        if (result.diagnostic) group.setAttribute('aria-description', `${result.diagnostic} Показано исходное имя.`);
+        else group.removeAttribute('aria-description');
+      }
       if (label && style.labelVisible === false) label.style.display = 'none';
       const path = group.querySelector('.line');
       for (const end of ['source', 'target']) if (kind === 'visualConnector' && style[`${end}Ending`] !== undefined && path) {

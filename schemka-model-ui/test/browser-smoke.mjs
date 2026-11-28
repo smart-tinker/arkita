@@ -12,6 +12,28 @@ import { openFileDialog } from './browser-files.mjs';
 
 class BlockedError extends Error {}
 
+function canvasFixture() {
+  const store = createStore(createProject('Canvas browser smoke'));
+  const run = command => store.execute(command, store.revision).created;
+  const { viewId } = run({ type: 'createView', name: 'Canvas' });
+  const block = run({
+    type: 'createVisualNode', viewId, kind: 'note', name: 'Instruction block', text: 'Card',
+    instruction: '**Purpose**\n\n<script>window.canvasPwned = true</script>',
+    bounds: { x: 40, y: 40, width: 220, height: 120 }
+  }).visualNodeId;
+  const target = run({
+    type: 'createVisualNode', viewId, kind: 'group', name: 'Target',
+    bounds: { x: 440, y: 40, width: 220, height: 120 }
+  }).visualNodeId;
+  run({
+    type: 'createVisualConnector', viewId, name: 'Source label',
+    properties: [{ key: 'owner', value: 'Team A' }],
+    source: { kind: 'visualNode', id: block }, target: { kind: 'visualNode', id: target },
+    style: { labelTemplate: '${name} · ${property:owner}' }
+  });
+  return { block, bytes: Buffer.from(serializeProjectFile(store.snapshot)) };
+}
+
 async function verifyReportPdf(browser) {
   const store = createStore(createProject('Synthetic print report'));
   const execute = command => store.execute(command, store.revision).created;
@@ -196,7 +218,6 @@ async function verifyReportQueryNavigation(browser) {
     await page.close();
   }
 }
-
 async function run() {
   let chromium;
   try {
@@ -594,9 +615,53 @@ async function run() {
     assert.equal(await page.locator('#file-state').getAttribute('data-dirty'), 'false');
     assert.equal(await page.locator('#undo').isDisabled(), true, 'reopen starts a fresh history');
     assert.deepEqual(await saveThroughBrowser(), appliedBytes, 'ordinary Save → reopen → Save preserves exact applied bytes');
+const canvas = canvasFixture();
+    await openFileDialog(page);
+    await page.locator('#project-file').setInputFiles({ name: 'canvas-smoke.arkita', mimeType: 'application/json', buffer: canvas.bytes });
+    await page.locator('#load-project').click();
+    await page.locator('#file-dialog').waitFor({ state: 'hidden' });
+    const line = page.locator('[data-kind="visualConnector"]');
+    await line.waitFor();
+    assert.equal(await line.locator('.relationship-label').textContent(), 'Source label · Team A');
+    if (!(await visualTools.evaluate(details => details.open))) await visualTools.locator(':scope > summary').click();
+    await line.focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await line.getAttribute('aria-pressed'), 'true', 'keyboard selection exposes the drawing actions');
+    assert.equal(await page.locator('#visual-style').isEnabled(), true, 'selection enables drawing style actions');
+    await page.locator('#visual-style').click();
+    const template = page.locator('#visual-labelTemplate');
+    await template.fill('${missing}');
+    assert.match(await page.locator('#visual-label-template-diagnostic').textContent(), /Неизвестное поле/);
+    await page.locator('#visual-apply').click();
+    assert.equal(await line.locator('.relationship-label').textContent(), 'Source label');
+    assert.match(await line.getAttribute('aria-description'), /Неизвестное поле/);
+    await page.locator('#undo').click();
+    assert.equal(await line.locator('.relationship-label').textContent(), 'Source label · Team A');
+
+    const block = page.locator(`[data-kind="visualNode"][data-id="${canvas.block}"]`);
+    await page.evaluate(() => document.activeElement?.blur());
+    let tabCount = 0;
+    for (; tabCount < 160; tabCount++) {
+      await page.keyboard.press('Tab');
+      if (await block.evaluate(item => item === document.activeElement)) break;
+    }
+    assert.ok(tabCount < 160, 'Tab traversal reaches the Canvas instruction block');
+    assert.equal(await page.locator('#context-hints-panel').isVisible(), false, 'hints start closed in the fresh browser profile');
+    await page.keyboard.press('Enter');
+    assert.equal(await block.getAttribute('aria-pressed'), 'true');
+    const instruction = page.locator('#context-hints-instruction');
+    assert.equal(await instruction.isVisible(), true);
+    assert.equal(await block.evaluate(item => item === document.activeElement), true, 'showing the instruction preserves keyboard focus');
+    assert.match(await instruction.textContent(), /Purpose/);
+    assert.ok(await instruction.locator('strong').count());
+    assert.equal(await instruction.locator('script').count(), 0);
+    assert.equal(await page.evaluate(() => window.canvasPwned), undefined);
+    assert.deepEqual(await saveThroughBrowser(), canvas.bytes, 'Canvas hints and Undo leave portable model bytes intact');
+    assert.deepEqual(deserializeProjectFile(canvas.bytes).views[0].visualNodes.find(item => item.id === canvas.block).instruction, '**Purpose**\n\n<script>window.canvasPwned = true</script>');
+
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, query navigation, Magic Connector Shift-drop/hit/exact-parent/Undo, Automation batch preview/Apply/Save/Open/Save/Undo`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, query navigation, Magic Connector Shift-drop/hit/exact-parent/Undo, Automation batch preview/Apply/Save/Open/Save/Undo, Canvas line-label diagnostics/Undo, keyboard Canvas instructions`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {
