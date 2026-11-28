@@ -54,7 +54,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
   let resize = null;
   const desktop = () => !window.matchMedia?.('(max-width: 850px)').matches && window.innerWidth > 850;
   const widthLimit = () => Math.max(180, Math.min(420, Math.floor((shell.getBoundingClientRect().width || window.innerWidth) * .3)));
-  const visible = key => settings[key] && !(key === 'palette' && document.body.dataset.paletteDetached === 'true');
+  const visible = key => settings[key] && !(key === 'palette' && document.body.dataset.paletteDetached === 'true') && !(key === 'catalog' && document.body.dataset.catalogDetached === 'true');
   const towardRight = key => settings.order.indexOf(key) < settings.order.indexOf('canvas');
   const shownWidth = (key, limit = widthLimit()) => resize?.key === key ? resize.value : Math.min(settings[`${key}Width`], limit);
   function finishResize(commit = false) {
@@ -122,7 +122,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
     body.dataset.workspaceCatalog = String(settings.catalog); body.dataset.workspacePalette = String(settings.palette);
     body.dataset.workspaceOrder=settings.order;
     const columns=[];
-    for(const key of settings.order.split('-')){const visible=key==='canvas'||settings[key]&&!(key==='palette'&&body.dataset.paletteDetached==='true');if(visible)columns.push(key==='canvas'?'minmax(0,1fr)':`min(var(--workspace-${key}-width,240px),30vw)`);panes[key]?.style.setProperty('--workspace-panel-column',String(Math.max(1,columns.length)));}
+    for(const key of settings.order.split('-')){const visible=key==='canvas'||settings[key]&&!(key==='palette'&&body.dataset.paletteDetached==='true')&&!(key==='catalog'&&body.dataset.catalogDetached==='true');if(visible)columns.push(key==='canvas'?'minmax(0,1fr)':`min(var(--workspace-${key}-width,240px),30vw)`);panes[key]?.style.setProperty('--workspace-panel-column',String(Math.max(1,columns.length)));}
     body.style.setProperty('--workspace-ordered-columns',columns.join(' '));
     body.dataset.paletteMode = settings.paletteMode;
     body.style.setProperty('--workspace-catalog-width', `${shownWidth('catalog', limit)}px`);
@@ -275,7 +275,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
     if (event.key === 'F1') { event.preventDefault(); openHelp(helpContext(event.target)); }
     if (event.key === 'F11') { event.preventDefault(); fullscreen(); }
   });
-  const detachedObserver=new window.MutationObserver(() => { finishResize(); paint(); });detachedObserver.observe(document.body,{attributes:true,attributeFilter:['data-palette-detached']});window.addEventListener('pagehide',()=>{detachedObserver.disconnect();sizeObserver?.disconnect();});
+  const detachedObserver=new window.MutationObserver(() => { finishResize(); paint(); });detachedObserver.observe(document.body,{attributes:true,attributeFilter:['data-palette-detached','data-catalog-detached']});window.addEventListener('pagehide',()=>{detachedObserver.disconnect();sizeObserver?.disconnect();});
   preferences?.subscribe((value,changed) => { if (changed.includes('workspace')) { finishResize(); settings = value.workspace; paint(); } });
   paint();
   return { open, openHelp, openContextHelp:target=>openHelp(helpContext(target)), revealPanel, get active() { return resize !== null; }, get settings() { return structuredClone(settings); } };

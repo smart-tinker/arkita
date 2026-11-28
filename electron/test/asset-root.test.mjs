@@ -13,7 +13,7 @@ async function bundle(t) {
     await fs.mkdir(path.join(root, pkg, 'src'), { recursive: true });
     assets.set(`${pkg}/src/index.js`, `export const packageName = '${pkg}';`);
   }
-  for (const name of ['index.html', 'style.css', 'palette.html', 'palette.css']) assets.set(`schemka-model-ui/${name}`, `bundled ${name}`);
+  for (const name of ['index.html', 'style.css', 'palette.html', 'palette.css', 'catalog.html', 'catalog.css']) assets.set(`schemka-model-ui/${name}`, `bundled ${name}`);
   for (const [name, content] of assets) await fs.writeFile(path.join(root, name), content, { flag: 'wx' });
   const alias = path.join(temp, 'bundle-alias');
   await fs.symlink(root, alias, process.platform === 'win32' ? 'junction' : 'dir');
