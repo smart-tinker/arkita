@@ -24,7 +24,7 @@ Preserve stable IDs, cross-view references, model bytes, and Undo/Redo semantics
 
 ## 4. Verify each layer separately
 
-Run the focused and aggregate checks defined in [`CONTRIBUTING.md`](../CONTRIBUTING.md) through the repository's normal GitHub Actions on the exact final SHA; do not use a local checkout/build/test. Report the exact SHA, workflow, result, and any limitation.
+Run the focused and aggregate checks defined in [`CONTRIBUTING.md`](../CONTRIBUTING.md) through the repository's normal GitHub Actions. For `pull_request`, record the PR head, base, and actual checked-out merge SHA; for `workflow_dispatch`, record the selected branch commit and verify the run checked that commit. Do not run tests or builds in a local checkout. Report the tested commit(s), workflow, result, and any limitation.
 
 | Evidence layer | What it can establish | What it does not establish |
 | --- | --- | --- |
