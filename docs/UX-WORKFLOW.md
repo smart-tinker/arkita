@@ -33,6 +33,8 @@ Run the focused and aggregate checks defined in [`CONTRIBUTING.md`](../CONTRIBUT
 | Packaged build and runner install/launch | Package construction and runner smoke | User installation, display setup, or complete native acceptance |
 | Installed Windows/userVM acceptance | Only the exact installed scenarios actually exercised | Untested criteria or unrelated changes |
 
+Extended CI (full `npm test`, including capacity tests) is needed only when the issue/acceptance plan or review requests it; run it by `workflow_dispatch` on the feature branch at the exact head or the PR label `extended-ci`, and record the checked SHA (a scheduled run on another SHA is not evidence).
+
 Use `PASS`, `FAIL`, `UNRUN`, `INVALID`, or `BLOCKED` for each relevant acceptance row. A skipped or unavailable check is not a pass. Keep implementation, test, merge, publication, and acceptance statuses separate.
 
 ## 5. Deliver and review
