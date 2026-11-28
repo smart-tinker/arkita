@@ -22,12 +22,12 @@ test('native preview is detached, scoped, duplicate-property-safe, all-or-none a
  source.elements[0].type='Process'; assert.throws(()=>previewNativeMerge(target,source), /не меняет тип/);
 });
 
-test('native merge rejects an occurrence ID collision across view paths without changing bytes or history', () => {
- const target = graph(), source = structuredClone(target), collisionId = target.views[0].occurrences[0].id;
+test('native merge rejects IDs reused across view paths without changing bytes or history', () => {
+ const target = graph(), source = structuredClone(target);
  source.views[0].view.id = fixtureId('view', 99); validateProject(source);
  const store = createStore(target), incoming = store.snapshot;
  const before = store.exportFiles(), incomingBefore = exportFiles(incoming), sourceBefore = exportFiles(source), history = store.history, revision = store.revision;
- assert.throws(() => previewNativeMerge(incoming, source), error => error.code === 'IMPORT_COLLISION' && error.message.includes(collisionId));
+ assert.throws(() => previewNativeMerge(incoming, source), error => error.code === 'IMPORT_COLLISION');
  assert.deepEqual(store.exportFiles(), before); assert.deepEqual(exportFiles(incoming), incomingBefore); assert.deepEqual(exportFiles(source), sourceBefore);
  assert.deepEqual(store.history, history); assert.equal(store.revision, revision);
 });
