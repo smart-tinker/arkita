@@ -6,8 +6,8 @@ Arkita's editor is a focused work tool. Optimize for scanability, model readabil
 
 ## Existing visual system
 
-- Treat [`style.css`](style.css) as the source of truth for current visual tokens. Reuse its semantic properties, including `--surface`, `--canvas`, `--ink`, `--muted`, `--line`, `--focus`, `--primary`, `--danger`, `--warning-*`, `--tree-selected-*`, `--notation-*`, `--node-*`, and `--link`.
-- The current stylesheet declares a light color scheme. Do not imply that an unimplemented theme or appearance is supported.
+- Treat [`schemka-model-ui/style.css`](schemka-model-ui/style.css) as the source of truth for current editor tokens; [`schemka-model-ui/palette.css`](schemka-model-ui/palette.css) contains palette-window rules. Reuse semantic properties including `--surface`, `--canvas`, `--ink`, `--muted`, `--line`, `--focus`, `--primary`, `--danger`, `--warning-*`, `--tree-selected-*`, `--notation-*`, `--node-*`, and `--link`.
+- The model UI stylesheet defines light tokens and dark-theme overrides under `[data-theme="dark"]`. Preserve the same semantic roles in both themes and verify both where the changed surface supports them.
 - Extend existing tokens only when a reusable semantic value is missing. Do not add a competing palette, one-off hard-coded colors, or a dependency for an isolated control.
 - Prefer existing DOM controls and patterns for menus, panels, forms, and dialogs. Use the existing SVG canvas for diagram content; do not replace it with a parallel drawing surface for a small feature.
 
