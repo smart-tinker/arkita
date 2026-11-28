@@ -84,27 +84,49 @@ export function relationshipRebindImpact(state,relationshipId,end,concept) {
   return {relationshipId,end,concept,previous:relationship[end],usages:state.views.flatMap(view=>view.connections.filter(item=>item.relationshipId===relationshipId).map(item=>({viewId:view.view.id,viewName:view.view.name,connectionId:item.id,endpoint:item[end]})))};
 }
 
-/** Every usage needs an explicit exact drawing binding; no first matching occurrence. */
-export function prepareRelationshipRebind(state,{relationshipId,end,concept,bindings},{prepareCommand=command=>command,defaultSize={width:210,height:90}}={}) {
-  const impact=relationshipRebindImpact(state,relationshipId,end,concept),expected=new Set(impact.usages.map(item=>item.connectionId));
-  if(!bindings||Object.keys(bindings).length!==expected.size||Object.keys(bindings).some(id=>!expected.has(id)))throw Error('Укажите привязку каждого рисунка общего отношения.');
-  const stage=createStore(state),resolved=new Map();
-  for(const usage of impact.usages){
-    const value=bindings[usage.connectionId];if(!value)throw Error('Выберите привязку каждого соединения.');
-    if(value.createOccurrence===true){
-      if(!['element','junction'].includes(concept.kind))throw Error('Для отношения выберите точный существующий якорь.');
-      const old=state.views.find(view=>view.view.id===usage.viewId),previous=old.occurrences.find(item=>item.id===usage.endpoint.id),anchor=old.connections.find(item=>item.id===usage.endpoint.id)?.routePoints.find(item=>item.id===usage.endpoint.anchorId)?.point;
-      const bounds=previous?{...previous.bounds}:{x:anchor?.x??0,y:anchor?.y??0,width:concept.kind==='junction'?36:defaultSize.width,height:concept.kind==='junction'?36:defaultSize.height};
-      const result=stage.execute(prepareCommand({type:'addOccurrence',viewId:usage.viewId,concept,bounds}),stage.revision);resolved.set(usage.connectionId,{kind:'occurrence',id:result.created.occurrenceId});
-    }else resolved.set(usage.connectionId,structuredClone(value));
+/** Every usage needs an explicit exact drawing binding; validate a batch only at its final state. */
+export function prepareRelationshipRebindBatch(state,requests,{prepareCommand=command=>command,defaultSize={width:210,height:90}}={}) {
+  if(!Array.isArray(requests)||!requests.length)throw Error('Укажите изменяемые концы отношений.');
+  const impacts=requests.map(request=>relationshipRebindImpact(state,request.relationshipId,request.end,request.concept)),ends=new Set();
+  for(const [index,impact]of impacts.entries()){
+    const key=JSON.stringify([impact.relationshipId,impact.end]);if(ends.has(key))throw Error('Конец одного отношения указан повторно.');ends.add(key);
+    const bindings=requests[index].bindings,expected=new Set(impact.usages.map(item=>item.connectionId));
+    if(!bindings||Object.keys(bindings).length!==expected.size||Object.keys(bindings).some(id=>!expected.has(id)))throw Error('Укажите привязку каждого рисунка общего отношения.');
+    if(impact.usages.some(item=>!bindings[item.connectionId]))throw Error('Выберите привязку каждого соединения.');
   }
-  const snapshot=stage.snapshot;snapshot.relationships.find(item=>item.id===relationshipId)[end]=structuredClone(concept);
-  for(const usage of impact.usages){const view=snapshot.views.find(item=>item.view.id===usage.viewId),connection=view.connections.find(item=>item.id===usage.connectionId),endpoint=resolved.get(usage.connectionId);const record=endpointRecord(projectIndex(snapshot),viewIndex(view),endpoint);if(!same(record.concept,concept))throw Error('Рисунок должен ссылаться на выбранный общий концепт.');connection[end]=endpoint;}
+  const stage=createStore(state),resolved=impacts.map(()=>new Map());
+  for(const [index,impact]of impacts.entries()){
+    const concept=requests[index].concept,bindings=requests[index].bindings;
+    for(const usage of impact.usages){
+      const value=bindings[usage.connectionId];
+      if(value.createOccurrence===true){
+        if(!['element','junction'].includes(concept.kind))throw Error('Для отношения выберите точный существующий якорь.');
+        const old=state.views.find(view=>view.view.id===usage.viewId),previous=old.occurrences.find(item=>item.id===usage.endpoint.id),anchor=old.connections.find(item=>item.id===usage.endpoint.id)?.routePoints.find(item=>item.id===usage.endpoint.anchorId)?.point;
+        const bounds=previous?{...previous.bounds}:{x:anchor?.x??0,y:anchor?.y??0,width:concept.kind==='junction'?36:defaultSize.width,height:concept.kind==='junction'?36:defaultSize.height};
+        const result=stage.execute(prepareCommand({type:'addOccurrence',viewId:usage.viewId,concept,bounds}),stage.revision);resolved[index].set(usage.connectionId,{kind:'occurrence',id:result.created.occurrenceId});
+      }else resolved[index].set(usage.connectionId,structuredClone(value));
+    }
+  }
+  const snapshot=stage.snapshot,index=projectIndex(snapshot);
+  for(const impact of impacts)snapshot.relationships.find(item=>item.id===impact.relationshipId)[impact.end]=structuredClone(impact.concept);
+  for(const [changeIndex,impact]of impacts.entries())for(const usage of impact.usages){
+    const view=snapshot.views.find(item=>item.view.id===usage.viewId),connection=view.connections.find(item=>item.id===usage.connectionId),endpoint=resolved[changeIndex].get(usage.connectionId),record=endpointRecord(index,viewIndex(view),endpoint);
+    if(!same(record.concept,impact.concept))throw Error('Рисунок должен ссылаться на выбранный общий концепт.');
+    connection[impact.end]=endpoint;
+  }
   validateProject(snapshot);
   const before=new Set(blockers(assessProject(state,registry))),report=assessProject(snapshot,registry),newBlockers=blockers(report).filter(item=>!before.has(item));
   if(newBlockers.length)throw Error(`Переподключение создаёт доказанно недопустимые отношения: ${newBlockers.join('; ')}`);
   // The existing command boundary enforces locks on every changed drawing.
   createStore(state).execute({type:'applyProjectSnapshot',files:exportFiles(snapshot)},0);
-  const related=new Set(state.relationships.filter(item=>item.id===relationshipId||[item.source,item.target].some(ref=>ref.kind==='relationship'&&ref.id===relationshipId)).map(item=>item.id));
-  return {...impact,snapshot,decisions:report.relationships.filter(item=>related.has(item.relationshipId))};
+  const rebindings=impacts.map(impact=>{
+    const related=new Set(state.relationships.filter(item=>item.id===impact.relationshipId||[item.source,item.target].some(ref=>ref.kind==='relationship'&&ref.id===impact.relationshipId)).map(item=>item.id));
+    return {...impact,decisions:report.relationships.filter(item=>related.has(item.relationshipId))};
+  });
+  return {snapshot,rebindings};
+}
+
+export function prepareRelationshipRebind(state,request,options={}) {
+  const plan=prepareRelationshipRebindBatch(state,[request],options);
+  return {...plan.rebindings[0],snapshot:plan.snapshot};
 }
