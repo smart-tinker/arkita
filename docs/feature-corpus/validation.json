@@ -38,7 +38,8 @@
     "docs/feature-corpus/section-map.json": "282a029f7477976459e17244dace5120979e5433e76e8d46e8e0f8356bada903",
     "docs/feature-corpus/sources.md": "1b6be511b3b36e09f2373394fcd9bb24924ea6d4755668cb9e205802a59dbba9",
     "docs/feature-corpus/PROGRAM.md": "de016da8d86e38308f3fdfdb8339d14660fcf3cf651e1dcf40620a3325dcf622",
-    "docs/feature-corpus/program.json": "5d776e247d6418dfcd361dd59c7e8a89d4e9134c90d4ac2c15d7249c9acac95e"
+    "docs/feature-corpus/program.json": "4a71e4cb21f122a1ef44d2ee9cf572080b765cdb30027b51eeb368999081f48c",
+    "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md": "4999a8f805949a2ae03c5bcb38083cd399988ca55f595ef0f22283a0d0262139"
   },
   "documentation_update": {
     "updated_at": "2026-10-19",
@@ -107,5 +108,14 @@
       "result": "Required CI/security passed. Extended CI passed on Ubuntu and Windows; criteria remain acceptance-pending because installed Windows GUI acceptance and independent review are not recorded.",
       "ledger": "docs/feature-corpus/program.json"
     }
+  },
+  "issue14_criterion_review_update": {
+    "updated_at": "2026-11-28",
+    "issue": 14,
+    "review_base": "1663354c4e0bedeec0db4718922597179bd1cf7b",
+    "ledger": "docs/feature-corpus/ISSUE-14-CRITERION-REVIEW-2026-11-25.md",
+    "criteria": 40,
+    "result": "All 40 mapped criteria remain acceptance-pending; closed_criteria is empty and Windows acceptance is UNRUN.",
+    "scope": "GitHub-only documentation sync from prior map base 789f29f797bb13585e8e1227245617d3c704efb6 to current main 1663354c4e0bedeec0db4718922597179bd1cf7b. Updates current-main evidence for A-EDITOR-051/056 from merged PR #104 and A-EDITOR-057 from merged PR #129; the other mapped criteria are carried forward without a fresh source review. All 339 registry IDs/order/statuses, 9 exclusions and alias A-EDITOR-126 of A-ADV-020 are preserved. Issue #14 remains open; no criterion is closed. No application tests, runtime, package, browser or native Windows/userVM acceptance were run. Historical checked_at/result and baseline checks remain unchanged; only program.json and the issue-14 map SHA-256 entries were refreshed."
   }
 }
