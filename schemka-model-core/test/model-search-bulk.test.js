@@ -100,6 +100,27 @@ test('global properties counts duplicates, preserves mixed values, reports colli
   const store = createStore(state), before = store.exportFiles(); store.execute({ type: 'bulkUpdateMetadata', changes: remove.changes }, 0); store.undo(store.revision); assert.deepEqual(store.exportFiles(), before);
 });
 
+
+test('missing-name add keeps the first queued duplicate; all mode saves every duplicate', () => {
+  const state = fixture(), owner = modelSearchRecords(state).find(row => row.owner.kind === 'element' && row.owner.id === state.elements[0].id);
+  const entries = [{ key: 'x', value: 'A' }, { key: 'x', value: 'B' }];
+  const original = structuredClone(owner.item.properties);
+  const missing = planProperties([owner], { type: 'add', mode: 'missing', entries });
+  assert.deepEqual(missing.changes[0].after.properties, [...original, entries[0]]);
+  const missingStore = createStore(state);
+  missingStore.execute({ type: 'bulkUpdateMetadata', changes: missing.changes }, missingStore.revision);
+  assert.deepEqual(missingStore.snapshot.elements.find(item => item.id === owner.owner.id).properties, [...original, entries[0]]);
+  const repeated = planProperties(modelSearchRecords(missingStore.snapshot).filter(row => row.owner.kind === 'element' && row.owner.id === owner.owner.id), { type: 'add', mode: 'missing', entries });
+  assert.deepEqual(repeated.changes, []);
+  assert.equal(missingStore.history.undo, 1);
+
+  const all = planProperties([owner], { type: 'add', mode: 'all', entries });
+  assert.deepEqual(all.changes[0].after.properties, [...original, ...entries]);
+  const allStore = createStore(state);
+  allStore.execute({ type: 'bulkUpdateMetadata', changes: all.changes }, allStore.revision);
+  assert.deepEqual(allStore.snapshot.elements.find(item => item.id === owner.owner.id).properties, [...original, ...entries]);
+});
+
 test('sort and multirow reorder preserve duplicates and exact values, disallow ambiguous group order', () => {
   const state = fixture(), row = modelSearchRecords(state).find(row => row.owner.id === state.elements[0].id);
   const sorted = planProperties([row], { type: 'sort' }).changes[0].after.properties;

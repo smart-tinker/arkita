@@ -7,6 +7,14 @@ on:
         description: Exact 40-character source commit SHA
         required: true
         type: string
+      release_channel:
+        description: Choose RC prerelease or final stable draft preparation
+        required: true
+        type: choice
+        options:
+          - rc
+          - stable
+        default: rc
 
 permissions:
   contents: read
@@ -17,10 +25,11 @@ concurrency:
 
 jobs:
   package:
-    name: Build and verify Windows RC package
+    name: Build and verify Windows package
     runs-on: windows-2025
     timeout-minutes: 120
     permissions:
+      actions: read
       contents: write
     steps:
       - name: Validate dispatch request
@@ -43,29 +52,49 @@ jobs:
           ref: ${{ steps.request.outputs.source_sha }}
           persist-credentials: false
 
-      - name: Verify source and RC version
+      - name: Verify source and package manifests
         id: source
         shell: pwsh
         env:
           SOURCE_SHA: ${{ steps.request.outputs.source_sha }}
+          RELEASE_CHANNEL: ${{ inputs.release_channel }}
         run: |
           $actualSha = (& git rev-parse HEAD).Trim()
           if ($LASTEXITCODE -ne 0 -or $actualSha -cne $env:SOURCE_SHA) {
             throw "Checked out $actualSha, expected $env:SOURCE_SHA."
           }
           $manifest = Get-Content package.json -Raw | ConvertFrom-Json
-          $version = [string]$manifest.version
-          if ($version -cnotmatch '^\d+\.\d+\.\d+-rc\.\d+$') {
-            throw "Refusing non-RC package version: $version"
+          $lock = Get-Content package-lock.json -Raw | ConvertFrom-Json -AsHashtable
+          $lockRoot = $lock.packages['']
+          if ($null -eq $lockRoot) {
+            throw 'package-lock.json root package metadata is missing.'
           }
-          if ($manifest.license -cne 'MIT') {
-            throw "Expected package.json license MIT; found $($manifest.license)."
+          $version = [string]$manifest.version
+          $pattern = switch ($env:RELEASE_CHANNEL) {
+            'rc' { '^\d+\.\d+\.\d+-rc\.\d+$'; break }
+            'stable' { '^\d+\.\d+\.\d+$'; break }
+            default { throw "Unsupported release channel: $env:RELEASE_CHANNEL" }
+          }
+          if ($version -cnotmatch $pattern) {
+            throw "Version $version is not valid for channel $env:RELEASE_CHANNEL."
+          }
+          if ([string]$lock.version -cne $version -or [string]$lockRoot.version -cne $version) {
+            throw 'package.json and package-lock.json versions do not match.'
+          }
+          if ([string]$lock.name -cne [string]$manifest.name -or [string]$lockRoot.name -cne [string]$manifest.name) {
+            throw 'package.json and package-lock.json package names do not match.'
+          }
+          if ($manifest.license -cne 'MIT' -or $lockRoot.license -cne 'MIT') {
+            throw 'Expected package.json and package-lock.json root license MIT.'
           }
           if (-not (Test-Path LICENSE -PathType Leaf)) {
             throw 'Root MIT LICENSE is missing.'
           }
+          $isPrerelease = $env:RELEASE_CHANNEL -ceq 'rc'
           "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "tag_name=v$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "release_channel=$env:RELEASE_CHANNEL" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "build_sha=$actualSha" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       - name: Set up Node.js 22
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -84,6 +113,10 @@ jobs:
         env:
           PACKAGE_VERSION: ${{ steps.source.outputs.version }}
           SOURCE_SHA: ${{ steps.request.outputs.source_sha }}
+          BUILD_SHA: ${{ steps.source.outputs.build_sha }}
+          RELEASE_CHANNEL: ${{ steps.source.outputs.release_channel }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
           $installer = Join-Path 'release/windows' "Arkita-$env:PACKAGE_VERSION-win-x64-setup.exe"
           if (-not (Test-Path $installer -PathType Leaf)) {
@@ -152,95 +185,176 @@ jobs:
           "installer_size=$installerSize" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "installer_name=$([IO.Path]::GetFileName($installer))" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           @"
-          ## Windows RC package verified
+          ## Windows package verified
 
-          - Source SHA: $env:SOURCE_SHA
+          - Channel: $env:RELEASE_CHANNEL
           - Package version: $env:PACKAGE_VERSION
+          - Source SHA: $env:SOURCE_SHA
+          - Build SHA: $env:BUILD_SHA
+          - Run/attempt: $env:RUN_ID/$env:RUN_ATTEMPT
           - Installer: $([IO.Path]::GetFileName($installer))
           - Size: $installerSize bytes
           - SHA-256: $installerHash
           - NSIS container, silent install, installed app.asar byte match, app.asar MIT metadata, and standalone resources/LICENSE: PASS
+          - Exact-package userVM acceptance: UNRUN
+          - Owner publication decision: pending
           "@ | Add-Content -Path $env:GITHUB_STEP_SUMMARY
 
-      - name: Create hidden draft prerelease and upload installer
+      - name: Create or reuse exact hidden draft release and upload installer
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ steps.request.outputs.source_sha }}
           PACKAGE_VERSION: ${{ steps.source.outputs.version }}
+          RELEASE_CHANNEL: ${{ steps.source.outputs.release_channel }}
           TAG_NAME: ${{ steps.source.outputs.tag_name }}
+          BUILD_SHA: ${{ steps.source.outputs.build_sha }}
           INSTALLER_NAME: ${{ steps.verify.outputs.installer_name }}
           INSTALLER_SHA256: ${{ steps.verify.outputs.installer_sha256 }}
           INSTALLER_SIZE: ${{ steps.verify.outputs.installer_size }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
           $headers = @{
             Authorization = "Bearer $env:GH_TOKEN"
             Accept = 'application/vnd.github+json'
             'X-GitHub-Api-Version' = '2022-11-28'
           }
-          $tagEscaped = [Uri]::EscapeDataString($env:TAG_NAME)
-          $tagUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/git/ref/tags/$tagEscaped"
-          $tagCheck = Invoke-WebRequest -Method Get -Uri $tagUri -Headers $headers -SkipHttpErrorCheck
-          if ($tagCheck.StatusCode -ne 404) {
-            throw "Tag $env:TAG_NAME already exists or could not be checked (HTTP $($tagCheck.StatusCode)); refusing overwrite."
-          }
-          $releaseUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/tags/$tagEscaped"
-          $releaseCheck = Invoke-WebRequest -Method Get -Uri $releaseUri -Headers $headers -SkipHttpErrorCheck
-          if ($releaseCheck.StatusCode -ne 404) {
-            throw "Release for $env:TAG_NAME already exists or could not be checked (HTTP $($releaseCheck.StatusCode)); refusing overwrite."
-          }
-
           $installer = Join-Path 'release/windows' $env:INSTALLER_NAME
           $localHash = (Get-FileHash $installer -Algorithm SHA256).Hash.ToLowerInvariant()
           $localSize = (Get-Item $installer).Length
           if ($localHash -cne $env:INSTALLER_SHA256 -or [string]$localSize -cne $env:INSTALLER_SIZE) {
             throw 'Installer changed after verification; refusing upload.'
           }
-          $body = "Prepared from source SHA $env:SOURCE_SHA. Installer $env:INSTALLER_NAME: $localSize bytes, SHA-256 $localHash. Draft only; Windows user acceptance and owner publication remain separate."
-          $releaseBody = @{
-            tag_name = $env:TAG_NAME
-            target_commitish = $env:SOURCE_SHA
-            name = $env:TAG_NAME
-            body = $body
-            draft = $true
-            prerelease = $true
-            make_latest = 'false'
-          } | ConvertTo-Json
-          $release = Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases" -Headers $headers -ContentType 'application/vnd.github+json' -Body $releaseBody
-          if (-not $release.draft -or -not $release.prerelease) {
-            throw 'GitHub did not create the requested hidden draft prerelease.'
+
+          $isPrerelease = $env:RELEASE_CHANNEL -ceq 'rc'
+          $tagEscaped = [Uri]::EscapeDataString($env:TAG_NAME)
+          $tagUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/git/ref/tags/$tagEscaped"
+          $releaseList = @((Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases?per_page=100" -Headers $headers))
+          if ($releaseList.Count -ge 100) {
+            throw 'Release listing reached 100 entries; refusing an incomplete conflict check.'
           }
-          $createdTag = Invoke-RestMethod -Method Get -Uri $tagUri -Headers $headers
-          if ($createdTag.object.sha -cne $env:SOURCE_SHA) {
-            throw "Created tag points to $($createdTag.object.sha), expected source SHA $env:SOURCE_SHA."
+          $matchingReleases = @($releaseList | Where-Object { $_.tag_name -ceq $env:TAG_NAME })
+          if ($matchingReleases.Count -gt 1) {
+            throw "Multiple releases already use $env:TAG_NAME; refusing to choose one."
+          }
+          $release = $null
+          if ($matchingReleases.Count -eq 1) {
+            $release = $matchingReleases[0]
+            if (-not $release.draft -or [bool]$release.prerelease -ne $isPrerelease -or $release.published_at -or
+                $release.name -cne $env:TAG_NAME -or $release.target_commitish -cne $env:SOURCE_SHA) {
+              throw "Existing release for $env:TAG_NAME does not match the unpublished $env:RELEASE_CHANNEL source candidate; refusing to modify it."
+            }
           }
 
-          $uploadBase = $release.upload_url -replace '\{\?name,label\}$', ''
-          $assetName = [Uri]::EscapeDataString($env:INSTALLER_NAME)
-          $asset = Invoke-RestMethod -Method Post -Uri "$uploadBase?name=$assetName" -Headers $headers -ContentType 'application/octet-stream' -InFile $installer
-          if ($asset.name -cne $env:INSTALLER_NAME -or $asset.size -ne [long]$env:INSTALLER_SIZE -or $asset.state -cne 'uploaded') {
-            throw 'Uploaded release asset name, size, or state did not match the verified installer.'
+          $tagCheck = Invoke-WebRequest -Method Get -Uri $tagUri -Headers $headers -SkipHttpErrorCheck
+          if ($tagCheck.StatusCode -eq 200) {
+            $existingTag = $tagCheck.Content | ConvertFrom-Json
+            if ($existingTag.object.type -cne 'commit' -or $existingTag.object.sha -cne $env:SOURCE_SHA) {
+              throw "Tag $env:TAG_NAME points to a different or indirect object; refusing to reuse it."
+            }
+          } elseif ($tagCheck.StatusCode -ne 404) {
+            throw "Could not safely inspect tag $env:TAG_NAME (HTTP $($tagCheck.StatusCode))."
           }
-          if ($asset.digest -and $asset.digest -cne "sha256:$localHash") {
-            throw 'GitHub asset digest did not match the locally verified SHA-256.'
+
+          if (-not $release) {
+            $body = "Prepared for $env:RELEASE_CHANNEL from source/build SHA $env:SOURCE_SHA. Installer ${env:INSTALLER_NAME}: $localSize bytes, SHA-256 $localHash. Draft only; exact-package userVM acceptance is UNRUN and owner publication decision is pending."
+            $releaseBody = @{
+              tag_name = $env:TAG_NAME
+              target_commitish = $env:SOURCE_SHA
+              name = $env:TAG_NAME
+              body = $body
+              draft = $true
+              prerelease = $isPrerelease
+              make_latest = 'false'
+            } | ConvertTo-Json
+            $release = Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases" -Headers $headers -ContentType 'application/vnd.github+json' -Body $releaseBody
           }
-          $assets = @(Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/$($release.id)/assets?per_page=100" -Headers $headers)
+          if ($release.tag_name -cne $env:TAG_NAME -or $release.name -cne $env:TAG_NAME -or
+              $release.target_commitish -cne $env:SOURCE_SHA -or -not $release.draft -or
+              [bool]$release.prerelease -ne $isPrerelease -or $release.published_at) {
+            throw 'Draft release readback does not match the exact unpublished candidate and channel.'
+          }
+
+          $assetUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/$($release.id)/assets?per_page=100"
+          $assets = @((Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers))
+          if ($assets.Count -ge 100) {
+            throw 'Release asset listing reached 100 entries; refusing an incomplete conflict check.'
+          }
           $matchingAssets = @($assets | Where-Object { $_.name -ceq $env:INSTALLER_NAME })
-          if ($matchingAssets.Count -ne 1 -or $matchingAssets[0].size -ne [long]$env:INSTALLER_SIZE) {
-            throw 'Release asset readback did not find exactly one matching installer.'
+          $otherAssets = @($assets | Where-Object { $_.name -cne $env:INSTALLER_NAME })
+          if ($otherAssets.Count -gt 0 -or $matchingAssets.Count -gt 1) {
+            throw 'Draft contains an unexpected or duplicate asset; refusing to replace or add files.'
           }
+          if ($matchingAssets.Count -eq 1) {
+            $existingAsset = $matchingAssets[0]
+            if ($existingAsset.size -ne [long]$env:INSTALLER_SIZE -or $existingAsset.state -cne 'uploaded' -or
+                $existingAsset.digest -cne "sha256:$localHash") {
+              throw 'Existing installer asset conflicts with the verified package; refusing to replace it.'
+            }
+          } else {
+            $uploadBase = $release.upload_url -replace '\{\?name,label\}$', ''
+            $assetName = [Uri]::EscapeDataString($env:INSTALLER_NAME)
+            $uploadUri = "${uploadBase}?name=${assetName}"
+            $uploadedAsset = Invoke-RestMethod -Method Post -Uri $uploadUri -Headers $headers -ContentType 'application/octet-stream' -InFile $installer
+            if ($uploadedAsset.name -cne $env:INSTALLER_NAME -or $uploadedAsset.size -ne [long]$env:INSTALLER_SIZE -or $uploadedAsset.state -cne 'uploaded') {
+              throw 'Uploaded release asset name, size, or state did not match the verified installer.'
+            }
+            if ($uploadedAsset.digest -and $uploadedAsset.digest -cne "sha256:$localHash") {
+              throw 'Uploaded release asset digest did not match the locally verified SHA-256.'
+            }
+          }
+
+          $assets = @((Invoke-RestMethod -Method Get -Uri $assetUri -Headers $headers))
+          if ($assets.Count -ge 100) {
+            throw 'Release asset listing reached 100 entries; refusing an incomplete readback.'
+          }
+          $matchingAssets = @($assets | Where-Object { $_.name -ceq $env:INSTALLER_NAME })
+          $otherAssets = @($assets | Where-Object { $_.name -cne $env:INSTALLER_NAME })
+          if ($otherAssets.Count -gt 0 -or $matchingAssets.Count -ne 1) {
+            throw 'Release asset readback did not find exactly one expected installer and no conflicting assets.'
+          }
+          $asset = $matchingAssets[0]
+          if ($asset.size -ne [long]$env:INSTALLER_SIZE -or $asset.state -cne 'uploaded' -or
+              $asset.digest -cne "sha256:$localHash") {
+            throw 'Release asset readback metadata does not match the verified installer.'
+          }
+
           $releaseReadback = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/$($release.id)" -Headers $headers
-          if (-not $releaseReadback.draft -or -not $releaseReadback.prerelease -or $releaseReadback.published_at) {
-            throw 'Release readback is not still an unpublished draft prerelease.'
+          if ($releaseReadback.tag_name -cne $env:TAG_NAME -or $releaseReadback.target_commitish -cne $env:SOURCE_SHA -or
+              -not $releaseReadback.draft -or [bool]$releaseReadback.prerelease -ne $isPrerelease -or $releaseReadback.published_at) {
+            throw 'Release readback is not still the exact unpublished draft for this channel.'
           }
           @"
-          ## Draft prerelease prepared
+          ## Draft package prepared
 
+          - Channel: $env:RELEASE_CHANNEL
           - Release: $($releaseReadback.html_url)
           - Source SHA: $env:SOURCE_SHA
+          - Build SHA: $env:BUILD_SHA
+          - Run/attempt: $env:RUN_ID/$env:RUN_ATTEMPT
           - Tag: $env:TAG_NAME
-          - Asset: $($matchingAssets[0].browser_download_url)
-          - Size: $localSize bytes
+          - Asset: $($asset.browser_download_url)
+          - Size: $($asset.size) bytes
           - SHA-256: $localHash
-          - Draft: true; prerelease: true; published: false
+          - Draft: true; prerelease: $isPrerelease; published: false
+          - Exact-package userVM acceptance: UNRUN
+          - Owner publication decision: pending
           "@ | Add-Content -Path $env:GITHUB_STEP_SUMMARY
+
+      - name: Verify Actions artifact count is zero
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $headers = @{
+            Authorization = "Bearer $env:GH_TOKEN"
+            Accept = 'application/vnd.github+json'
+            'X-GitHub-Api-Version' = '2022-11-28'
+          }
+          $uri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID/artifacts?per_page=100"
+          $runArtifacts = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers
+          if ($runArtifacts.total_count -ne 0 -or @($runArtifacts.artifacts).Count -ne 0) {
+            throw "Expected zero Actions artifacts; found $($runArtifacts.total_count)."
+          }
+          'Actions artifacts: 0' | Add-Content -Path $env:GITHUB_STEP_SUMMARY

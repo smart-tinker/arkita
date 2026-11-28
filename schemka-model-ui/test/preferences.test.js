@@ -77,6 +77,9 @@ test('existing theme/workspace/gesture controls share one persistence authority 
 test('creation defaults serialize only into new drawings and explicit choices win without touching updates',()=>{
  const settings=structuredClone(PREFERENCE_DEFAULTS);settings.defaults.nodeStyle={fill:'#123456',fontSize:18};settings.defaults.lineStyle='orthogonal';settings.defaults.legend={sort:'name',columns:2,showRelationships:true,colorScheme:'pastel',autoSize:true};
  for(const type of ['createElementAndOccurrence','createJunctionAndOccurrence','addOccurrence','createVisualNode']){const command={type,style:{fontSize:12}},next=prepareCreationCommand(command,settings);assert.deepEqual(next.style,{fill:'#123456',fontSize:12});assert.deepEqual(command,{type,style:{fontSize:12}});}
+ const compound=prepareCreationCommand({type:'createElementAndRelationship',elementStyle:{fontSize:12},connectionStyle:{lineStyle:'rounded'}},settings);
+ assert.deepEqual(compound.elementStyle,{fill:'#123456',fontSize:12});assert.deepEqual(compound.connectionStyle,{lineStyle:'rounded'});
+ assert.deepEqual(prepareCreationCommand({type:'createElementAndRelationship'},settings).connectionStyle,{lineStyle:'orthogonal'});
  for(const type of ['createRelationshipAndConnection','addConnection','createVisualConnector']){assert.deepEqual(prepareCreationCommand({type},settings).style,{lineStyle:'orthogonal'});assert.deepEqual(prepareCreationCommand({type,style:{lineStyle:'rounded'}},settings).style,{lineStyle:'rounded'});}
  assert.deepEqual(prepareCreationCommand({type:'createVisualNode',kind:'legend',legend:{columns:3}},settings).legend,{...settings.defaults.legend,columns:3});
  for(const type of ['updateDrawingStyle','updateVisualNode','applyProjectSnapshot','duplicateView']){const command={type};assert.equal(prepareCreationCommand(command,settings),command);}

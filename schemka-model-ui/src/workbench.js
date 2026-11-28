@@ -9,7 +9,7 @@ export function installWorkbench({ document, window, files, blocked, status, pre
   const closeMenus = () => { for (const menu of document.querySelectorAll('.app-menu[open]')) menu.open = false; };
   function run(command) {
     closeMenus();
-    if (blocked()) { status('Завершите или отмените текущую правку перед этой командой.'); return; }
+    if (blocked()) { status('Завершите или отмените текущую правку перед этой командой.', 'blocking'); return; }
     if (command === 'save') { files.save(); return; }
     if (['new', 'open', 'save-as', 'example'].includes(command)) {
       $('file-button').click();
@@ -26,13 +26,13 @@ export function installWorkbench({ document, window, files, blocked, status, pre
   document.addEventListener('pointerdown', event => {
     if (event.target.closest('[data-command],.app-menu>summary') && blocked()) {
       event.preventDefault(); event.stopImmediatePropagation();
-      status('Завершите или отмените текущую правку перед этой командой.');
+      status('Завершите или отмените текущую правку перед этой командой.', 'blocking');
     }
   }, true);
   document.addEventListener('click', event => {
     if (event.target.closest('[data-command],.app-menu>summary') && blocked()) {
       event.preventDefault(); event.stopImmediatePropagation();
-      status('Завершите или отмените текущую правку перед этой командой.');
+      status('Завершите или отмените текущую правку перед этой командой.', 'blocking');
     }
   }, true);
   document.addEventListener('keydown', event => {
@@ -45,7 +45,7 @@ export function installWorkbench({ document, window, files, blocked, status, pre
       const text = event.target.closest?.('input,textarea,select,[contenteditable="true"],[contenteditable=""],[contenteditable="plaintext-only"]'), canvasOnly = value => value?.startsWith('fragment-');
       if (text && (!['save','save-as','open','new','help-button'].includes(command) || !(event.ctrlKey || event.metaKey || code.startsWith('F')))) return;
       if (canvasOnly(command) && !event.target.closest?.('#canvas')) return;
-      if (command) { event.preventDefault(); event.stopImmediatePropagation(); if (command === 'help-button') {if(onHelp)onHelp(event.target);else $('help-button').click();} else if (['undo','redo'].includes(command) && onHistory) onHistory(command); else if(command==='fragment-paste-reuse'&&onDefaultPaste){if(!blocked())onDefaultPaste();else status('Завершите или отмените текущую правку перед этой командой.');}else run(command); return; }
+      if (command) { event.preventDefault(); event.stopImmediatePropagation(); if (command === 'help-button') {if(onHelp)onHelp(event.target);else $('help-button').click();} else if (['undo','redo'].includes(command) && onHistory) onHistory(command); else if(command==='fragment-paste-reuse'&&onDefaultPaste){if(!blocked())onDefaultPaste();else status('Завершите или отмените текущую правку перед этой командой.','blocking');}else run(command); return; }
       // Earlier fixed handlers must not also run an old binding after reassignment.
       const previous = {'Ctrl+KeyS':'save','Ctrl+Shift+KeyS':'save-as','Ctrl+KeyO':'open','Ctrl+KeyN':'new','Ctrl+KeyZ':'undo','Ctrl+Shift+KeyZ':'redo','Ctrl+KeyY':'redo','Ctrl+KeyC':'fragment-copy','Ctrl+KeyX':'fragment-cut','Ctrl+KeyV':'fragment-paste-reuse','Ctrl+Shift+KeyV':'fragment-paste-clone','Ctrl+KeyF':'model-search-focus','F1':'help-button'}[chord];
       if (previous && keys[previous] !== chord && (!canvasOnly(previous) || event.target.closest?.('#canvas'))) { event.preventDefault(); event.stopImmediatePropagation(); }
