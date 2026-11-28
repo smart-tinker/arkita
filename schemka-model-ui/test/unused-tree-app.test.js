@@ -28,6 +28,56 @@ test('tree unused marker uses all stored drawings and updates after add and Undo
   assert.deepEqual(await h.download(), before);
 });
 
+test('catalog usage marker stays global across views and two Undos restore the saved bytes', async t => {
+  const h = await setup(t), store = createStore(createProject('Shared usage'));
+  const run = command => store.execute(command, store.revision).created;
+  const { viewId: firstView } = run({ type: 'createView', name: 'First view' });
+  const { viewId: secondView } = run({ type: 'createView', name: 'Second view' });
+  const firstSource = run({ type: 'createElementAndOccurrence', viewId: firstView, elementType: 'Service', name: 'Shared source', bounds: { x: 0, y: 0, width: 160, height: 80 } });
+  const firstTarget = run({ type: 'createElementAndOccurrence', viewId: firstView, elementType: 'Process', name: 'Shared target', bounds: { x: 240, y: 0, width: 160, height: 80 } });
+  const { relationshipId } = run({ type: 'createRelationshipAndConnection', viewId: firstView, relationshipType: 'Serving', source: { kind: 'occurrence', id: firstSource.occurrenceId }, target: { kind: 'occurrence', id: firstTarget.occurrenceId }, label: 'Shared relation' });
+  const secondSource = run({ type: 'addOccurrence', viewId: secondView, concept: { kind: 'element', id: firstSource.elementId }, bounds: { x: 0, y: 0, width: 160, height: 80 } });
+  const secondTarget = run({ type: 'addOccurrence', viewId: secondView, concept: { kind: 'element', id: firstTarget.elementId }, bounds: { x: 240, y: 0, width: 160, height: 80 } });
+  run({ type: 'addConnection', viewId: secondView, relationshipId, source: { kind: 'occurrence', id: secondSource.occurrenceId }, target: { kind: 'occurrence', id: secondTarget.occurrenceId } });
+  await h.load(serializeProjectFile(store.snapshot));
+  const openView = viewId => h.document.querySelector(`[data-view-scope="tree"][data-view-id="${viewId}"]`).click();
+  const elementButton = () => h.document.querySelector(`.catalog [data-element-id="${firstSource.elementId}"]`);
+  const relationshipButton = () => h.document.querySelector(`.catalog [data-relationship-id="${relationshipId}"]`);
+  const expectUsed = () => {
+    for (const button of [elementButton(), relationshipButton()]) {
+      assert.ok(button);
+      assert.equal(button.dataset.unused, 'false');
+      assert.equal(button.querySelector('.unused-marker'), null);
+    }
+  };
+  const expectUnused = () => {
+    for (const button of [elementButton(), relationshipButton()]) {
+      assert.equal(button.dataset.unused, 'true');
+      assert.equal(button.querySelector('.unused-marker').textContent, '∅');
+    }
+  };
+  const removeOccurrence = occurrenceId => {
+    const occurrence = h.$('canvas').querySelector(`[data-kind="occurrence"][data-id="${occurrenceId}"]`);
+    assert.ok(occurrence);
+    h.pointer(occurrence, 'pointerdown', 20, 30); h.pointer(h.$('canvas'), 'pointerup', 20, 30);
+    h.$('canvas').dispatchEvent(new h.window.KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }));
+    assert.equal(h.$('delete-dialog').open, true);
+    h.$('delete-confirm').click();
+    assert.equal(h.$('delete-dialog').open, false);
+  };
+  openView(firstView);
+  const before = await h.download();
+  expectUsed();
+  removeOccurrence(firstSource.occurrenceId);
+  expectUsed();
+  openView(secondView);
+  removeOccurrence(secondSource.occurrenceId);
+  expectUnused();
+  h.$('undo').click(); expectUsed();
+  h.$('undo').click(); expectUsed();
+  assert.deepEqual(await h.download(), before);
+});
+
 test('rename-after-drop Escape retains one created object and creates no extra Undo', async t => {
   const h = await setup(t);
   h.$('preferences-button').click(); h.$('preferences-behavior-renameAfterCreate').checked = true;

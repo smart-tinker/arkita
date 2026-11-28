@@ -95,7 +95,7 @@ export function installCustomizationUI({ document, model, openDialog, render, st
   function application(concept, profileId) {
     if (!begin('application')) return false;
     const state = model.store.snapshot, definition = state.customizationProfiles?.find(item => item.id === profileId), object = conceptRecord(state, concept);
-    if (!definition || !object) { cancel(); status('Профиль или концепт не найден'); return false; }
+    if (!definition || !object) { cancel(); status('Профиль или концепт не найден', 'blocking'); return false; }
     Object.assign(pending, { concept: { ...concept }, profileId });
     $('customization-heading').textContent = `Значения профиля «${definition.name}»`;
     $('customization-reference').textContent = `${concept.kind}: ${object.name || object.label || '(без названия)'} · ${concept.id}. Общие данные во всех видах.`;

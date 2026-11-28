@@ -58,6 +58,13 @@ export function specializationCreationEntries(state,{typeVisible=()=>true,enable
 
 /** Persist local creation defaults once; updates and loaded drawings remain untouched. */
 export function prepareCreationCommand(command,settings) {
+  if (command.type === 'createElementAndRelationship') {
+    const defaults = settings.defaults;
+    return { ...command,
+    elementStyle: { ...defaults.nodeStyle, ...command.elementStyle },
+    connectionStyle: { ...(defaults.lineStyle === 'auto' ? {} : { lineStyle: defaults.lineStyle }), ...command.connectionStyle },
+    };
+  }
   const nodes = ['createElementAndOccurrence','createJunctionAndOccurrence','addOccurrence','createVisualNode'];
   const lines = ['createRelationshipAndConnection','addConnection','createVisualConnector'];
   if (!nodes.includes(command.type) && !lines.includes(command.type)) return command;

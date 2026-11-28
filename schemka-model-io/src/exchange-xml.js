@@ -71,7 +71,12 @@ export function importExchangeXml(bytes,{DOMParser,language:preferred=''}={}) {
  language(preferred);const r=reader(bytes,DOMParser),{root,children,attr,txt,losses}=r;if(root.localName!=='model'||root.namespaceURI!==EXCHANGE_NAMESPACE)fail('Ожидается Open Group Exchange XML namespace 3.0 (закреплённая XSD 3.1), не .archimate.');
  const state=createProject('Импорт Exchange'),ids=new Map(),refs=new Map();attr(root,'schemaLocation',XSI);
  function identity(node,prefix){const old=attr(node,'identifier');if(!old||ids.has(old))fail(`Пустой или повторный XML identifier: ${old}.`);const id=new RegExp(`^${prefix}-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`).test(old)?old:newId(prefix);ids.set(old,id);return id;}
- function label(node,key){const candidates=children(node,key);const chosen=candidates.find(n=>n.getAttributeNS(XML,'lang')===preferred)??candidates[0];for(const item of candidates){const value=txt(item);if(item!==chosen)losses.push(`${attr(node,'identifier')||node.localName}/${key}: дополнительный язык ${item.getAttributeNS(XML,'lang')||'(без языка)'} не перенесён: ${value.slice(0,160)}.`);}return chosen?chosen.textContent:'';}
+ function label(node,key){
+  const candidates=children(node,key),exact=candidates.find(n=>n.getAttributeNS(XML,'lang')===preferred),chosen=exact??candidates[0];
+  if(preferred&&candidates.length&&!exact)losses.push(`${attr(node,'identifier')||node.localName}/${key}: запрошенный язык ${preferred} отсутствует; выбран ${chosen.getAttributeNS(XML,'lang')||'(без языка)'}.`);
+  for(const item of candidates){const value=txt(item);if(item!==chosen)losses.push(`${attr(node,'identifier')||node.localName}/${key}: дополнительный язык ${item.getAttributeNS(XML,'lang')||'(без языка)'} не перенесён: ${value.slice(0,160)}.`);}
+  return chosen?chosen.textContent:'';
+ }
  const defs=new Map();for(const list of children(root,'propertyDefinitions'))for(const p of children(list,'propertyDefinition')){const id=attr(p,'identifier');if(!id||defs.has(id))fail(`Повторный propertyDefinition ${id}.`);const type=attr(p,'type');if(type!=='string')losses.push(`${id}: тип свойства ${type} переносится как текст.`);defs.set(id,label(p,'name'));}
  function properties(node){const rows=[];for(const ps of children(node,'properties'))for(const p of children(ps,'property')){const id=attr(p,'propertyDefinitionRef');if(!defs.has(id))fail(`Неизвестное определение свойства ${id}.`);const values=children(p,'value');for(const value of values)rows.push({key:defs.get(id),value:txt(value)});}return rows;}
  const metadata=node=>({name:label(node,'name'),documentation:label(node,'documentation'),properties:properties(node)});

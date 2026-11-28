@@ -127,7 +127,7 @@ export function installContextHints({ document, window, model, blocked, status, 
   // Protect buffered text before the application's outside-pointer draft cancellation.
   for (const type of ['pointerdown', 'click']) on(document, type, event => {
     if (event.target.closest?.('#context-hints-panel,#context-hints-toggle,[data-command="context-hints-toggle"]') && blocked()) {
-      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед открытием подсказок.');
+      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед открытием подсказок.', 'blocking');
     }
   }, { capture: true });
   on(toggle, 'click', () => { if (panel.hidden) open(); else close(); });

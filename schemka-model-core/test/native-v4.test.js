@@ -174,6 +174,35 @@ test('used assets cannot be deleted; strict inactive SVG rejects scripting, load
   assert.throws(() => importFiles(files), error => error.code === 'ASSET_SVG'); assert.throws(() => mergeProjectFiles(files, files, files), error => error.code === 'ASSET_SVG');
 });
 
+test('replaceAsset preserves the shared asset identity and usages, then one Undo restores exact bytes', () => {
+  const { store, run, assetId } = rich(), otherViewId = store.snapshot.views[1].view.id;
+  const profileId = run({ type: 'createCustomizationProfile', definition: { name: 'Shared image profile', purpose: 'specialization', targets: [{ kind: 'element', type: 'Service' }], attributes: {} } }).created.profileId;
+  run({ type: 'setCustomizationProfileImage', profileId, assetId });
+  run({ type: 'createVisualNode', viewId: otherViewId, kind: 'image', assetId, bounds: bounds(900, 100) });
+  const before = store.exportFiles(), historyBefore = store.history.undo, usagesBefore = assetUsages(store.snapshot, assetId);
+  const original = store.snapshot.assets.find(item => item.id === assetId);
+  const replacement = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect width="20" height="20" fill="#abcdef"/></svg>';
+
+  run({ type: 'replaceAsset', assetId, mediaType: 'image/svg+xml', data: base64(replacement) });
+
+  const updated = store.snapshot.assets.find(item => item.id === assetId);
+  assert.equal(updated.id, original.id); assert.equal(updated.name, original.name); assert.equal(updated.encoding, original.encoding);
+  assert.equal(updated.mediaType, 'image/svg+xml'); assert.equal(updated.data, base64(replacement));
+  assert.deepEqual(assetUsages(store.snapshot, assetId), usagesBefore);
+  assert.ok(usagesBefore.some(item => item.viewId === otherViewId));
+  assert.ok(usagesBefore.some(item => item.kind === 'customizationProfile' && item.id === profileId));
+  assert.equal(store.history.undo, historyBefore + 1);
+  store.undo(store.revision);
+  assert.deepEqual(store.exportFiles(), before);
+});
+
+test('replaceAsset rejects an unsafe SVG without changing bytes or history', () => {
+  const { store, run, assetId } = rich(), before = store.exportFiles(), history = store.history;
+  assert.throws(() => run({ type: 'replaceAsset', assetId, mediaType: 'image/svg+xml', data: base64('<svg onload="alert(1)"/>') }), error => error.code === 'ASSET_SVG');
+  assert.deepEqual(store.exportFiles(), before);
+  assert.deepEqual(store.history, history);
+});
+
 function assertSvgValidationFinishes(source, label) {
   const moduleUrl = new URL('../src/native-v4.js', import.meta.url).href;
   const script = `import { readFileSync } from 'node:fs'; import { validateInactiveSvg } from ${JSON.stringify(moduleUrl)}; try { validateInactiveSvg(readFileSync(0, 'utf8')); process.exitCode = 1; } catch (error) { if (!['ASSET_SVG', 'LIMIT'].includes(error.code)) throw error; }`;
