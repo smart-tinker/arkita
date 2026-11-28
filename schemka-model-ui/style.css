@@ -1676,7 +1676,7 @@ dialog,.document-bar,.statusbar,.editor-return {
 .palette-search-controls { display:flex; flex-wrap:wrap; gap:5px; min-width:0; }
 #palette-search { flex:1 1 100px; width:0; min-width:0; max-width:100%; padding:6px; font-size:11px; }
 #palette-clear { flex:0 0 auto; padding:5px 7px; font-size:10px; }
-#palette-results,#palette-empty { margin:7px 0; font-size:10px; line-height:1.5; color:var(--muted); overflow-wrap:anywhere; }
+#palette-results,#palette-empty,#palette-viewpoint-note { margin:7px 0; font-size:10px; line-height:1.5; color:var(--muted); overflow-wrap:anywhere; }
 .palette-domain { min-width:0; margin-top:8px; }
 .palette-domain > summary { cursor:pointer; margin:0; padding:7px 2px; font-size:10px; font-weight:600; color:var(--muted); border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
 .palette-domain .palette-tool > span:last-child { min-width:0; overflow-wrap:anywhere; }
@@ -1971,6 +1971,7 @@ body[data-palette-mode="compact"] .palette-tool > span:not(.palette-glyph) { pos
 .catalog-member-row { padding:0; }
 .catalog-member-row > button:first-child { overflow:hidden; }
 .catalog-member-row .unused-marker { flex:none; }
+.catalog-member-row .viewpoint-hidden-marker { flex:none; margin-inline-start:4px; padding:1px 4px; border:1px solid var(--tree-line); border-radius:4px; color:var(--tree-muted); font-size:9px; }
 .catalog-folder > summary:focus-visible { outline:2px solid var(--focus); }
 #catalog-folder-dialog, #diagram-tools-dialog, #gesture-settings-dialog { width: min(560px, calc(100vw - 48px)); }
 #catalog-folder-fields, #diagram-tools-form > div:not(.dialog-actions), #gesture-settings-form > div:not(.dialog-actions) { display: grid; gap: 10px; }
