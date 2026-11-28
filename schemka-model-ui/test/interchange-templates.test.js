@@ -29,6 +29,25 @@ test('CSV UI preview/cancel preserves document; explicit apply is one Undo and l
  h.ui.open();h.$('interchange-prepare').click();await tick();h.$('interchange-apply').click();await tick();assert.equal(h.store.snapshot.elements[0].name,'Imported');assert.equal(h.store.history.undo,1);assert.equal(h.session.dirty,true);h.model.undo();assert.deepEqual(h.store.exportFiles(),before.files);
 });
 
+test('csv-new generates an ID for a blank-ID row and rejects an invalid package before proposal', async t => {
+ const csv = rows => new TextEncoder().encode('\"arkita-csv\",\"1\",\"elements\",\"canonical\"\\r\\n\"id\",\"type\",\"name\"\\r\\n' + rows), invalid = [
+  { name: 'arkita-elements.csv', bytes: csv('\"\",\"Service\",\"Would be partial\"\\r\\n\"\",\"NoSuchType\",\"Invalid\"\\r\\n') },
+ ];
+ let files = invalid;
+ const h = setup(t, 'interchange', { readExternalFiles: async () => ({ status: 'opened', files }) });
+ h.change('interchange-action', 'csv-new'); const before = h.capture();
+ h.$('interchange-prepare').click(); await tick();
+ assert.match(h.$('interchange-error').textContent, /каталоге/); assert.equal(h.$('interchange-apply').disabled, true);
+ assert.equal(h.calls.some(call => call[0] === 'propose'), false); assert.deepEqual(h.capture(), before);
+ files = [{ name: 'arkita-elements.csv', bytes: csv('\"\",\"Service\",\"Generated\"\\r\\n') }];
+ h.$('interchange-prepare').click(); await tick(); assert.equal(h.$('interchange-apply').disabled, false); assert.deepEqual(h.capture(), before);
+ h.$('interchange-apply').click(); await tick();
+ const proposal = h.calls.find(call => call[0] === 'propose')?.[1], imported = deserializeProjectFile(proposal.bytes);
+ assert.equal(proposal.name, 'Модель из CSV'); assert.equal(proposal.source, 'import'); assert.equal(proposal.unsaved, true);
+ assert.equal(imported.elements.length, 1); assert.match(imported.elements[0].id, /^el-/); assert.equal(imported.elements[0].type, 'Service'); assert.equal(imported.elements[0].name, 'Generated');
+ assert.deepEqual(h.capture(), before);
+});
+
 test('native scope report names retained targets and skipped incoming records truthfully',async t=>{
  const h=setup(t),targetFolderId=h.model.execute({type:'createFolder',name:'Local folder'}).created.folderId,elementId=h.model.execute({type:'createElementInModel',elementType:'Role',name:'Local element'}).created.elementId;
  const before=h.capture(),sourceStore=createStore(h.store.snapshot);sourceStore.execute({type:'createFolder',name:'Incoming-only folder'},sourceStore.revision);const source=structuredClone(sourceStore.snapshot);source.project.name='Incoming model';source.elements.find(item=>item.id===elementId).name='Incoming element';source.folders.find(item=>item.id===targetFolderId).name='Incoming folder';
