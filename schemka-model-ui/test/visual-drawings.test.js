@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import { readFileSync } from 'node:fs';
 import { createProject, createStore, exportFiles } from '../../schemka-model-core/src/index.js';
-import { notationDefs, notationRelationship, notationLine, notationBox, notationElement } from '../src/notation.js';
+import { cornerGlyphLayout, notationDefs, notationRelationship, notationLine, notationBox, notationElement } from '../src/notation.js';
 import { captionText, captionTemplateResult, renderVisualNode, renderVisualConnector, applyDrawingStyles, applyDrawingGeometryStyles, refreshDrawingTextColors, visualGeometry } from '../src/visual-drawings.js';
 import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
 import { customizationProject } from '../../schemka-model-core/fixtures/customization-project.js';
@@ -149,12 +149,27 @@ test('specialization images inherit on occurrences, local override wins, repeate
   state.customizationProfiles[0].imageAssetId = h.assetId;
   const second = { ...state.assets[0], id: h.run({ type: 'createAsset', name: 'Second', mediaType: 'image/png', data: png }).assetId }; state.assets.push(second);
   view.occurrences[0].style = { image: { assetId: second.id, fit: 'cover', position: 'right' } };
-  semanticMarkup(h, view); const before = exportFiles(state); applyDrawingStyles(h.canvas, state, view); applyDrawingStyles(h.canvas, state, view);
-  const local = h.canvas.querySelector(`[data-id="${view.occurrences[0].id}"]`), inherited = h.canvas.querySelector(`[data-id="${view.occurrences[1].id}"]`);
+  view.occurrences[1].bounds = { ...view.occurrences[1].bounds, width: 220, height: 120 };
+  semanticMarkup(h, view);
+  const inheritedElement = state.elements.find(element => element.id === view.occurrences[1].concept.id), appearance = notationElement(state.project.metamodel, inheritedElement.type), inherited = h.canvas.querySelector(`[data-id="${view.occurrences[1].id}"]`);
+  inherited.querySelector('.node-box').replaceWith(notationBox(h.document, appearance, view.occurrences[1].bounds));
+  const before = exportFiles(state); applyDrawingStyles(h.canvas, state, view); applyDrawingStyles(h.canvas, state, view);
+  const local = h.canvas.querySelector(`[data-id="${view.occurrences[0].id}"]`);
   assert.ok(Number(inherited.querySelector('image').getAttribute('width')) <= 32); assert.ok(Number(inherited.querySelector('image').getAttribute('width')) < view.occurrences[1].bounds.width);
   assert.equal(local.querySelectorAll('.drawing-image').length, 1); assert.equal(inherited.querySelectorAll('.drawing-image').length, 1);
   assert.equal(local.querySelector('image').getAttribute('preserveAspectRatio'), 'xMaxYMid slice'); assert.equal(inherited.querySelector('image').getAttribute('preserveAspectRatio'), 'xMidYMid meet');
+  assert.equal(inherited.querySelector('.node-detail').style.display, ''); assert.equal(inherited.querySelector('.node-title').style.display, '');
+  assert.equal(inherited.querySelector('.node-box').getAttribute('width'), '220'); assert.equal(inherited.querySelector('.node-box').getAttribute('height'), '120');
+  const glyphBounds = cornerGlyphLayout(appearance, view.occurrences[1].bounds), icon = inherited.querySelector('image');
+  assert.ok(Number(icon.getAttribute('y')) > glyphBounds.y + glyphBounds.height, 'the inherited icon clears the base notation glyph');
   assert.deepEqual(exportFiles(state), before);
+  view.occurrences[1].style = { iconVisible: false }; applyDrawingStyles(h.canvas, state, view);
+  assert.equal(inherited.querySelector('.node-detail').style.display, 'none'); assert.equal(inherited.querySelectorAll('.drawing-image').length, 1);
+  view.occurrences[1].style = { iconVisible: true, imageVisible: false }; applyDrawingStyles(h.canvas, state, view);
+  assert.equal(inherited.querySelector('.node-detail').style.display, ''); assert.equal(inherited.querySelector('.drawing-image'), null);
+  view.occurrences[1].style = {}; state.customizationProfiles[0].imageAssetId = null; applyDrawingStyles(h.canvas, state, view);
+  assert.equal(inherited.querySelector('.drawing-image'), null); assert.equal(inherited.querySelector('.node-detail').style.display, '');
+  assert.ok(state.assets.some(asset => asset.id === h.assetId)); assert.equal(local.querySelector('image').getAttribute('preserveAspectRatio'), 'xMaxYMid slice');
 });
 
 test('legend sizing, ordering and color schemes remain pure and the visible bounds follow the saved settings', t => {
