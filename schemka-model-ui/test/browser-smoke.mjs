@@ -127,6 +127,76 @@ async function verifyReportPdf(browser) {
   }
 }
 
+async function verifyReportQueryNavigation(browser) {
+  const store = createStore(createProject('Synthetic report query navigation'));
+  const execute = command => store.execute(command, store.revision).created;
+  const folderId = execute({ type: 'createFolder', name: 'Hidden report folder' }).folderId;
+  const targetId = execute({ type: 'createElementInModel', elementType: 'Role', name: 'Query-linked hidden target', documentation: 'analytic-only-marker', folderId }).elementId;
+  const matchingId = execute({ type: 'createElementInModel', elementType: 'Role', name: 'Ordinary search match', documentation: 'ordinary-match' }).elementId;
+  const otherId = execute({ type: 'createElementInModel', elementType: 'Role', name: 'Other hidden row', documentation: 'different text' }).elementId;
+  const modelBytes = Buffer.from(serializeProjectFile(store.snapshot));
+  const html = generateHtmlReport(store.snapshot, { revision: store.revision, generatedAt: '2026-01-01T00:00:00.000Z' });
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  page.setDefaultTimeout(10_000);
+  const externalRequests = [];
+  page.on('request', request => {
+    if (request.url().startsWith('http:') || request.url().startsWith('https:')) externalRequests.push(request.url());
+  });
+  try {
+    await page.setContent(html, { waitUntil: 'load' });
+    const target = page.locator('article[data-owner="' + targetId + '"]');
+    const matching = page.locator('article[data-owner="' + matchingId + '"]');
+    const other = page.locator('article[data-owner="' + otherId + '"]');
+    const folderFilter = page.locator('input[data-filter="' + folderId + '"]');
+    const search = page.locator('#report-search');
+    const rowStates = () => page.locator('article[data-owner]').evaluateAll(rows =>
+      rows.map(row => ({ id: row.dataset.owner, hidden: row.hidden }))
+    );
+    const filterStates = () => page.locator('[data-filter]').evaluateAll(inputs =>
+      inputs.map(input => ({ filter: input.dataset.filter, checked: input.checked }))
+    );
+
+    const navigationDetails = page.locator('header details').filter({ has: folderFilter });
+    await navigationDetails.locator(':scope > summary').click();
+    assert.equal(await navigationDetails.evaluate(details => details.open), true, 'folder filters open through their visible summary');
+    await folderFilter.uncheck();
+    await search.fill('ordinary-match');
+    assert.equal(await target.isVisible(), false, 'folder filter and ordinary search hide the target');
+    assert.equal(await matching.isVisible(), true, 'ordinary search preserves its matching row');
+    assert.equal(await other.isVisible(), false, 'ordinary search hides a nonmatching row');
+    const rowsBeforeClick = await rowStates(), filtersBeforeClick = await filterStates();
+
+    const queryDetails = page.locator('header details').filter({ has: page.locator('#query-form') });
+    await queryDetails.locator(':scope > summary').click();
+    assert.equal(await queryDetails.evaluate(details => details.open), true, 'query controls open through their visible summary');
+    await page.locator('#query-table').selectOption('element');
+    await page.locator('#query-field').selectOption('documentation');
+    await page.locator('#query-value').fill('analytic-only-marker');
+    await page.locator('#query-form button').first().click();
+    const resultLinks = page.locator('#query-result a');
+    await resultLinks.first().waitFor({ state: 'visible' });
+    assert.equal(await resultLinks.count(), 1, 'analytical query finds only the hidden target');
+    assert.equal(await resultLinks.getAttribute('href'), '#' + targetId, 'query result links to the exact saved record');
+    assert.equal(await resultLinks.textContent(), 'Query-linked hidden target · ' + targetId);
+
+    await resultLinks.click();
+    assert.equal(await target.isVisible(), true, 'real query-result click reveals the hidden target');
+    assert.equal(await target.getAttribute('id'), targetId);
+    assert.equal(await target.locator('h3').textContent(), 'Query-linked hidden target');
+    assert.deepEqual(await rowStates(), rowsBeforeClick.map(row =>
+      row.id === targetId ? { ...row, hidden: false } : row
+    ), 'the link changes only its target row');
+    assert.deepEqual(await filterStates(), filtersBeforeClick, 'navigation filters remain unchanged');
+    assert.equal(await search.inputValue(), 'ordinary-match', 'ordinary search remains unchanged');
+    assert.equal(await folderFilter.isChecked(), false, 'hidden-folder filter remains active');
+    assert.deepEqual(Buffer.from(serializeProjectFile(store.snapshot)), modelBytes, 'report navigation preserves source model bytes');
+    assert.deepEqual(externalRequests, [], 'offline report makes no external requests');
+    console.log('PASS: report query navigation smoke · hidden target revealed; other rows, filters, search and model bytes unchanged');
+  } finally {
+    await page.close();
+  }
+}
+
 async function run() {
   let chromium;
   try {
@@ -368,6 +438,7 @@ async function run() {
     await page.locator('#file-dialog').waitFor({ state: 'hidden' });
     assert.deepEqual(await saveThroughBrowser(), replacedBytes, 'ordinary Save → Open → Save preserves the replaced shared image bytes, ID and references');
     await verifyReportPdf(browser);
+    await verifyReportQueryNavigation(browser);
 
     const { endpointFixture } = await import('./endpoint-fixture.js');
     const endpoint = endpointFixture(), endpointStore = createStore(endpoint.state);
@@ -525,7 +596,7 @@ async function run() {
     assert.deepEqual(await saveThroughBrowser(), appliedBytes, 'ordinary Save → reopen → Save preserves exact applied bytes');
     assert.deepEqual(pageErrors, [], 'renderer reports no uncaught errors');
     assert.deepEqual(failedRequests, [], 'renderer reports no failed or HTTP error requests');
-    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, Magic Connector Shift-drop/hit/exact-parent/Undo, Automation batch preview/Apply/Save/Open/Save/Undo`);
+    console.log(`PASS: browser renderer smoke · Chromium ${browser.version()} · shared-image Save/Open/Save, A4 report PDF, query navigation, Magic Connector Shift-drop/hit/exact-parent/Undo, Automation batch preview/Apply/Save/Open/Save/Undo`);
   } finally {
     await browser?.close();
     if (server.exitCode === null) {
