@@ -22,6 +22,29 @@ test('native preview is detached, scoped, duplicate-property-safe, all-or-none a
  source.elements[0].type='Process'; assert.throws(()=>previewNativeMerge(target,source), /не меняет тип/);
 });
 
+test('native preview separates retained target records from skipped incoming scope', () => {
+ const targetStore = createStore(graph()), targetFolderId = targetStore.execute({ type: 'createFolder', name: 'Local folder' }, targetStore.revision).created.folderId;
+ const target = structuredClone(targetStore.snapshot), sourceStore = createStore(target), incomingFolderId = sourceStore.execute({ type: 'createFolder', name: 'Incoming-only folder' }, sourceStore.revision).created.folderId;
+ const source = structuredClone(sourceStore.snapshot); source.project.name = 'Incoming model'; source.elements[0].name = 'Incoming element'; source.folders.find(item => item.id === targetFolderId).name = 'Incoming folder';
+ const before = exportFiles(target), preview = previewNativeMerge(target, source, { modelMetadata: false, folders: false, updateExisting: false });
+ assert.equal(preview.unchanged, true); assert.deepEqual(exportFiles(preview.snapshot), before);
+ for (const [kind, id, label, reason] of [['project', target.project.id, target.project.name, 'modelMetadata'], ['folder', targetFolderId, 'Local folder', 'folders'], ['element', target.elements[0].id, target.elements[0].name, 'updateExisting']]) {
+  assert.ok(preview.kept.some(item => item.kind === kind && item.id === id && item.targetId === id && item.label === label && item.reason === reason), `target ${kind} ${id} is shown as retained`);
+ }
+ for (const [kind, id, label, reason, targetId] of [['project', source.project.id, source.project.name, 'modelMetadata', target.project.id], ['folder', targetFolderId, 'Incoming folder', 'folders', targetFolderId], ['folder', incomingFolderId, 'Incoming-only folder', 'folders', null], ['element', source.elements[0].id, 'Incoming element', 'updateExisting', target.elements[0].id]]) {
+  assert.ok(preview.skipped.some(item => item.kind === kind && item.sourceId === id && item.label === label && item.reason === reason && item.targetId === targetId), `incoming ${kind} ${id} is shown as skipped with its target`);
+ }
+ assert.ok(!preview.kept.some(item => item.id === incomingFolderId), 'an incoming-only skipped folder is not reported as a retained target');
+});
+
+test('native skipped folders keep source, remapped and existing target IDs distinct', () => {
+ const targetStore = createStore(createProject('Local model')), targetFolderId = targetStore.execute({ type: 'createFolder', name: 'Local folder' }, targetStore.revision).created.folderId;
+ const target = structuredClone(targetStore.snapshot), source = structuredClone(target); source.project.name = 'Incoming model'; source.folders[0].name = 'Incoming folder';
+ const preview = previewNativeMerge(target, source, { ids: 'remap', folders: false, modelMetadata: true }), skipped = preview.skipped?.find(item => item.kind === 'folder');
+ assert.ok(skipped, 'incoming folder is listed as skipped'); assert.equal(skipped.sourceId, source.folders[0].id); assert.equal(skipped.mappedId, preview.ids[source.folders[0].id]); assert.notEqual(skipped.mappedId, skipped.sourceId); assert.equal(skipped.targetId, null);
+ assert.ok(preview.kept.some(item => item.kind === 'folder' && item.targetId === targetFolderId && item.id === targetFolderId), 'the existing target folder is listed separately');
+});
+
 test('remapping includes anchors, typed refs, view references, profiles and preserves ID-looking user text', () => {
  const state=graph(), entry=state.views[0]; state.project.documentation=state.elements[0].id; entry.visualNodes.push({id:fixtureId('vnd',1),kind:'viewReference',targetViewId:state.views[1].view.id,name:'Next',documentation:'',properties:[],bounds:{x:0,y:0,width:60,height:40},parent:null,zIndex:0,style:{}});
  const a=remapProject(state),b=remapProject(state); validateProject(a.snapshot); assert.notEqual(a.snapshot.project.id,b.snapshot.project.id); assert.equal(a.snapshot.project.documentation,state.elements[0].id); assert.equal(a.snapshot.views[0].visualNodes[0].targetViewId,a.ids[state.views[1].view.id]); assert.equal(a.snapshot.views[0].connections[0].routePoints[1].id,a.ids[state.views[0].connections[0].routePoints[1].id]);
