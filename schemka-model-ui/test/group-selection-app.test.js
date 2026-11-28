@@ -42,7 +42,8 @@ test('app group move keeps typed selection and anchor visible, previews together
   assert.deepEqual(route.routePoints[0].point, { x: 340.1, y: 50.2 }); assert.deepEqual(route.labelPosition, { x: 360.5, y: 43.2 });
   assert.deepEqual(after.views.filter(entry => entry.view.id !== data.viewId), before.views.filter(entry => entry.view.id !== data.viewId));
   assert.deepEqual(after.elements, before.elements); assert.deepEqual(after.relationships, before.relationships);
-  h.$('undo').click(); assert.deepEqual(await h.download(), bytes); h.$('redo').click(); assert.deepEqual(await h.download(), afterBytes);
+  h.$('undo').click(); assert.equal(h.$('status').textContent, 'Отменено · Перемещение выбранных рисунков · Shared names'); assert.deepEqual(await h.download(), bytes);
+  h.$('redo').click(); assert.equal(h.$('status').textContent, 'Повторено · Перемещение выбранных рисунков · Shared names'); assert.deepEqual(await h.download(), afterBytes);
 });
 
 test('app marquee uses transformed negative coordinates, complete containment, Shift addition, and no model command', async t => {
