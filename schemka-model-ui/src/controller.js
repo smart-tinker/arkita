@@ -46,6 +46,7 @@ export function createController(store, { displayView = view => view, prepareCom
     if (command.type === 'addOccurrence') visible = conceptVisible(command.concept);
     if (command.type === 'addConnection') visible = conceptVisible({ kind: 'relationship', id: command.relationshipId });
     if (command.type === 'createRelationshipAndConnection') visible = typeVisible('relationship', command.relationshipType);
+    if (command.type === 'createElementAndRelationship') visible = typeVisible('element', command.elementType) && typeVisible('relationship', command.relationshipType) && drawingVisible({ kind: 'occurrence', id: command.existingOccurrenceId });
     if (['addConnection', 'createRelationshipAndConnection'].includes(command.type)) visible &&= drawingVisible(command.source) && drawingVisible(command.target);
     if (command.occurrenceId) visible &&= drawingVisible({ kind: 'occurrence', id: command.occurrenceId });
     if (command.connectionId) visible &&= drawingVisible({ kind: 'connection', id: command.connectionId });
@@ -93,7 +94,7 @@ export function createController(store, { displayView = view => view, prepareCom
     drag = null;
     command = prepareCommand(command);
     checkScope(command);
-    if (['createElementAndOccurrence', 'createJunctionAndOccurrence', 'addOccurrence', 'moveDrawings'].includes(command.type)) {
+    if (['createElementAndOccurrence', 'createJunctionAndOccurrence', 'createElementAndRelationship', 'addOccurrence', 'moveDrawings'].includes(command.type)) {
       const handled = interceptPlacement(command, baseRevision);
       if (handled) { sanitizeSelection(); return handled; }
     }

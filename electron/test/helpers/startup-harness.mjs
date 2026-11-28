@@ -24,7 +24,7 @@ const deferred = () => {
 };
 const checkpoint = () => new Promise(resolve => setImmediate(resolve));
 const ready = deferred(), assets = deferred(), readStarted = deferred(), finishRead = deferred();
-const launchScenario = scenario.startsWith('launch-');
+const launchScenario = scenario.startsWith('launch-') || scenario === 'close-isolation';
 const fixture = launchScenario ? await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'arkita-startup-'))) : null;
 const firstPath = fixture && path.join(fixture, 'Сертификаты офиса.arkita');
 const secondPath = fixture && path.join(fixture, 'Вторая модель.arkita');
@@ -40,6 +40,7 @@ if (fixture) {
 }
 const argv = ['Arkita.exe', ...(scenario === 'launch-file-dev' ? ['electron/main.mjs'] : []),
   ...(['launch-file', 'launch-file-dev'].includes(scenario) ? [firstPath] :
+    scenario === 'close-isolation' ? [firstPath, secondPath] :
     scenario === 'launch-multiple' ? [badPath, firstPath, firstPath, secondPath, missingPath] :
     scenario === 'launch-during-drain' ? [badPath] : scenario === 'launch-invalid' ? [badPath, missingPath] : [])];
 async function until(predicate) {
@@ -47,8 +48,8 @@ async function until(predicate) {
   while (!predicate()) { assert.ok(Date.now() < deadline, `startup completion timed out: ${JSON.stringify({ windows: windows.length, loaded: loaded.length, dialogs, errors })}`); await checkpoint(); }
   await checkpoint();
 }
-const events = [], windows = [], loaded = [], errors = [], dialogs = [], exits = [], clipboardClosed = [], ipc = new Map();
-let isReady = false, claims = 0, readyCalls = 0, partitions = 0, assetCalls = 0, quits = 0;
+const events = [], windows = [], loaded = [], errors = [], dialogs = [], messageBoxes = [], exits = [], clipboardClosed = [], ipc = new Map();
+let isReady = false, claims = 0, readyCalls = 0, partitions = 0, assetCalls = 0, quits = 0, messageBoxChoice = 0;
 let requestPermission, checkPermission, requestFilter, beforeRequest, menu, partitionName;
 let restores = 0, shows = 0, focuses = 0, files, gitBusy = false;
 const failure = Error(`startup ${scenario}`);
@@ -70,7 +71,7 @@ Object.assign(app, {
 });
 const dialog = {
   showErrorBox: (...args) => { dialogs.push(args); if (scenario === 'dialog-fails') throw dialogFailure; },
-  showMessageBoxSync: () => 0,
+  showMessageBoxSync: (_window, options) => { messageBoxes.push(options); return messageBoxChoice; },
 };
 const local = new EventEmitter();
 Object.assign(local, {
@@ -81,7 +82,7 @@ Object.assign(local, {
     assert.equal(scheme, 'schemka'); assert.equal(handler, assetHandler); events.push('protocol');
   } },
 });
-const channels = ['palette-open', 'palette-publish', 'palette-dock', 'palette-resolve-drop', 'palette-ready', 'palette-activate', 'palette-child-dock', 'clipboard-write-fragment', 'clipboard-read-fragment', 'clipboard-acknowledge-cut', 'clipboard-claim-cut', 'clipboard-complete-cut', 'clipboard-write-image', 'print-view', 'save-pdf', 'open-external-link', 'open-credential-manager', 'outline-text', 'validate-exchange-xml', 'read-external-files', 'save-external-files', 'read-team-profile', 'document-location', 'app-info', 'open-project', 'save-current-project', 'save-project', 'open-directory', 'save-directory', 'save-mermaid', 'save-svg',
+const channels = ['palette-open', 'palette-publish', 'palette-dock', 'palette-resolve-drop', 'palette-ready', 'palette-activate', 'palette-child-dock', 'catalog-open', 'catalog-publish', 'catalog-dock', 'catalog-ready', 'catalog-activate', 'catalog-child-dock', 'clipboard-write-fragment', 'clipboard-read-fragment', 'clipboard-acknowledge-cut', 'clipboard-claim-cut', 'clipboard-complete-cut', 'clipboard-write-image', 'print-view', 'save-pdf', 'open-external-link', 'open-credential-manager', 'outline-text', 'validate-exchange-xml', 'read-external-files', 'save-external-files', 'read-team-profile', 'document-location', 'app-info', 'open-project', 'save-current-project', 'save-project', 'open-directory', 'save-directory', 'save-mermaid', 'save-svg',
   'document-changed', 'save-bound-directory', 'recover-directory', 'git-network-policy', 'git-set-network-policy', 'git-status', 'git-connect', 'git-open',
   'git-adopt', 'git-commit', 'git-push', 'git-receive', 'git-apply', 'git-inspect', 'git-restore', 'git-create-branch', 'git-prepare-branch', 'git-switch-branch', 'git-create-milestone', 'git-publish-milestone', 'git-delete-milestone', 'git-disconnect', 'document-preferences', 'set-document-preferences', 'open-recent', 'recover-backup', 'new-document', 'document-ready', 'open-dropped', 'close-document', 'finish-save-close', 'document-title'].map(name => `schemka:${name}`);
 function assertGuards(window) {
@@ -130,11 +131,22 @@ class BrowserWindow extends EventEmitter {
     assert.deepEqual(dimensions, { x: 0, y: 0, width: 1280, height: 850, minWidth: 760, minHeight: 540, title: 'Arkita' });
     this.webContents = new EventEmitter(); this.webContents.mainFrame = { url: APP_URL };
     this.webContents.setWindowOpenHandler = fn => { this.popup = fn; };
+    this.webContents.send = (channel, ...args) => this.webContents.emit(channel, ...args);
+    this.closed = false; this.dirty = false;
     windows.push(this); events.push('window');
   }
-  isDestroyed() { return false; }
+  isDestroyed() { return this.closed; }
   setTitle(title) { this.title = title; }
-  close() { this.emit('close', { preventDefault() {} }); }
+  close() {
+    let blocked = false; this.emit('close', { preventDefault() { blocked = true; } });
+    if (blocked) return;
+    if (this.dirty) {
+      let acceptedUnload = false;
+      this.webContents.emit('will-prevent-unload', { preventDefault() { acceptedUnload = true; } });
+      if (!acceptedUnload) return;
+    }
+    this.closed = true; this.emit('closed');
+  }
   isMinimized() { return true; }
   restore() { restores++; }
   show() { shows++; }
@@ -145,7 +157,7 @@ class BrowserWindow extends EventEmitter {
     if (scenario === 'load-fails' || scenario === 'dialog-fails') throw failure;
   }
 }
-const context = vm.createContext({ console: { error: (...args) => { errors.push(args); } } });
+const context = vm.createContext({ Buffer, console: { error: (...args) => { errors.push(args); } } });
 const synthetic = exports => new vm.SyntheticModule(Object.keys(exports), function () {
   for (const [name, value] of Object.entries(exports)) this.setExport(name, value);
 }, { context });
@@ -169,6 +181,7 @@ const modules = {
   './host-actions.mjs': synthetic({ createHostActions: () => ({}) }),
   './window-bounds.mjs': synthetic({ visibleWindowBounds, watchWindowBounds }),
   './palette-service.mjs': synthetic({ createPaletteService: () => ({ closed() {}, ready: () => ({ status: 'error', code: 'IPC_SENDER' }), activate: () => ({ status: 'error', code: 'IPC_SENDER' }), childDock: () => ({ status: 'error', code: 'IPC_SENDER' }) }) }),
+  './catalog-service.mjs': synthetic({ createCatalogService: () => ({ closed() {}, ready: () => ({ status: 'error', code: 'IPC_SENDER' }), activate: () => ({ status: 'error', code: 'IPC_SENDER' }), childDock: () => ({ status: 'error', code: 'IPC_SENDER' }) }) }),
   './print-service.mjs': synthetic({ createPrintService: () => async () => ({ status: 'cancelled' }) }),
   './clipboard-service.mjs': synthetic({ createClipboardService: ({ ClipboardItem }) => { assert.equal(typeof ClipboardItem, 'function'); return { closed(record) { clipboardClosed.push(record.window); }, read: async () => { throw Object.assign(Error('native clipboard rejected'), { code: 'CLIPBOARD_DENIED' }); } }; } }),
   './document-preferences.mjs': synthetic({ createDocumentPreferences: () => ({ status: async () => ({ status: 'ok' }), remember: async () => {}, backup: async () => {}, windowBounds: async () => null, setWindowBounds: async () => {} }) }),
@@ -263,6 +276,54 @@ if (scenario === 'lock-lost') {
       const currentToken = randomUUID();
       assert.equal((await ipc.get('schemka:document-changed')(event, token, currentToken, initial.candidate)).status, expected.length ? 'bound' : 'detached');
       current.token = currentToken;
+    }
+    if (scenario === 'close-isolation') {
+      const [first, second] = windows;
+      const firstEvent = { sender: first.webContents, senderFrame: first.webContents.mainFrame };
+      const secondEvent = { sender: second.webContents, senderFrame: second.webContents.mainFrame };
+      const firstToken = first.token, secondToken = second.token;
+      const originalFirst = Buffer.from(modelBytes.get(firstPath));
+      const originalSecond = Buffer.from(modelBytes.get(secondPath));
+      const promptOffset = messageBoxes.length;
+      let closeRequest;
+      first.webContents.on('schemka:save-and-close', request => { closeRequest = request; });
+
+      first.dirty = true;
+      first.close();
+      assert.deepEqual([...messageBoxes[promptOffset].buttons], ['Остаться', 'Сохранить и закрыть', 'Закрыть без сохранения']);
+      assert.equal(messageBoxes[promptOffset].cancelId, 0);
+      assert.equal(closeRequest, undefined);
+      assert.equal(first.isDestroyed(), false);
+      assert.deepEqual(await fs.readFile(firstPath), originalFirst);
+      assert.deepEqual(await fs.readFile(secondPath), originalSecond);
+
+      messageBoxChoice = 1;
+      first.close();
+      assert.equal(messageBoxes[promptOffset + 1].buttons[1], 'Сохранить и закрыть');
+      assert.match(closeRequest, /^[0-9a-f-]{36}$/i);
+      assert.equal(first.isDestroyed(), false);
+
+      const firstEdit = Buffer.from(serializeProjectFile(createProject('First edited')));
+      const savedFirst = await ipc.get('schemka:save-current-project')(firstEvent, firstEdit, firstToken);
+      assert.equal(savedFirst.status, 'saved', `${savedFirst.code || 'OK'}: ${savedFirst.message || ''}`);
+      assert.deepEqual(await fs.readFile(firstPath), firstEdit);
+      first.dirty = false;
+      assert.notEqual(firstToken, secondToken);
+      const stale = await ipc.get('schemka:finish-save-close')(firstEvent, closeRequest, secondToken);
+      assert.equal(stale.status, 'error');
+      assert.equal(stale.code, 'DOCUMENT_STALE');
+      assert.equal(first.isDestroyed(), false);
+      assert.equal((await ipc.get('schemka:finish-save-close')(firstEvent, closeRequest, firstToken)).status, 'ok');
+      assert.equal(first.isDestroyed(), true);
+      assert.equal(second.isDestroyed(), false);
+
+      assert.equal((await ipc.get('schemka:document-location')(secondEvent, secondToken)).path, secondPath);
+      assert.deepEqual(await fs.readFile(secondPath), originalSecond);
+      const secondEdit = Buffer.from(serializeProjectFile(createProject('Second edited')));
+      const savedSecond = await ipc.get('schemka:save-current-project')(secondEvent, secondEdit, secondToken);
+      assert.equal(savedSecond.status, 'saved', `${savedSecond.code || 'OK'}: ${savedSecond.message || ''}`);
+      assert.deepEqual(await fs.readFile(secondPath), secondEdit);
+      assert.equal(second.isDestroyed(), false);
     }
     if (scenario === 'launch-file') {
       const first = windows[0], event = { sender: first.webContents, senderFrame: first.webContents.mainFrame };

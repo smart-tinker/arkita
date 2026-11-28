@@ -6,6 +6,7 @@ import { exportXLSX } from '../../schemka-model-io/src/xlsx.js';
 import { exportExchangeXml, importExchangeXml, EXCHANGE_TYPE_CHOICES } from '../../schemka-model-io/src/exchange-xml.js';
 import { previewArchiXml, collectArchiMappings } from '../../schemka-model-io/src/archi-native.js';
 import { archiReportFiles } from '../../schemka-model-io/src/archi-report.js';
+import { endpointChoices } from './endpoint-choices.js';
 
 /** All parsers prepare detached snapshots. One explicit Apply owns the editor transaction. */
 export function installInterchangeUI({ document, window, model, session, files, openDialog, render, status, blocked = () => false }) {
@@ -39,12 +40,12 @@ export function installInterchangeUI({ document, window, model, session, files, 
   actions.append(close, saveReport, choose, apply); form.append(heading, fields, error, report, lossLabel, actions); form.addEventListener('submit', event => event.preventDefault()); dialog.append(form); document.body.append(dialog);
   const opener = button('Импорт и экспорт…','interchange-button',open); (document.querySelector('.app-menu .menu-items') ?? document.body).append(opener);
   const traceOpener = button('Соответствия переноса из Archi…', 'archi-mappings-button', () => { if (open()) { action.value = 'archi-trace'; showCurrentMappings(); } }); opener.after(traceOpener);
-  let busy = false, generation = 0, pending = null, archiInput = null;
+  let busy = false, generation = 0, pending = null, archiInput = null, csvRebind = null;
   const capture = () => ({ token: session.documentToken, revision: model.store.revision, store: model.store });
   const current = boundary => boundary.token === session.documentToken && boundary.store === model.store && boundary.revision === model.store.revision;
-  function cancel() { generation++; pending = null; archiInput = null; if (dialog.open) dialog.close(); }
-  dialog.addEventListener('cancel', event => { event.preventDefault(); cancel(); }); dialog.addEventListener('close', () => { generation++; pending = null; archiInput = null; });
-  fields.addEventListener('change', () => { generation++; pending = null; archiInput = null; report.replaceChildren(); lossLabel.hidden = true; if (action.value === 'archi-trace') showCurrentMappings(); else refresh(); }); fields.addEventListener('input', () => { generation++; pending = null; archiInput = null; refresh(); }); consent.addEventListener('change',()=>{generation++;refresh();});
+  function cancel() { generation++; pending = null; archiInput = null; csvRebind = null; if (dialog.open) dialog.close(); }
+  dialog.addEventListener('cancel', event => { event.preventDefault(); cancel(); }); dialog.addEventListener('close', () => { generation++; pending = null; archiInput = null; csvRebind = null; });
+  fields.addEventListener('change', () => { generation++; pending = null; archiInput = null; csvRebind = null; report.replaceChildren(); lossLabel.hidden = true; if (action.value === 'archi-trace') showCurrentMappings(); else refresh(); }); fields.addEventListener('input', () => { generation++; pending = null; archiInput = null; csvRebind = null; refresh(); }); consent.addEventListener('change',()=>{generation++;refresh();});
   function refresh() {
     const mode = action.value, exporting = ['csv-export','xlsx','xml-export'].includes(mode), csv = mode.startsWith('csv');
     for (const item of Object.values(controls)) item.disabled = busy;
@@ -62,18 +63,34 @@ export function installInterchangeUI({ document, window, model, session, files, 
     saveReport.hidden = !pending?.diagnostics && !pending?.mappings; saveReport.disabled = busy || !pending || !current(pending.boundary) || !desktop?.saveExternalFiles;
     apply.disabled = busy || trace || (mode === 'archi' && !pending?.snapshot) || !pending || !current(pending.boundary) || pending.unchanged || !lossLabel.hidden && !consent.checked;
     for (const choice of report.querySelectorAll('select[data-source-id]')) choice.disabled = busy || !archiInput || !current(archiInput.boundary);
+    const csvChoices = [...report.querySelectorAll('select[data-csv-connection-id]')];
+    for (const choice of csvChoices) choice.disabled = busy || !csvRebind || !current(csvRebind.boundary);
+    const csvPreview = report.querySelector('#interchange-csv-rebind-preview');
+    if (csvPreview) csvPreview.disabled = busy || !csvRebind || !current(csvRebind.boundary) || !csvChoices.length || csvChoices.some(choice => !choice.value);
     consent.disabled = busy; dialog.setAttribute('aria-busy', String(busy));
   }
-  function open() { if (blocked() || busy) return false; error.textContent=''; report.replaceChildren(); pending=null; archiInput=null; lossLabel.hidden=true; openDialog(dialog.id); refresh(); if (action.value === 'archi-trace') showCurrentMappings(); action.focus(); return true; }
+  function open() { if (blocked() || busy) return false; error.textContent=''; report.replaceChildren(); pending=null; archiInput=null; csvRebind=null; lossLabel.hidden=true; openDialog(dialog.id); refresh(); if (action.value === 'archi-trace') showCurrentMappings(); action.focus(); return true; }
   function show(plan) {
-    report.replaceChildren();
+    csvRebind = null; report.replaceChildren();
     if (plan.diagnostics) showArchiDiagnostics(plan);
     if (plan.mappings) showMappings(plan.mappings);
     if (plan.changes) {
       const count = kind => plan.changes.filter(item => item.kind === kind).length;
       report.append(node('p', `Добавить: ${count('added')}; обновить: ${count('updated')}; удалить: ${count('removed')}; без изменений в выбранной области: ${plan.unchangedRecords?.length ?? 0}.`));
       if (!plan.changes.length) report.append(node('p', 'Совпадает с текущей моделью; Undo не изменится.'));
-      if (plan.kept?.length) report.append(node('p', `Сохранено локальных записей вне выбранной области: ${plan.kept.length}.`));
+      if (plan.kept?.length || plan.skipped?.length) {
+        const details = node('details'), reasons = { modelMetadata: 'метаданные модели не импортируются', folders: 'импорт папок отключён', updateExisting: 'обновление существующих объектов отключено' }, types = { project: 'Модель', folder: 'Папка', element: 'Элемент', junction: 'Узел', relationship: 'Отношение', view: 'Представление', drawing: 'Рисунок', viewpoint: 'Точка зрения', asset: 'Ресурс', customizationProfile: 'Профиль' };
+        details.append(node('summary', `Область импорта: сохранено в целевой модели — ${plan.kept?.length ?? 0}; пропущено из входящей — ${plan.skipped?.length ?? 0}.`));
+        if (plan.kept?.length) {
+          const retained = node('div'); retained.append(node('h3', `Сохранённые записи целевой модели: ${plan.kept.length}`));
+          pagedRows(retained, plan.kept, item => node('p', `${types[item.kind] ?? 'Запись'} «${item.label}» · ID целевой записи: ${item.targetId} · ${reasons[item.reason] ?? item.reason}`)); details.append(retained);
+        }
+        if (plan.skipped?.length) {
+          const skipped = node('div'); skipped.append(node('h3', `Пропущенные входящие записи: ${plan.skipped.length}`));
+          pagedRows(skipped, plan.skipped, item => node('p', `${types[item.kind] ?? 'Запись'} «${item.label}» · исходный ID: ${item.sourceId} · ${item.targetId ? `целевой ID: ${item.targetId}` : 'целевой записи нет'} · ${reasons[item.reason] ?? item.reason}${item.mappedId ? ` · новый ID по переназначению, не импортирован: ${item.mappedId}` : ''}`)); details.append(skipped);
+        }
+        report.append(details);
+      }
       const list = node('ul');
       let shown = 0; const more = button('Показать ещё записи', undefined, appendChanges);
       function appendChanges() { for (const item of plan.changes.slice(shown, shown + 100)) {
@@ -87,6 +104,23 @@ export function installInterchangeUI({ document, window, model, session, files, 
       shown += 100; more.hidden = shown >= plan.changes.length; }
       appendChanges(); report.append(list, more);
       if (plan.unchangedRecords?.length) { const details = node('details'); details.append(node('summary','Неизменённые записи'), node('pre',plan.unchangedRecords.join('\n'))); report.append(details); }
+    }
+    const drawnRebindings = plan.relationshipRebindings?.filter(item => item.usages.length) ?? [];
+    if (drawnRebindings.length) {
+      const section = node('details'), list = node('ul'); section.append(node('summary', `Переподключение рисунков: ${drawnRebindings.reduce((count,item)=>count+item.usages.length,0)}`));
+      section.open = true;
+      for (const item of drawnRebindings) {
+        const relationship = plan.snapshot.relationships.find(record => record.id === item.relationshipId), viewNames = item.end === 'source' ? 'Источник' : 'Приёмник';
+        const group = node('li'), heading = node('strong', `${relationship?.label || item.relationshipId} · ${viewNames}`), usages = node('ul'); group.append(heading, usages);
+        for (const usage of item.usages) {
+          const view = plan.snapshot.views.find(entry => entry.view.id === usage.viewId), binding = item.bindings[usage.connectionId], lineNumber = view.connections.findIndex(line => line.id === usage.connectionId) + 1;
+          const choice = binding?.createOccurrence ? null : endpointChoices(plan.snapshot, view, { concept: item.concept }).find(option => JSON.stringify(option.endpoint) === JSON.stringify(binding));
+          const summary = node('li', `${usage.viewName} · связь ${lineNumber} · ${usage.connectionId.slice(-8)}: ${binding?.createOccurrence ? 'создать новый экземпляр на месте прежнего конца' : choice?.label ?? 'точная привязка не найдена'}`);
+          summary.title = usage.connectionId; usages.append(summary);
+        }
+        list.append(group);
+      }
+      section.append(list); report.append(section);
     }
     if (plan.records) report.append(node('p',`Файлов: ${plan.records.length}. ${plan.records.map(file=>file.name).join(', ')}`));
     if (!plan.diagnostics) for (const message of plan.losses ?? []) report.append(node('p',message));
@@ -115,6 +149,42 @@ export function installInterchangeUI({ document, window, model, session, files, 
       pagedRows(section, mappings, item => node('p', `${item.sourceType} · Исходный ID: ${item.sourceId} → целевой ID: ${item.targetId}${item.viewName ? ` · Представление: ${item.viewName}` : ''}`));
     });
     report.append(section);
+  }
+  function showCSVRebindings(request) {
+    csvRebind = { ...request, selectors: [] }; pending = null; archiInput = null; error.textContent = ''; report.replaceChildren(); lossLabel.hidden = true; consent.checked = false;
+    report.append(node('p', 'CSV меняет конец общего отношения. Для каждого затронутого рисунка выберите точный экземпляр или явно создайте новый; модель пока не изменена.'));
+    const host = node('div', undefined, 'interchange-csv-rebindings');
+    for (const item of request.rebindings.filter(change => change.usages.length)) {
+      const relation = request.state.relationships.find(record => record.id === item.relationshipId), group = node('fieldset');
+      group.append(node('legend', `${relation?.label || item.relationshipId} · ${item.end === 'source' ? 'Источник' : 'Приёмник'}`));
+      for (const usage of item.usages) {
+        const view = request.state.views.find(entry => entry.view.id === usage.viewId), choices = endpointChoices(request.state, view, { concept: item.concept }), input = node('select', undefined, `csv-rebind-${usage.connectionId}-${item.end}`), lineNumber = view.connections.findIndex(line => line.id === usage.connectionId) + 1, label = node('label', `${usage.viewName} · связь ${lineNumber} · ${usage.connectionId.slice(-8)}`);
+        label.title = usage.connectionId; input.title = usage.connectionId; input.dataset.csvConnectionId = usage.connectionId; input.dataset.csvEnd = item.end;
+        const entries = [['', 'Выберите точный рисунок'], ...choices.map(choice => [choice.key, choice.label]), ...(['element', 'junction'].includes(item.concept.kind) ? [['create', 'Создать новый экземпляр на месте прежнего конца']] : [])];
+        for (const [value, text] of entries) { const option = node('option', text); option.value = value; input.append(option); }
+        input.addEventListener('change', () => { generation++; error.textContent = ''; refresh(); });
+        label.append(input); group.append(label); csvRebind.selectors.push({ relationshipId: item.relationshipId, end: item.end, connectionId: usage.connectionId, input, choices });
+        if (!choices.length && item.concept.kind === 'relationship') group.append(node('p', 'Нет рисунка отношения с точным якорем. Сначала добавьте подходящий рисунок и якорь в это представление.'));
+      }
+      host.append(group);
+    }
+    report.append(host, button('Проверить привязки и показать предпросмотр', 'interchange-csv-rebind-preview', previewCSVRebind));
+    refresh();
+  }
+  function previewCSVRebind() {
+    const request = csvRebind; if (busy || !request || !current(request.boundary)) return;
+    const relationshipBindings = Object.create(null);
+    try {
+      for (const item of request.selectors) {
+        const binding = item.input.value === 'create' ? { createOccurrence: true } : item.choices.find(choice => choice.key === item.input.value)?.endpoint;
+        if (!binding) throw Error('Выберите точный рисунок для каждого затронутого соединения.');
+        relationshipBindings[item.relationshipId] ??= Object.create(null);
+        relationshipBindings[item.relationshipId][item.end] ??= Object.create(null);
+        relationshipBindings[item.relationshipId][item.end][item.connectionId] = binding;
+      }
+      const plan = previewCSVImport(request.target, request.files, { ...request.options, relationshipBindings });
+      pending = { ...plan, boundary: request.boundary, mode: request.mode }; show(pending); apply.focus({ preventScroll: true });
+    } catch (failure) { error.textContent = failure.message; refresh(); }
   }
   function showArchiDiagnostics(plan) {
     report.append(node('p', plan.snapshot ? 'Анализ завершён. Будет создана отдельная несохранённая модель; текущая модель не изменяется.' : 'Применение заблокировано. Исправьте ошибки и согласуйте соответствия; текущая модель не изменяется.'));
@@ -151,8 +221,9 @@ export function installInterchangeUI({ document, window, model, session, files, 
   }
   function assertXsd(result){if(result.status!=='ok')throw Error(`${result.message||'XML не прошёл XSD-проверку.'}${result.diagnostics?.length?' '+result.diagnostics.slice(0,3).map(item=>`Строка ${item.line}: ${item.message}`).join(' '):''}`);}
   async function prepare() {
-    if(busy) return; const boundary=capture(),operation=++generation, mode=action.value; const source=model.store.snapshot; busy=true; pending=null; archiInput=null; error.textContent=''; refresh();
+    if(busy) return; const boundary=capture(),operation=++generation, mode=action.value; const source=model.store.snapshot; busy=true; pending=null; archiInput=null; csvRebind=null; error.textContent=''; refresh();
     const valid=()=>dialog.open&&generation===operation&&current(boundary);
+    let csvInput = null;
     try {
       let plan;
       if(mode==='csv-export') { const result=exportCSV(source,{delimiter:delimiter.value,prefix:prefix.value,bom:encoding.value==='bom',flatten:flatten.checked,spreadsheet:spreadsheet.checked}); plan={records:result.files,losses:result.losses,kind:'csv'}; }
@@ -179,10 +250,17 @@ export function installInterchangeUI({ document, window, model, session, files, 
             plan = { ...imported, changes: transferChanges(createProject('Пустая модель'), imported.snapshot), unchanged: false };
           }
         }
-        else plan=previewCSVImport(mode==='csv-new'?createProject('Модель из CSV'):source,result.files,{delimiter:delimiter.value,properties:policy.value,modelMetadata:mode==='csv-new'||metadata.checked});
+        else {
+          const target = mode === 'csv-new' ? createProject('Модель из CSV') : source, options = { delimiter: delimiter.value, properties: policy.value, modelMetadata: mode === 'csv-new' || metadata.checked };
+          csvInput = { target, files: result.files, options, boundary, mode };
+          plan = previewCSVImport(target, result.files, options);
+        }
       }
       if(valid()) { pending={...plan,boundary,mode}; show(pending); }
-    } catch(failure) { if(valid()) error.textContent=failure.message; } finally { busy=false; refresh(); }
+    } catch(failure) {
+      if (valid() && failure.code === 'CSV_REBIND_REQUIRED' && csvInput && mode === 'csv') showCSVRebindings({ ...csvInput, state: failure.state, rebindings: failure.rebindings });
+      else if (valid()) error.textContent=failure.message;
+    } finally { busy=false; refresh(); if (csvRebind) csvRebind.selectors[0]?.input.focus(); }
   }
   async function commit() {
     const plan=pending; if(busy||!plan) return;

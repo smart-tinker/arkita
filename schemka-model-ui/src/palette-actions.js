@@ -46,6 +46,7 @@ export function installPaletteActions({ document, model, beforeFilter = () => {}
     const state = model.store.snapshot, activeViewId = model.viewId;
     const reference = state.project.metamodel;
     const hasView = (state.views || []).some(entry => entry.view.id === activeViewId);
+    $('palette-viewpoint-note').hidden = !model.view?.view?.viewpointId;
     $('smart-link-tool').disabled = !hasView;
     const allowed = { junction: new Set(creationTypes(reference, 'junction')), element: new Set(creationTypes(reference, 'element')), relationship: new Set(creationTypes(reference, 'relationship')) };
     const query = normalized(input.value.slice(0, QUERY_LIMIT));

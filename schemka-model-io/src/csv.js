@@ -1,6 +1,7 @@
 import { createProject, validateProject, CURRENT_CATALOG } from '../../schemka-model-core/src/index.js';
 import { newId } from '../../schemka-model-core/src/format.js';
 import { fail, parseJSON } from '../../schemka-model-core/src/json.js';
+import { prepareRelationshipRebindBatch, relationshipRebindImpact } from '../../schemka-model-core/src/semantic-editing.js';
 import { transferChanges, mergePropertyRows, checkImportedRelationships } from './model-transfer.js';
 import { collectArchiMappings } from './archi-provenance.js';
 
@@ -11,6 +12,7 @@ const prefixes = { element: 'el', junction: 'jct', relationship: 'rel' };
 const scalar = ['id', 'type', 'name', 'documentation', 'profileApplications'];
 const relation = ['id', 'type', 'label', 'documentation', 'sourceKind', 'sourceId', 'targetKind', 'targetId', 'sourceMultiplicity', 'sourceMultiplicityPresent', 'targetMultiplicity', 'targetMultiplicityPresent', 'junctionRole', 'profileApplications'];
 const headers = { elements: scalar, junctions: scalar, relationships: relation, properties: ['kind', 'id', 'position', 'key', 'value'], profiles: ['id', 'definition'], model: ['id', 'name', 'documentation'] };
+const sameRef = (a, b) => a === b || Boolean(a && b && a.kind === b.kind && a.id === b.id);
 function problem(file, row, field, message) { const error = Error(`${file}:${row}${field ? ` · ${field}` : ''}: ${message}`); error.code = 'CSV_INVALID'; error.file = file; error.row = row; error.field = field; throw error; }
 function text(input, file) {
   let value;
@@ -72,7 +74,7 @@ export function exportCSV(state, { delimiter = ',', prefix = 'arkita', bom = fal
     ...(spreadsheet ? ['Каждая непустая ячейка имеет текстовый префикс апострофа. Используйте импорт таблицы как текст; обратный импорт этого режима отключён. Для точного Excel-текста используйте XLSX.'] : []),
   ] };
 }
-export function previewCSVImport(target, files, { delimiter = ',', properties = 'replace', modelMetadata = false } = {}) {
+export function previewCSVImport(target, files, { delimiter = ',', properties = 'replace', modelMetadata = false, relationshipBindings = null } = {}) {
   validateProject(target); if (!Array.isArray(files) || !files.length || files.length > 6) fail('CSV_FILES', 'Выберите от одного до шести файлов одного набора.');
   if (!['replace', 'merge'].includes(properties)) fail('CSV_OPTIONS', 'Выберите политику свойств.');
   const snapshot = structuredClone(target), parsed = [], seenTables = new Set(), seenIds = new Map(), locations = new Map(); let total = 0;
@@ -142,12 +144,41 @@ export function previewCSVImport(target, files, { delimiter = ',', properties = 
     const ref = item[end], valid = ref && ['element', 'junction', 'relationship'].includes(ref.kind) && snapshot[`${ref.kind}s`].some(record => record.id === ref.id);
     if (!valid) { const row = locations.get(item.id); problem(row?.file ?? 'model', row?.line ?? 0, end, `Не разрешается конец отношения ${item.id}.`); }
   }
-  try { validateProject(snapshot); checkImportedRelationships(target, snapshot); }
-  catch (error) { const row = parsed.find(row => error.message.includes(row.record.id)) ?? parsed.at(-1); problem(row?.file ?? 'model', row?.line ?? 0, 'model', `${error.message} Пакет не применён; проверьте также рисунки изменённых отношений.`); }
+  const endpointChanges = snapshot.relationships.flatMap(item => {
+    const previous = target.relationships.find(relation => relation.id === item.id);
+    return previous ? ['source', 'target'].filter(end => !sameRef(item[end], previous[end])).map(end => ({ relationshipId: item.id, end, concept: item[end], previous: previous[end] })) : [];
+  });
+  const rebindState = structuredClone(snapshot);
+  for (const change of endpointChanges) rebindState.relationships.find(item => item.id === change.relationshipId)[change.end] = structuredClone(change.previous);
+  let prepared = rebindState, relationshipRebindings = [];
+  try {
+    validateProject(rebindState);
+    const impacts = endpointChanges.map(change => ({ ...change, ...relationshipRebindImpact(rebindState, change.relationshipId, change.end, change.concept) }));
+    const missing = impacts.some(change => change.usages.length && !change.usages.every(item => Object.hasOwn(relationshipBindings?.[change.relationshipId]?.[change.end] ?? {}, item.connectionId)));
+    if (missing) {
+      const error = Error('CSV меняет общий конец отношения. Проверьте рисунки и выберите точные привязки всех затронутых соединений.');
+      error.code = 'CSV_REBIND_REQUIRED'; error.rebindings = impacts; error.state = rebindState; throw error;
+    }
+    if (impacts.length) {
+      const plan = prepareRelationshipRebindBatch(rebindState, impacts.map(change => ({
+        relationshipId: change.relationshipId, end: change.end, concept: change.concept,
+        bindings: relationshipBindings?.[change.relationshipId]?.[change.end] ?? {},
+      })));
+      prepared = plan.snapshot;
+      relationshipRebindings = plan.rebindings.map(change => ({
+        ...change, bindings: structuredClone(relationshipBindings?.[change.relationshipId]?.[change.end] ?? {}),
+      }));
+    }
+    validateProject(prepared); checkImportedRelationships(target, prepared);
+  } catch (error) {
+    if (error.code === 'CSV_REBIND_REQUIRED') throw error;
+    const row = parsed.find(row => error.message.includes(row.record.id)) ?? parsed.at(-1);
+    problem(row?.file ?? 'model', row?.line ?? 0, 'model', `${error.message} Пакет не применён; проверьте также рисунки изменённых отношений.`);
+  }
   const sourceIds = new Set(parsed.map(row => row.record.id).filter(Boolean));
   const considered = new Set([...locations.keys(), ...propertyGroups.keys(), ...parsed.filter(row => row.table === 'profiles').map(row => row.record.id)]);
   if (modelMetadata && modelRows.length) considered.add(snapshot.project.id);
-  const changes = transferChanges(target, snapshot).map(change => ({ ...change, sourceId: change.id === snapshot.project.id ? modelRows[0]?.record.id ?? snapshot.project.id : sourceIds.has(change.id) ? change.id : null }));
+  const changes = transferChanges(target, prepared).map(change => ({ ...change, sourceId: change.id === prepared.project.id ? modelRows[0]?.record.id ?? prepared.project.id : sourceIds.has(change.id) ? change.id : null }));
   const changed = new Set(changes.map(change => change.id)), unchangedRecords = [...considered].filter(id => !changed.has(id));
-  return { snapshot, changes, unchangedRecords, losses: [], unchanged: changes.length === 0, kept: [], ids: {} };
+  return { snapshot: prepared, changes, unchangedRecords, losses: [], unchanged: changes.length === 0, kept: [], ids: {}, relationshipRebindings };
 }

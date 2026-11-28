@@ -14,3 +14,29 @@ test('palette placement highlights a container, cancels without creating data an
 test('actual magic chooser honors relation-first preference and Alt reverses order for one activation without model edits',async t=>{
  const h=await setup(t),before=await h.download();h.$('preferences-button').click();h.$('preferences-behavior-magicOrder').value='relation-first';h.$('preferences-form').dispatchEvent(new h.window.Event('submit',{bubbles:true,cancelable:true}));h.$('smart-link-tool').click();assert.ok(h.$('magic-order-dialog').open);h.$('magic-order-cancel').click();h.$('smart-link-tool').dispatchEvent(new h.window.MouseEvent('click',{bubbles:true,altKey:true}));assert.equal(h.$('magic-order-dialog').open,false);assert.equal(h.$('smart-link-tool').getAttribute('aria-pressed'),'true');h.$('canvas').dispatchEvent(new h.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert.deepEqual(await h.download(),before);
 });
+
+test('relationship selection on Canvas and catalog immediately toggles Rebind without model edits',async t=>{
+ const h=await setup(t),store=createStore(createProject('Relationship selection')),run=command=>store.execute(command,store.revision).created,{viewId}=run({type:'createView',name:'Main'});
+ const source=run({type:'createElementAndOccurrence',viewId,elementType:'Service',name:'Source',bounds:{x:40,y:50,width:180,height:80}});
+ const target=run({type:'createElementAndOccurrence',viewId,elementType:'Role',name:'Target',bounds:{x:360,y:50,width:180,height:80}});
+ const relation=run({type:'createRelationshipAndConnection',viewId,relationshipType:'Flow',source:{kind:'occurrence',id:source.occurrenceId},target:{kind:'occurrence',id:target.occurrenceId},label:'Synthetic flow'});
+ await h.load(serializeProjectFile(store.snapshot));
+ const before=await h.download(),history=h.$('history-state').textContent,opener=h.$('semantic-rebind');
+ const connection=h.$('canvas').querySelector(`[data-kind="connection"][data-id="${relation.connectionId}"]`);
+ assert.ok(connection);
+ assert.equal(opener.disabled,true);
+ h.pointer(connection,'pointerdown',100,100);
+ assert.equal(connection.classList.contains('selected'),true);
+ assert.equal(opener.disabled,false,'Canvas selection should immediately enable Rebind');
+ h.$('canvas').dispatchEvent(new h.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+ assert.equal(opener.disabled,true,'Clearing Canvas selection should disable Rebind');
+ const catalogRelationship=h.document.querySelector(`[data-relationship-id="${relation.relationshipId}"]`);
+ assert.ok(catalogRelationship);
+ catalogRelationship.click();
+ assert.equal(connection.classList.contains('selected'),true);
+ assert.equal(opener.disabled,false,'Catalog selection should immediately enable Rebind');
+ h.$('canvas').dispatchEvent(new h.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+ assert.equal(opener.disabled,true,'Clearing catalog selection should disable Rebind');
+ assert.deepEqual(await h.download(),before);
+ assert.equal(h.$('history-state').textContent,history);
+});

@@ -76,6 +76,40 @@ test('query changes require refresh; invalid regex leaves usable dialog; current
   assert.equal(h.dialog.open, true); assert.equal(h.store.history.undo, 0);
 });
 
+test('model-wide previous and next reveal the exact drawing across views', async t => {
+  const state = conceptProject(), sourceView = state.views[0], startView = state.views[1];
+  const alphaId = state.elements[0].id, betaId = state.elements[1].id;
+  const alphaViewId = 'view-10000000-0000-4000-8000-000000000002', betaViewId = 'view-10000000-0000-4000-8000-000000000003';
+  const alternateViewId = 'view-10000000-0000-4000-8000-000000000004';
+  const alphaDrawingId = 'occ-10000000-0000-4000-8000-000000000001', betaDrawingId = 'occ-10000000-0000-4000-8000-000000000002';
+  const alternateDrawingId = 'occ-10000000-0000-4000-8000-000000000003';
+  const drawing = (ownerId, id) => ({ ...structuredClone(sourceView.occurrences.find(item => item.concept.id === ownerId)), id });
+  const view = (id, name, occurrences = []) => ({ ...structuredClone(startView), view: { ...structuredClone(startView.view), id, name }, occurrences, connections: [], visualNodes: [], visualConnectors: [] });
+  state.junctions = []; state.relationships = [];
+  state.views = [
+    view(startView.view.id, 'Start'),
+    view(alphaViewId, 'Alpha view', [drawing(alphaId, alphaDrawingId)]),
+    view(betaViewId, 'Beta view', [drawing(betaId, betaDrawingId)]),
+    view(alternateViewId, 'Alpha alternate', [drawing(alphaId, alternateDrawingId)])
+  ];
+  const h = await setup(t, undefined, state);
+  h.input('advanced-query', 'Сервер'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 2);
+
+  h.$('advanced-search-next').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: betaViewId, kind: 'occurrence', id: betaDrawingId });
+  assert.equal(h.document.activeElement.id, 'advanced-result-1');
+  h.model.switchView(betaViewId); h.ui.refresh();
+
+  h.$('advanced-search-prev').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: alphaViewId, kind: 'occurrence', id: alphaDrawingId });
+  assert.equal(h.document.activeElement.id, 'advanced-result-0');
+  h.model.switchView(alphaViewId); h.ui.refresh();
+
+  h.$('advanced-search-next').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: betaViewId, kind: 'occurrence', id: betaDrawingId });
+});
+
 test('current-view search excludes viewpoint-hidden objects unless explicitly included', async t => {
   const graph = viewpointGraph({ selection: { elementTypes: ['ApplicationComponent'], junctionTypes: [], relationshipTypes: [] } });
   const h = await setup(t, undefined, graph.state); h.input('advanced-query', 'Сервер'); h.input('advanced-scope', 'view'); await h.submit();
@@ -85,6 +119,62 @@ test('current-view search excludes viewpoint-hidden objects unless explicitly in
   h.input('advanced-visibility', 'all'); await h.submit();
   assert.equal(h.$('advanced-search-results').children.length, 2);
   assert.match(h.$('advanced-search-results').textContent, new RegExp(h.state.elements[1].id));
+});
+
+test('current-view search and replacement exclude a title-only match in both visibility modes while model scope keeps it', async t => {
+  const state = conceptProject(); state.views[0].view.name = 'TitleOnlyToken';
+  const h = await setup(t, undefined, state), before = h.store.exportFiles();
+  h.input('advanced-query', 'TitleOnlyToken'); h.input('advanced-scope', 'view'); h.input('advanced-replacement', 'Renamed');
+  for (const visibility of ['visible', 'all']) {
+    h.input('advanced-visibility', visibility); await h.submit();
+    assert.equal(h.$('advanced-search-results').children.length, 0, visibility);
+    h.$('advanced-replace-all').click(); await tick();
+    assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 0/);
+    assert.match(h.$('advanced-search-message').textContent, /Изменений нет/);
+    assert.equal(h.$('advanced-search-apply').disabled, true);
+    assert.deepEqual(h.store.exportFiles(), before);
+    h.$('advanced-search-discard').click();
+    h.$('advanced-replace-selected').click(); await tick();
+    assert.match(h.$('advanced-search-error').textContent, /Выберите объекты/);
+    assert.deepEqual(h.store.exportFiles(), before);
+  }
+
+  h.input('advanced-scope', 'model'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 1);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(h.state.views[0].view.id));
+  h.$('advanced-replace-all').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 1/);
+  assert.match(h.$('advanced-search-preview').textContent, /Renamed/);
+  h.$('advanced-search-apply').click(); await tick();
+  assert.equal(h.store.snapshot.views[0].view.name, 'Renamed');
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
+});
+
+test('current-view replacement keeps one shared owner, exact drawing navigation and byte-exact Undo', async t => {
+  const state = conceptProject(), active = state.views[0], other = state.views[1], sharedId = state.elements[0].id;
+  active.view.name = 'Сервер 2 view title';
+  const first = active.occurrences.find(item => item.concept.id === sharedId), firstDrawingId = first.id;
+  active.occurrences.push({ ...structuredClone(first), id: 'occ-10000000-0000-4000-8000-000000000101' });
+  other.occurrences.push({ ...structuredClone(first), id: 'occ-10000000-0000-4000-8000-000000000102' });
+  const h = await setup(t, undefined, state), before = h.store.exportFiles(), activeViewId = active.view.id;
+  assert.equal(h.model.viewId, activeViewId);
+  h.input('advanced-query', 'Сервер 2'); h.input('advanced-scope', 'view'); await h.submit();
+  assert.equal(h.$('advanced-search-results').children.length, 1);
+  assert.match(h.$('advanced-search-results').textContent, new RegExp(sharedId));
+  assert.doesNotMatch(h.$('advanced-search-results').textContent, new RegExp(activeViewId));
+  h.$('advanced-search-next').click();
+  assert.deepEqual(h.revealed.at(-1), { viewId: activeViewId, kind: 'occurrence', id: firstDrawingId });
+
+  h.input('advanced-replacement', 'Host'); h.$('advanced-replace-all').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 1/);
+  h.$('advanced-search-discard').click();
+  h.$('advanced-search-results').querySelector('input').click();
+  h.$('advanced-replace-selected').click(); await tick();
+  assert.match(h.$('advanced-search-preview').textContent, /Будут изменены объекты: 1/);
+  h.$('advanced-search-apply').click(); await tick();
+  assert.equal(h.store.snapshot.elements.find(item => item.id === sharedId).name, 'Host');
+  assert.equal(h.store.history.undo, 1);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before);
 });
 
 test('search refreshes after deleting an owner and changing its profile application', async t => {
@@ -124,6 +214,25 @@ test('multi-selection property preview refuses a changed selection even without 
   h.$('advanced-property-set').click(); assert.equal(h.$('advanced-search-apply').disabled, false);
   h.model.selectMany([{ kind: 'occurrence', id: drawings[0].id }]); const before = h.capture(); h.$('advanced-search-apply').click();
   assert.deepEqual(h.capture(), before); assert.match(h.$('advanced-search-error').textContent, /изменилась/);
+});
+
+test('global property manager rejects a stale preview and can prepare a fresh one without reopening', async t => {
+  const h = await setup(t);
+  h.dialog.close(); h.ui.open({ propertiesOnly: true });
+  const ownerRow = () => [...h.$('advanced-property-common').querySelectorAll('button')].find(button => button.textContent.startsWith('owner:'));
+  ownerRow().click(); h.input('advanced-property-new-key', 'stale-rename'); h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false);
+
+  h.model.execute({ type: 'renameProject', name: 'Externally changed' });
+  const externalState = h.capture(); h.$('advanced-search-apply').click();
+  assert.deepEqual(h.capture(), externalState, 'The stale preview must not apply over the external change');
+  assert.match(h.$('advanced-search-error').textContent, /изменилась/);
+  assert.equal(h.$('advanced-search-apply').disabled, true);
+
+  ownerRow().click(); h.input('advanced-property-new-key', 'fresh-rename'); h.$('advanced-property-rename').click();
+  assert.equal(h.$('advanced-search-apply').disabled, false, h.$('advanced-search-error').textContent);
+  h.$('advanced-search-apply').click();
+  assert.ok(h.store.snapshot.elements[0].properties.some(item => item.key === 'fresh-rename'));
 });
 
 test('normal catalogue owner scope previews common/mixed properties and applies only the fixed owners in one Undo', async t => {
