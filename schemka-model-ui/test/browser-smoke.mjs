@@ -156,6 +156,9 @@ async function verifyReportQueryNavigation(browser) {
       inputs.map(input => ({ filter: input.dataset.filter, checked: input.checked }))
     );
 
+    const navigationDetails = page.locator('header details').filter({ has: folderFilter });
+    await navigationDetails.locator(':scope > summary').click();
+    assert.equal(await navigationDetails.evaluate(details => details.open), true, 'folder filters open through their visible summary');
     await folderFilter.uncheck();
     await search.fill('ordinary-match');
     assert.equal(await target.isVisible(), false, 'folder filter and ordinary search hide the target');
@@ -163,6 +166,9 @@ async function verifyReportQueryNavigation(browser) {
     assert.equal(await other.isVisible(), false, 'ordinary search hides a nonmatching row');
     const rowsBeforeClick = await rowStates(), filtersBeforeClick = await filterStates();
 
+    const queryDetails = page.locator('header details').filter({ has: page.locator('#query-form') });
+    await queryDetails.locator(':scope > summary').click();
+    assert.equal(await queryDetails.evaluate(details => details.open), true, 'query controls open through their visible summary');
     await page.locator('#query-table').selectOption('element');
     await page.locator('#query-field').selectOption('documentation');
     await page.locator('#query-value').fill('analytic-only-marker');
