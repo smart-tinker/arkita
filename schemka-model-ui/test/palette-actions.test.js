@@ -48,6 +48,25 @@ test('the full catalogue remains available with elements expanded, relation grou
   assert.deepEqual(h.capture(), before);
 });
 
+test('the palette explains its active viewpoint filter and how to add outside that scope', t => {
+  const h = setup(t), note = h.$('palette-viewpoint-note');
+  assert.ok(note, 'the palette has a visible explanation for viewpoint filtering');
+  assert.equal(note.hidden, true);
+  const definition = { name: 'Application only', documentation: '', stakeholders: ['Architect'], concerns: ['Scope'], purpose: ['informing'], content: ['overview'],
+    selection: { elementTypes: CURRENT_CATALOG.elementTypes.filter(type => type !== 'DataObject'), junctionTypes: CURRENT_CATALOG.junctionTypes, relationshipTypes: CURRENT_CATALOG.relationshipTypes },
+    representation: { kind: 'diagram', notation: 'archimate', labels: 'name-and-type' } };
+  const viewpointId = h.model.execute({ type: 'createViewpoint', definition }).created.viewpointId;
+  h.model.execute({ type: 'setViewpoint', viewId: h.model.viewId, viewpointId }); h.ui.refresh();
+  assert.equal(note.hidden, false);
+  assert.match(note.textContent, /остаются в модели/);
+  assert.match(note.textContent, /снимите viewpoint/);
+  assert.match(note.textContent, /допустимость отношений проверяется отдельно/i);
+  assert.equal(h.$('create-dataobject').hidden, true);
+  h.model.execute({ type: 'setViewpoint', viewId: h.model.viewId, viewpointId: null }); h.ui.refresh();
+  assert.equal(note.hidden, true);
+  assert.equal(h.$('create-dataobject').hidden, false);
+});
+
 test('canonical and displayed spaced names match case-insensitively with bounded literal queries and normalized whitespace', t => {
   const h = setup(t);
   for (const [query, expected] of [['dataobject', ['DataObject']], ['  DATA \t OBJECT  ', ['DataObject']], ['APPLICATIONINTERFACE', ['ApplicationInterface']], ['system software', ['SystemSoftware']], ['ReadWriteAccess', ['ReadWriteAccess']], ['read / write access', ['ReadWriteAccess']], ['interface', ['ApplicationInterface', 'BusinessInterface', 'TechnologyInterface']], ['*', []], ['[', []], ['<img onerror=x>', []], ['x'.repeat(10000), []]]) {
