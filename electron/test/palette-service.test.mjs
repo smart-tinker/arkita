@@ -30,3 +30,19 @@ test('native detached palette has only its own sender route, same-owner nonce dr
   service.publish(ownerA, { ...state, revision: 8 }); assert.throws(() => service.activate(event, data), { code: 'PALETTE_STALE' }); const fresh = service.ready(event); ownerA.files.busy = true; assert.throws(() => service.activate(event, { nonce: fresh.nonce, index: 0 }), { code: 'DOCUMENT_STALE' }); ownerA.files.busy = false;
   screen.emit('display-removed'); assert.ok(child.bounds.x + child.bounds.width <= 1200); service.childDock(event); assert.equal(docked.length, 1); assert.throws(() => service.ready(event), { code: 'IPC_SENDER' });
 });
+
+test('detached palette saves its bounds when the owner force-closes the child window', async () => {
+  const record = owner(), saved = [];
+  const screen = new EventEmitter(); screen.getAllDisplays = () => [{ workArea: { x: 0, y: 0, width: 1200, height: 800 } }];
+  let child;
+  class Window extends EventEmitter {
+    constructor(options) { super(); child = this; this.bounds = { x: options.x, y: options.y, width: options.width, height: options.height }; this.webContents = new EventEmitter(); this.webContents.mainFrame = { url: PALETTE_URL }; this.webContents.send = () => {}; this.webContents.setWindowOpenHandler = () => {}; }
+    async loadURL() {} isDestroyed() { return Boolean(this.dead); } getBounds() { return this.bounds; } getNormalBounds() { return this.getBounds(); } setBounds(value) { this.bounds = value; } show() {} focus() {}
+    destroy() { this.dead = true; this.emit('closed'); }
+  }
+  const service = createPaletteService({ BrowserWindow: Window, screen, root: '/app', session: {}, loadBounds: async () => ({ x: 150, y: 120, width: 300, height: 650 }), saveBounds: async bounds => saved.push(bounds) });
+  await service.open(record, snapshot(record));
+  service.closed(record);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(saved, [{ x: 150, y: 120, width: 300, height: 650 }]);
+});

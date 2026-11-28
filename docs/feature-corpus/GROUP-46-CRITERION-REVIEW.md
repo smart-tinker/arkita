@@ -20,7 +20,7 @@ This is a source and evidence map, not a release acceptance. All 16 criteria rem
 | A-EDITOR-021 | `schemka-model-ui/src/object-properties.js`, `metadata-ui.js`, `app.js`; `test/object-properties-app.test.js`, `test/context-properties-app.test.js` | Tree/context inspector routes and explicit owner scope have tests. Criterion-level acceptance is not recorded. |
 | A-EDITOR-022 | `schemka-model-ui/src/catalog-folders.js`; `test/unused-tree-app.test.js` | The unused marker is derived from stored drawings and has add/undo coverage. Criterion-level acceptance is not recorded. |
 | A-EDITOR-023 | `schemka-model-ui/src/catalog-selection.js`, `catalog-folders.js`; `test/catalog-selection.test.js`, `test/catalog-selection-app.test.js` | Linked tree/view selection routes have tests. Criterion-level acceptance is not recorded. |
-| A-EDITOR-024 | `schemka-model-ui/src/catalog-folders.js`; `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | Drill-down, breadcrumbs, Back/Home, and moved/deleted-folder recovery have tests. Criterion-level acceptance is not recorded. |
+| A-EDITOR-024 | `schemka-model-ui/src/catalog-folders.js`; `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | Saved Chromium receipts in PR [#68](https://github.com/smart-tinker/arkita/pull/68) cover navigation, selection, and moved/deleted-folder recovery on historical main `3a4a58a`. Receipt hashes and scope are recorded below. Current-main renderer re-review and installed Windows/native acceptance remain UNRUN. |
 | A-EDITOR-098 | `schemka-model-core/src/format.js`, `native-v4-commands.js`; `schemka-model-ui/src/metadata-ui.js`, `documentation-editor.js`, `visual-drawings.js`, `catalog-folders.js`; `test/context-properties-app.test.js`, `test/catalog-folders.test.js`, `test/catalog-tree-app.test.js` | PR #48 is merged in `main` as `62aa163`. Folder documentation and persisted child-label templates now have direct-edit, move, reopen, and bounded-render regressions. Required PR checks passed before merge. The source and CI evidence do not substitute for installed Windows acceptance; the criterion remains pending. |
 
 ## Result
@@ -57,3 +57,19 @@ The catalog route is substantially implemented, but group 46 is not complete. PR
   criteria remain `acceptance-pending`, `closed_criteria` stays empty, and
   A-EDITOR-098 remains pending in draft PR #48. No independent review or
   installed-user Windows acceptance is recorded.
+
+
+## A-EDITOR-024 evidence update (2026-11-27)
+
+Current public `main` is [`9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf`](https://github.com/smart-tinker/arkita/commit/9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf), tree `36d0649aea1d8e0b19b0c04f1a1de68ac7dcbd3c`. Main CI [run 45926069910](https://github.com/smart-tinker/arkita/actions/runs/45926069910) and CodeQL [run 45926069967](https://github.com/smart-tinker/arkita/actions/runs/45926069967) passed on this SHA. These are source checks, not a new browser run.
+
+The saved Chromium receipts in [PR #68](https://github.com/smart-tinker/arkita/pull/68) are scoped to historical public main `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b`, tree `04d0cc509e93c19471182f00c4ec30553008e07f`:
+
+- Selection/move/delete receipt SHA-256 `b33fb31cae36f45be88270111845e7e947b10594fd34508f84cd6b4ad7e1de69` (Chromium 158.0.8127.18): after switching models, the target Overview row was selected and the source marker ID was absent; moving/undoing and deleting the current folder used the nearest valid parent or section-root context.
+- Navigation/bytes/history receipt SHA-256 `8ab3b1e9e8184714e724e2a242b9236ed42330d884702ce6d1e1484c3965ea08` (Chrome 157.0.8103.38): it records `A Parent / A Child`, Back, Home, and reset after loading Folder B. Exported bytes remained 1,769 bytes with SHA-256 `2039ffaf7ad94879b836cd6f68575ff6329a6bb450426557caf4083a79bb97ba`; history was unchanged.
+
+GitHub compare from `3a4a58afe154ab88cd8bcd4383d0d6b0fa47b40b` to `9659f3ceff29dabdf9e09d1ab66ca893a07dfbbf` is 59 commits ahead with 26 changed paths. `catalog-folders.js`, `catalog-folders.test.js`, and `catalog-tree-app.test.js` are unchanged. `app.js` does have additional selection/visual refresh and inspector/contour changes, so the historical receipts are not represented as an exact-current-main Chromium run. This docs-only update did not rerun Chromium.
+
+PR #8's checksum evidence remains tied to its historical snapshot; it retained no reproducible Chromium receipt and is not used as renderer evidence here. PRs #8 and #68 remain open drafts; this successor does not replace or close them pending independent verification.
+
+All 16 group-46 records remain `acceptance-pending`, with empty `closed_criteria`; issue #12 remains open. This criterion's current-main renderer re-review and installed Windows/native acceptance remain `UNRUN`. No corpus status, exclusion, alias, order, or count was changed.

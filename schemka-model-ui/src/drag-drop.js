@@ -93,7 +93,7 @@ export function installInternalDrag({ document, window, canvas, model, beforeSta
     target.addEventListener(type, handler, options);
     listeners.push(() => target.removeEventListener(type, handler, options));
   }
-  function report(text) { try { status(text); } catch { /* A status renderer must never repeat a committed command. */ } }
+  function report(text, kind) { try { status(text, kind); } catch { /* A status renderer must never repeat a committed command. */ } }
   function clearSuppression() {
     suppression = null;
     if (suppressionTimer !== null) window.clearTimeout(suppressionTimer);
@@ -125,12 +125,12 @@ export function installInternalDrag({ document, window, canvas, model, beforeSta
       if (!prior.source.hasPointerCapture || prior.source.hasPointerCapture(prior.pointerId)) prior.source.releasePointerCapture(prior.pointerId);
     } catch { /* Detached nodes/capture lost outside this helper are already cancelled. */ }
   }
-  function cancel(reason) {
+  function cancel(reason, kind) {
     const prior = pending; pending = null;
     if (!prior) return false;
     if (prior.dragging) { cancelledRelease = prior; suppressAfterDrag(prior); }
     clean(prior);
-    if (prior.dragging) report(typeof reason === 'string' && reason ? reason : 'Перетаскивание отменено');
+    if (prior.dragging) report(typeof reason === 'string' && reason ? reason : 'Перетаскивание отменено', kind);
     return true;
   }
   function sourceData(source) {
@@ -173,7 +173,7 @@ export function installInternalDrag({ document, window, canvas, model, beforeSta
   function preview(event) {
     const prior = pending;
     if (!prior || event.pointerId !== prior.pointerId) return null;
-    if (stale(prior)) { cancel('Модель или представление изменились. Начните перетаскивание заново.'); return null; }
+    if (stale(prior)) { cancel('Модель или представление изменились. Начните перетаскивание заново.', 'blocking'); return null; }
     if (![event.clientX, event.clientY].every(finite)) { cancel(); return null; }
     prior.x = event.clientX; prior.y = event.clientY;
     if (!prior.dragging && Math.hypot(prior.x - prior.startX, prior.y - prior.startY) < THRESHOLD) return null;
@@ -222,7 +222,7 @@ export function installInternalDrag({ document, window, canvas, model, beforeSta
     clean(prior);
     if (!prior.dragging) return;
     event.preventDefault();
-    if (!point || event.button !== 0 || stale(prior)) { report('Перетаскивание отменено: отпустите внутри полотна'); return; }
+    if (!point || event.button !== 0 || stale(prior)) { report('Перетаскивание отменено: отпустите внутри полотна', 'blocking'); return; }
     if (prior.data.kind === 'relationship') { try { onRelationshipDrop(prior.data.id, point); } catch (error) { report(`Отношение не добавлено: ${error.message}`); } return; }
     // Core geometry has a 0.1-unit grid. Round the final centered bounds, not the pointer.
     const junction = prior.data.kind === 'junction' || CURRENT_CATALOG.junctionTypes.includes(prior.data.type);

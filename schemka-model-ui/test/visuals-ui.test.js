@@ -79,6 +79,59 @@ test('view-reference double click/Enter navigate, resource library reuses resour
   assert.equal(h.ui.removeSelected(), true); h.submit(); assert.equal(h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.filter(item => item.kind === 'image').length, 1);
 });
 
+test('shared image replacement keeps one resource, stages safely, refreshes both drawings and undoes once', async t => {
+  const h = fixture(t), source = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="#123456"/></svg>';
+  const assetId = h.model.execute({ type: 'createAsset', name: 'Shared.svg', mediaType: 'image/svg+xml', data: Buffer.from(source).toString('base64') }).created.assetId;
+  const views = h.store.snapshot.views.map(entry => entry.view.id);
+  const first = h.model.execute({ type: 'createVisualNode', viewId: views[0], kind: 'image', assetId, bounds: { x: 10, y: 10, width: 80, height: 80 } }).created.visualNodeId;
+  const second = h.model.execute({ type: 'createVisualNode', viewId: views[1], kind: 'image', assetId, bounds: { x: 110, y: 10, width: 80, height: 80 } }).created.visualNodeId;
+  const bytes = () => Buffer.from(serializeProjectFile(h.store.snapshot)), baseline = bytes(), baselineHistory = h.store.history;
+  const file = (name, value, type) => { const blob = new Blob([value], { type }); Object.defineProperty(blob, 'name', { value: name }); return blob; };
+  const upload = async (id, value) => { const input = h.$(`visual-replace-file-${id}`); Object.defineProperty(input, 'files', { value: [value], configurable: true }); input.dispatchEvent(new h.window.Event('change', { bubbles: true })); for (let i = 0; i < 4; i++) await new Promise(resolve => setImmediate(resolve)); };
+
+  h.$('visual-assets-button').click();
+  assert.ok(h.$(`visual-replace-asset-${assetId}`), 'used assets expose a replace action');
+  h.$(`visual-replace-asset-${assetId}`).click();
+  const replacement = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="10" fill="#abcdef"/></svg>';
+  await upload(assetId, file('Replacement.svg', replacement, 'image/svg+xml'));
+  assert.deepEqual(bytes(), baseline, 'selecting a replacement only stages it');
+  assert.deepEqual(h.store.history, baselineHistory);
+  assert.equal(h.$('visual-apply').hidden, false);
+  h.$('visual-cancel').click();
+  assert.deepEqual(bytes(), baseline, 'cancel leaves resource bytes unchanged');
+  assert.deepEqual(h.store.history, baselineHistory);
+
+  h.$('visual-assets-button').click();
+  h.$(`visual-replace-asset-${assetId}`).click();
+  await upload(assetId, file('Unsupported.gif', 'GIF89a', 'image/gif'));
+  assert.match(h.$('visual-error').textContent, /не заменено/i);
+  assert.match(h.$('visual-error').textContent, /Unsupported embedded image type/i);
+  assert.deepEqual(bytes(), baseline, 'unsupported image leaves the model unchanged');
+  assert.deepEqual(h.store.history, baselineHistory);
+  h.$('visual-cancel').click();
+
+  h.$('visual-assets-button').click();
+  h.$(`visual-replace-asset-${assetId}`).click();
+  await upload(assetId, file('Replacement.svg', replacement, 'image/svg+xml'));
+  h.submit();
+  assert.equal(h.$('visual-dialog').open, true, 'gallery remains available after applying');
+  assert.equal(h.document.activeElement.id, `visual-replace-asset-${assetId}`);
+  const asset = h.store.snapshot.assets.find(item => item.id === assetId);
+  assert.deepEqual({ id: asset.id, name: asset.name, encoding: asset.encoding, mediaType: asset.mediaType, data: asset.data }, {
+    id: assetId, name: 'Shared.svg', encoding: 'base64', mediaType: 'image/svg+xml', data: Buffer.from(replacement).toString('base64')
+  });
+  for (const [viewId, drawingId] of [[views[0], first], [views[1], second]]) {
+    const drawing = h.store.snapshot.views.find(entry => entry.view.id === viewId).visualNodes.find(item => item.id === drawingId);
+    assert.equal(drawing.assetId, assetId);
+  }
+  assert.equal(h.store.history.undo, baselineHistory.undo + 1);
+  assert.equal(h.$('visual-assets').querySelector('img').src, `data:image/svg+xml;base64,${asset.data}`);
+  const saved = bytes();
+  assert.deepEqual(Buffer.from(serializeProjectFile(deserializeProjectFile(saved))), saved);
+  h.model.undo();
+  assert.deepEqual(bytes(), baseline, 'one Undo restores the exact original model bytes');
+});
+
 test('explicit semantic nesting uses current ArchiMate 4 endpoint choices and one Undo; forbidden forged selection stays atomic', t => {
   const h=fixture(t),viewId=h.model.viewId;
   const parent=h.model.execute({type:'createElementAndOccurrence',viewId,elementType:'Service',name:'Parent',bounds:{x:20,y:20,width:500,height:400}}).created;
@@ -128,6 +181,13 @@ test('human legend filters and colors, instruction editing, bounded resource pag
 
 test('line label binding and image-off controls apply to the selected drawing with one exact Undo',t=>{
  const h=fixture(t),a=h.add('note'),b=h.add('group'),id=h.model.execute({type:'createVisualConnector',viewId:h.model.viewId,source:a,target:b,routePoints:[]}).created.visualConnectorId;h.model.select({kind:'visualConnector',id});h.ui.refresh();const before=h.store.exportFiles();h.$('visual-style').click();h.$('visual-labelAnchor').value='target';h.submit();assert.equal(h.$('visual-dialog').open,false,h.$('visual-error').textContent);assert.equal(h.store.snapshot.views.find(item=>item.view.id===h.model.viewId).visualConnectors.find(item=>item.id===id).style.labelAnchor,'target');h.model.undo();assert.deepEqual(h.store.exportFiles(),before);h.model.select(a);h.ui.refresh();h.$('visual-style').click();h.$('visual-imageVisible').value='false';h.submit();assert.equal(h.store.snapshot.views.find(item=>item.view.id===h.model.viewId).visualNodes.find(item=>item.id===a.id).style.imageVisible,false);
+});
+
+test('line label editor diagnoses unknown fields and malformed syntax with a source-name fallback',t=>{
+ const h=fixture(t),a=h.add('note'),b=h.add('group'),id=h.model.execute({type:'createVisualConnector',viewId:h.model.viewId,name:'Source label',source:a,target:b,routePoints:[]}).created.visualConnectorId;h.model.select({kind:'visualConnector',id});h.ui.refresh();h.$('visual-style').click();
+ const input=h.$('visual-labelTemplate'),diagnostic=h.$('visual-label-template-diagnostic');input.value='${missing}';input.dispatchEvent(new h.window.Event('input',{bubbles:true}));assert.equal(diagnostic.hidden,false);assert.match(diagnostic.textContent,/Неизвестное поле/);assert.match(diagnostic.textContent,/Source label/);
+ input.value='${name';input.dispatchEvent(new h.window.Event('input',{bubbles:true}));assert.match(diagnostic.textContent,/Синтаксическая ошибка/);assert.match(diagnostic.textContent,/Source label/);
+ h.submit();assert.equal(h.$('visual-dialog').open,false,h.$('visual-error').textContent);assert.equal(h.store.snapshot.views.find(entry=>entry.view.id===h.model.viewId).visualConnectors.find(item=>item.id===id).style.labelTemplate,'${name');
 });
 
 test('semantic notation controls are limited, imported unsupported paint values stay lossless with an explicit warning',t=>{
