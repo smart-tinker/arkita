@@ -109,6 +109,7 @@ test('visual node and connector properties preserve exact hit IDs and never reta
     menu.find(item=>item.id==='remove-visual').action();assert.deepEqual(h.calls.at(-1),['removeVisual',ref]);
     assert.equal(menu.some(item=>item.id==='delete-element'||item.id==='change-concept-type'),false);
   }
+  assert.match(h.menu({kind:'visualNode',id:b}).find(item=>item.id==='remove-visual').label,/сохранив детей/i);
   for(const kind of ['visualNode','visualConnector'])assert.deepEqual(h.menu({kind,id:'missing'}),[]);
   assert.deepEqual(h.model.store.exportFiles(),before);assert.deepEqual(h.model.store.history,history);
 });

@@ -33,13 +33,19 @@ test('reachable visual controls create all five kinds, cancel/stale drafts, exac
   h.$('visual-add-note').click(); h.$('visual-text').value = 'Stale'; h.model.execute({ type: 'renameProject', name: 'Changed elsewhere' }); h.ui.refresh(); assert.equal(h.$('visual-dialog').open, false); const before = h.store.exportFiles(); h.submit(); assert.deepEqual(h.store.exportFiles(), before);
 });
 
-test('node edit keeps exact untouched text, metadata uses typed owner, parent delete retains child and can undo', t => {
-  const h = fixture(t), group = h.add('group'), note = h.add('note', { text: 'Initial', parent: `visualNode:${group.id}` });
+test('node edit keeps exact untouched text, metadata uses typed owner, Keep Children reparents without moving and can undo', t => {
+  const h = fixture(t), outer = h.add('group', { name: 'Outer' }), group = h.add('group', { name: 'Container', parent: `visualNode:${outer.id}` }), note = h.add('note', { text: 'Initial', parent: `visualNode:${group.id}` });
   h.model.execute({ type: 'updateVisualNode', viewId: h.model.viewId, nodeId: note.id, text: 'Exact\r\ntext' }); h.ui.refresh();
   h.$('visual-edit').click(); h.$('visual-name').value = 'Renamed'; h.submit(); assert.equal(h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.find(item => item.id === note.id).text, 'Exact\r\ntext');
   h.$('visual-edit').click(); h.$('visual-metadata').click(); assert.deepEqual(h.opened, [{ kind: 'visualNode', viewId: h.model.viewId, id: note.id }]);
-  h.model.select(group); h.ui.refresh(); h.$('visual-edit').click(); h.$('visual-delete').click(); h.submit(); assert.ok(h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.some(item => item.id === note.id)); assert.equal(h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.find(item => item.id === note.id).parent, null);
-  h.model.undo(); assert.equal(h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.find(item => item.id === note.id).parent.id, group.id);
+  const connector = h.model.execute({ type: 'createVisualConnector', viewId: h.model.viewId, source: { kind: 'visualNode', id: group.id }, target: { kind: 'visualNode', id: note.id }, routePoints: [] }).created.visualConnectorId;
+  const originalBounds = structuredClone(h.store.snapshot.views.find(entry => entry.view.id === h.model.viewId).visualNodes.find(item => item.id === note.id).bounds);
+  const before = h.store.exportFiles(), history = h.store.history;
+  h.model.select(group); h.ui.refresh(); h.$('visual-edit').click(); assert.match(h.$('visual-delete').textContent, /сохранив детей/i); h.$('visual-delete').click(); assert.match(h.$('visual-reference').textContent, /сохранятся без перемещения/i); assert.match(h.$('visual-fields').textContent, /Renamed/); assert.match(h.$('visual-fields').textContent, /визуальная линия/i);
+  h.$('visual-cancel').click(); assert.deepEqual(h.store.exportFiles(), before); assert.deepEqual(h.store.history, history);
+  h.$('visual-edit').click(); h.$('visual-delete').click(); h.submit();
+  const entry = h.store.snapshot.views.find(item => item.view.id === h.model.viewId), current = entry.visualNodes.find(item => item.id === note.id); assert.deepEqual(current.bounds, originalBounds); assert.deepEqual(current.parent, { kind: 'visualNode', id: outer.id }); assert.equal(entry.visualConnectors.some(item => item.id === connector), false);
+  h.model.undo(); assert.deepEqual(h.store.exportFiles(), before); assert.equal(h.store.snapshot.views.find(item => item.view.id === h.model.viewId).visualNodes.find(item => item.id === note.id).parent.id, group.id);
 });
 
 test('style modal applies human fields once, reset and brush are atomic and never expose JSON editors', t => {
