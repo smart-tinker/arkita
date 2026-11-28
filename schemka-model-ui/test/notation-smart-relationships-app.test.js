@@ -1,10 +1,13 @@
 import { production, setup } from './app-test-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createStore } from '../../schemka-model-core/src/index.js';
+import { createProject, createStore } from '../../schemka-model-core/src/index.js';
 import { serializeProjectFile, deserializeProjectFile } from '../../schemka-model-io/src/index.js';
 import { conceptProject } from '../../schemka-model-core/fixtures/concept-project.js';
 import { beforeUnload, searchPalette, smartHitSurface } from './notation-app-helpers.js';
+import { JSDOM } from 'jsdom';
+import { createController } from '../src/controller.js';
+import { installEditingTools } from '../src/editing-tools.js';
 
 test(`${production ? 'production' : 'source'} app: smart dialog keeps UNKNOWN separate, explicit and direction-preserving`, async t => {
   const { extendedEndpointFixture } = await import('./endpoint-fixture.js');
@@ -233,4 +236,84 @@ test(`${production ? 'production' : 'source'} app: collapsed smart endpoints rej
     assert.equal(h.$('history-state').textContent, history, mode); assert.deepEqual(await h.download(), bytes, mode);
   }
   assert.deepEqual(observations, [{ preview: false, captured: false, pressed: 'false' }]);
+});
+
+
+test(`${production ? 'production' : 'source'} app: Magic Connector excludes UNKNOWN atomic endpoint pairs in both choice orders`, async t => {
+  const { extendedEndpointFixture } = await import('./endpoint-fixture.js');
+  const fixture = extendedEndpointFixture(), h = await setup(t), canvas = h.$('canvas');
+  const bytes = Buffer.from(serializeProjectFile(fixture.state)), sourceId = fixture.items.Product.occurrenceId;
+  for (const order of ['element-first', 'relation-first']) {
+    await h.load(bytes);
+    h.document.querySelector(`[data-view-scope="tree"][data-view-id="${fixture.viewId}"]`).click();
+    const source = canvas.querySelector(`[data-id="${sourceId}"]`), hit = smartHitSurface(h, source);
+    const history = h.$('history-state').textContent;
+    if (order === 'relation-first') {
+      h.$('smart-link-tool').dispatchEvent(new h.window.MouseEvent('click', { bubbles: true, altKey: true }));
+      assert.equal(h.$('magic-order-dialog').open, true);
+      h.change('magic-order-type', 'Aggregation');
+      h.$('magic-order-apply').click();
+    } else h.$('smart-link-tool').click();
+    h.pointer(source, 'pointerdown', 100, 100, 92); hit(canvas);
+    h.pointer(canvas, 'pointermove', 800, 500, 92); h.pointer(canvas, 'pointerup', 800, 500, 92);
+    assert.equal(h.$('diagram-tools-dialog').open, true);
+    assert.equal(h.$('diagram-search-order').value, order);
+    assert.equal(h.$('diagram-source').value, sourceId);
+    assert.equal(h.$('diagram-source').disabled, true);
+    h.$('diagram-search').value = 'Deliverable';
+    h.$('diagram-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+    if (order === 'relation-first') {
+      assert.equal(h.$('diagram-relationship').value, 'Aggregation');
+      assert.deepEqual([...h.$('diagram-type').options].map(option => option.value), []);
+    } else {
+      assert.deepEqual([...h.$('diagram-type').options].map(option => option.value), ['Deliverable']);
+      h.$('diagram-type').value = 'Deliverable';
+      h.$('diagram-type').dispatchEvent(new h.window.Event('change', { bubbles: true }));
+      h.$('diagram-relationship-search').value = 'Aggregation';
+      h.$('diagram-relationship-search').dispatchEvent(new h.window.Event('input', { bubbles: true }));
+      assert.ok(![...h.$('diagram-relationship').options].some(option => option.value === 'Aggregation'));
+      h.$('diagram-relationship').value = 'Aggregation';
+      h.$('diagram-relationship').dispatchEvent(new h.window.Event('change', { bubbles: true }));
+      assert.equal(h.$('diagram-relationship').value, '');
+    }
+    assert.equal(h.$('diagram-tools-apply').disabled, true);
+    h.$('diagram-tools-cancel').click();
+    assert.deepEqual(await h.download(), bytes);
+    assert.equal(h.$('history-state').textContent, history);
+  }
+});
+
+test('atomic endpoint dialog refuses a stale revision without changing the newer baseline', t => {
+  const dom = new JSDOM('<div class="app-menu"><summary>Правка</summary><div class="menu-items"></div></div><div id="catalogue-palette"></div><svg id="canvas"></svg>', { pretendToBeVisual: true });
+  t.after(() => dom.window.close());
+  const { window } = dom, { document } = window, reports = [];
+  window.HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
+  window.HTMLDialogElement.prototype.close = function () { this.removeAttribute('open'); this.dispatchEvent(new window.Event('close')); };
+  const store = createStore(createProject('Stale atomic connector'));
+  const viewId = store.execute({ type: 'createView', name: 'Main' }, store.revision).created.viewId;
+  const existing = store.execute({ type: 'createElementAndOccurrence', viewId, elementType: 'ApplicationComponent', name: 'Existing',
+    bounds: { x: 20, y: 20, width: 160, height: 90 } }, store.revision).created;
+  const model = createController(store); model.switchView(viewId);
+  const ui = installEditingTools({
+    document, window, model, canvas: document.getElementById('canvas'),
+    openDialog(id) { document.getElementById(id).showModal(); },
+    render() {}, status(message) { reports.push(message); }, blocked: () => false, beforeChange() {},
+    preview() {}, nextBounds() { return { x: 300, y: 100, width: 210, height: 90 }; }, selectMany() {},
+    readDefaults: () => ({ width: 210, height: 90 }), readDocumentToken: () => 'document-a',
+  });
+  ui.quickAdd(true, { x: 400, y: 300 }, { atomic: true, sourceOccurrenceId: existing.occurrenceId, relationshipType: 'Access' });
+  const $ = id => document.getElementById(id);
+  $('diagram-search').value = 'DataObject';
+  $('diagram-search').dispatchEvent(new window.Event('input', { bubbles: true }));
+  $('diagram-type').value = 'DataObject';
+  $('diagram-type').dispatchEvent(new window.Event('change', { bubbles: true }));
+  $('diagram-name').value = 'Stale candidate';
+  assert.equal($('diagram-tools-apply').disabled, false);
+  store.execute({ type: 'renameProject', name: 'External revision' }, store.revision);
+  const baseline = store.exportFiles(), history = store.history;
+  $('diagram-tools-form').dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+  assert.equal($('diagram-tools-dialog').open, false);
+  assert.deepEqual(store.exportFiles(), baseline);
+  assert.deepEqual(store.history, history);
+  assert.match(reports.at(-1), /Контекст изменился/);
 });
