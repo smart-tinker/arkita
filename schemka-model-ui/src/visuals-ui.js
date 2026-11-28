@@ -6,6 +6,7 @@ import { createStore, exportFiles, DRAWING_COLLECTIONS, LIMITS, ASSET_LIMITS, as
 import { newId } from '../../schemka-model-core/src/format.js';
 import { creationTypes, relationshipAssessment } from './profile-ui.js';
 import { canvasDropPoint } from './drag-drop.js';
+import { captionTemplateResult } from './visual-drawings.js';
 
 const names = { note: 'Заметка', group: 'Группа', legend: 'Легенда', viewReference: 'Ссылка на представление', image: 'Изображение' };
 const lineKind = kind => ['connection', 'visualConnector'].includes(kind);
@@ -39,7 +40,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
   function show(mode, title) {
     if (blocked() || pending || !model.view) return null;
     const request = capture(mode); trigger = document.activeElement;
-    fields.replaceChildren(); for (const key of Object.keys(controls)) delete controls[key]; error.textContent = ''; heading.textContent = title; reference.textContent = ''; apply.hidden = false; apply.disabled = false;
+    fields.replaceChildren(); for (const key of Object.keys(controls)) delete controls[key]; error.textContent = ''; heading.textContent = title; reference.textContent = ''; apply.textContent = 'Применить'; apply.hidden = false; apply.disabled = false;
     try { openDialog(dialog.id); if (!dialog.open) throw new Error('Диалог не открылся'); }
     catch (failure) { status(failure.message); return null; }
     pending = request; generation++; return request;
@@ -133,7 +134,7 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
   function removeSelected() { const ref = selection(); if (!ref || !['visualNode', 'visualConnector'].includes(ref.kind) || blocked()) return false; confirmDelete(ref); return Boolean(pending); }
   function editSelected() { const ref = selection(), item = ref && drawing(model.store.snapshot, ref); if (!item) return false; return ref.kind === 'visualNode' ? nodeEditor(item.kind, ref) : ref.kind === 'visualConnector' ? connectorEditor(ref) : false; }
   function styleSelected() {
-    const ref = selection(), item = ref && drawing(model.store.snapshot, ref), request = show('style', 'Оформление рисунка'); if (!request || !item) { if (request) cancel(); return false; }
+    const ref = selection(), state = model.store.snapshot, item = ref && drawing(state, ref), request = show('style', 'Оформление рисунка'); if (!request || !item) { if (request) cancel(); return false; }
     request.ref = ref; request.original = structuredClone(item); const style = item.style, line = lineKind(ref.kind);
     reference.textContent = 'Изменения относятся к этому рисунку'+(model.selections.length>1?' — только к опорному, а не всему выделению':'')+'. Пустое поле сбрасывает только своё значение к умолчанию.';
     const color = (key, title) => { const input = field(key, title, style[key] ?? ''); input.placeholder = '#AABBCC или none'; input.maxLength = 11; };
@@ -163,6 +164,15 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     field('fontWeight', 'Начертание', style.fontWeight ?? '', 'text', [['', 'По умолчанию'], ['normal', 'Обычное'], ['bold', 'Полужирное']]); color('textColor', 'Цвет текста');
     field('textAlign', 'Выравнивание текста', style.textAlign ?? '', 'text', [['', 'По умолчанию'], ['left', 'Слева'], ['center', 'По центру'], ['right', 'Справа']]);
     field('labelTemplate', 'Шаблон подписи', style.labelTemplate ?? '', 'textarea'); request.initialTemplate = controls.labelTemplate.value; controls.labelTemplate.placeholder = '${name} · ${property:owner}';
+    if (ref.kind === 'visualConnector') {
+      const diagnostic = node('p', '', 'inspector-note'); diagnostic.id = 'visual-label-template-diagnostic'; diagnostic.setAttribute('role', 'alert'); diagnostic.hidden = true; fields.append(diagnostic);
+      const updateDiagnostic = () => {
+        const result = captionTemplateResult(controls.labelTemplate.value, item, state);
+        diagnostic.hidden = !result.diagnostic;
+        diagnostic.textContent = result.diagnostic ? `${result.diagnostic} На полотне будет показано исходное имя «${item.name ?? ''}».` : '';
+      };
+      controls.labelTemplate.addEventListener('input', updateDiagnostic); updateDiagnostic();
+    }
     field('labelVisible', 'Подпись', style.labelVisible === undefined ? '' : String(style.labelVisible), 'text', [['', 'По умолчанию'], ['true', 'Показывать'], ['false', 'Скрыть']]);
     if (line) { color('labelBackground', 'Фон подписи'); field('label-x', 'Смещение подписи X', style.labelOffset?.x ?? '', 'number'); field('label-y', 'Смещение подписи Y', style.labelOffset?.y ?? '', 'number'); }
     const extra = node('div', undefined, 'visual-inline-actions'); extra.append(button('visual-style-reset', 'Сбросить оформление', () => commit(request, run => run({ type: 'resetDrawingStyle', viewId: request.viewId, drawing: ref }), 'Оформление сброшено · можно отменить.')),
@@ -222,8 +232,9 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     const request = show('brush', 'Применить оформление?'); if (!request) return;
     request.refs = refs; fields.append(node('p', `Оформление будет заменено у ${refs.length} рисунков. Одна отмена восстановит их прежний вид.`));
   }
-  async function readUpload(file, request, position = null) {
+  async function readUpload(file, request, replaceAssetId = null) {
     if (!file || !usable(request)) return;
+    if (replaceAssetId) { request.replacement = null; apply.hidden = true; error.textContent = ''; }
     const token = ++generation;
     try {
       if (!Number.isSafeInteger(file.size) || file.size < 1 || file.size > Math.floor(LIMITS.fileBytes * 3 / 4) - 1024) throw new Error('Файл слишком большой. Выберите изображение меньше 191 КБ.');
@@ -232,15 +243,19 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
       if (token !== generation || !usable(request) || bytes.length !== file.size) return;
       let binary = ''; for (let at = 0; at < bytes.length; at += 8192) binary += String.fromCharCode(...bytes.slice(at, at + 8192));
       const upload = { name: file.name || 'Изображение', mediaType: type, data: btoa(binary) };
-      const stage = createStore(model.store.snapshot); stage.execute({ type: 'createAsset', ...upload }, stage.revision);
+      const stage = createStore(model.store.snapshot); stage.execute(replaceAssetId ? { type: 'replaceAsset', assetId: replaceAssetId, mediaType: type, data: upload.data } : { type: 'createAsset', ...upload }, stage.revision);
       if (request.mode === 'assets') {
-        if (commit(request, run => run({ type: 'createAsset', ...upload }), 'Изображение добавлено в модель · можно отменить.')) assets();
+        if (replaceAssetId) {
+          request.replacement = { assetId: replaceAssetId, mediaType: type, data: upload.data };
+          apply.textContent = 'Заменить для всех использований'; apply.hidden = false;
+          reference.textContent = `Файл «${upload.name}» проверен. Подтвердите замену в ${assetUsages(model.store.snapshot, replaceAssetId).length} местах; имя и ID ресурса сохранятся.`;
+        } else if (commit(request, run => run({ type: 'createAsset', ...upload }), 'Изображение добавлено в модель · можно отменить.')) assets();
       } else {
         request.upload = upload;
         const option = node('option', `${upload.name} · новый файл`); option.value = '$upload'; controls.asset.querySelector('option[value="$upload"]')?.remove(); controls.asset.append(option); controls.asset.value = '$upload';
         reference.textContent = `${upload.name}. Будет добавлено вместе с рисунком после подтверждения.`;
       }
-    } catch (failure) { if (current(request) && pending === request) error.textContent = `Изображение не добавлено: ${failure.message}`; }
+    } catch (failure) { if (current(request) && pending === request) error.textContent = `Изображение ${replaceAssetId ? 'не заменено' : 'не добавлено'}: ${failure.message}`; }
     finally { if (pending === request && controls.upload) controls.upload.value = ''; }
   }
   function assets(page=0) {
@@ -251,11 +266,14 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
     const specializations = (model.store.snapshot.customizationProfiles ?? []).filter(profile => profile.purpose === 'specialization');
     if (specializations.length) field('asset-profile', 'Специализация для общего изображения', '', 'text', [['', 'Не выбрана'], ...specializations.map(profile => [profile.id, profile.name])]);
     const list = node('ul', undefined, 'visual-assets'); list.id = 'visual-assets'; fields.append(list);
-    const state=model.store.snapshot,pageSize=24,pages=Math.max(1,Math.ceil(state.assets.length/pageSize));page=Math.min(Math.max(0,page),pages-1);
+    const state=model.store.snapshot,pageSize=24,pages=Math.max(1,Math.ceil(state.assets.length/pageSize));page=Math.min(Math.max(0,page),pages-1);request.page=page;
     for (const asset of state.assets.slice(page*pageSize,(page+1)*pageSize)) {
       const uses = assetUsages(state, asset.id), row = node('li'), preview = node('img'); preview.src = `data:${asset.mediaType};base64,${asset.data}`; preview.alt = '';preview.loading='lazy';preview.style.maxWidth='48px';preview.style.maxHeight='48px';preview.style.width='auto';preview.style.height='auto';preview.style.objectFit='contain';
       const remove = button(`visual-remove-asset-${asset.id}`, 'Удалить', () => { if (!usable(request)) return; if (commit(request, run => run({ type: 'deleteAsset', assetId: asset.id }), 'Изображение удалено · можно отменить.')) assets(); }); remove.disabled = uses.length > 0; remove.title = uses.length ? `Используется: ${uses.length}. Сначала удалите ссылки на изображение.` : 'Удалить неиспользуемый ресурс';
-      row.append(preview, node('span', `${asset.name || 'Без имени'} · используется ${uses.length}`), button(`visual-use-asset-${asset.id}`, 'На диаграмму…', () => { if (!usable(request)) return; cancel(); if (nodeEditor('image')) controls.asset.value = asset.id; }), remove);
+      const replaceFile = node('input'); replaceFile.type = 'file'; replaceFile.id = `visual-replace-file-${asset.id}`; replaceFile.accept = upload.accept; replaceFile.hidden = true;
+      replaceFile.addEventListener('change', () => { const file = replaceFile.files?.[0]; void readUpload(file, request, asset.id).finally(() => { replaceFile.value = ''; }); });
+      const replace = button(`visual-replace-asset-${asset.id}`, 'Заменить…', () => { if (!usable(request)) return; request.replacement = null; apply.hidden = true; error.textContent = ''; reference.textContent = `Выберите файл для замены ресурса «${asset.name || 'Без имени'}». Модель изменится только после подтверждения.`; replaceFile.click(); }); replace.setAttribute('aria-label', `Заменить изображение ${asset.name || 'Без имени'}`);
+      row.append(preview, node('span', `${asset.name || 'Без имени'} · используется ${uses.length}`), button(`visual-use-asset-${asset.id}`, 'На диаграмму…', () => { if (!usable(request)) return; cancel(); if (nodeEditor('image')) controls.asset.value = asset.id; }), replace, replaceFile, remove);
       if (specializations.length) row.append(button(`visual-profile-asset-${asset.id}`, 'Специализации', () => { if (!usable(request)) return; const profileId = controls['asset-profile'].value; if (!profileId) { error.textContent = 'Сначала выберите специализацию.'; return; } if (commit(request, run => run({ type: 'setCustomizationProfileImage', profileId, assetId: asset.id }), 'Общее изображение специализации сохранено · можно отменить.')) assets(); }));
       list.append(row);
     }
@@ -264,7 +282,13 @@ export function installVisualsUI({ document, window, model, readDefaults = () =>
   function submit() {
     const request = pending; if (!request || !usable(request)) return;
     try {
-      if (request.mode === 'node') {
+      if (request.mode === 'assets') {
+        if (!request.replacement) return;
+        const returnFocus = trigger, assetId = request.replacement.assetId;
+        if (commit(request, run => run({ type: 'replaceAsset', ...request.replacement }), 'Изображение заменено во всех использованных рисунках · можно отменить.') && assets(request.page)) {
+          trigger = returnFocus; document.getElementById(`visual-replace-asset-${assetId}`)?.focus();
+        }
+      } else if (request.mode === 'node') {
         const payload = { name: request.original && controls.name.value === request.initial.name ? request.original.name : controls.name.value, bounds: Object.fromEntries(['x', 'y', 'width', 'height'].map(key => [key, numeric(key)])), parent: controls.parent.value ? { kind: controls.parent.value.split(':')[0], id: controls.parent.value.split(':')[1] } : null };
         if(controls.instruction&&(controls.instruction.value||request.original?.instruction!==undefined))payload.instruction=request.original&&controls.instruction.value===request.initial.instruction?request.original.instruction:controls.instruction.value;
         if (request.kind === 'note') payload.text = request.original && controls.text.value === request.initial.text ? request.original.text : controls.text.value;

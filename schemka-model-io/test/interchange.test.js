@@ -6,6 +6,7 @@ import { fixtureId } from '../../schemka-model-core/fixtures/relationship-projec
 import { profileDefinition, profileId } from '../../schemka-model-core/fixtures/customization-project.js';
 import { previewNativeMerge, remapProject, extractViewProject } from '../src/model-transfer.js';
 import { exportCSV, parseCSV, previewCSVImport } from '../src/csv.js';
+import { CURRENT_PROFILE, createRegistry, assessProject } from '../../schemka-model-profiles/src/index.js';
 import { exportXLSX } from '../src/xlsx.js';
 import { createTemplate, readTemplate, serializeTemplate, instantiateTemplate, insertBoardTemplate, insertPatternTemplate, createTemplateLibrary, templatePreviewSVG } from '../src/templates.js';
 const enc = new TextEncoder(), dec = new TextDecoder();
@@ -19,6 +20,29 @@ test('native preview is detached, scoped, duplicate-property-safe, all-or-none a
  const store = createStore(target); store.execute({type:'applyProjectSnapshot',files:exportFiles(preview.snapshot)},store.revision); assert.equal(store.history.undo,1); store.undo(store.revision); assert.deepEqual(store.exportFiles(),before);
  assert.equal(previewNativeMerge(target,target).unchanged,true); assert.equal(previewNativeMerge(target,source,{updateExisting:false}).unchanged,true);
  source.elements[0].type='Process'; assert.throws(()=>previewNativeMerge(target,source), /не меняет тип/);
+});
+
+test('native preview separates retained target records from skipped incoming scope', () => {
+ const targetStore = createStore(graph()), targetFolderId = targetStore.execute({ type: 'createFolder', name: 'Local folder' }, targetStore.revision).created.folderId;
+ const target = structuredClone(targetStore.snapshot), sourceStore = createStore(target), incomingFolderId = sourceStore.execute({ type: 'createFolder', name: 'Incoming-only folder' }, sourceStore.revision).created.folderId;
+ const source = structuredClone(sourceStore.snapshot); source.project.name = 'Incoming model'; source.elements[0].name = 'Incoming element'; source.folders.find(item => item.id === targetFolderId).name = 'Incoming folder';
+ const before = exportFiles(target), preview = previewNativeMerge(target, source, { modelMetadata: false, folders: false, updateExisting: false });
+ assert.equal(preview.unchanged, true); assert.deepEqual(exportFiles(preview.snapshot), before);
+ for (const [kind, id, label, reason] of [['project', target.project.id, target.project.name, 'modelMetadata'], ['folder', targetFolderId, 'Local folder', 'folders'], ['element', target.elements[0].id, target.elements[0].name, 'updateExisting']]) {
+  assert.ok(preview.kept.some(item => item.kind === kind && item.id === id && item.targetId === id && item.label === label && item.reason === reason), `target ${kind} ${id} is shown as retained`);
+ }
+ for (const [kind, id, label, reason, targetId] of [['project', source.project.id, source.project.name, 'modelMetadata', target.project.id], ['folder', targetFolderId, 'Incoming folder', 'folders', targetFolderId], ['folder', incomingFolderId, 'Incoming-only folder', 'folders', null], ['element', source.elements[0].id, 'Incoming element', 'updateExisting', target.elements[0].id]]) {
+  assert.ok(preview.skipped.some(item => item.kind === kind && item.sourceId === id && item.label === label && item.reason === reason && item.targetId === targetId), `incoming ${kind} ${id} is shown as skipped with its target`);
+ }
+ assert.ok(!preview.kept.some(item => item.id === incomingFolderId), 'an incoming-only skipped folder is not reported as a retained target');
+});
+
+test('native skipped folders keep source, remapped and existing target IDs distinct', () => {
+ const targetStore = createStore(createProject('Local model')), targetFolderId = targetStore.execute({ type: 'createFolder', name: 'Local folder' }, targetStore.revision).created.folderId;
+ const target = structuredClone(targetStore.snapshot), source = structuredClone(target); source.project.name = 'Incoming model'; source.folders[0].name = 'Incoming folder';
+ const preview = previewNativeMerge(target, source, { ids: 'remap', folders: false, modelMetadata: true }), skipped = preview.skipped?.find(item => item.kind === 'folder');
+ assert.ok(skipped, 'incoming folder is listed as skipped'); assert.equal(skipped.sourceId, source.folders[0].id); assert.equal(skipped.mappedId, preview.ids[source.folders[0].id]); assert.notEqual(skipped.mappedId, skipped.sourceId); assert.equal(skipped.targetId, null);
+ assert.ok(preview.kept.some(item => item.kind === 'folder' && item.targetId === targetFolderId && item.id === targetFolderId), 'the existing target folder is listed separately');
 });
 
 test('remapping includes anchors, typed refs, view references, profiles and preserves ID-looking user text', () => {
@@ -82,7 +106,38 @@ test('CSV partial update never deletes absent data, rejects repeated IDs and cha
 test('CSV rejects drawing-inconsistent endpoint edits and invalid rows late in a package without mutations', () => {
  const source=graph(), before=exportFiles(source); const file=table('relationships',['id','sourceKind','sourceId'],[[source.relationships[0].id,'element',source.elements[1].id]]);
  assert.throws(()=>previewCSVImport(source,[file]), /рисунки/); assert.deepEqual(exportFiles(source),before);
+ const connection=source.views.flatMap(view=>view.connections).find(item=>item.relationshipId===source.relationships[0].id),wrong=source.views.flatMap(view=>view.occurrences).find(item=>item.concept.id!==source.elements[1].id),bindings=Object.fromEntries(source.views.flatMap(view=>view.connections.filter(item=>item.relationshipId===connection.relationshipId).map(item=>[item.id,{kind:'occurrence',id:wrong.id}])));
+ assert.throws(()=>previewCSVImport(source,[file],{relationshipBindings:{[connection.relationshipId]:{source:bindings}}}),/ссылаться на выбранный/);assert.deepEqual(exportFiles(source),before);
  const newFile=table('elements',['id','type','name'],[['','Service','Created'],['','NoSuchType','Bad']]); assert.throws(()=>previewCSVImport(source,[newFile]), /каталоге/); assert.deepEqual(exportFiles(source),before);
+});
+
+test('CSV validates a two-end relationship rebind atomically against the valid final pair', () => {
+ const store=createStore(createProject('Atomic CSV relationship rebind')),run=command=>store.execute(command,store.revision).created,viewId=run({type:'createView',name:'Main'}).viewId;
+ const concepts={}; for(const [key,type,x] of [['process','Process',0],['service','Service',250],['data','DataObject',500],['business','BusinessObject',750]]) concepts[key]=run({type:'createElementAndOccurrence',viewId,elementType:type,name:type,bounds:{x,y:0,width:120,height:60}});
+ const relation=run({type:'createRelationshipAndConnection',viewId,relationshipType:'Realization',source:{kind:'occurrence',id:concepts.process.occurrenceId},target:{kind:'occurrence',id:concepts.service.occurrenceId},label:'Realizes'}),state=store.snapshot,registry=createRegistry([CURRENT_PROFILE]),connection=state.views[0].connections.find(item=>item.id===relation.connectionId),before=exportFiles(state);
+ const status=snapshot=>assessProject(snapshot,registry).relationships.find(item=>item.relationshipId===relation.relationshipId).status;
+ assert.equal(status(state),'ALLOWED');
+ for(const [sourceId,targetId] of [[concepts.data.elementId,concepts.service.elementId],[concepts.process.elementId,concepts.business.elementId]]) {
+  const intermediate=structuredClone(state),item=intermediate.relationships.find(record=>record.id===relation.relationshipId),line=intermediate.views[0].connections.find(record=>record.id===connection.id),source=Object.values(concepts).find(value=>value.elementId===sourceId),target=Object.values(concepts).find(value=>value.elementId===targetId);
+  item.source.id=sourceId;item.target.id=targetId;line.source={kind:'occurrence',id:source.occurrenceId};line.target={kind:'occurrence',id:target.occurrenceId};
+  assert.equal(status(intermediate),'FORBIDDEN');
+ }
+ const file=table('relationships',['id','type','sourceKind','sourceId','targetKind','targetId'],[[relation.relationshipId,'Realization','element',concepts.data.elementId,'element',concepts.business.elementId]]);
+ const bindings={[relation.relationshipId]:{
+  source:{[connection.id]:{kind:'occurrence',id:concepts.data.occurrenceId}},
+  target:{[connection.id]:{kind:'occurrence',id:concepts.business.occurrenceId}},
+ }};
+ const preview=previewCSVImport(state,[file],{relationshipBindings:bindings});
+ assert.equal(status(preview.snapshot),'ALLOWED');
+ assert.deepEqual(preview.snapshot.relationships.find(item=>item.id===relation.relationshipId).source,{kind:'element',id:concepts.data.elementId});
+ assert.deepEqual(preview.snapshot.relationships.find(item=>item.id===relation.relationshipId).target,{kind:'element',id:concepts.business.elementId});
+ const rebound=preview.snapshot.views[0].connections.find(item=>item.id===connection.id);
+ assert.deepEqual(rebound.source,bindings[relation.relationshipId].source[connection.id]);
+ assert.deepEqual(rebound.target,bindings[relation.relationshipId].target[connection.id]);
+ assert.deepEqual(exportFiles(state),before);
+ const locked=createStore(state);locked.execute({type:'setDrawingLocked',viewId,drawing:{kind:'connection',id:connection.id},locked:true},locked.revision);const lockedBefore=locked.exportFiles();
+ assert.throws(()=>previewCSVImport(locked.snapshot,[file],{relationshipBindings:bindings}),/lock|заблок/i);
+ assert.deepEqual(locked.exportFiles(),lockedBefore);
 });
 
 test('CSV properties require exact positions and explicit replace versus merge', () => {
@@ -105,8 +160,8 @@ test('template codec rejects duplicate/enlarged/future envelopes; two instances 
 });
 
 test('board templates retain references and visual records and insert independent drawings with one Undo', () => {
- const source=portableGraph(), entry=source.views[0]; entry.view.kind='canvas'; entry.view.background='#f0f0f0'; entry.visualNodes.push({id:fixtureId('vnd',1),kind:'note',name:'Card',text:'Hello',instruction:'Fill',locked:true,documentation:'Note',properties:[{key:'tag',value:'a'}],bounds:{x:10,y:10,width:60,height:40},parent:null,zIndex:0,style:{fill:'#ffffff'}});
- const template=createTemplate(source,{name:'Board',kind:'board',viewId:entry.view.id}); const target=createProject('Target'),a=insertBoardTemplate(target,template),b=insertBoardTemplate(a.snapshot,template); assert.equal(a.snapshot.views[0].visualNodes[0].locked,true); assert.notEqual(a.viewId,b.viewId); assert.equal(b.snapshot.views.length,2); const store=createStore(target); store.execute({type:'applyProjectSnapshot',files:exportFiles(a.snapshot)},0); store.undo(store.revision); assert.deepEqual(store.exportFiles(),exportFiles(target));
+ const source=portableGraph(), entry=source.views[0]; entry.view.kind='canvas'; entry.view.background='#f0f0f0'; entry.visualNodes.push({id:fixtureId('vnd',1),kind:'note',name:'Card',text:'Hello',instruction:'**Fill**\n\nUse the saved template.',locked:true,documentation:'Note',properties:[{key:'tag',value:'a'}],bounds:{x:10,y:10,width:60,height:40},parent:null,zIndex:0,style:{fill:'#ffffff'}});
+ const template=createTemplate(source,{name:'Board',kind:'board',viewId:entry.view.id}),portable=readTemplate(serializeTemplate(template)); assert.equal(portable.snapshot.views[0].visualNodes[0].instruction,entry.visualNodes[0].instruction); const target=createProject('Target'),a=insertBoardTemplate(target,portable),b=insertBoardTemplate(a.snapshot,portable); assert.equal(a.snapshot.views[0].visualNodes[0].locked,true); assert.notEqual(a.viewId,b.viewId); assert.equal(b.snapshot.views.length,2); const store=createStore(target); store.execute({type:'applyProjectSnapshot',files:exportFiles(a.snapshot)},0); store.undo(store.revision); assert.deepEqual(store.exportFiles(),exportFiles(target));
  const svg=templatePreviewSVG(template.snapshot,entry.view.id); assert.match(svg, /Hello/); assert.doesNotMatch(svg,/<script/);
 });
 

@@ -29,9 +29,84 @@ test('CSV UI preview/cancel preserves document; explicit apply is one Undo and l
  h.ui.open();h.$('interchange-prepare').click();await tick();h.$('interchange-apply').click();await tick();assert.equal(h.store.snapshot.elements[0].name,'Imported');assert.equal(h.store.history.undo,1);assert.equal(h.session.dirty,true);h.model.undo();assert.deepEqual(h.store.exportFiles(),before.files);
 });
 
+test('native scope report names retained targets and skipped incoming records truthfully',async t=>{
+ const h=setup(t),targetFolderId=h.model.execute({type:'createFolder',name:'Local folder'}).created.folderId,elementId=h.model.execute({type:'createElementInModel',elementType:'Role',name:'Local element'}).created.elementId;
+ const before=h.capture(),sourceStore=createStore(h.store.snapshot);sourceStore.execute({type:'createFolder',name:'Incoming-only folder'},sourceStore.revision);const source=structuredClone(sourceStore.snapshot);source.project.name='Incoming model';source.elements.find(item=>item.id===elementId).name='Incoming element';source.folders.find(item=>item.id===targetFolderId).name='Incoming folder';
+ h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files:[{name:'incoming.arkita',bytes:serializeProjectFile(source)}]});h.change('interchange-action','native');h.change('interchange-update',false,true);h.change('interchange-folders',false,true);h.$('interchange-prepare').click();await tick();
+ const text=h.$('interchange-report').textContent;assert.match(text,/Сохранённые записи целевой модели/);assert.match(text,/Пропущенные входящие записи/);
+ for(const id of [h.initial.project.id,targetFolderId,elementId,source.folders[1].id,source.project.id])assert.ok(text.includes(id),`scope report includes ${id}`);
+ assert.match(text,/Local folder/);assert.match(text,/Incoming folder/);assert.match(text,/Incoming-only folder/);assert.equal(h.$('interchange-report').querySelectorAll('details').length,1);assert.deepEqual(h.capture(),before);
+ h.change('interchange-ids','remap');h.$('interchange-prepare').click();await tick();const folderRow=[...h.$('interchange-report').querySelectorAll('p')].find(item=>item.textContent.includes('Incoming-only folder'))?.textContent;
+ assert.ok(folderRow);assert.match(folderRow,new RegExp(`исходный ID: ${source.folders[1].id}`));assert.match(folderRow,/целевой записи нет/);assert.doesNotMatch(folderRow,/целевой ID:/);
+ const remappedId=folderRow.match(/новый ID по переназначению, не импортирован: (fld-[0-9a-f-]+)/)?.[1];assert.ok(remappedId);assert.notEqual(remappedId,source.folders[1].id);assert.match(h.$('interchange-report').textContent,/Local folder/);assert.deepEqual(h.capture(),before);
+});
+
+test('native scope report classifies nested records and uses their display labels',async t=>{
+ const h=setup(t),viewId=h.model.execute({type:'createView',name:'Local view'}).created.viewId;
+ const source=h.model.execute({type:'createElementAndOccurrence',viewId,elementType:'Service',name:'Source',bounds:{x:0,y:0,width:100,height:80}}).created.occurrenceId;
+ const target=h.model.execute({type:'createElementAndOccurrence',viewId,elementType:'Process',name:'Target',bounds:{x:300,y:0,width:100,height:80}}).created.occurrenceId;
+ h.model.execute({type:'createRelationshipAndConnection',viewId,relationshipType:'Flow',label:'Local relation label',source:{kind:'occurrence',id:source},target:{kind:'occurrence',id:target}});
+ h.model.execute({type:'createVisualNode',viewId,kind:'note',text:'Local drawing text',bounds:{x:100,y:180,width:180,height:80}});
+ h.model.execute({type:'createViewpoint',definition:{name:'Local viewpoint',documentation:'',stakeholders:['Architect'],concerns:['Overview'],purpose:['informing'],content:['overview'],selection:{elementTypes:[],junctionTypes:[],relationshipTypes:[]},representation:{kind:'diagram',notation:'archimate',labels:'name-and-type'}}});
+ h.model.execute({type:'createAsset',name:'Local asset',mediaType:'image/svg+xml',data:Buffer.from('<svg width="10" height="10"/>').toString('base64')});
+ const before=h.capture(),incoming=structuredClone(h.store.snapshot);
+ incoming.project.name='Incoming model';incoming.views[0].view.name='Incoming view';incoming.views[0].visualNodes[0].text='Incoming drawing text';incoming.viewpoints[0].name='Incoming viewpoint';incoming.assets[0].name='Incoming asset';incoming.relationships[0].label='Incoming relation label';
+ h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files:[{name:'incoming.arkita',bytes:serializeProjectFile(incoming)}]});h.change('interchange-action','native');h.change('interchange-update',false,true);h.$('interchange-prepare').click();await tick();
+ const report=h.$('interchange-report').textContent;
+ for(const text of ['Представление «Local view»','Представление «Incoming view»','Рисунок «Local drawing text»','Рисунок «Incoming drawing text»','Точка зрения «Local viewpoint»','Точка зрения «Incoming viewpoint»','Ресурс «Local asset»','Ресурс «Incoming asset»','Отношение «Local relation label»','Отношение «Incoming relation label»'])assert.ok(report.includes(text),`scope report includes ${text}`);
+ assert.deepEqual(h.capture(),before);
+});
+
 test('late and stale CSV replies cannot replace model or show a stale proposal',async t=>{
  let resolve;const h=setup(t,'interchange',{readExternalFiles:()=>new Promise(done=>{resolve=done;})});h.change('interchange-action','csv');h.$('interchange-prepare').click();h.$('interchange-close').click();resolve({status:'opened',files:exportCSV(createProject('Incoming')).files});await tick();assert.equal(h.$('interchange-apply').disabled,true);assert.equal(h.store.revision,0);
  h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files:exportCSV(createProject('Incoming')).files});h.ui.open();h.$('interchange-prepare').click();await tick();h.model.execute({type:'renameProject',name:'Later'});h.ui.refresh();assert.equal(h.$('interchange-apply').disabled,true);assert.equal(h.store.snapshot.project.name,'Later');
+});
+
+test('CSV relationship endpoint rebind previews exact drawings across views and applies atomically',async t=>{
+ const h=setup(t),run=command=>h.model.execute(command).created,viewId=run({type:'createView',name:'Main view'}).viewId;
+ const oldSource=run({type:'createElementAndOccurrence',viewId,elementType:'Service',name:'Old source',bounds:{x:0,y:0,width:120,height:60}}),replacement=run({type:'createElementInModel',elementType:'Service',name:'Replacement'}),target=run({type:'createElementAndOccurrence',viewId,elementType:'Process',name:'Target',bounds:{x:300,y:0,width:120,height:60}});
+ const firstReplacement=run({type:'addOccurrence',viewId,concept:{kind:'element',id:replacement.elementId},bounds:{x:0,y:220,width:120,height:60}}).occurrenceId;
+ const ambiguousReplacement=run({type:'addOccurrence',viewId,concept:{kind:'element',id:replacement.elementId},bounds:{x:160,y:220,width:120,height:60}}).occurrenceId;
+ const relation=run({type:'createRelationshipAndConnection',viewId,relationshipType:'Serving',source:{kind:'occurrence',id:oldSource.occurrenceId},target:{kind:'occurrence',id:target.occurrenceId},label:'Shared'});
+ const secondView=run({type:'createView',name:'Second view'}).viewId,secondOldSource=run({type:'addOccurrence',viewId:secondView,concept:{kind:'element',id:oldSource.elementId},bounds:{x:0,y:0,width:120,height:60}}).occurrenceId,secondSource=run({type:'addOccurrence',viewId:secondView,concept:{kind:'element',id:replacement.elementId},bounds:{x:0,y:120,width:120,height:60}}).occurrenceId,secondTarget=run({type:'addOccurrence',viewId:secondView,concept:{kind:'element',id:target.elementId},bounds:{x:240,y:0,width:120,height:60}}).occurrenceId;
+ const secondConnection=run({type:'addConnection',viewId:secondView,relationshipId:relation.relationshipId,source:{kind:'occurrence',id:secondOldSource},target:{kind:'occurrence',id:secondTarget}}).connectionId;
+ const csv=new TextEncoder().encode(`"arkita-csv","1","relationships","canonical"\r\n"id","sourceKind","sourceId"\r\n"${relation.relationshipId}","element","${replacement.elementId}"\r\n`),files=[{name:'relationships.csv',bytes:csv}];
+ h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files});h.change('interchange-action','csv');const original=h.capture(),oldLines=structuredClone(h.store.snapshot.views.flatMap(view=>view.connections));
+ const prepare=async()=>{h.$('interchange-prepare').click();await tick();},chooseBindings=()=>{
+  const bindings=h.$('interchange-csv-rebindings'),selectors=[...bindings.querySelectorAll('select[data-csv-connection-id]')];
+  assert.equal(selectors.length,2,`${h.$('interchange-error').textContent} ${h.$('interchange-report').textContent}`);assert.ok(selectors.every(item=>item.value===''));
+  const primary=selectors.find(item=>item.dataset.csvConnectionId===relation.connectionId),secondary=selectors.find(item=>item.dataset.csvConnectionId===secondConnection);
+  assert.ok([...primary.options].some(item=>item.value===firstReplacement));assert.ok([...primary.options].some(item=>item.value===ambiguousReplacement));
+  primary.value=firstReplacement;primary.dispatchEvent(new h.dom.window.Event('change',{bubbles:true}));secondary.value=secondSource;secondary.dispatchEvent(new h.dom.window.Event('change',{bubbles:true}));
+ };
+ await prepare();assert.ok(h.$('interchange-csv-rebindings'));assert.equal(h.$('interchange-csv-rebind-preview').disabled,true);assert.equal(h.document.activeElement.dataset.csvConnectionId,relation.connectionId,h.document.activeElement.outerHTML);assert.deepEqual(h.capture(),original);
+ chooseBindings();assert.equal(h.$('interchange-csv-rebind-preview').disabled,false);h.$('interchange-csv-rebind-preview').click();await tick();
+ assert.match(h.$('interchange-report').textContent,/Main view/);assert.match(h.$('interchange-report').textContent,/Second view/);assert.ok([...h.$('interchange-report').querySelectorAll('details')].some(section=>section.open&&section.textContent.includes('Main view')&&section.textContent.includes('Second view')));assert.ok(h.$('interchange-report').textContent.includes(firstReplacement.slice(-8)));assert.ok(h.$('interchange-report').textContent.includes(secondSource.slice(-8)));assert.equal(h.document.activeElement.id,'interchange-apply');assert.deepEqual(h.capture(),original);
+ h.$('interchange-close').click();assert.deepEqual(h.capture(),original);
+ h.ui.open();await prepare();chooseBindings();h.$('interchange-csv-rebind-preview').click();await tick();h.$('interchange-apply').click();await tick();
+ assert.equal(h.store.snapshot.relationships.find(item=>item.id===relation.relationshipId).source.id,replacement.elementId);
+ const lines=h.store.snapshot.views.flatMap(view=>view.connections.filter(item=>item.relationshipId===relation.relationshipId));assert.equal(lines.length,2);
+ assert.deepEqual(lines.find(item=>item.id===relation.connectionId).source,{kind:'occurrence',id:firstReplacement});assert.deepEqual(lines.find(item=>item.id===secondConnection).source,{kind:'occurrence',id:secondSource});
+ for(const line of lines){const before=oldLines.find(item=>item.id===line.id);assert.deepEqual(line.routePoints,before.routePoints);assert.deepEqual(line.labelPosition,before.labelPosition);}
+ assert.equal(h.store.history.undo,original.history.undo+1);h.model.undo();assert.deepEqual(h.store.exportFiles(),original.files);
+});
+
+test('CSV UI binds both changed ends of one relationship as distinct exact choices',async t=>{
+ const h=setup(t),run=command=>h.model.execute(command).created,viewId=run({type:'createView',name:'Main view'}).viewId,concepts={};
+ for(const [key,type,x]of [['process','Process',0],['service','Service',220],['data','DataObject',440],['business','BusinessObject',660]])concepts[key]=run({type:'createElementAndOccurrence',viewId,elementType:type,name:type,bounds:{x,y:0,width:120,height:60}});
+ const relation=run({type:'createRelationshipAndConnection',viewId,relationshipType:'Realization',source:{kind:'occurrence',id:concepts.process.occurrenceId},target:{kind:'occurrence',id:concepts.service.occurrenceId},label:'Realizes'});
+ const csv=new TextEncoder().encode('"arkita-csv","1","relationships","canonical"\r\n'+'"id","type","sourceKind","sourceId","targetKind","targetId"\r\n'+'"'+relation.relationshipId+'","Realization","element","'+concepts.data.elementId+'","element","'+concepts.business.elementId+'"\r\n'),files=[{name:'relationships.csv',bytes:csv}];
+ h.dom.window.schemkaDesktop.readExternalFiles=async()=>({status:'opened',files});h.change('interchange-action','csv');const original=h.capture();h.$('interchange-prepare').click();await tick();
+ const selectors=[...h.$('interchange-csv-rebindings').querySelectorAll('select[data-csv-connection-id]')],source=selectors.find(item=>item.dataset.csvEnd==='source'),target=selectors.find(item=>item.dataset.csvEnd==='target');
+ assert.equal(selectors.length,2);assert.equal(new Set(selectors.map(item=>item.id)).size,2);assert.ok(selectors.every(item=>item.value===''));assert.ok(selectors.every(item=>item.closest('label').textContent.includes(relation.connectionId.slice(-8))&&!item.closest('label').textContent.includes(relation.connectionId)));assert.equal(h.$('interchange-csv-rebind-preview').disabled,true);
+ assert.ok([...source.options].some(item=>item.value===concepts.data.occurrenceId));assert.ok([...target.options].some(item=>item.value===concepts.business.occurrenceId));
+ source.value=concepts.data.occurrenceId;source.dispatchEvent(new h.dom.window.Event('change',{bubbles:true}));assert.equal(h.$('interchange-csv-rebind-preview').disabled,true);
+ target.value=concepts.business.occurrenceId;target.dispatchEvent(new h.dom.window.Event('change',{bubbles:true}));assert.equal(h.$('interchange-csv-rebind-preview').disabled,false);h.$('interchange-csv-rebind-preview').click();await tick();
+ assert.match(h.$('interchange-report').textContent,/Источник/);assert.match(h.$('interchange-report').textContent,/Приёмник/);assert.deepEqual(h.capture(),original);
+ h.$('interchange-apply').click();await tick();const imported=h.store.snapshot,record=imported.relationships.find(item=>item.id===relation.relationshipId),line=imported.views[0].connections.find(item=>item.relationshipId===relation.relationshipId);
+ assert.deepEqual(record.source,{kind:'element',id:concepts.data.elementId});assert.deepEqual(record.target,{kind:'element',id:concepts.business.elementId});
+ assert.deepEqual(line.source,{kind:'occurrence',id:concepts.data.occurrenceId});assert.deepEqual(line.target,{kind:'occurrence',id:concepts.business.occurrenceId});assert.equal(h.store.history.undo,original.history.undo+1);
+ h.model.undo();assert.deepEqual(h.store.exportFiles(),original.files);
 });
 
 test('XLSX export requires declared loss consent and native success never marks model saved',async t=>{

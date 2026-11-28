@@ -13,6 +13,7 @@ for (const [scenario, description] of [
   ['launch-pre-ready', 'pre-ready open-file and second-instance requests retain their paths and cwd'],
   ['launch-during-drain', 'requests arriving during initial reads are drained before any blank fallback'],
   ['launch-invalid', 'an invalid-only launch reports failures and leaves one usable blank window'],
+  ['close-isolation', 'cancel and save-close IPC on one model leave another model session usable'],
   ['lock-lost', 'single-instance loser quits without scheduling startup'],
   ['assets-fail', 'asset setup rejection is reported and exits nonzero'],
   ['load-fails', 'loadURL rejection is reported and exits nonzero'],

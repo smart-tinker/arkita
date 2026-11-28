@@ -8,10 +8,10 @@ const HELP = [
   ['overview', 'Начало работы', 'Arkita редактирует модели ArchiMate 4. Слева находятся общие концепты и представления, справа — палитра типов, в центре — активное представление. Один концепт может иметь несколько рисунков в разных видах.'],
   ['catalog', 'Каталог и поиск', 'Каталог содержит концепты всей модели, в том числе без рисунков. Поиск (Ctrl+F) проверяет имя, ID, документацию и пользовательские свойства по всей модели. Фильтр и скрытие категорий меняют отображение. Они не удаляют данные. Одинаковые названия различайте по ID.'],
   ['canvas', 'Диаграмма и выбор', 'Щелчок выбирает рисунок. Shift+щелчок изменяет состав выделения; рамка выбирает рисунки на полотне. Перетаскивание и стрелки перемещают выбор, одна завершённая операция отменяется одним Undo. Имя и свойства принадлежат общему концепту, положение — рисунку в конкретном виде.'],
-  ['palette', 'Создание элементов и связей', 'Найдите тип в палитре. Элемент можно перетащить на полотно. Для отношения выберите инструмент связи и конкретные концы. Проверка использует профиль ArchiMate 4; UNKNOWN означает, что допустимость не установлена. Escape отменяет незавершённое создание.'],
+  ['palette', 'Создание элементов и связей', 'Найдите тип в палитре. При активном viewpoint она показывает только разрешённые в нём типы; записи вне охвата остаются в модели. Чтобы создавать их в этом виде, снимите viewpoint. Совместимость отношений проверяется отдельно. Для отношения выберите инструмент связи и конкретные концы. UNKNOWN означает, что допустимость не установлена. Escape отменяет незавершённое создание.'],
   ['properties', 'Документация и свойства', 'Откройте свойства выбранного объекта. Имя, документация и пользовательские свойства относятся к показанному владельцу. Изменение общего концепта видно во всех его рисунках. Применение и отмена правки — отдельные действия; текст не выполняется как HTML или код.'],
   ['files', 'Сохранение и восстановление', 'Ctrl+S сохраняет текущую модель, Ctrl+Shift+S открывает «Сохранить как». Смотрите на состояние файла: завершённая загрузка в браузере и запись на диск в desktop различаются. При конфликте с внешним изменением сохранение требует разрешения конфликта. Ошибка не является подтверждением записи.'],
-  ['views', 'Представления и viewpoint', 'Представления используют общие концепты и собственные координаты рисунков. Дублирование вида сохраняет общие концепты. Viewpoint определяет отображаемые типы; скрытый рисунок продолжает храниться в модели. Удаление из вида отличается от удаления концепта из всей модели.'],
+  ['views', 'Представления и viewpoint', 'Представления используют общие концепты и собственные координаты рисунков. Дублирование вида сохраняет общие концепты. Viewpoint ограничивает canvas, палитру и список «Добавить в этот вид…»; исключённые записи остаются в модели и отмечаются в каталоге как скрытые. Снимите viewpoint, чтобы добавить их в этот вид. Удаление из вида отличается от удаления концепта из всей модели.'],
   ['clipboard', 'Копирование фрагмента', 'На полотне Ctrl+C копирует выбранный фрагмент. Ctrl+V создаёт новые рисунки общих концептов; Ctrl+Shift+V создаёт независимые концепты и рисунки. Одна вставка отменяется одним Undo. Перед вставкой редактор проверяет совместимость и актуальность фрагмента.'],
   ['git', 'Работа через Git', 'Сохранение записывает модель на диск. Commit фиксирует локальную версию. Push публикует коммиты в выбранную удалённую ветку. Получение и объединение изменений проходит проверку модели; неразрешённые конфликты требуют явного выбора. Ошибка сети не отменяет уже созданный локальный commit.'],
   ['workspace', 'Панели и клавиатура', 'Меню «Вид → Рабочее пространство» меняет локальные настройки дерева и палитры. «Восстановить панели» возвращает исходную компоновку. F1 открывает справку по текущей области, F11 включает или выключает полный экран. Эти действия не меняют модель и историю.'],
@@ -186,7 +186,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
     const control = event.target.closest?.('#workspace-button,#workspace-toggle-catalog,#workspace-toggle-palette,#workspace-reset,#workspace-fullscreen,#help-button,#tutorial-button,.workspace-resizer');
     if (control && ['help-button', 'tutorial-button'].includes(control.id)) beforeHelp();
     if (control && !(control.id === 'workspace-fullscreen' && document.fullscreenElement) && blocked()) {
-      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед этой командой.');
+      event.preventDefault(); event.stopImmediatePropagation(); status('Завершите или отмените текущую правку перед этой командой.', 'blocking');
     }
   }, true);
 
@@ -217,7 +217,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
     const focus = document.createElement('button'); focus.type = 'button'; focus.textContent = 'Перейти к команде';
     focus.addEventListener('click', () => {
       helpHandoff = previous => {
-        if (blocked()) { restoreHelpFocus(previous); status('Завершите или отмените текущую правку перед переходом к учебной команде.'); return; }
+        if (blocked()) { restoreHelpFocus(previous); status('Завершите или отмените текущую правку перед переходом к учебной команде.', 'blocking'); return; }
         const control = $(target), region = control?.closest('.toolbox') ? 'inspector' : control?.closest('.catalog') ? 'catalog' : control?.closest('.canvas-panel') ? 'canvas' : null;
         if (region) { revealPanel(region); panel(region); }
         if (control && !control.disabled && control.getClientRects().length) control.focus({ preventScroll: true });
@@ -241,7 +241,7 @@ export function installWorkspace({ document, window, blocked, status, openDialog
   const actions = help.querySelector('.dialog-actions'); help.insertBefore(nav, actions); help.insertBefore(article, actions); help.insertBefore(tutorial, actions); help.insertBefore(original, actions);
   function openHelp(key = 'overview') {
     beforeHelp();
-    if (!canHelp()) { status('Дождитесь завершения текущей операции перед открытием справки.'); return false; }
+    if (!canHelp()) { status('Дождитесь завершения текущей операции перед открытием справки.', 'blocking'); return false; }
     showArticle(key);
     if (!help.open) { helpHandoff = null; helpBookmark = focusTarget(document.activeElement); help.showModal(); }
     nav.querySelector(`[data-help-topic="${key}"]`)?.focus(); return true;

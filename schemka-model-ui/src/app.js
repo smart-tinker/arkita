@@ -161,10 +161,15 @@ function button(text, action, className) {
   const item = node('button', text, className);
   item.type = 'button'; item.addEventListener('click', action); return item;
 }
-let operationStatus = $('status').textContent, captionWarning = '', pendingCaptions = [];
+let operationStatus = $('status').textContent, operationStatusKind = 'info', captionWarning = '', pendingCaptions = [];
 const captionMetricWarning = 'Не удалось измерить подписи: показан предварительный текст, он может выходить за границы. Полные имена доступны в свойствах.';
-function paintStatus() { $('status').textContent = [operationStatus, captionWarning].filter(Boolean).join(' · '); }
-function status(text) { operationStatus = text; paintStatus(); }
+function paintStatus() {
+  $('status').textContent = [operationStatus, captionWarning].filter(Boolean).join(' · ');
+  const external = $('external-feedback'), show = document.body.dataset.preferenceStatus === 'false' && operationStatusKind !== 'info';
+  external.hidden = !show;
+  if (show) { external.dataset.kind = operationStatusKind; external.textContent = operationStatus; }
+}
+function status(text, kind = 'info') { operationStatus = text; operationStatusKind = kind; paintStatus(); }
 function clearPendingCaptions() { pendingCaptions = []; captionWarning = ''; paintStatus(); }
 function fitPendingCaptions() {
   if (!pendingCaptions.length || ![...svg.getClientRects()].some(rect => rect.width > 0 && rect.height > 0)) return;
@@ -178,7 +183,7 @@ function fitPendingCaptions() {
   if (!pendingCaptions.length) captionWarning = '';
   paintStatus();
 }
-function safe(action) { try { return action(); } catch (error) { status(`Не выполнено: ${error.message}`); return null; } }
+function safe(action) { try { return action(); } catch (error) { status(`Не выполнено: ${error.message}`, 'error'); return null; } }
 function renameAt(target, anchor) {
   whereUsed?.cancel();
   documentationEditor?.cancel();
@@ -276,7 +281,7 @@ function select(selection, announce = true, mode = 'replace') {
   else if (mode === 'anchor') model.selectMany(model.selections, selection);
   else model.select(selection);
   paintSelection();
-  renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh(); visualsUI?.refresh();
+  renderCatalog(); renderInspector(); layoutEditor?.refresh(); alignmentUI?.refresh(); visualsUI?.refresh(); semanticEditing?.refresh();
   modelAnalysis?.refresh();
   contextHints?.refresh({ selectionChanged: true });
   if (announce) status(model.selections.length > 1 ? `Выбрано рисунков: ${model.selections.length}. Опора: ${model.selection.id.slice(-8)}` : model.selection ? 'Объект выбран' : 'Выделение снято');
@@ -333,6 +338,7 @@ $('view-tabs').addEventListener('keydown', event => {
 });
 function makeCatalogMemberRow(ref, item, { state, view, selected, records, catalogLabel }) {
   const { kind, id } = ref;
+  const viewpointHidden = Boolean(view?.view?.viewpointId && ['element', 'junction', 'relationship'].includes(kind) && !model.conceptVisible(ref));
   const row = node('div', undefined, 'catalog-member-row element-row');
   row.dataset.focusKey = `row-${kind}-${id}`;
   row.dataset.catalogKind = kind; row.dataset.catalogId = id;
@@ -359,6 +365,16 @@ function makeCatalogMemberRow(ref, item, { state, view, selected, records, catal
     const unused = !catalogUsedConcepts.has(`${kind}:${id}`); choose.dataset.unused = String(unused);
     if (unused) { const badge = node('span', '∅', 'unused-marker'); badge.title = 'Не используется ни в одном представлении'; badge.setAttribute('aria-hidden', 'true'); choose.append(badge); choose.setAttribute('aria-label', `${choose.getAttribute('aria-label')}. Не используется ни в одном представлении`); }
   }
+  if (viewpointHidden) {
+    const message = 'Скрыт текущим viewpoint; объект остаётся в модели.';
+    const badge = node('span', 'скрыт', 'viewpoint-hidden-marker');
+    badge.title = message;
+    badge.setAttribute('aria-hidden', 'true');
+    choose.dataset.viewpointHidden = 'true';
+    choose.title = `${choose.title} · ${message}`;
+    choose.setAttribute('aria-label', `${choose.getAttribute('aria-label')}. ${message}`);
+    choose.append(badge);
+  }
   row.append(choose);
   if (['element', 'junction'].includes(kind)) {
     const add = button('＋', () => {
@@ -367,9 +383,9 @@ function makeCatalogMemberRow(ref, item, { state, view, selected, records, catal
       if (result) { panel('canvas'); focusSelected(); }
     }, 'tree-add-element');
     add.dataset.focusKey = `add-${kind}-${id}`; add.dataset[kind === 'junction' ? 'addJunctionId' : 'addElementId'] = id;
-    add.disabled = !view || !model.conceptVisible(ref);
+    add.disabled = !view || viewpointHidden;
     add.setAttribute('aria-label', `Добавить экземпляр: ${label} · ${id.slice(-8)}`);
-    add.title = view ? `Добавить в «${displayName(view.view)}»` : 'Сначала создайте представление кнопкой ＋ над полотном'; row.append(add);
+    add.title = !view ? 'Сначала создайте представление кнопкой ＋ над полотном' : viewpointHidden ? 'Нельзя добавить: тип исключён viewpoint текущего представления.' : `Добавить в «${displayName(view.view)}»`; row.append(add);
   }
   return row;
 }
@@ -519,7 +535,7 @@ function occurrenceContourFor(state) {
     if (occurrence.style?.shape === 'rectangle') return 0;
     if (occurrence.style?.shape === 'ellipse') return 'ellipse';
     if (occurrence.style?.shape === 'rounded') return Math.min(10, occurrence.bounds.width / 4, occurrence.bounds.height / 4);
-    // shortcut: folded overrides keep notation clipping; add their polygon contour if exact endpoint routing is needed.
+    if (occurrence.style?.shape === 'folded') return 'folded';
     return contours.get(occurrence.concept.id) ?? 0;
   } };
   return contourCache.read;
@@ -768,7 +784,7 @@ function perform(command, message, selectCreated) {
     render();
     if (command.type === 'addOccurrence' && command.concept.kind === 'element') viewport?.reveal(command.bounds);
     status(message);
-  } catch (error) { status(`Изменение уже сохранено, но интерфейс не обновлён полностью: ${error.message}`); }
+  } catch (error) { status(`Изменение уже сохранено, но интерфейс не обновлён полностью: ${error.message}`, 'error'); }
   return result;
 }
 function openDialog(id) { if (id !== 'catalog-selection-dialog') catalogSelection?.cancel(); if (id !== 'semantic-editing-dialog') semanticEditing?.cancel(); if (id !== 'host-policy-dialog') hostPolicyUI?.cancel(); if (id !== 'automation-dialog') automationUI?.cancel(); if (id !== 'related-drawings-dialog') relatedDrawingsUI?.cancel(); if (id !== 'model-gallery-dialog') modelGallery?.cancel(); if (id !== 'relationship-reference-dialog') relationshipReference?.cancel(); if (id !== 'preferences-dialog') preferencesUI?.cancel(); if (id !== 'interchange-dialog') interchangeUI?.cancel(); if (id !== 'templates-dialog') templatesUI?.cancel(); if (id !== 'export-report-dialog') exportReportUI?.cancel(); if (id !== 'fragment-dialog') fragmentClipboard?.cancel(); if (id !== 'gesture-settings-dialog') gestureTools?.cancel(); if (id !== 'diagram-tools-dialog') editingTools?.cancel(); if (id !== 'visual-dialog') visualsUI?.cancel(); if (id !== 'catalog-folder-dialog') catalogFolders?.cancel(); if (id !== 'alignment-dialog') alignmentUI?.cancel(); if (id !== 'where-used-dialog') whereUsed?.cancel(); if (id !== 'inspector-panel') closeInspector(); if (!['object-properties-dialog', 'occurrence-size-dialog'].includes(id)) objectProperties?.cancel(); if (id !== 'documentation-dialog') documentationEditor?.cancel(); if (id !== 'viewpoint-dialog') viewpointUI?.cancel(); if (id !== 'customization-dialog') customizationUI?.cancel(); if (id !== 'multiplicity-dialog') multiplicityEditor?.cancel(); inline.cancel(false); viewport?.cancel(); gestureTools?.stop(); cancelEditingGestures(); $(id).showModal(); }
@@ -814,7 +830,7 @@ function askDeleteSelection() {
 }
 $('delete-confirm').addEventListener('click', () => {
   if (!pendingDelete) return;
-  if (pendingDelete.store !== model.store || pendingDelete.documentToken !== projectSession.documentToken || pendingDelete.revision !== model.store.revision) { $('delete-dialog').close(); status('Модель изменилась. Повторите проверку зависимостей.'); return; }
+  if (pendingDelete.store !== model.store || pendingDelete.documentToken !== projectSession.documentToken || pendingDelete.revision !== model.store.revision) { $('delete-dialog').close(); status('Модель изменилась. Повторите проверку зависимостей.', 'blocking'); return; }
   const result = perform(pendingDelete.command, 'Удалено · можно восстановить через «Отменить»');
   if (result) { $('delete-dialog').close(); panel('canvas'); focusSelected(); }
 });
@@ -1141,9 +1157,20 @@ paletteUI = installPaletteActions({ document, model, beforeFilter: cancelGesture
 typedActions = installTypedActions({ document, model, openDialog, render, nextBounds, panel, focusSelected, status, anchorPlanFor, previewEndpoints,
   revealOccurrence: bounds => viewport?.reveal(bounds),
   drawRelationship: type => smartRelationship.activate(type) });
-smartRelationship = installSmartRelationship({ document, window, canvas: svg, model, readBehavior: () => preferenceState.behavior, openDialog,
+smartRelationship = installSmartRelationship({ document, window, canvas: svg, model, readBehavior: () => preferenceState.behavior, readDocumentToken: () => projectSession.documentToken, openDialog,
   connect: (...args) => typedActions.connect(...args),
-  openLink: (...args) => typedActions.openLink(...args), beforeStart: cancelGesture, status,
+  openLink: (...args) => typedActions.openLink(...args),
+  createElementAtDrop({ sourceOccurrenceId, relationshipType, profileId, parentRef, point }) {
+    const source = model.view?.occurrences.find(item => item.id === sourceOccurrenceId);
+    const parent = parentRef?.kind === 'occurrence'
+      ? model.view?.occurrences.find(item => item.id === parentRef.id && item.concept.kind === 'element')
+      : parentRef?.kind === 'visualNode' ? model.view?.visualNodes.find(item => item.id === parentRef.id && item.kind === 'group') : null;
+    if (parentRef && !parent) { status('Контейнер отсутствует в текущем представлении. Начните действие заново.'); return; }
+    if (profileId) { status('Специализированное отношение можно завершить только на существующем конце.'); return; }
+    if (source?.concept.kind !== 'element') { status('Создать новый конец можно только от существующего элемента.'); return; }
+    editingTools?.quickAdd(true, point, { atomic: true, sourceOccurrenceId, relationshipType, parentRef });
+  },
+  beforeStart: cancelGesture, status,
   blocked: () => Boolean(inline.active || gesture || layoutEditor?.active || internalDrag?.active || files?.transient || git?.transient || document.querySelector('dialog[open]')) });
 documentationEditor = installDocumentationEditor({ document, model, session: projectSession, openDialog, render, status,
   blocked: propertyEditorBlocked });
@@ -1176,7 +1203,7 @@ git = installGitActions({ document, window, model, session: projectSession, file
 for (const type of ['pointerdown', 'click', 'keydown']) document.addEventListener(type, event => {
   if (git?.transient && !event.target.closest?.('#git-dialog')) {
     event.preventDefault(); event.stopImmediatePropagation();
-    status('Дождитесь завершения операции Git.');
+    status('Дождитесь завершения операции Git.', 'blocking');
   }
 }, true);
 
@@ -1201,7 +1228,8 @@ visualsUI = installVisualsUI({ document, window, model, readResizeBehavior: () =
 editingTools = installEditingTools({ document, window, model, readResizeBehavior: () => preferenceState.behavior.resizeChildren, readQuickAdd: () => preferenceState.behavior.quickAdd, readMagicOrder: () => preferenceState.behavior.magicOrder, readDefaults: () => preferenceState.defaults, canvas: svg, openDialog, render, status, blocked: workbenchBlocked,
   beforeChange: () => { viewport?.cancel(); cancelEditingGestures(); }, nextBounds,
   preview: view => { updateGeometry(view); paintSelection(view); },
-  selectMany: refs => { model.selectMany(refs); render(); focusSelected(); } });
+  selectMany: refs => { model.selectMany(refs); render(); focusSelected(); },
+  readDocumentToken: () => projectSession.documentToken });
 
 alignmentUI = installAlignmentUI({ document, window, model, openDialog, render, status, blocked: workbenchBlocked });
 whereUsed = installWhereUsed({ document, preferences, model, openDialog, status, blocked: propertyEditorBlocked,
@@ -1248,7 +1276,7 @@ modelAnalysis = installModelAnalysis({ document, window, preferences, model, ope
       if (result) { panel('canvas'); focusSelected(); }
     }
   } });
-installWorkbench({ document, window, preferences, onDefaultPaste: () => fragmentClipboard?.run('paste'), onHelp: target => workspace?.openContextHelp(target), onHistory: action => { if (workspace?.active || inline.active || files.transient || git?.transient || document.querySelector('dialog[open]')) { status('Завершите или отмените текущую правку перед историей.'); return; } history(action); }, files, blocked: workbenchBlocked, status });
+installWorkbench({ document, window, preferences, onDefaultPaste: () => fragmentClipboard?.run('paste'), onHelp: target => workspace?.openContextHelp(target), onHistory: action => { if (workspace?.active || inline.active || files.transient || git?.transient || document.querySelector('dialog[open]')) { status('Завершите или отмените текущую правку перед историей.', 'blocking'); return; } history(action); }, files, blocked: workbenchBlocked, status });
 workspace = installWorkspace({ document, window, preferences, blocked: workbenchBlocked, status, openDialog, panel, beforeHelp: cancelGesture,
   canHelp: () => !inline.active && !files.transient && !git?.transient && !gesture && !model.drag && !internalDrag?.active && !viewport?.active });
 detachedCatalog = installDetachedCatalog({ document, window, model, session: projectSession, preferences, blocked: workbenchBlocked, status, panel,
@@ -1297,7 +1325,7 @@ detachedPalette = installDetachedPalette({ document, window, model, session: pro
 preferencesUI = installPreferencesUI({ document, window, preferences, session: projectSession, openDialog, blocked: workbenchBlocked, status,
   capabilities: ['roundedLines','dirtyMarker','lazyTree','treePageSize','resizeChildren','pasteMode','viewLabelTemplate','viewNames','explainTypeChange','animateGraph','renameAfterCreate','magicOrder','proposeNestingCreate','proposeNestingReuse','proposeNestingMove','nestingParentTypes','nestingChildTypes','selectionEffect','width','height','nodeStyle','lineStyle','legend','zoomAtPointer','motion','duration','deleteWarning','quickAdd','viewpointHints','specializations','statusBar','hints','uiFont','diagramFont','diagramFontSize','borderFromFill','colors','searchTrigger','naturalSort','captionWrap'] });
 if (teamProfile || teamProfileError) { const note = document.createElement('p'); note.className = 'inspector-note'; note.textContent = teamProfileError || `Командный профиль: ${teamProfile.name} · ${teamProfile.revision}. Личные сохранённые настройки имеют приоритет.`; $('preferences-dialog').append(note); }
-preferences.subscribe(settings => { preferenceState = settings; cancelGesture(); applyPreferencePresentation(document, window, settings); document.body.dataset.preferenceQuickAdd = String(settings.behavior.quickAdd); document.body.dataset.preferenceViewpointHints = String(settings.behavior.viewpointHints); contourCache = null; render(); if (preferenceStorageError) status(preferenceStorageError); });
+preferences.subscribe(settings => { preferenceState = settings; cancelGesture(); applyPreferencePresentation(document, window, settings); paintStatus(); document.body.dataset.preferenceQuickAdd = String(settings.behavior.quickAdd); document.body.dataset.preferenceViewpointHints = String(settings.behavior.viewpointHints); contourCache = null; render(); if (preferenceStorageError) status(preferenceStorageError, 'error'); });
 $('inspector-button').addEventListener('click', () => openInspector(catalogSelection?.count > 1 ? catalogSelection.primary : model.selection));
 $('inspector-close').addEventListener('click', closeInspector);
 $('inspector-panel').addEventListener('cancel', event => { event.preventDefault(); closeInspector(); });
@@ -1308,7 +1336,7 @@ $('inspector-content').addEventListener('click', event => {
 }, true);
 
 render();
-if (preferenceStorageError) status(preferenceStorageError);
+if (preferenceStorageError) status(preferenceStorageError, 'error');
 readLeaveState = createModelLeaveState({ model, session: projectSession, inline,
   directoryWarning: () => Boolean(files?.directoryWarning),
   transient: () => Boolean(workspace?.active || catalogSelection?.active || semanticEditing?.active || hostPolicyUI?.active || hostPolicyUI?.transient || automationUI?.active || automationUI?.transient || preferencesUI?.active || detachedPalette?.transient || detachedCatalog?.transient || objectProperties?.active || documentationEditor?.active || catalogFolders?.active || visualsUI?.active || visualsUI?.enabled || editingTools?.active || interchangeUI?.transient || templatesUI?.transient || exportReportUI?.active || fragmentClipboard?.active || smartRelationship?.enabled || gesture || layoutEditor?.active || internalDrag?.active || model.drag || files?.transient || git?.transient || document.querySelector('dialog[open]')) });
