@@ -553,7 +553,7 @@ const canvas = canvasFixture();
     const line = page.locator('[data-kind="visualConnector"]');
     await line.waitFor();
     assert.equal(await line.locator('.relationship-label').textContent(), 'Source label · Team A');
-    await page.locator('#visual-tools > summary').click();
+    if (!(await visualTools.evaluate(details => details.open))) await visualTools.locator(':scope > summary').click();
     await line.focus();
     await page.keyboard.press('Enter');
     assert.equal(await line.getAttribute('aria-pressed'), 'true', 'keyboard selection exposes the drawing actions');
